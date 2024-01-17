@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     if (authService.isAuthenticated) {
       ApiProvider apiProvider = Get.find<ApiProvider>();
       final response = await apiProvider.get('/user/me');
-      dev.log(response.data);
+      dev.log(response.data.toString());
     }
   }
 
@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
     if (authService.isAuthenticated) {
       ApiProvider apiProvider = Get.find<ApiProvider>();
       final response = await apiProvider.get('/payment/method');
-      dev.log(response.data);
+      dev.log(response.data.toString());
     }
   }
 
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
     if (authService.isAuthenticated) {
       ApiProvider apiProvider = Get.find<ApiProvider>();
       final response = await apiProvider.get('/notice/current');
-      dev.log(response.data);
+      dev.log(response.data.toString());
     }
   }
 
