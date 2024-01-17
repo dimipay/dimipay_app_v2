@@ -25,6 +25,8 @@ class TestPage extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         children: [
           linkToRoute(Routes.HOME),
+          linkToRoute(Routes.LOGIN),
+          linkToRoute(Routes.ONBOARDINGPIN),
         ],
       ),
     );
