@@ -12,11 +12,7 @@ class UserPage extends GetView<UserPageController> {
           state!.profileImage,
         ),
       ),
-      onLoading: const CircleAvatar(
-        backgroundImage: NetworkImage(
-          'https://i.pravatar.cc/300',
-        ),
-      ),
+      onLoading: const CircleAvatar(),
     );
   }
 
