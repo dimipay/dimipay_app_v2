@@ -43,6 +43,7 @@ dependencies:
     git:
       url: https://github.com/dimipay/dimipay_design_kit.git
       ref: main
+  flutter_native_splash: ^2.3.9
 
 
 dev_dependencies:
@@ -62,9 +63,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    #   - images/a_dot_burr.jpeg
-    #   - images/a_dot_ham.jpeg
     - env/
+    - flutter_native_splash.yaml
+    - assets/
+    - assets/images/
+    - assets/fonts/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see
