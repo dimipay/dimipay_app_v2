@@ -23,3 +23,8 @@ class PinLockException implements Exception {
   final String message;
   PinLockException(this.message);
 }
+
+class NotDimigoMailExceptoin implements Exception {
+  final String? message;
+  NotDimigoMailExceptoin({this.message});
+}
