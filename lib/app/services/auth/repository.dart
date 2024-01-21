@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dio/dio.dart';
@@ -9,13 +11,21 @@ class AuthRepository {
   AuthRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
   ///returnes Login Result
+  ///throews NotDimigoMailExceptoin if emial provider trying to login is not @dimigo.hs.kr
   Future<Map> loginWithGoogle(String idToken) async {
     String url = '/auth/login';
     Map body = {
       'idToken': idToken,
     };
-    Response response = await api.post(url, data: body);
-    return response.data;
+    try {
+      Response response = await api.post(url, data: body);
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response?.data['code'] == 'ERR_NOT_ALLOWED_EMAIL') {
+        throw NotDimigoMailExceptoin();
+      }
+      rethrow;
+    }
   }
 
   ///returns accessToken
