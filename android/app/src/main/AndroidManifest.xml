@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="dimipay_app_v2"
+        android:label="디미페이"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
