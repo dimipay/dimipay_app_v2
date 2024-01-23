@@ -2,9 +2,10 @@ import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
 import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DPAppbar extends StatelessWidget {
-  final String header;
+  final String? header;
   final String? paragraph;
 
   const DPAppbar({super.key, required this.header, this.paragraph});
@@ -18,22 +19,31 @@ class DPAppbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DPButton(
-            onTap: () {},
+            onTap: () => Get.back(),
             radius: BorderRadius.circular(20),
             isTapEffectEnabled: false,
             child: const Icon(Icons.arrow_back_ios_rounded,
                 size: 20, color: DPColors.grayscale500),
           ),
-          const SizedBox(height: 16),
-          Text(
-            header,
-            style: DPTypography.header1(color: DPColors.grayscale1000),
-          ),
-          const SizedBox(height: 16),
+          if (header != null)
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  header!,
+                  style: DPTypography.header1(color: DPColors.grayscale1000),
+                ),
+              ],
+            ),
           if (paragraph != null)
-            Text(
-              paragraph!,
-              style: DPTypography.paragraph1(color: DPColors.grayscale700),
+            Column(
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  paragraph!,
+                  style: DPTypography.paragraph1(color: DPColors.grayscale700),
+                ),
+              ],
             ),
         ],
       ),
