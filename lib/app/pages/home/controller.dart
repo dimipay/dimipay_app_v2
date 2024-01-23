@@ -5,7 +5,6 @@ import 'dart:developer' as dev;
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 
 class HomePageController extends GetxController {
-
   Future fetchUserInfoIfLoggedIn() async {
     AuthService authService = Get.find<AuthService>();
     if (authService.isAuthenticated) {
@@ -32,4 +31,4 @@ class HomePageController extends GetxController {
       dev.log(response.data.toString());
     }
   }
-  }
+}
