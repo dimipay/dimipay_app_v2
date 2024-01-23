@@ -204,12 +204,11 @@ packages:
   dimipay_design_kit:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: de461d134b85db64680589e8f621be3da68119ab
-      url: "https://github.com/dimipay/dimipay_design_kit.git"
-    source: git
-    version: "0.0.2"
+      name: dimipay_design_kit
+      sha256: "896a2dd9169d069e32de08ce338dcf33bfb2b983328f33e5f4da405e7ac80354"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   dio:
     dependency: "direct main"
     description:

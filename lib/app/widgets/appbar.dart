@@ -1,8 +1,7 @@
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
 import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dimipay_app_v2/app/pages/home/widgets/button.dart';
 
 class DPAppbar extends StatelessWidget {
   final String header;

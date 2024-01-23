@@ -1,4 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/home/page.dart';
+import 'package:dimipay_app_v2/app/pages/info/binding.dart';
+import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/binding.dart';
@@ -25,5 +27,9 @@ class AppPages {
         name: Routes.USER,
         page: () => const UserPage(),
         binding: UserPageBinding()),
+    GetPage(
+        name: Routes.INFO,
+        page: () => const InfoPage(),
+        binding: InfoPageBinding()),
   ];
 }

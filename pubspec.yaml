@@ -39,12 +39,9 @@ dependencies:
   json_serializable: ^6.7.1
   jwt_decoder: ^2.0.1
   uuid: ^4.3.3
-  dimipay_design_kit:
-    git:
-      url: https://github.com/dimipay/dimipay_design_kit.git
-      ref: main
   flutter_native_splash: ^2.3.9
   flutter_svg: ^2.0.9
+  dimipay_design_kit: ^0.0.8
 
 
 dev_dependencies:

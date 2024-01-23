@@ -1,16 +1,25 @@
-import 'package:dimipay_app_v2/app/pages/home/styles/boxDecorations.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/PaymentQR.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/button.dart';
+import 'package:dimipay_app_v2/app/core/theme/boxDecorations.dart';
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/widgets/PaymentQR.dart';
+import 'package:dimipay_app_v2/app/widgets/bottomSheet.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
 import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
+
+  void _showBottomSheet(BuildContext context) => showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        barrierColor: Colors.black.withOpacity(0.3),
+        context: context,
+        builder: (context) => const PaymentSelection(),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +59,8 @@ class HomePage extends GetView<HomePageController> {
               child: Column(
                 children: [
                   DPButton(
-                    onTap: () {},
-                    decoration: DPBoxDecorations.container1,
+                    onTap: () => Get.toNamed(Routes.INFO),
+                    decoration: DPBoxDecorations.box3,
                     radius: BorderRadius.circular(16),
                     child: Padding(
                       padding: const EdgeInsets.all(20),
@@ -86,7 +95,7 @@ class HomePage extends GetView<HomePageController> {
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(20),
-                    decoration: DPBoxDecorations.container1,
+                    decoration: DPBoxDecorations.box3,
                     child: Column(
                       children: [
                         Row(
@@ -128,7 +137,7 @@ class HomePage extends GetView<HomePageController> {
                         const DPPaymentQR(isLocked: true),
                         const SizedBox(height: 24),
                         DPButton(
-                          onTap: () {},
+                          onTap: () => _showBottomSheet(context),
                           isTapEffectEnabled: false,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,16 +148,16 @@ class HomePage extends GetView<HomePageController> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     '결제수단 등록',
-                                    style: DPTypography.itemDescription(
-                                        color: DPColors.grayscale900),
-                                    // style: TextStyle(
-                                    //   fontSize: 14,
-                                    //   height: 18 / 14,
-                                    //   fontWeight: FontWeight.w600,
-                                    //   color: DPColors.grayscale800,
-                                    // ),
+                                    // style: DPTypography.itemDescription(
+                                    //     color: DPColors.grayscale900),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      height: 18 / 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: DPColors.grayscale800,
+                                    ),
                                   ),
                                   Text('주 결제수단 등록하기',
                                       style: DPTypography.token(
@@ -168,7 +177,7 @@ class HomePage extends GetView<HomePageController> {
                   const SizedBox(height: 20),
                   Container(
                     padding: const EdgeInsets.all(20),
-                    decoration: DPBoxDecorations.container1,
+                    decoration: DPBoxDecorations.box3,
                     child: Row(
                       children: [
                         Expanded(
