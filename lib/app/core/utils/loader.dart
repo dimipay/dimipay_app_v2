@@ -12,6 +12,7 @@ class AppLoader {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await dotenv.load(fileName: "env/.env", isOptional: true);
     Get.lazyPut<ApiProvider>(() => DevApiProvider());
+
     await Get.putAsync(() => AuthService().init());
   }
 }

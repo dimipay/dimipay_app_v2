@@ -4,6 +4,8 @@ import 'package:dimipay_app_v2/app/pages/login/page.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/binding.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
+import 'package:dimipay_app_v2/app/pages/transaction/binding.dart';
+import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -25,5 +27,9 @@ class AppPages {
         name: Routes.USER,
         page: () => const UserPage(),
         binding: UserPageBinding()),
+    GetPage(
+        name: Routes.TRANSACTION,
+        page: () => const TransactionPage(),
+        binding: TransactionPageBinding()),
   ];
 }
