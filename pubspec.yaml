@@ -44,6 +44,7 @@ dependencies:
       url: https://github.com/dimipay/dimipay_design_kit.git
       ref: main
   flutter_native_splash: ^2.3.9
+  image_picker: ^1.0.7
 
 
 dev_dependencies:

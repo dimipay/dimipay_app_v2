@@ -8,9 +8,9 @@ class NoRefreshTokenException implements Exception {
   NoRefreshTokenException({this.message = ''});
 }
 
-class FaceSginException implements Exception {
+class FaceSignException implements Exception {
   final String message;
-  FaceSginException(this.message);
+  FaceSignException(this.message);
 }
 
 class IncorrectPinException implements Exception {

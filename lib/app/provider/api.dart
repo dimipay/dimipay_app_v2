@@ -61,6 +61,7 @@ class LogInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
       dev.log('${err.response!.requestOptions.method}[${err.response!.statusCode}] => PATH: ${err.response!.requestOptions.path}', name: 'DIO');
+      dev.log('ERROR: ${err.response!.data}', name: 'DIO');
     }
     handler.next(err);
   }

@@ -94,7 +94,11 @@ class AuthService extends GetxController {
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
+    dev.log('loginWithGoogle() called');
+
     String idToken = await _signInWithGoogle();
+
+    dev.log('idToken: $idToken');
     Map loginResult = await repository.loginWithGoogle(idToken);
 
     _onboardingToken.value = JWTToken(accessToken: loginResult['accessToken']);
