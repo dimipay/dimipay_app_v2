@@ -31,7 +31,7 @@ class UserPage extends GetView<UserPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('UserPage'),
+        title: const Text('UserPage'),
         centerTitle: true,
       ),
       body: Center(

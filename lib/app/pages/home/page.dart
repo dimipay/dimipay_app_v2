@@ -1,8 +1,8 @@
-import 'package:dimipay_app_v2/app/core/theme/boxDecorations.dart';
+import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
-import 'package:dimipay_app_v2/app/widgets/PaymentQR.dart';
-import 'package:dimipay_app_v2/app/widgets/bottomSheet.dart';
+import 'package:dimipay_app_v2/app/widgets/payment_qr.dart';
+import 'package:dimipay_app_v2/app/widgets/bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
 import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
@@ -41,11 +41,9 @@ class HomePage extends GetView<HomePageController> {
                 const Spacer(),
                 const Row(
                   children: [
-                    Icon(Icons.support_agent_rounded,
-                        size: 24, color: DPColors.grayscale600),
+                    Icon(Icons.support_agent_rounded, size: 24, color: DPColors.grayscale600),
                     SizedBox(width: 24),
-                    Icon(Icons.help_rounded,
-                        size: 24, color: DPColors.grayscale600),
+                    Icon(Icons.help_rounded, size: 24, color: DPColors.grayscale600),
                   ],
                 ),
               ],
@@ -68,26 +66,20 @@ class HomePage extends GetView<HomePageController> {
                         children: [
                           const CircleAvatar(
                             radius: 21,
-                            backgroundImage:
-                            AssetImage('assets/images/profileExample.jpg'),
+                            backgroundImage: AssetImage('assets/images/profileExample.jpg'),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('서승표',
-                                    style: DPTypography.itemTitle(
-                                        color: DPColors.grayscale900)),
-                                Text('내 결제수단, 생체인증 관리',
-                                    style: DPTypography.token(
-                                        color: DPColors.grayscale600)),
+                                Text('서승표', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                                Text('내 결제수단, 생체인증 관리', style: DPTypography.token(color: DPColors.grayscale600)),
                               ],
                             ),
                           ),
                           const SizedBox(width: 16),
-                          const Icon(Icons.arrow_forward_ios_rounded,
-                              size: 16, color: DPColors.grayscale500),
+                          const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
                         ],
                       ),
                     ),
@@ -104,12 +96,8 @@ class HomePage extends GetView<HomePageController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('결제 바코드',
-                                      style: DPTypography.itemTitle(
-                                          color: DPColors.grayscale900)),
-                                  Text('결제 단말기에 바코드를 읽혀주세요',
-                                      style: DPTypography.token(
-                                          color: DPColors.grayscale600)),
+                                  Text('결제 바코드', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                                  Text('결제 단말기에 바코드를 읽혀주세요', style: DPTypography.token(color: DPColors.grayscale600)),
                                 ],
                               ),
                             ),
@@ -126,9 +114,7 @@ class HomePage extends GetView<HomePageController> {
                                     color: DPColors.grayscale400,
                                   ),
                                 ),
-                                Text('18',
-                                    style: DPTypography.token(
-                                        color: DPColors.grayscale600)),
+                                Text('18', style: DPTypography.token(color: DPColors.grayscale600)),
                               ],
                             )
                           ],
@@ -142,8 +128,7 @@ class HomePage extends GetView<HomePageController> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset('assets/images/paymentRequired.svg',
-                                  width: 40, height: 40),
+                              SvgPicture.asset('assets/images/paymentRequired.svg', width: 40, height: 40),
                               const SizedBox(width: 12),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,15 +144,12 @@ class HomePage extends GetView<HomePageController> {
                                       color: DPColors.grayscale800,
                                     ),
                                   ),
-                                  Text('주 결제수단 등록하기',
-                                      style: DPTypography.token(
-                                          color: DPColors.grayscale600)),
+                                  Text('주 결제수단 등록하기', style: DPTypography.token(color: DPColors.grayscale600)),
                                 ],
                               ),
                               const Spacer(),
                               const SizedBox(width: 12),
-                              const Icon(Icons.arrow_forward_ios_rounded,
-                                  size: 16, color: DPColors.grayscale500),
+                              const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
                             ],
                           ),
                         ),
@@ -184,14 +166,11 @@ class HomePage extends GetView<HomePageController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('내 쿠폰',
-                                  style: DPTypography.itemTitle(
-                                      color: DPColors.grayscale900)),
+                              Text('내 쿠폰', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
                             ],
                           ),
                         ),
-                        const Icon(Icons.arrow_forward_ios_rounded,
-                            size: 16, color: DPColors.grayscale500),
+                        const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
                       ],
                     ),
                   ),

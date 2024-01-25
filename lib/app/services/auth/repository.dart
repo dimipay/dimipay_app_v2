@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dio/dio.dart';
