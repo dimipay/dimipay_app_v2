@@ -1,6 +1,6 @@
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 
 class DPSnackBar {
   static void open(String title, {Color backgroundColor = DPColors.primaryBrand, Color textColor = Colors.white}) {

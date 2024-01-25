@@ -39,11 +39,10 @@ dependencies:
   json_serializable: ^6.7.1
   jwt_decoder: ^2.0.1
   uuid: ^4.3.3
-  dimipay_design_kit:
-    git:
-      url: https://github.com/dimipay/dimipay_design_kit.git
-      ref: main
   flutter_native_splash: ^2.3.9
+  flutter_svg: ^2.0.9
+  dimipay_design_kit: ^0.0.8
+  flutter_displaymode: ^0.6.0
 
 
 dev_dependencies:
@@ -77,17 +76,27 @@ flutter:
     # "family" key with the font family name, and a "fonts" key with a
     # list giving the asset and other descriptors for the font. For
     # example:
-    # fonts:
-    #   - family: Schyler
-    #     fonts:
-    #       - asset: fonts/Schyler-Regular.ttf
-    #       - asset: fonts/Schyler-Italic.ttf
-    #         style: italic
-    #   - family: Trajan Pro
-    #     fonts:
-    #       - asset: fonts/TrajanPro.ttf
-    #       - asset: fonts/TrajanPro_Bold.ttf
-    #         weight: 700
+  fonts:
+    - family: SUITv1
+      fonts:
+        - asset: assets/fonts/SUITv1-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/SUITv1-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/SUITv1-Light.ttf
+          weight: 300
+        - asset: assets/fonts/SUITv1-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SUITv1-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SUITv1-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/SUITv1-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SUITv1-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/SUITv1-Heavy.ttf
+          weight: 900
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/custom-fonts/#from-packages
