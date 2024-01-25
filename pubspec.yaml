@@ -44,6 +44,7 @@ dependencies:
       url: https://github.com/dimipay/dimipay_design_kit.git
       ref: main
   flutter_native_splash: ^2.3.9
+  intl: ^0.19.0
 
 
 dev_dependencies:
