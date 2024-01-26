@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 
 class OnboardingPageController extends GetxController {
   AuthService authService = Get.find<AuthService>();
+  final String? redirect = Get.arguments?['redirect'];
 
   Future onboardingAuth(String pin) async {
     await authService.onBoardingAuth(pin);
-    Get.offNamed(Routes.HOME);
+    final String nextRoute = redirect ?? Routes.HOME;
+    Get.offNamed(nextRoute);
   }
 }

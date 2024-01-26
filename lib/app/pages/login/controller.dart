@@ -5,13 +5,15 @@ import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:get/get.dart';
 
 class LoginPageController extends GetxController {
+  final String? redirect = Get.arguments?['redirect'];
   AuthService authService = Get.find<AuthService>();
 
   Future loginWithGoogle() async {
     try {
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
-        Get.offNamed(Routes.ONBOARDINGPIN);
+        final String nextRoute = redirect ?? Routes.HOME;
+        Get.offNamed(nextRoute);
       }
     } on NotDimigoMailExceptoin {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
