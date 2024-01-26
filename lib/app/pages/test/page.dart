@@ -1,14 +1,14 @@
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class TestPage extends StatelessWidget {
   const TestPage({Key? key}) : super(key: key);
 
-  Widget linkToRoute(String route) {
+  Widget linkToRoute(BuildContext context, String route) {
     return TextButton(
       onPressed: () {
-        Get.toNamed(route);
+        context.push(route);
       },
       child: Text(route),
     );
@@ -24,11 +24,11 @@ class TestPage extends StatelessWidget {
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          linkToRoute(Routes.HOME),
-          linkToRoute(Routes.LOGIN),
-          linkToRoute(Routes.ONBOARDINGPIN),
-          linkToRoute(Routes.USER),
-          linkToRoute(Routes.INFO),
+          linkToRoute(context, Routes.HOME),
+          linkToRoute(context, Routes.LOGIN),
+          linkToRoute(context, Routes.ONBOARDINGPIN),
+          linkToRoute(context, Routes.USER),
+          linkToRoute(context, Routes.INFO),
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
 import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class DPAppbar extends StatelessWidget {
   final String? header;
@@ -19,7 +20,7 @@ class DPAppbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DPButton(
-            onTap: () => Get.back(),
+            onTap: () => context.pop(),
             radius: BorderRadius.circular(20),
             isTapEffectEnabled: false,
             child: const Icon(Icons.arrow_back_ios_rounded,
