@@ -7,4 +7,5 @@ abstract class Routes {
   static const ONBOARDINGPIN = '/onboardingPin';
   static const USER = '/user';
   static const INFO = '/info';
+  static const FACESIGN = '/facesign';
 }
