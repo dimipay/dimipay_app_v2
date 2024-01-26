@@ -9,6 +9,7 @@ import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
@@ -57,7 +58,7 @@ class HomePage extends GetView<HomePageController> {
               child: Column(
                 children: [
                   DPButton(
-                    onTap: () => Get.toNamed(Routes.INFO),
+                    onTap: () => context.push(Routes.INFO),
                     decoration: DPBoxDecorations.box3,
                     radius: BorderRadius.circular(16),
                     child: Padding(
