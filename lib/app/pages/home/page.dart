@@ -21,6 +21,13 @@ class HomePage extends GetView<HomePageController> {
         builder: (context) => const PaymentSelection(),
       );
 
+  Widget _profileImageLoading() {
+    return const CircleAvatar(
+      radius: 21,
+      backgroundColor: DPColors.grayscale200,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,16 +71,21 @@ class HomePage extends GetView<HomePageController> {
                       padding: const EdgeInsets.all(20),
                       child: Row(
                         children: [
-                          const CircleAvatar(
-                            radius: 21,
-                            backgroundImage: AssetImage('assets/images/profileExample.jpg'),
+                          controller.userService.obx(
+                            (state) => CircleAvatar(
+                              radius: 21,
+                              backgroundImage: NetworkImage(state!.profileImage),
+                            ),
+                            onLoading: _profileImageLoading(),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('서승표', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                                Obx(
+                                  () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                                ),
                                 Text('내 결제수단, 생체인증 관리', style: DPTypography.token(color: DPColors.grayscale600)),
                               ],
                             ),
