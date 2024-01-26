@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
@@ -6,8 +6,15 @@ import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InfoPage extends GetView<HomePageController> {
+class InfoPage extends GetView<InfoPageController> {
   const InfoPage({super.key});
+
+  Widget _profileImageLoading() {
+    return const CircleAvatar(
+      radius: 21,
+      backgroundColor: DPColors.grayscale200,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,28 +28,29 @@ class InfoPage extends GetView<HomePageController> {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 21,
-                    backgroundImage:
-                        AssetImage('assets/images/profileExample.jpg'),
+                  controller.userService.obx(
+                    (state) => CircleAvatar(
+                      radius: 21,
+                      backgroundImage: NetworkImage(state!.profileImage),
+                    ),
+                    onLoading: _profileImageLoading(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('서승표',
-                            style: DPTypography.itemTitle(
-                                color: DPColors.grayscale800)),
-                        Text('sspzoa@dimipay.io',
-                            style: DPTypography.token(
-                                color: DPColors.grayscale500)),
+                        Obx(
+                          () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: DPTypography.itemTitle(color: DPColors.grayscale800)),
+                        ),
+                        Obx(
+                          () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.accountName, style: DPTypography.token(color: DPColors.grayscale500)),
+                        )
                       ],
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Icon(Icons.logout_rounded,
-                      size: 16, color: DPColors.grayscale500),
+                  const Icon(Icons.logout_rounded, size: 16, color: DPColors.grayscale500),
                 ],
               ),
             ),
@@ -109,8 +117,7 @@ class _SectionHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child:
-          Text(title, style: DPTypography.token(color: DPColors.grayscale500)),
+      child: Text(title, style: DPTypography.token(color: DPColors.grayscale500)),
     );
   }
 }
