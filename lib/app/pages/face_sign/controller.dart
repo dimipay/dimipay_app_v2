@@ -10,8 +10,7 @@ class FaceSignPageController extends GetxController {
 
   Future<void> registerFaceSign() async {
     try {
-      XFile? imageData =
-          await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front, maxHeight: 2048, maxWidth: 1024);
+      XFile? imageData = await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front, maxHeight: 2048, maxWidth: 1024);
       if (imageData != null) {
         await faceSignService.registerFaceSign(imageData);
       }
@@ -25,8 +24,8 @@ class FaceSignPageController extends GetxController {
   }
 
   @override
-  void onInit() async {
-    await faceSignService.checkIsRegistered();
+  void onInit() {
+    faceSignService.fetchIsFaceSignRegistered();
     super.onInit();
   }
 }

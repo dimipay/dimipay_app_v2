@@ -6,18 +6,16 @@ class FaceSignService extends GetxController {
   final FaceSignRepository repository;
   FaceSignService({FaceSignRepository? repository}) : repository = repository ?? FaceSignRepository();
 
-  Rx<bool> _isRegistered = Rx(false);
+  final Rx<bool> _isRegistered = Rx(false);
   bool get isRegistered => _isRegistered.value;
 
-  Future<void> checkIsRegistered() async {
-    _isRegistered.value = await repository.checkFaceSign();
+  Future<void> fetchIsFaceSignRegistered() async {
+    _isRegistered.value = await repository.checkIfFaceSignRegistered();
   }
 
   Future<void> registerFaceSign(XFile image) async {
-    final result = await repository.registerFaceSign(image);
-    if (result['code'] == "OK") {
-      _isRegistered.value = true;
-    }
+    await repository.registerFaceSign(image);
+    _isRegistered.value = true;
   }
 
   Future<void> deleteFaceSign() async {
