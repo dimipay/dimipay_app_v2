@@ -50,7 +50,7 @@ class InfoPage extends GetView<InfoPageController> {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  const Icon(Icons.logout_rounded, size: 16, color: DPColors.grayscale500),
+                  LogOutButton(onTap: controller.logout),
                 ],
               ),
             ),
@@ -66,6 +66,22 @@ class InfoPage extends GetView<InfoPageController> {
             const _MenuItem(title: '이용 약관 및 정책'),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class LogOutButton extends StatelessWidget {
+  final void Function()? onTap;
+  const LogOutButton({super.key, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        icon: const Icon(Icons.logout_rounded, size: 16, color: DPColors.grayscale500),
+        onPressed: onTap,
       ),
     );
   }
