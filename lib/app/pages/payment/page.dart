@@ -24,7 +24,16 @@ class PaymentPage extends GetView<PaymentPageController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 32),
+                          TextFormField(
+                            enableInteractiveSelection: false,
+                            controller: controller.nameFieldController,
+                            decoration: const InputDecoration(
+                              labelText: '카드 이름',
+                              hintText: '카드 이름을 입력해주세요',
+                            ),
+                            maxLength: 20,
+                          ),
+                          const SizedBox(height: 16),
                           TextFormField(
                             enableInteractiveSelection: false,
                             controller: controller.cardNumberFieldController,

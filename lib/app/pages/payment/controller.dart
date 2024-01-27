@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -6,11 +9,13 @@ import 'package:intl/intl.dart';
 class PaymentPageController extends GetxController {
   final PaymentService paymentService = Get.find<PaymentService>();
 
+  final Rx<String?> name = Rx(null);
   final Rx<String?> cardNumber = Rx(null);
   final Rx<DateTime?> expiredAt = Rx(null);
   final Rx<String?> ownerPersonalNum = Rx(null);
   final Rx<String?> password = Rx(null);
 
+  final TextEditingController nameFieldController = TextEditingController();
   final TextEditingController cardNumberFieldController = TextEditingController();
   final TextEditingController expiredDateFieldController = TextEditingController();
   final TextEditingController ownerPersonalNumFieldController = TextEditingController();
@@ -22,10 +27,26 @@ class PaymentPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    nameFieldController.addListener(onNameChange);
+    debounce(
+        name,
+        (callback) => {
+              nameFieldController.text = callback!,
+              formFocusScopeNode.nextFocus(),
+            });
     cardNumberFieldController.addListener(onCardNumberChange);
     expiredDateFieldController.addListener(onExpireDateChange);
     ownerPersonalNumFieldController.addListener(onBirthdayChange);
     passwordFieldController.addListener(onPasswordChange);
+  }
+
+  void onNameChange() {
+    String data = nameFieldController.text;
+    if (data.isNotEmpty) {
+      name.value = data;
+    } else {
+      name.value = null;
+    }
   }
 
   String formatCardNumber(String rawData) {
@@ -107,16 +128,23 @@ class PaymentPageController extends GetxController {
   }
 
   void addPaymentMethod() {
+    log('name: ${name.value}\n'
+        'cardNumber: ${cardNumber.value}\n'
+        'expiredAt: ${expiredAt.value}\n'
+        'ownerPersonalNum: ${ownerPersonalNum.value}\n'
+        'password: ${password.value}\n');
+
+    String userName = Get.find<UserService>().user!.name;
+
     if (formKey.currentState!.validate()) {
       paymentService.createPaymentMethod(
-        name: '랜덤',
-        number: cardNumber.value!,
-        year: expiredAt.value!.year.toString(),
-        month: expiredAt.value!.month.toString(),
-        idNo: ownerPersonalNum.value!,
-        pw: password.value!,
-        ownerName: '김동현',
-      );
+          name: name.value!,
+          number: cardNumber.value!,
+          year: expiredAt.value!.year.toString().padLeft(2, '0'),
+          month: expiredAt.value!.month.toString().padLeft(2, '0'),
+          idNo: ownerPersonalNum.value!,
+          pw: password.value!,
+          ownerName: userName);
     }
   }
 }
