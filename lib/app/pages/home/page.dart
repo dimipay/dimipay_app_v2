@@ -108,8 +108,8 @@ class HomePage extends GetView<HomePageController> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('결제 바코드', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
-                                  Text('결제 단말기에 바코드를 읽혀주세요', style: DPTypography.token(color: DPColors.grayscale600)),
+                                  Text('결제 QR', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                                  Text('스캐너에 결제 QR을 찍어주세요', style: DPTypography.token(color: DPColors.grayscale600)),
                                 ],
                               ),
                             ),

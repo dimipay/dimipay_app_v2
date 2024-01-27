@@ -36,7 +36,7 @@ class AuthService {
   String? get bioKey => _bioKey;
   String? get pin => _pin;
 
-  Future<String> _signInWithGoogle({bool selectAccount = true}) async {
+  Future<String?> _signInWithGoogle({bool selectAccount = true}) async {
     if (selectAccount && _googleSignIn.currentUser != null) {
       try {
         if (Platform.isAndroid) {
@@ -50,7 +50,7 @@ class AuthService {
     }
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
     if (googleAccount == null) {
-      throw Exception('google 로그인이 취소됨');
+      return null;
     }
     final GoogleSignInAuthentication googleAuth = await googleAccount.authentication;
     return googleAuth.idToken!;
@@ -96,7 +96,10 @@ class AuthService {
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
     dev.log('loginWithGoogle() called');
 
-    String idToken = await _signInWithGoogle();
+    String? idToken = await _signInWithGoogle();
+    if (idToken == null) {
+      return;
+    }
 
     dev.log('idToken: $idToken');
     Map loginResult = await repository.loginWithGoogle(idToken);
