@@ -127,6 +127,15 @@ class PaymentPageController extends GetxController {
     }
   }
 
+  bool get isFormValid {
+    if (name.value == null) return false;
+    if (cardNumber.value == null || cardNumber.value!.length < 16) return false;
+    if (expiredAt.value == null) return false;
+    if (ownerPersonalNum.value == null || ownerPersonalNum.value!.length != 6 || ownerPersonalNum.value!.length != 10) return false;
+    if (password.value == null || password.value!.length != 2) return false;
+    return true;
+  }
+
   void addPaymentMethod() {
     log('name: ${name.value}\n'
         'cardNumber: ${cardNumber.value}\n'
@@ -136,7 +145,7 @@ class PaymentPageController extends GetxController {
 
     String userName = Get.find<UserService>().user!.name;
 
-    if (formKey.currentState!.validate()) {
+    if (isFormValid) {
       paymentService.createPaymentMethod(
           name: name.value!,
           number: cardNumber.value!,
