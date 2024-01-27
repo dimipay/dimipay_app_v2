@@ -15,8 +15,8 @@ class InfoPageController extends GetxController {
     super.onInit();
   }
 
-  void logout() {
-    authService.logout();
+  void logout() async {
+    await authService.logout();
     Get.offAllNamed(Routes.LOGIN);
   }
 }

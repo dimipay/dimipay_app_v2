@@ -37,17 +37,6 @@ class AuthService {
   String? get pin => _pin;
 
   Future<String?> _signInWithGoogle({bool selectAccount = true}) async {
-    if (selectAccount && _googleSignIn.currentUser != null) {
-      try {
-        if (Platform.isAndroid) {
-          await _googleSignIn.signOut();
-        } else {
-          await _googleSignIn.disconnect();
-        }
-      } catch (e) {
-        await _googleSignIn.disconnect();
-      }
-    }
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
     if (googleAccount == null) {
       return null;
@@ -167,5 +156,14 @@ class AuthService {
 
   Future<void> logout() async {
     await _clearTokens();
+    try {
+      if (Platform.isAndroid) {
+        await _googleSignIn.signOut();
+      } else {
+        await _googleSignIn.disconnect();
+      }
+    } catch (e) {
+      await _googleSignIn.disconnect();
+    }
   }
 }
