@@ -3,6 +3,7 @@
 import 'dart:developer' as dev;
 
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
+import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -36,13 +37,14 @@ class OnboardingPageController extends GetxController {
     try {
       await authService.onBoardingAuth(pin);
       final String nextRoute = redirect ?? Routes.HOME;
-      Get.offNamed(nextRoute);
+      Get.offAllNamed(nextRoute);
     } catch (e) {
       rethrow;
     }
   }
 
   void onPinTap(String value) async {
+    HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
     if (value == 'del') {
       if (pin.length > 0 && pin.length < 4) {
         _pin.value = pin.substring(0, pin.length - 1);

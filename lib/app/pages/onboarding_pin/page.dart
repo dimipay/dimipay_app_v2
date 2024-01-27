@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -218,6 +216,7 @@ class PinPad extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/images/backspace.svg',
                   width: 32,
+                  // ignore: deprecated_member_use
                   color: backBtnEnabled ? DPColors.grayscale800 : DPColors.grayscale400,
                 ),
               ),

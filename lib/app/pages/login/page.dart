@@ -22,6 +22,7 @@ class LogInPage extends GetView<LoginPageController> {
                 'assets/images/logoTitle.svg',
                 width: 16,
                 height: 16,
+                // ignore: deprecated_member_use
                 color: DPColors.grayscale900,
               ),
             ],
