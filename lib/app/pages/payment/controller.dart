@@ -1,8 +1,11 @@
+import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class PaymentPageController extends GetxController {
+  final PaymentService paymentService = Get.find<PaymentService>();
+
   final Rx<String?> cardNumber = Rx(null);
   final Rx<DateTime?> expiredAt = Rx(null);
   final Rx<String?> ownerPersonalNum = Rx(null);
@@ -100,6 +103,20 @@ class PaymentPageController extends GetxController {
       formFocusScopeNode.nextFocus();
     } else {
       password.value = null;
+    }
+  }
+
+  void addPaymentMethod() {
+    if (formKey.currentState!.validate()) {
+      paymentService.createPaymentMethod(
+        name: '랜덤',
+        number: cardNumber.value!,
+        year: expiredAt.value!.year.toString(),
+        month: expiredAt.value!.month.toString(),
+        idNo: ownerPersonalNum.value!,
+        pw: password.value!,
+        ownerName: '김동현',
+      );
     }
   }
 }

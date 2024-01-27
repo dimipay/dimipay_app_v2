@@ -8,6 +8,7 @@ class PaymentPage extends GetView<PaymentPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('PaymentPage')),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,6 +85,7 @@ class PaymentPage extends GetView<PaymentPageController> {
                 ),
               ),
             ),
+            TextButton(onPressed: controller.addPaymentMethod, child: const Text('추가하기')),
           ],
         ),
       ),
