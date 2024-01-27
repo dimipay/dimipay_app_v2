@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/repository.dart';
 import 'package:get/get.dart';
@@ -7,11 +9,23 @@ class PaymentService extends GetxController {
 
   PaymentService({PaymentRepository? repository}) : repository = repository ?? PaymentRepository();
 
-  Rx<List<PaymentMethod>> _paymentMethods = Rx([]);
-  List<PaymentMethod> get paymentMethods => _paymentMethods.value;
+  Rx<String?> _mainMethodId = Rx(null);
+  String? get mainMethodId => _mainMethodId.value;
+
+  Rx<List<PaymentMethod>?> _paymentMethods = Rx(null);
+  List<PaymentMethod>? get paymentMethods => _paymentMethods.value;
 
   Future<void> fetchPaymentMethods() async {
-    _paymentMethods.value = await repository.getPaymentMethod();
+    try {
+      Map data = await repository.getPaymentMethod();
+
+      log(data.toString());
+
+      _mainMethodId.value = data["mainMethodId"];
+      _paymentMethods.value = data["paymentMethods"];
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> createPaymentMethod({
@@ -32,5 +46,10 @@ class PaymentService extends GetxController {
       pw: pw,
       ownerName: ownerName,
     );
+  }
+
+  Future<void> deletePaymentMethod(PaymentMethod paymentMethod) async {
+    await repository.deletePaymentMethod(id: paymentMethod.id);
+    await fetchPaymentMethods();
   }
 }

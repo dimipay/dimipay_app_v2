@@ -21,16 +21,14 @@ class TestPage extends StatelessWidget {
         title: const Text("Route"),
         centerTitle: true,
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          linkToRoute(Routes.HOME),
-          linkToRoute(Routes.LOGIN),
-          linkToRoute(Routes.ONBOARDINGPIN),
-          linkToRoute(Routes.USER),
-          linkToRoute(Routes.PAYMENT),
-        ],
-      ),
+      body: ListView(physics: const BouncingScrollPhysics(), children: [
+        linkToRoute(Routes.HOME),
+        linkToRoute(Routes.LOGIN),
+        linkToRoute(Routes.ONBOARDINGPIN),
+        linkToRoute(Routes.USER),
+        linkToRoute(Routes.PAYMENT),
+        linkToRoute(Routes.REGISTER_CARD),
+      ]),
     );
   }
 }

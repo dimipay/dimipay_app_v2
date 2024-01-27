@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dio/dio.dart';
@@ -8,11 +10,16 @@ class PaymentRepository {
 
   PaymentRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
-  Future<List<PaymentMethod>> getPaymentMethod() async {
+  Future<Map> getPaymentMethod({bool includeMainMethod = true}) async {
     String url = '/payment/method';
-    Response response = await api.get(url);
+    Response response = await api.get(url, queryParameters: {"includeMainMethod": includeMainMethod});
 
-    return (response.data["paymentMethods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
+    log(response.data.toString());
+
+    String? mainMethodId = response.data["mainMethodId"];
+    List<PaymentMethod> paymentMethods = (response.data["paymentMethods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
+
+    return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
   }
 
   Future<void> createPaymentMethod(
