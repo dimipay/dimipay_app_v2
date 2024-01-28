@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 class PaymentPageController extends GetxController {
   final PaymentService paymentService = Get.find<PaymentService>();
 
-  PaymentMethod get mainPaymentMethod {
-    return paymentService.paymentMethods!.firstWhere((element) => element.id == paymentService.mainMethodId);
+  PaymentMethod? get mainPaymentMethod {
+    return paymentService.paymentMethods?.firstWhere((element) => element.id == paymentService.mainMethodId);
   }
 
   @override

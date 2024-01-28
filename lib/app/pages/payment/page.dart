@@ -13,9 +13,11 @@ class PaymentPage extends GetView<PaymentPageController> {
       body: SafeArea(
           child: Column(
         children: [
-          ListTile(
-            title: Text(controller.mainPaymentMethod.name!),
-            subtitle: Text(controller.mainPaymentMethod.last4Digit),
+          Obx(
+            () => ListTile(
+              title: Text(controller.mainPaymentMethod?.name ?? ""),
+              subtitle: Text(controller.mainPaymentMethod?.last4Digit ?? ""),
+            ),
           ),
           const Divider(),
           Expanded(

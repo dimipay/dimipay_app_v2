@@ -28,12 +28,6 @@ class RegisterCardPageController extends GetxController {
   void onInit() {
     super.onInit();
     nameFieldController.addListener(onNameChange);
-    debounce(
-        name,
-        (callback) => {
-              nameFieldController.text = callback!,
-              formFocusScopeNode.nextFocus(),
-            });
     cardNumberFieldController.addListener(onCardNumberChange);
     expiredDateFieldController.addListener(onExpireDateChange);
     ownerPersonalNumFieldController.addListener(onBirthdayChange);
@@ -146,14 +140,7 @@ class RegisterCardPageController extends GetxController {
     String userName = Get.find<UserService>().user!.name;
 
     if (isFormValid) {
-      paymentService.createPaymentMethod(
-          name: name.value!,
-          number: cardNumber.value!,
-          year: expiredAt.value!.year.toString().padLeft(2, '0'),
-          month: expiredAt.value!.month.toString().padLeft(2, '0'),
-          idNo: ownerPersonalNum.value!,
-          pw: password.value!,
-          ownerName: userName);
+      paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: userName);
     }
   }
 }
