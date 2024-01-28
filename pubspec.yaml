@@ -44,6 +44,7 @@ dependencies:
   dimipay_design_kit: ^0.1.1
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
+  intl: ^0.19.0
 
 
 dev_dependencies:

@@ -1,5 +1,7 @@
 import 'package:dimipay_app_v2/app/core/middleware/login.dart';
 import 'package:dimipay_app_v2/app/core/middleware/onboarding.dart';
+import 'package:dimipay_app_v2/app/pages/edit_card/binding.dart';
+import 'package:dimipay_app_v2/app/pages/edit_card/page.dart';
 import 'package:dimipay_app_v2/app/pages/face_sign/binding.dart';
 import 'package:dimipay_app_v2/app/pages/face_sign/page.dart';
 import 'package:dimipay_app_v2/app/pages/home/binding.dart';
@@ -10,6 +12,10 @@ import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/binding.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding_pin/page.dart';
+import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
+import 'package:dimipay_app_v2/app/pages/payment/page.dart';
+import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
+import 'package:dimipay_app_v2/app/pages/register_card/register_card.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
@@ -39,5 +45,8 @@ class AppPages {
       LoginMiddleware(),
       OnboardingMiddleware(),
     ]),
+    GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding()),
+    GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding()),
+    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding())
   ];
 }
