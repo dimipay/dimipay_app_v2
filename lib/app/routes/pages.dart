@@ -8,8 +8,8 @@ import 'package:dimipay_app_v2/app/pages/info/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
-import 'package:dimipay_app_v2/app/pages/onboarding_pin/binding.dart';
-import 'package:dimipay_app_v2/app/pages/onboarding_pin/page.dart';
+import 'package:dimipay_app_v2/app/pages/pin/binding.dart';
+import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
@@ -24,7 +24,7 @@ class AppPages {
       OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.LOGIN, page: () => const LogInPage(), binding: LoginPageBinding()),
-    GetPage(name: Routes.ONBOARDINGPIN, page: () => const OnboardingPinPage(), binding: OnboardingPageBinding(), middlewares: [
+    GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
       LoginMiddleware(),
     ]),
     GetPage(name: Routes.USER, page: () => const UserPage(), binding: UserPageBinding(), middlewares: [

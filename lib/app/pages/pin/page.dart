@@ -1,11 +1,27 @@
-import 'package:dimipay_app_v2/app/pages/onboarding_pin/controller.dart';
+import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-class OnboardingPinPage extends GetView<OnboardingPageController> {
-  const OnboardingPinPage({super.key});
+class PinPage extends GetView<PinPageController> {
+  const PinPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const PinPageBase(
+      headerText: '로그인을 완료하기 위해\n결제 핀을 입력해주세요',
+      // pinCouont: 1,
+      // helpText: '핀 번호를 잃어버렸어요',
+    );
+  }
+}
+
+class PinPageBase extends GetView<PinPageController> {
+  final String headerText;
+  final int? pinCouont;
+  final String? helpText;
+  const PinPageBase({super.key, required this.headerText, this.pinCouont, this.helpText});
 
   Widget pinHint(bool activated) {
     return Container(
@@ -32,11 +48,18 @@ class OnboardingPinPage extends GetView<OnboardingPageController> {
               child: Column(
                 children: [
                   Text(
-                    '로그인을 완료하기 위해\n결제 핀을 입력해주세요',
+                    headerText,
                     style: DPTypography.header1(color: DPColors.grayscale1000),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 8),
+                  pinCouont == null
+                      ? Container(height: 26)
+                      : Text(
+                          '${pinCouont}/5',
+                          style: DPTypography.header2(color: DPColors.primaryNegative),
+                        ),
+                  const SizedBox(height: 16),
                   Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -51,13 +74,22 @@ class OnboardingPinPage extends GetView<OnboardingPageController> {
                         pinHint(controller.pin.length > 3),
                       ],
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 120),
+                  helpText == null
+                      ? Container(
+                          height: 20,
+                        )
+                      : Text(
+                          helpText!,
+                          style: DPTypography.itemDescription(color: DPColors.grayscale500).copyWith(decoration: TextDecoration.underline),
+                        )
                 ],
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24, top: 100),
+                padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
                 child: Obx(
                   () => PinPad(
                     controller.nums,

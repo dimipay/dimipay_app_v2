@@ -26,7 +26,7 @@ class TestPage extends StatelessWidget {
         children: [
           linkToRoute(Routes.HOME),
           linkToRoute(Routes.LOGIN),
-          linkToRoute(Routes.ONBOARDINGPIN),
+          linkToRoute(Routes.PIN),
           linkToRoute(Routes.USER),
           linkToRoute(Routes.INFO),
           linkToRoute(Routes.FACESIGN),

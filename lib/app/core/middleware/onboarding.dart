@@ -10,6 +10,6 @@ class OnboardingMiddleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    return authService.isAuthenticated ? null : RouteSettings(name: Routes.ONBOARDINGPIN, arguments: {'redirect': route});
+    return authService.isAuthenticated ? null : RouteSettings(name: Routes.PIN, arguments: {'redirect': route});
   }
 }

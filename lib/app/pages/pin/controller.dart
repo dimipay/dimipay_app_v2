@@ -9,7 +9,24 @@ import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:get/get.dart';
 
-class OnboardingPageController extends GetxController {
+enum PinPageType {
+  onboarding,
+  unlockQR,
+  createPin,
+  editPin,
+}
+
+enum PinPageStatus {
+  preCheck,
+  preCheckFailed,
+  nomal,
+  wrong,
+  doubleCheck,
+  doubleCheckFailed,
+  locked,
+}
+
+class PinPageController extends GetxController {
   AuthService authService = Get.find<AuthService>();
   final String? redirect = Get.arguments?['redirect'];
 
