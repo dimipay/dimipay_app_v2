@@ -6,35 +6,26 @@ class TransactionPageController extends GetxController {
   final TransactionService transactionService = Get.find<TransactionService>();
   final ScrollController scrollController = ScrollController();
 
-  Rx<int> month = DateTime.now().month.obs;
-  Rx<int> year = DateTime.now().year.obs;
+  Rx<DateTime> date = DateTime.now().obs;
 
   void minusMonth() {
-    if (month.value == 1) {
-      month.value = 12;
-      year.value--;
+    if (date.value.month == 1) {
+      date.value = DateTime(date.value.year - 1, 12, 1);
     } else {
-      month.value--;
+      date.value = DateTime(date.value.year, date.value.month - 1, 1);
     }
 
-    DateTime newDate = DateTime(year.value, month.value, 1);
-    String newDateStr = newDate.toIso8601String();
-
-    transactionService.fetchTransactions(offset: newDateStr);
+    transactionService.fetchTransactions(offset: date.value);
   }
 
   void plusMonth() {
-    if (month.value == 12) {
-      month.value = 1;
-      year.value++;
+    if (date.value.month == 12) {
+      date.value = DateTime(date.value.year + 1, 1, 1);
     } else {
-      month.value++;
+      date.value = DateTime(date.value.year, date.value.month + 1, 1);
     }
 
-    DateTime newDate = DateTime(year.value, month.value, 1);
-    String newDateStr = newDate.toIso8601String();
-
-    transactionService.fetchTransactions(offset: newDateStr);
+    transactionService.fetchTransactions(offset: date.value);
   }
 
   @override

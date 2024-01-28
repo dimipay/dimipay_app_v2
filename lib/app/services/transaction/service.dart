@@ -12,20 +12,22 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
   final Rx<List<Transaction>?> _transactions = Rx(null);
   List<Transaction>? get transactions => _transactions.value;
 
-  final Rx<String?> _next = Rx(null);
-  String? get next => _next.value;
+  final Rx<DateTime?> _next = Rx(null);
+  DateTime? get next => _next.value;
 
   Rx<bool> hasReachedEnd = Rx(false);
 
-  Future<void> fetchTransactions({String offset = ""}) async {
+  Future<void> fetchTransactions({DateTime? offset}) async {
     dev.log("Fetching transactions");
     try {
       change(transactions, status: RxStatus.loading());
       Map result = await repository.getTransactions(offset);
       _transactions.value = result["transactions"];
-      _next.value = result["next"];
 
-      if (_next.value == null) {
+      if (result["next"] != null) {
+        _next.value = DateTime.parse(result["next"]);
+      } else {
+        _next.value = null;
         hasReachedEnd.value = true;
       }
 
@@ -49,7 +51,14 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
     try {
       Map result = await repository.getTransactions(next!);
       _transactions.value = [..._transactions.value!, ...result["transactions"]];
-      _next.value = result["next"];
+
+      if (result["next"] != null) {
+        _next.value = DateTime.parse(result["next"]);
+      } else {
+        _next.value = null;
+        hasReachedEnd.value = true;
+      }
+
       dev.log("Transactions Length : ${_transactions.value!.length}");
       change(transactions, status: RxStatus.success());
     } catch (e) {

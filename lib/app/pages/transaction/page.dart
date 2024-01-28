@@ -66,7 +66,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                 ),
                 Obx(
                   () => Text(
-                    controller.month.value.toString(),
+                    controller.date.value.month.toString(),
                   ),
                 ),
                 IconButton(

@@ -10,12 +10,12 @@ class TransactionRepository {
 
   TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
-  Future<Map> getTransactions(String offset, {int limit = 15}) async {
+  Future<Map> getTransactions(DateTime? offset, {int limit = 15}) async {
     String url = '/transaction';
     Map<String, dynamic> queryParameter = {"limit": limit};
 
-    if (offset != "") {
-      queryParameter["offset"] = offset;
+    if (offset != null) {
+      queryParameter["offset"] = offset.toIso8601String();
     }
 
     Response response = await api.get(url, queryParameters: queryParameter);
