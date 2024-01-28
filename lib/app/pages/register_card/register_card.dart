@@ -86,6 +86,15 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                             ),
                             maxLength: 2,
                           ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            enableInteractiveSelection: false,
+                            controller: controller.ownerNameFieldController,
+                            decoration: const InputDecoration(
+                              labelText: '카드 소유자 이름',
+                              hintText: '카드에 적혀있는 영문으로 입력해주세요',
+                            ),
+                          ),
                           const SizedBox(height: 24),
                         ],
                       ),
