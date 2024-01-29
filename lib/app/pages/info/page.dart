@@ -19,7 +19,6 @@ class InfoPage extends GetView<InfoPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: DPColors.grayscale100,
       body: SafeArea(
         child: Column(
           children: [
