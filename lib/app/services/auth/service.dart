@@ -11,7 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:uuid/uuid.dart';
 
-class AuthService extends GetxController {
+class AuthService {
   final AuthRepository repository;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -36,21 +36,10 @@ class AuthService extends GetxController {
   String? get bioKey => _bioKey;
   String? get pin => _pin;
 
-  Future<String> _signInWithGoogle({bool selectAccount = true}) async {
-    if (selectAccount && _googleSignIn.currentUser != null) {
-      try {
-        if (Platform.isAndroid) {
-          await _googleSignIn.signOut();
-        } else {
-          await _googleSignIn.disconnect();
-        }
-      } catch (e) {
-        await _googleSignIn.disconnect();
-      }
-    }
+  Future<String?> _signInWithGoogle({bool selectAccount = true}) async {
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
     if (googleAccount == null) {
-      throw Exception('google 로그인이 취소됨');
+      return null;
     }
     final GoogleSignInAuthentication googleAuth = await googleAccount.authentication;
     return googleAuth.idToken!;
@@ -94,7 +83,14 @@ class AuthService extends GetxController {
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
-    String idToken = await _signInWithGoogle();
+    dev.log('loginWithGoogle() called');
+
+    String? idToken = await _signInWithGoogle();
+    if (idToken == null) {
+      return;
+    }
+
+    dev.log('idToken: $idToken');
     Map loginResult = await repository.loginWithGoogle(idToken);
 
     _onboardingToken.value = JWTToken(accessToken: loginResult['accessToken']);
@@ -160,5 +156,14 @@ class AuthService extends GetxController {
 
   Future<void> logout() async {
     await _clearTokens();
+    try {
+      if (Platform.isAndroid) {
+        await _googleSignIn.signOut();
+      } else {
+        await _googleSignIn.disconnect();
+      }
+    } catch (e) {
+      await _googleSignIn.disconnect();
+    }
   }
 }

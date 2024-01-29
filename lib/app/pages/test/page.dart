@@ -28,7 +28,14 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.LOGIN),
           linkToRoute(Routes.ONBOARDINGPIN),
           linkToRoute(Routes.USER),
+
           linkToRoute(Routes.TRANSACTION),
+
+          linkToRoute(Routes.INFO),
+          linkToRoute(Routes.FACESIGN),
+          linkToRoute(Routes.PAYMENT),
+          linkToRoute(Routes.REGISTER_CARD),
+
         ],
       ),
     );
