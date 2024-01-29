@@ -24,6 +24,13 @@ class RegisterCardPageController extends GetxController {
   final TextEditingController passwordFieldController = TextEditingController();
   final TextEditingController ownerNameFieldController = TextEditingController();
 
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode cardNumberFocusNode = FocusNode();
+  final FocusNode expiredDateFocusNode = FocusNode();
+  final FocusNode ownerPersonalNumFocusNode = FocusNode();
+  final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode ownerNameFocusNode = FocusNode();
+
   final formKey = GlobalKey<FormState>();
   final FocusScopeNode formFocusScopeNode = FocusScopeNode();
 
@@ -153,5 +160,28 @@ class RegisterCardPageController extends GetxController {
         DPErrorSnackBar().open(e.response!.data["message"]);
       }
     }
+  }
+
+  bool isTextFieldInFocus(FocusNode focusNode) {
+    return focusNode.hasFocus;
+  }
+
+  @override
+  void dispose() {
+    nameFieldController.dispose();
+    cardNumberFieldController.dispose();
+    expiredDateFieldController.dispose();
+    ownerPersonalNumFieldController.dispose();
+    passwordFieldController.dispose();
+    ownerNameFieldController.dispose();
+
+    nameFocusNode.dispose();
+    cardNumberFocusNode.dispose();
+    expiredDateFocusNode.dispose();
+    ownerPersonalNumFocusNode.dispose();
+    passwordFocusNode.dispose();
+    ownerNameFocusNode.dispose();
+
+    super.dispose();
   }
 }
