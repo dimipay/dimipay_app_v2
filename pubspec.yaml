@@ -45,6 +45,9 @@ dependencies:
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
   intl: ^0.19.0
+  crypto: ^3.0.3
+  fast_rsa: ^3.6.1
+  package_info_plus: ^5.0.1
 
 
 dev_dependencies:
