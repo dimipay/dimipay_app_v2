@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/payment_qr.dart';
 import 'package:dimipay_app_v2/app/widgets/bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -132,7 +135,12 @@ class HomePage extends GetView<HomePageController> {
                           ],
                         ),
                         const SizedBox(height: 24),
-                        const DPPaymentQR(isLocked: true),
+                        GestureDetector(
+                          onTap: () async {
+                            await Get.toNamed(Routes.PIN);
+                          },
+                          child: const DPPaymentQR(isLocked: true),
+                        ),
                         const SizedBox(height: 24),
                         DPButton(
                           onTap: () => _showBottomSheet(context),

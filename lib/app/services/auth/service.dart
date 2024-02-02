@@ -83,8 +83,6 @@ class AuthService {
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
-    dev.log('loginWithGoogle() called');
-
     String? idToken = await _signInWithGoogle();
     if (idToken == null) {
       return;
@@ -97,6 +95,9 @@ class AuthService {
     _isFirstVisit.value = loginResult['isFirstVisit'];
   }
 
+  ///throws IncorrectPinException when pin wrong
+  ///throws PinLockException when pin locked
+  ///thows OnboardingTokenException when OnboardingToken is wrong
   Future<JWTToken> onBoardingAuth(String paymentPin) async {
     String deviceUid = const Uuid().v4();
 

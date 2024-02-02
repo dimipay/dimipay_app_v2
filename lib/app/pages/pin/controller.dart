@@ -1,40 +1,43 @@
 // ignore_for_file: prefer_is_empty
 
-import 'dart:developer' as dev;
-
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
-import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:get/get.dart';
 
 enum PinPageType {
   onboarding,
-  unlockQR,
+  unlock,
   createPin,
   editPin,
 }
 
 enum PinPageStatus {
   preCheck,
-  preCheckFailed,
   nomal,
-  wrong,
   doubleCheck,
-  doubleCheckFailed,
-  locked,
 }
 
 class PinPageController extends GetxController {
   AuthService authService = Get.find<AuthService>();
   final String? redirect = Get.arguments?['redirect'];
 
+  final PinPageType pinPageType = Get.arguments?['pinPageType'] ?? PinPageType.unlock;
+
+  final Rx<PinPageStatus> _status = Rx(PinPageStatus.nomal);
+  PinPageStatus get status => _status.value;
+
   final Rx<List<int>> _nums = Rx([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   List<int> get nums => _nums.value;
 
   final Rx<String> _pin = Rx('');
   String get pin => _pin.value;
+
+  final Rx<int?> _pinCount = Rx(null);
+  int? get pinCount => _pinCount.value;
+
+  bool get pinLocked => _pinCount.value != null && _pinCount.value! <= 0;
 
   bool get backBtnEnabled => pin.isNotEmpty && pin.length < 4;
   bool get numpadEnabled => pin.length < 4;
@@ -50,13 +53,15 @@ class PinPageController extends GetxController {
     _nums.refresh();
   }
 
-  Future onboardingAuth(String pin) async {
+  Future onboardingAuth() async {
     try {
       await authService.onBoardingAuth(pin);
       final String nextRoute = redirect ?? Routes.HOME;
       Get.offAllNamed(nextRoute);
-    } catch (e) {
-      rethrow;
+    } on IncorrectPinException catch (e) {
+      _pinCount.value = e.left;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      clearPin();
     }
   }
 
@@ -69,15 +74,22 @@ class PinPageController extends GetxController {
       return;
     }
     _pin.value += value;
-    dev.log(_pin.value);
-    if (pin.length == 4) {
-      try {
-        await onboardingAuth(pin);
-      } on IncorrectPinException catch (e) {
-        DPErrorSnackBar().open(e.message);
-      } finally {
-        _pin.value = '';
-      }
+  }
+
+  void validatePin() async {
+    try {
+      await authService.validatePin(pin);
+      Get.back();
+    } on IncorrectPinException catch (e) {
+      _pinCount.value = e.left;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+    } on PinLockException catch (_) {
+      _pinCount.value = 0;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     }
+  }
+
+  void clearPin() {
+    _pin.value = '';
   }
 }
