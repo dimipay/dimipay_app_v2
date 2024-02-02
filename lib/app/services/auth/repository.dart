@@ -40,6 +40,9 @@ class AuthRepository {
   ///returns map that contains accessToken and refreshToekn
   ///use ['accessToken'] to get accessToken
   ///use ['refreshToken'] to get refreshToken
+  ///throws IncorrectPinException when pin wrong
+  ///throws PinLockException when pin locked
+  ///thows OnboardingTokenException when OnboardingToken is wrong
   Future<Map> onBoardingAuth(String paymentPin, String deviceUid, String? bioKey) async {
     String url = '/auth/onBoarding';
     Map body = {
