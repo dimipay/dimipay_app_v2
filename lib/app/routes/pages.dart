@@ -15,7 +15,7 @@ import 'package:dimipay_app_v2/app/pages/onboarding_pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
 import 'package:dimipay_app_v2/app/pages/payment/page.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
-import 'package:dimipay_app_v2/app/pages/register_card/register_card.dart';
+import 'package:dimipay_app_v2/app/pages/register_card/page.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
