@@ -2,8 +2,10 @@
 
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
+import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum PinPageType {
@@ -53,6 +55,17 @@ class PinPageController extends GetxController {
     _nums.refresh();
   }
 
+  void onPinTap(String value) async {
+    HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
+    if (value == 'del') {
+      if (pin.length > 0 && pin.length < 4) {
+        _pin.value = pin.substring(0, pin.length - 1);
+      }
+      return;
+    }
+    _pin.value += value;
+  }
+
   Future onboardingAuth() async {
     try {
       await authService.onBoardingAuth(pin);
@@ -63,17 +76,6 @@ class PinPageController extends GetxController {
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
       clearPin();
     }
-  }
-
-  void onPinTap(String value) async {
-    HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
-    if (value == 'del') {
-      if (pin.length > 0 && pin.length < 4) {
-        _pin.value = pin.substring(0, pin.length - 1);
-      }
-      return;
-    }
-    _pin.value += value;
   }
 
   void validatePin() async {
@@ -92,4 +94,33 @@ class PinPageController extends GetxController {
   void clearPin() {
     _pin.value = '';
   }
+}
+
+Future<String?> showPinDialog() async {
+  await Get.bottomSheet(
+    SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 80),
+              child: GetBuilder(
+                  init: PinPageController(),
+                  builder: (context) {
+                    return const UnlockPinPage();
+                  }),
+            ),
+          ),
+        ),
+      ),
+    ),
+    isScrollControlled: true,
+    ignoreSafeArea: false,
+  );
+  AuthService authService = Get.find<AuthService>();
+  return authService.pin;
 }

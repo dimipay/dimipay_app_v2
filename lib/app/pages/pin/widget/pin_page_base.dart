@@ -34,9 +34,9 @@ class PinPageBase extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
         bottom: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,

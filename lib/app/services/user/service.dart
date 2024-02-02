@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:dimipay_app_v2/app/services/user/model.dart';
 import 'package:dimipay_app_v2/app/services/user/repository.dart';
 import 'package:get/get.dart';

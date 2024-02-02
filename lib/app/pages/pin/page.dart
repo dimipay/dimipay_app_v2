@@ -8,14 +8,21 @@ class PinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    switch (controller.pinPageType) {
-      case PinPageType.unlock:
-        return const UnlockPinPage();
-      case PinPageType.onboarding:
-        return const OnboardingPinPage();
-      default:
-        return const UnlockPinPage();
-    }
+    return Scaffold(
+      appBar: AppBar(),
+      body: Builder(
+        builder: (context) {
+          switch (controller.pinPageType) {
+            case PinPageType.unlock:
+              return const UnlockPinPage();
+            case PinPageType.onboarding:
+              return const OnboardingPinPage();
+            default:
+              return const UnlockPinPage();
+          }
+        },
+      ),
+    );
   }
 }
 
