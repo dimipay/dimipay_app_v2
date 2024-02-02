@@ -16,6 +16,7 @@ class AppLoader {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await dotenv.load(fileName: "env/.env", isOptional: true);
     Get.lazyPut<ApiProvider>(() => DevApiProvider());
+
     await Get.putAsync(() => AuthService().init());
     if (!kIsWeb) { // 웹에서는 Platform.isAndroid 사용 불가, 부득이하게 이중 If문 사용
       if (Platform.isAndroid) {
