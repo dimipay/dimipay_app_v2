@@ -14,9 +14,15 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         child: Column(
           children: [
             const DPAppbar(header: '카드등록'),
-            _buildCardRegistrationForm(),
-            const Spacer(),
-            _buildActionButtons(),
+            SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  _buildCardRegistrationForm(),
+                  _buildActionButtons(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -33,8 +39,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             children: [
               Text(
                 '신용/체크카드 등록 가능해요',
-                style:
-                    DPTypography.itemDescription(color: DPColors.grayscale500),
+                style: DPTypography.itemDescription(color: DPColors.grayscale500),
               ),
               const Spacer(),
               Row(
@@ -44,14 +49,12 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                     height: 24,
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: DPBoxDecorations.box1,
-                    child: const Icon(Icons.check_rounded,
-                        color: DPColors.grayscale500, size: 16),
+                    child: const Icon(Icons.check_rounded, color: DPColors.grayscale500, size: 16),
                   ),
                   const SizedBox(width: 10),
                   Text(
                     '법인 카드',
-                    style: DPTypography.itemDescription(
-                        color: DPColors.grayscale600),
+                    style: DPTypography.itemDescription(color: DPColors.grayscale600),
                   ),
                 ],
               )
@@ -72,28 +75,28 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
 
   List<Widget> _buildFormFields() {
     return [
-      _buildTextFormField(
+      Obx(() => _buildTextFormField(
         controller: controller.nameFieldController,
         focusNode: controller.nameFocusNode,
         labelText: '카드 이름',
         hintText: '카드 이름을 입력해주세요',
         maxLength: 20,
-        isFieldFocused: controller.isTextFieldInFocus(controller.nameFocusNode),
-      ),
+        isFieldFocused: controller.isNameFocused.value,
+      )),
       _buildSpacer(),
-      _buildTextFormField(
+      Obx(() => _buildTextFormField(
         controller: controller.cardNumberFieldController,
         focusNode: controller.cardNumberFocusNode,
         labelText: '카드 번호',
         hintText: '0000-0000-0000-0000',
         maxLength: 19,
         keyboardType: TextInputType.number,
-        isFieldFocused: controller.isTextFieldInFocus(controller.cardNumberFocusNode),
-      ),
+        isFieldFocused: controller.isCardNumberFocused.value,
+      )),
       _buildSpacer(),
       _buildRowFields(),
       _buildSpacer(),
-      _buildTextFormField(
+      Obx(() => _buildTextFormField(
         controller: controller.passwordFieldController,
         focusNode: controller.passwordFocusNode,
         labelText: '카드 비밀번호',
@@ -101,18 +104,48 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         maxLength: 2,
         obscureText: true,
         keyboardType: TextInputType.number,
-        isFieldFocused: controller.isTextFieldInFocus(controller.passwordFocusNode),
-      ),
+        isFieldFocused: controller.isPasswordFocused.value,
+      )),
       _buildSpacer(),
-      _buildTextFormField(
+      Obx(() => _buildTextFormField(
         controller: controller.ownerNameFieldController,
         focusNode: controller.ownerNameFocusNode,
         labelText: '카드 소유자 이름',
         hintText: '카드에 적혀있는 영문으로 입력해주세요',
-        isFieldFocused: controller.isTextFieldInFocus(controller.ownerNameFocusNode),
-      ),
+        isFieldFocused: controller.isOwnerNameFocused.value,
+      )),
       const SizedBox(height: 24),
     ];
+  }
+
+  Widget _buildRowFields() {
+    return Row(
+      children: [
+        Expanded(
+          child: Obx(() => _buildTextFormField(
+            controller: controller.expiredDateFieldController,
+            focusNode: controller.expiredDateFocusNode,
+            labelText: '유효기간',
+            hintText: 'MM/YY',
+            maxLength: 5,
+            keyboardType: TextInputType.number,
+            isFieldFocused: controller.isExpiredDateFocused.value,
+          )),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Obx(() => _buildTextFormField(
+            controller: controller.ownerPersonalNumFieldController,
+            focusNode: controller.ownerPersonalNumFocusNode,
+            labelText: '생년월일 / 사업자번호',
+            hintText: '6 / 10자리',
+            maxLength: 10,
+            keyboardType: TextInputType.number,
+            isFieldFocused: controller.isOwnerPersonalNumFocused.value,
+          )),
+        ),
+      ],
+    );
   }
 
   Widget _buildSpacer() => const SizedBox(height: 16);
@@ -143,37 +176,6 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
     );
   }
 
-
-  Widget _buildRowFields() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildTextFormField(
-            controller: controller.expiredDateFieldController,
-            focusNode: controller.expiredDateFocusNode,
-            labelText: '유효기간',
-            hintText: 'MM/YY',
-            maxLength: 5,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isTextFieldInFocus(controller.expiredDateFocusNode),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildTextFormField(
-            controller: controller.ownerPersonalNumFieldController,
-            focusNode: controller.ownerPersonalNumFocusNode,
-            labelText: '생년월일 / 사업자번호',
-            hintText: '6 / 10자리',
-            maxLength: 10,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isTextFieldInFocus(controller.ownerPersonalNumFocusNode),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildActionButtons() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
@@ -198,12 +200,9 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.flip_rounded,
-                color: DPColors.grayscale600, size: 20),
+            const Icon(Icons.flip_rounded, color: DPColors.grayscale600, size: 20),
             const SizedBox(width: 10),
-            Text('카드 스캔하기',
-                style:
-                    DPTypography.itemDescription(color: DPColors.grayscale600)),
+            Text('카드 스캔하기', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
           ],
         ),
       ),
@@ -221,9 +220,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('등록하기',
-                style:
-                    DPTypography.itemDescription(color: DPColors.grayscale100)),
+            Text('등록하기', style: DPTypography.itemDescription(color: DPColors.grayscale100)),
           ],
         ),
       ),
