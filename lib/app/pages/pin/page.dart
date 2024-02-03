@@ -17,6 +17,8 @@ class PinPage extends GetView<PinPageController> {
               return const UnlockPinPage();
             case PinPageType.onboarding:
               return const OnboardingPinPage();
+            case PinPageType.editPin:
+              return const EditPinPage();
             default:
               return const UnlockPinPage();
           }
@@ -52,6 +54,38 @@ class UnlockPinPage extends GetView<PinPageController> {
         onPinComplete: controller.validatePin,
         pinCouont: controller.pinCount,
       ),
+    );
+  }
+}
+
+class EditPinPage extends GetView<PinPageController> {
+  const EditPinPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () {
+        switch (controller.status) {
+          case PinPageStatus.preCheck:
+            return PinPageBase(
+              headerText: '기존의 결제 핀을\n입력해주세요',
+              onPinComplete: controller.changePinPreCheck,
+              pinCouont: controller.pinCount,
+            );
+          case PinPageStatus.nomal:
+            return PinPageBase(
+              headerText: '앞으로 사용할\n새 결제 핀을 입력해주세요',
+              onPinComplete: controller.changePinNomal,
+              pinCouont: controller.pinCount,
+            );
+          case PinPageStatus.doubleCheck:
+            return PinPageBase(
+              headerText: '앞으로 사용할\n결제 핀을 다시 입력해주세요',
+              onPinComplete: controller.changePinDoubleCheck,
+              pinCouont: controller.pinCount,
+            );
+        }
+      },
     );
   }
 }

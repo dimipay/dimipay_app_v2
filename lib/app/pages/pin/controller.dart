@@ -5,12 +5,13 @@ import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 enum PinPageType {
-  onboarding,
   unlock,
+  onboarding,
   createPin,
   editPin,
 }
@@ -36,6 +37,8 @@ class PinPageController extends GetxController {
   final Rx<String> _pin = Rx('');
   String get pin => _pin.value;
 
+  late String _newPin;
+
   final Rx<int?> _pinCount = Rx(null);
   int? get pinCount => _pinCount.value;
 
@@ -47,12 +50,25 @@ class PinPageController extends GetxController {
   @override
   void onInit() {
     _shufleList();
+    _initStatus();
     super.onInit();
   }
 
   void _shufleList() {
     _nums.value.shuffle();
     _nums.refresh();
+  }
+
+  void _initStatus() {
+    if (pinPageType == PinPageType.unlock) {
+      _status.value = PinPageStatus.nomal;
+    } else if (pinPageType == PinPageType.onboarding) {
+      _status.value = PinPageStatus.nomal;
+    } else if (pinPageType == PinPageType.editPin) {
+      _status.value = PinPageStatus.preCheck;
+    } else if (pinPageType == PinPageType.createPin) {
+      _status.value = PinPageStatus.nomal;
+    }
   }
 
   void onPinTap(String value) async {
@@ -89,6 +105,40 @@ class PinPageController extends GetxController {
       _pinCount.value = 0;
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     }
+  }
+
+  Future<void> changePinPreCheck() async {
+    try {
+      await authService.validatePin(pin);
+      _pinCount.value = null;
+      _status.value = PinPageStatus.nomal;
+      clearPin();
+      _shufleList();
+    } on IncorrectPinException catch (e) {
+      _pinCount.value = e.left;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+    } on PinLockException catch (_) {
+      _pinCount.value = 0;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+    }
+  }
+
+  Future<void> changePinNomal() async {
+    _newPin = pin;
+    _status.value = PinPageStatus.doubleCheck;
+    clearPin();
+    _shufleList();
+  }
+
+  Future<void> changePinDoubleCheck() async {
+    try {
+      if (pin != _newPin) {
+        DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
+        return;
+      }
+      await authService.changePin(authService.pin!, pin);
+      Get.back();
+    } catch (e) {}
   }
 
   void clearPin() {
