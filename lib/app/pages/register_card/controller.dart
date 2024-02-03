@@ -17,6 +17,13 @@ class RegisterCardPageController extends GetxController {
   final Rx<String?> password = Rx(null);
   final Rx<String?> ownerName = Rx(null);
 
+  final Rx<bool> isNameFocused = false.obs;
+  final Rx<bool> isCardNumberFocused = false.obs;
+  final Rx<bool> isExpiredDateFocused = false.obs;
+  final Rx<bool> isOwnerPersonalNumFocused = false.obs;
+  final Rx<bool> isPasswordFocused = false.obs;
+  final Rx<bool> isOwnerNameFocused = false.obs;
+
   final TextEditingController nameFieldController = TextEditingController();
   final TextEditingController cardNumberFieldController = TextEditingController();
   final TextEditingController expiredDateFieldController = TextEditingController();
@@ -43,6 +50,17 @@ class RegisterCardPageController extends GetxController {
     ownerPersonalNumFieldController.addListener(onBirthdayChange);
     passwordFieldController.addListener(onPasswordChange);
     ownerNameFieldController.addListener(onOwnerNameChange);
+
+    _setupFocusNodeListeners();
+  }
+
+  void _setupFocusNodeListeners() {
+    nameFocusNode.addListener(() => isNameFocused.value = nameFocusNode.hasFocus);
+    cardNumberFocusNode.addListener(() => isCardNumberFocused.value = cardNumberFocusNode.hasFocus);
+    expiredDateFocusNode.addListener(() => isExpiredDateFocused.value = expiredDateFocusNode.hasFocus);
+    ownerPersonalNumFocusNode.addListener(() => isOwnerPersonalNumFocused.value = ownerPersonalNumFocusNode.hasFocus);
+    passwordFocusNode.addListener(() => isPasswordFocused.value = passwordFocusNode.hasFocus);
+    ownerNameFocusNode.addListener(() => isOwnerNameFocused.value = ownerNameFocusNode.hasFocus);
   }
 
   void onNameChange() {
@@ -168,6 +186,7 @@ class RegisterCardPageController extends GetxController {
 
   @override
   void dispose() {
+    super.dispose();
     nameFieldController.dispose();
     cardNumberFieldController.dispose();
     expiredDateFieldController.dispose();
@@ -181,7 +200,5 @@ class RegisterCardPageController extends GetxController {
     ownerPersonalNumFocusNode.dispose();
     passwordFocusNode.dispose();
     ownerNameFocusNode.dispose();
-
-    super.dispose();
   }
 }
