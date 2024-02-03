@@ -63,26 +63,29 @@ class EditPinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      String headerText = '';
-
-      switch (controller.status) {
-        case PinPageStatus.preCheck:
-          headerText = '기존에 쓰고 있었던\n결제 핀을 입력해주세요';
-          break;
-        case PinPageStatus.doubleCheck:
-          headerText = '앞으로 사용할\n새 결제 핀을 입력해주세요';
-          break;
-        case PinPageStatus.nomal:
-          headerText = '앞으로 사용할\n결제 핀을 다시 입력해주세요';
-          break;
-      }
-
-      return PinPageBase(
-        headerText: headerText,
-        onPinComplete: controller.changePin,
-        pinCouont: controller.pinCount,
-      );
-    });
+    return Obx(
+      () {
+        switch (controller.status) {
+          case PinPageStatus.preCheck:
+            return PinPageBase(
+              headerText: '기존의 결제 핀을\n입력해주세요',
+              onPinComplete: controller.changePinPreCheck,
+              pinCouont: controller.pinCount,
+            );
+          case PinPageStatus.nomal:
+            return PinPageBase(
+              headerText: '앞으로 사용할\n새 결제 핀을 입력해주세요',
+              onPinComplete: controller.changePinNomal,
+              pinCouont: controller.pinCount,
+            );
+          case PinPageStatus.doubleCheck:
+            return PinPageBase(
+              headerText: '앞으로 사용할\n결제 핀을 다시 입력해주세요',
+              onPinComplete: controller.changePinDoubleCheck,
+              pinCouont: controller.pinCount,
+            );
+        }
+      },
+    );
   }
 }
