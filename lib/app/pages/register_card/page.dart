@@ -45,23 +45,24 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                 '신용/체크카드 등록 가능해요',
                 style: DPTypography.itemDescription(color: DPColors.grayscale500),
               ),
-              const Spacer(),
-              Row(
-                children: [
-                  Container(
-                    width: 24,
-                    height: 24,
-                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: DPBoxDecorations.box1,
-                    child: const Icon(Icons.check_rounded, color: DPColors.grayscale500, size: 16),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    '법인 카드',
-                    style: DPTypography.itemDescription(color: DPColors.grayscale600),
-                  ),
-                ],
-              )
+
+              // const Spacer(),
+              // Row(
+              //   children: [
+              //     Container(
+              //       width: 24,
+              //       height: 24,
+              //       margin: const EdgeInsets.symmetric(horizontal: 4),
+              //       decoration: DPBoxDecorations.box1,
+              //       child: const Icon(Icons.check_rounded, color: DPColors.grayscale500, size: 16),
+              //     ),
+              //     const SizedBox(width: 10),
+              //     Text(
+              //       '법인 카드',
+              //       style: DPTypography.itemDescription(color: DPColors.grayscale600),
+              //     ),
+              //   ],
+              // )
             ],
           ),
           const SizedBox(height: 16),
@@ -103,7 +104,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       Obx(() => _buildTextFormField(
             controller: controller.passwordFieldController,
             focusNode: controller.passwordFocusNode,
-            labelText: '카드 비밀번호',
+            labelText: '비밀번호',
             hintText: '앞 2자리',
             maxLength: 2,
             obscureText: true,
@@ -114,7 +115,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       Obx(() => _buildTextFormField(
             controller: controller.ownerNameFieldController,
             focusNode: controller.ownerNameFocusNode,
-            labelText: '카드 소유자 이름',
+            labelText: '소유자명',
             hintText: '카드에 적혀있는 영문으로 입력해주세요',
             isFieldFocused: controller.isOwnerNameFocused.value,
           )),
