@@ -36,7 +36,7 @@ class AuthService {
   String? get bioKey => _bioKey;
   String? get pin => _pin;
 
-  Future<String?> _signInWithGoogle({bool selectAccount = true}) async {
+  Future<String?> _signInWithGoogle() async {
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
     if (googleAccount == null) {
       return null;

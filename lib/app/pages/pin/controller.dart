@@ -131,14 +131,12 @@ class PinPageController extends GetxController {
   }
 
   Future<void> changePinDoubleCheck() async {
-    try {
-      if (pin != _newPin) {
-        DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
-        return;
-      }
-      await authService.changePin(authService.pin!, pin);
-      Get.back();
-    } catch (e) {}
+    if (pin != _newPin) {
+      DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
+      return;
+    }
+    await authService.changePin(authService.pin!, pin);
+    Get.back();
   }
 
   void clearPin() {
@@ -147,8 +145,9 @@ class PinPageController extends GetxController {
 }
 
 Future<String?> showPinDialog() async {
-  await Get.bottomSheet(
-    SafeArea(
+  await showModalBottomSheet(
+    context: Get.context!,
+    builder: (_) => SafeArea(
       bottom: false,
       child: Padding(
         padding: const EdgeInsets.only(top: 0),
@@ -157,7 +156,7 @@ Future<String?> showPinDialog() async {
           child: Container(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.only(top: 80),
+              padding: const EdgeInsets.only(top: 32),
               child: GetBuilder(
                   init: PinPageController(),
                   builder: (context) {
@@ -169,7 +168,10 @@ Future<String?> showPinDialog() async {
       ),
     ),
     isScrollControlled: true,
-    ignoreSafeArea: false,
+    useSafeArea: true,
+    showDragHandle: true,
+    backgroundColor: Colors.white,
+    elevation: 0,
   );
   AuthService authService = Get.find<AuthService>();
   return authService.pin;

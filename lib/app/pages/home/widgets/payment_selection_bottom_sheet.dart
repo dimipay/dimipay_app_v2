@@ -3,17 +3,17 @@ import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'button.dart';
-import 'divider.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/divider.dart';
 
-class PaymentSelection extends StatefulWidget {
-  const PaymentSelection({Key? key}) : super(key: key);
+class PaymentSelectionBottomSheet extends StatefulWidget {
+  const PaymentSelectionBottomSheet({Key? key}) : super(key: key);
 
   @override
-  State<PaymentSelection> createState() => _PaymentSelectionState();
+  State<PaymentSelectionBottomSheet> createState() => _PaymentSelectionBottomSheetState();
 }
 
-class _PaymentSelectionState extends State<PaymentSelection> {
+class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomSheet> {
   String selectedOption = 'X CHECK';
 
   void selectOption(String option) => setState(() => selectedOption = option);

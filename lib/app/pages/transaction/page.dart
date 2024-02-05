@@ -13,7 +13,7 @@ class TransactionPage extends GetView<TransactionPageController> {
         }
         return Obx(() => ListView.builder(
               shrinkWrap: true,
-              itemCount: state!.length + (controller.transactionService.hasReachedEnd.value ? 0 : 1),
+              itemCount: state.length + (controller.transactionService.hasReachedEnd.value ? 0 : 1),
               controller: controller.scrollController,
               itemBuilder: (context, index) {
                 if (index >= state.length) {
