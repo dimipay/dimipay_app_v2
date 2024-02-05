@@ -17,15 +17,16 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             const appbar.DPAppbar(header: '카드등록'),
             Expanded(
               child: SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     _buildCardRegistrationForm(),
+                    _buildActionButtons(),
                   ],
                 ),
               ),
             ),
-            _buildActionButtons(),
           ],
         ),
       ),
