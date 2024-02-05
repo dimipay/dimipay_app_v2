@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,16 +14,18 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       body: SafeArea(
         child: Column(
           children: [
-            const DPAppbar(header: '카드등록'),
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  _buildCardRegistrationForm(),
-                  _buildActionButtons(),
-                ],
+            const appbar.DPAppbar(header: '카드등록'),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    _buildCardRegistrationForm(),
+                  ],
+                ),
               ),
             ),
+            _buildActionButtons(),
           ],
         ),
       ),
@@ -76,44 +79,44 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
   List<Widget> _buildFormFields() {
     return [
       Obx(() => _buildTextFormField(
-        controller: controller.nameFieldController,
-        focusNode: controller.nameFocusNode,
-        labelText: '카드 이름',
-        hintText: '카드 이름을 입력해주세요',
-        maxLength: 20,
-        isFieldFocused: controller.isNameFocused.value,
-      )),
+            controller: controller.nameFieldController,
+            focusNode: controller.nameFocusNode,
+            labelText: '카드 이름',
+            hintText: '카드 이름을 입력해주세요',
+            maxLength: 20,
+            isFieldFocused: controller.isNameFocused.value,
+          )),
       _buildSpacer(),
       Obx(() => _buildTextFormField(
-        controller: controller.cardNumberFieldController,
-        focusNode: controller.cardNumberFocusNode,
-        labelText: '카드 번호',
-        hintText: '0000-0000-0000-0000',
-        maxLength: 19,
-        keyboardType: TextInputType.number,
-        isFieldFocused: controller.isCardNumberFocused.value,
-      )),
+            controller: controller.cardNumberFieldController,
+            focusNode: controller.cardNumberFocusNode,
+            labelText: '카드 번호',
+            hintText: '0000-0000-0000-0000',
+            maxLength: 19,
+            keyboardType: TextInputType.number,
+            isFieldFocused: controller.isCardNumberFocused.value,
+          )),
       _buildSpacer(),
       _buildRowFields(),
       _buildSpacer(),
       Obx(() => _buildTextFormField(
-        controller: controller.passwordFieldController,
-        focusNode: controller.passwordFocusNode,
-        labelText: '카드 비밀번호',
-        hintText: '앞 2자리',
-        maxLength: 2,
-        obscureText: true,
-        keyboardType: TextInputType.number,
-        isFieldFocused: controller.isPasswordFocused.value,
-      )),
+            controller: controller.passwordFieldController,
+            focusNode: controller.passwordFocusNode,
+            labelText: '카드 비밀번호',
+            hintText: '앞 2자리',
+            maxLength: 2,
+            obscureText: true,
+            keyboardType: TextInputType.number,
+            isFieldFocused: controller.isPasswordFocused.value,
+          )),
       _buildSpacer(),
       Obx(() => _buildTextFormField(
-        controller: controller.ownerNameFieldController,
-        focusNode: controller.ownerNameFocusNode,
-        labelText: '카드 소유자 이름',
-        hintText: '카드에 적혀있는 영문으로 입력해주세요',
-        isFieldFocused: controller.isOwnerNameFocused.value,
-      )),
+            controller: controller.ownerNameFieldController,
+            focusNode: controller.ownerNameFocusNode,
+            labelText: '카드 소유자 이름',
+            hintText: '카드에 적혀있는 영문으로 입력해주세요',
+            isFieldFocused: controller.isOwnerNameFocused.value,
+          )),
       const SizedBox(height: 24),
     ];
   }
@@ -123,26 +126,26 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       children: [
         Expanded(
           child: Obx(() => _buildTextFormField(
-            controller: controller.expiredDateFieldController,
-            focusNode: controller.expiredDateFocusNode,
-            labelText: '유효기간',
-            hintText: 'MM/YY',
-            maxLength: 5,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isExpiredDateFocused.value,
-          )),
+                controller: controller.expiredDateFieldController,
+                focusNode: controller.expiredDateFocusNode,
+                labelText: '유효기간',
+                hintText: 'MM/YY',
+                maxLength: 5,
+                keyboardType: TextInputType.number,
+                isFieldFocused: controller.isExpiredDateFocused.value,
+              )),
         ),
         const SizedBox(width: 16),
         Expanded(
           child: Obx(() => _buildTextFormField(
-            controller: controller.ownerPersonalNumFieldController,
-            focusNode: controller.ownerPersonalNumFocusNode,
-            labelText: '생년월일 / 사업자번호',
-            hintText: '6 / 10자리',
-            maxLength: 10,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isOwnerPersonalNumFocused.value,
-          )),
+                controller: controller.ownerPersonalNumFieldController,
+                focusNode: controller.ownerPersonalNumFocusNode,
+                labelText: '생년월일 / 사업자번호',
+                hintText: '6 / 10자리',
+                maxLength: 10,
+                keyboardType: TextInputType.number,
+                isFieldFocused: controller.isOwnerPersonalNumFocused.value,
+              )),
         ),
       ],
     );
