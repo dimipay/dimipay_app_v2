@@ -15,8 +15,8 @@ class PaymentPage extends GetView<PaymentPageController> {
         children: [
           Obx(
             () => ListTile(
-              title: Text(controller.mainPaymentMethod?.name ?? ""),
-              subtitle: Text(controller.mainPaymentMethod?.last4Digit ?? ""),
+              title: Text(controller.paymentService.mainMethod?.name ?? ""),
+              subtitle: Text(controller.paymentService.mainMethod?.last4Digit ?? ""),
             ),
           ),
           const Divider(),

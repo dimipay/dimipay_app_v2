@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
-import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -148,14 +147,7 @@ class RegisterCardPageController extends GetxController {
   void addPaymentMethod() async {
     if (isFormValid) {
       try {
-        await paymentService.createPaymentMethod(
-            name: name.value!,
-            number: cardNumber.value!,
-            year: expiredAt.value!.year.toString().padLeft(2, '0'),
-            month: expiredAt.value!.month.toString().padLeft(2, '0'),
-            idNo: ownerPersonalNum.value!,
-            pw: password.value!,
-            ownerName: ownerName.value!);
+        await paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: ownerName.value!);
       } on DioException catch (e) {
         log(e.response!.data.toString());
         DPErrorSnackBar().open(e.response!.data["message"]);

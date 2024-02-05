@@ -8,8 +8,8 @@ class EditCardPage extends GetView<EditCardPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('EditCardPage')),
-      body: SafeArea(
+      appBar: AppBar(title: const Text('EditCardPage')),
+      body: const SafeArea(
         child: Center(
           child: Text('EditCardPage is working'),
         ),
