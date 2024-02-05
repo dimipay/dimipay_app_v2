@@ -40,48 +40,55 @@ class HomePage extends GetView<HomePageController> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              Obx(
-                () => AnimatedCrossFade(
-                  firstChild: const UserInfoAreaLoading(),
-                  secondChild: const UserInfoArea(),
-                  crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 100),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Obx(
+                      () => AnimatedCrossFade(
+                        firstChild: const UserInfoAreaLoading(),
+                        secondChild: const UserInfoArea(),
+                        crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: const Duration(milliseconds: 100),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Obx(
+                      () => AnimatedCrossFade(
+                        firstChild: const PayAreaLoading(),
+                        secondChild: const PayArea(),
+                        crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: const Duration(milliseconds: 100),
+                      ),
+                    ),
+                    // PayArea()
+                    // const SizedBox(height: 20),
+                    // Container(
+                    //   padding: const EdgeInsets.all(20),
+                    //   decoration: DPBoxDecorations.box3,
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Text('내 쿠폰', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 20),
-              Obx(
-                () => AnimatedCrossFade(
-                  firstChild: const PayAreaLoading(),
-                  secondChild: const PayArea(),
-                  crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                  duration: const Duration(milliseconds: 100),
-                ),
-              ),
-              // PayArea()
-              // const SizedBox(height: 20),
-              // Container(
-              //   padding: const EdgeInsets.all(20),
-              //   decoration: DPBoxDecorations.box3,
-              //   child: Row(
-              //     children: [
-              //       Expanded(
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text('내 쿠폰', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
-              //           ],
-              //         ),
-              //       ),
-              //       const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
