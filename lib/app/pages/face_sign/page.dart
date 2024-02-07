@@ -1,5 +1,8 @@
 import 'package:dimipay_app_v2/app/pages/face_sign/controller.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart' show DPAppbar;
+import 'package:dimipay_design_kit/dimipay_design_kit.dart' hide DPAppbar;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class FaceSignPage extends GetView<FaceSignPageController> {
@@ -8,24 +11,188 @@ class FaceSignPage extends GetView<FaceSignPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('FaceSignPage'),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const DPAppbar(header: '얼굴등록'),
+            Expanded(child: Obx(() {
+              if (controller.faceSignService.isRegistered) {
+                return FaceSignRegistered(controller: controller);
+              } else {
+                return FaceSignNotRegistered(controller: controller);
+              }
+            })),
+          ],
+        ),
       ),
-      body: Center(
+    );
+  }
+}
+
+class FaceSignNotRegistered extends StatelessWidget {
+  const FaceSignNotRegistered({
+    super.key,
+    required this.controller,
+  });
+
+  final FaceSignPageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
           child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 24),
+              SvgPicture.asset(
+                'assets/images/face-sign.svg',
+              ),
+              const SizedBox(height: 24),
+              _DescriptionCard(
+                title: "FaceSign이란?",
+                description: Text("FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.",
+                    style: DPTypography.paragraph1(color: DPColors.grayscale700)),
+              ),
+              const _DescriptionCard(
+                title: "정확한 인식을 위해",
+                description: UnorderedList(
+                    ["평온한 표정으로 카메라를 응시해주세요.", "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.", "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."]),
+              ),
+            ],
+          ),
+        ),
+        controller.obx(
+          (_) => DPButton(
+            onTap: controller.registerFaceSign,
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: DPColors.primaryBrand),
+              child: Center(child: Text("등록하기", style: DPTypography.itemDescription(color: DPColors.grayscale100))),
+            ),
+          ),
+          onLoading: DPButton(
+            onTap: () {},
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: DPColors.grayscale500),
+              child: Center(child: Text("등록 중...", style: DPTypography.itemDescription(color: DPColors.grayscale100))),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class UnorderedList extends StatelessWidget {
+  const UnorderedList(this.texts, {super.key});
+  final List<String> texts;
+
+  @override
+  Widget build(BuildContext context) {
+    var widgetList = <Widget>[];
+    for (var text in texts) {
+      // Add list item
+      widgetList.add(UnorderedListItem(text));
+      // Add space between items
+      widgetList.add(const SizedBox(height: 5.0));
+    }
+
+    return Column(children: widgetList);
+  }
+}
+
+class UnorderedListItem extends StatelessWidget {
+  const UnorderedListItem(this.text, {super.key});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("• ", style: DPTypography.paragraph1(color: DPColors.grayscale700)),
+        Expanded(
+          child: Text(text, style: DPTypography.paragraph1(color: DPColors.grayscale700)),
+        ),
+      ],
+    );
+  }
+}
+
+class _DescriptionCard extends StatelessWidget {
+  final String title;
+  final Widget description;
+
+  const _DescriptionCard({super.key, required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Obx(() => Text(controller.faceSignService.isRegistered ? 'Registered' : 'Not Registered')),
-          TextButton(
-            onPressed: controller.registerFaceSign,
-            child: const Text('Register'),
+          Text(
+            title,
+            style: DPTypography.header2(color: DPColors.grayscale900),
           ),
-          TextButton(
-            onPressed: controller.deleteFaceSign,
-            child: const Text('Unregister'),
-          ),
+          const SizedBox(height: 12),
+          description
         ],
-      )),
+      ),
+    );
+  }
+}
+
+class FaceSignRegistered extends StatelessWidget {
+  const FaceSignRegistered({
+    super.key,
+    required this.controller,
+  });
+
+  final FaceSignPageController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/images/face-sign.svg',
+              ),
+              const SizedBox(height: 24),
+              Text("Face Sign이 등록되었어요.", style: DPTypography.header2(color: DPColors.grayscale1000)),
+            ],
+          ),
+        ),
+        DPButton(
+            onTap: controller.deleteFaceSign,
+            isTapEffectEnabled: false,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Text("등록 삭제하기", style: DPTypography.paragraph1Underlined(color: DPColors.grayscale600)),
+            )),
+        const SizedBox(height: 8),
+        DPButton(
+          onTap: controller.registerFaceSign,
+          child: Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: DPColors.primaryBrand),
+            child: Center(child: Text("다시 등록하기", style: DPTypography.itemDescription(color: DPColors.grayscale100))),
+          ),
+        ),
+      ],
     );
   }
 }
