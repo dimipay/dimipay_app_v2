@@ -47,11 +47,19 @@ class PayArea extends GetView<HomePageController> {
             ],
           ),
           const SizedBox(height: 24),
-
-          // const QRArea(
-          //   payload: 'asdasdfsdfsdafasjsdfjsadlfjsadlfjasldfjlkasdfjl;asdfjsad;kfjklsadfjjlasdkjflks;adfj;ksdafj;laejfoieajfeif',
-          // ),
-          const QRAreaLocked(),
+          Obx(() {
+            if (controller.paymentService.mainMethod == null) {
+              return const QRAreaNoPaymentRegistered();
+            }
+            if (controller.authService.pin == null) {
+              return const QRAreaLocked();
+            }
+            if (controller.payService.paymentToken == null) {
+              return const QRAreaLoading();
+            } else {
+              return QRArea(payload: controller.payService.paymentToken!);
+            }
+          }),
           const SizedBox(height: 24),
           // PaymentAreaNoPaymentRegistered(),
           Obx(() {
