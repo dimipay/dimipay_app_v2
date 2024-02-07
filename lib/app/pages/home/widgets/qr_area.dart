@@ -40,10 +40,7 @@ class QRAreaLocked extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        await showPinDialog();
-        await controller.tryRequestQR();
-      },
+      onTap: controller.tryRequestQR,
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(
