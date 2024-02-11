@@ -44,7 +44,7 @@ abstract class DPBoxDecorations {
   );
 
   static BoxDecoration accordion1 = const BoxDecoration(
-    color: DPColors.grayscale100,
+    color: DPColors.grayscale200,
     borderRadius: BorderRadius.all(Radius.circular(16)),
     border: Border.fromBorderSide(BorderSide(
       color: DPColors.primaryBrand,
