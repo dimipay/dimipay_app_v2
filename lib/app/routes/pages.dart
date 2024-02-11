@@ -10,10 +10,12 @@ import 'package:dimipay_app_v2/app/pages/info/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
-import 'package:dimipay_app_v2/app/pages/pin/binding.dart';
-import 'package:dimipay_app_v2/app/pages/pin/page.dart';
+import 'package:dimipay_app_v2/app/pages/onboarding/binding.dart';
+import 'package:dimipay_app_v2/app/pages/onboarding/page.dart';
 import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
 import 'package:dimipay_app_v2/app/pages/payment/page.dart';
+import 'package:dimipay_app_v2/app/pages/pin/binding.dart';
+import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/register_card.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
@@ -55,6 +57,13 @@ class AppPages {
     ]),
     GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding()),
     GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding()),
-    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding())
+    GetPage(
+        name: Routes.EDIT_CARD,
+        page: () => const EditCardPage(),
+        binding: EditCardPageBinding()),
+    GetPage(
+        name: Routes.ONBOARDING,
+        page: () => const OnboardingPage(),
+        binding: OnboardingPageBinding()),
   ];
 }
