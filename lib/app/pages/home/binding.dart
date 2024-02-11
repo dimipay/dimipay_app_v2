@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
@@ -12,5 +13,6 @@ class HomePageBinding implements Bindings {
     Get.lazyPut(() => UserService());
     Get.lazyPut(() => PaymentService());
     Get.lazyPut(() => PayService());
+    Get.lazyPut(() => LocalAuthService());
   }
 }

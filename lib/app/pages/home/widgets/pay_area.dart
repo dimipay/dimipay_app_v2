@@ -56,13 +56,12 @@ class PayArea extends GetView<HomePageController> {
           ),
           const SizedBox(height: 24),
           Obx(() {
+            controller.payService.paymentToken;
             if (controller.paymentService.mainMethod == null) {
               return const QRAreaNoPaymentRegistered();
-            }
-            if (controller.authService.pin == null) {
+            } else if (controller.authService.bioKey == null && controller.authService.pin == null) {
               return const QRAreaLocked();
-            }
-            if (controller.payService.paymentToken == null) {
+            } else if (controller.payService.paymentToken == null) {
               return const QRAreaLoading();
             } else {
               return QRArea(payload: controller.payService.paymentToken!);
