@@ -62,14 +62,20 @@ class InfoPage extends GetView<InfoPageController> {
               title: '결제 내역',
               onTap: () => Get.toNamed(Routes.TRANSACTION),
             ),
-            _MenuItem(
-              title: '결제 수단',
-              onTap: () => Get.toNamed(Routes.PAYMENT),
-            ),
-            _MenuItem(
-              title: 'Face Sign',
-              onTap: () => Get.toNamed(Routes.FACESIGN),
-            ),
+            Obx(() {
+              return _MenuItem(
+                title: '결제 수단',
+                onTap: () => Get.toNamed(Routes.PAYMENT),
+                hint: controller.paymentService.paymentMethods == null ? null : '${controller.paymentService.paymentMethods!.length}개',
+              );
+            }),
+            Obx(() {
+              return _MenuItem(
+                title: 'Face Sign',
+                onTap: () => Get.toNamed(Routes.FACESIGN),
+                hint: controller.faceSignService.isRegistered ? '등록 됨' : '등록 안됨',
+              );
+            }),
             _MenuItem(
               title: '핀 변경',
               onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
@@ -103,18 +109,14 @@ class LogOutButton extends StatelessWidget {
 
 class _MenuItem extends StatelessWidget {
   final String title;
-  final IconData icon;
-  final Color iconColor;
+  final String? hint;
   final void Function()? onTap;
-
-  static const Color _defaultIconColor = Colors.grey;
 
   const _MenuItem({
     Key? key,
     required this.title,
-    this.icon = Icons.arrow_forward_ios_rounded,
-    this.iconColor = _defaultIconColor,
     this.onTap,
+    this.hint,
   }) : super(key: key);
 
   @override
@@ -131,7 +133,13 @@ class _MenuItem extends StatelessWidget {
               style: DPTypography.itemTitle(color: DPColors.grayscale800),
             ),
             const Spacer(),
-            Icon(icon, size: 16, color: iconColor),
+            Row(
+              children: [
+                hint == null ? Container() : Text(hint!, style: DPTypography.paragraph2(color: DPColors.grayscale700)),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
+              ],
+            ),
           ],
         ),
       ),
