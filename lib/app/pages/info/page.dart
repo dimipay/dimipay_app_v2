@@ -1,4 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/info/controller.dart';
+import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
@@ -56,10 +58,22 @@ class InfoPage extends GetView<InfoPageController> {
             ),
             const DPDivider(),
             const _SectionHeader(title: '결제 관리'),
-            const _MenuItem(title: '결제 내역'),
-            const _MenuItem(title: '결제 수단'),
-            const _MenuItem(title: 'Face Sign'),
-            const _MenuItem(title: '핀 변경'),
+            _MenuItem(
+              title: '결제 내역',
+              onTap: () => Get.toNamed(Routes.TRANSACTION),
+            ),
+            _MenuItem(
+              title: '결제 수단',
+              onTap: () => Get.toNamed(Routes.PAYMENT),
+            ),
+            _MenuItem(
+              title: 'Face Sign',
+              onTap: () => Get.toNamed(Routes.FACESIGN),
+            ),
+            _MenuItem(
+              title: '핀 변경',
+              onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
+            ),
             const DPDivider(),
             const _SectionHeader(title: '기타'),
             const _MenuItem(title: '앱 버전'),
@@ -91,6 +105,7 @@ class _MenuItem extends StatelessWidget {
   final String title;
   final IconData icon;
   final Color iconColor;
+  final void Function()? onTap;
 
   static const Color _defaultIconColor = Colors.grey;
 
@@ -99,22 +114,26 @@ class _MenuItem extends StatelessWidget {
     required this.title,
     this.icon = Icons.arrow_forward_ios_rounded,
     this.iconColor = _defaultIconColor,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        children: [
-          Text(
-            title,
-            style: DPTypography.itemTitle(color: DPColors.grayscale800),
-          ),
-          const Spacer(),
-          Icon(icon, size: 16, color: iconColor),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: DPTypography.itemTitle(color: DPColors.grayscale800),
+            ),
+            const Spacer(),
+            Icon(icon, size: 16, color: iconColor),
+          ],
+        ),
       ),
     );
   }
