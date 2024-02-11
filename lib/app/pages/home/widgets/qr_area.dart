@@ -1,5 +1,4 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +26,7 @@ class QRArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: QrImageView(
           data: payload,
-          version: QrVersions.auto,
+          version: 13,
         ),
       ),
     );

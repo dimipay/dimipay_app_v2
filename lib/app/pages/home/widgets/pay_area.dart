@@ -29,21 +29,29 @@ class PayArea extends GetView<HomePageController> {
                 ),
               ),
               const SizedBox(width: 16),
-              Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  const SizedBox(
-                    width: 34.0,
-                    height: 34.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1,
-                      // value: 1,
-                      color: DPColors.grayscale400,
-                    ),
-                  ),
-                  Text('18', style: DPTypography.token(color: DPColors.grayscale600)),
-                ],
-              )
+              Obx(
+                () {
+                  if (controller.timeRemaining.value == null) {
+                    return Container();
+                  } else {
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const SizedBox(
+                          width: 34.0,
+                          height: 34.0,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1,
+                            // value: 1,
+                            color: DPColors.grayscale400,
+                          ),
+                        ),
+                        Text(controller.timeRemaining.value!.inSeconds.toString(), style: DPTypography.token(color: DPColors.grayscale600)),
+                      ],
+                    );
+                  }
+                },
+              ),
             ],
           ),
           const SizedBox(height: 24),

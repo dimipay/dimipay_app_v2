@@ -22,6 +22,7 @@ class PayService extends GetxController with StateMixin<String> {
     try {
       change(null, status: RxStatus.loading());
       _paymentToken.value = null;
+      expireAt = null;
       Map res = await repository.getPaymentToken(paymentMethod: paymentMethod, pin: authService.pin, bioKey: authService.bioKey);
       _paymentToken.value = res['code'];
       expireAt = DateTime.parse(res['exp']);
