@@ -18,7 +18,7 @@ class AuthService {
   final Rx<JWTToken> _jwtToken = Rx(JWTToken());
   final Rx<JWTToken> _onboardingToken = Rx(JWTToken()); // /auth/login API에서 반환되는 AccessToken
   final Rx<bool> _isFirstVisit = Rx(false);
-  String? _pin;
+  final Rx<String?> _pin = Rx(null);
   String? _bioKey;
   Completer<void> _refreshTokenApiCompleter = Completer()..complete();
 
@@ -34,7 +34,7 @@ class AuthService {
   String? get onboardingToken => _onboardingToken.value.accessToken;
   bool get isFirstVisit => _isFirstVisit.value;
   String? get bioKey => _bioKey;
-  String? get pin => _pin;
+  String? get pin => _pin.value;
 
   Future<String?> _signInWithGoogle() async {
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
@@ -74,12 +74,12 @@ class AuthService {
 
   Future<void> changePin(String originalPin, String newPin) async {
     await repository.changePin(originalPin, newPin);
-    _pin = newPin;
+    _pin.value = newPin;
   }
 
   Future<void> validatePin(String pin) async {
     await repository.checkPin(pin);
-    _pin = pin;
+    _pin.value = pin;
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
@@ -116,7 +116,7 @@ class AuthService {
     if (!GetPlatform.isWeb) {
       await _setBioKey(bioKey!);
     }
-    _pin = paymentPin;
+    _pin.value = paymentPin;
 
     return _jwtToken.value;
   }
@@ -152,7 +152,7 @@ class AuthService {
     _jwtToken.value = JWTToken();
     _onboardingToken.value = JWTToken();
     _bioKey = null;
-    _pin = null;
+    _pin.value = null;
   }
 
   Future<void> logout() async {

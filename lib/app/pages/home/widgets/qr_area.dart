@@ -1,7 +1,9 @@
-import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
@@ -21,25 +23,23 @@ class QRArea extends StatelessWidget {
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: QrImageView(
           data: payload,
-          version: QrVersions.auto,
+          version: 13,
         ),
       ),
     );
   }
 }
 
-class QRAreaLocked extends StatelessWidget {
+class QRAreaLocked extends GetView<HomePageController> {
   const QRAreaLocked({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () async {
-        String? res = await showPinDialog();
-      },
+      onTap: controller.tryRequestQR,
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(
@@ -121,6 +121,36 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
                 style: DPTypography.token(color: DPColors.grayscale600),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class QRAreaLoading extends StatelessWidget {
+  const QRAreaLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: DPColors.grayscale100,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          border: Border.fromBorderSide(BorderSide(
+            color: DPColors.grayscale400,
+            width: 1,
+          )),
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Shimmer.fromColors(
+          baseColor: DPColors.grayscale300,
+          highlightColor: DPColors.grayscale200,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(color: Colors.red),
           ),
         ),
       ),
