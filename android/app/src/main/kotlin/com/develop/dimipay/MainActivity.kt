@@ -1,4 +1,4 @@
-package com.example.dimipay_app_v2
+package com.develop.dimipay
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
