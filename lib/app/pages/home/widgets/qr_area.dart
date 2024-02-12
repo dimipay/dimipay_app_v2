@@ -39,7 +39,7 @@ class QRAreaLocked extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: controller.tryRequestQR,
+      onTap: controller.requestAuthAndQR,
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(

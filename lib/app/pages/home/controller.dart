@@ -28,8 +28,13 @@ class HomePageController extends GetxController {
 
   @override
   void onInit() {
+    _prefetchAuthAndQR();
     userService.fetchUser();
-    paymentService.fetchPaymentMethods().then((_) => tryRequestQR());
+    paymentService.fetchPaymentMethods().then((_) {
+      if (authService.bioKey != null || authService.pin != null) {
+        _requestQR();
+      }
+    });
     _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
     super.onInit();
   }
@@ -52,7 +57,27 @@ class HomePageController extends GetxController {
     return false;
   }
 
-  Future<void> tryRequestQR() async {
+  Future<void> _requestQR() async {
+    await payService.fetchPaymentToken(paymentService.mainMethod!);
+    reserveQRRefresh(payService.expireAt!);
+  }
+
+  Future<void> _prefetchAuthAndQR() async {
+    if (authService.bioKey == null) {
+      await biometricAuth();
+    }
+    if (authService.bioKey == null && authService.pin == null) {
+      await showPinDialog();
+    }
+    if (authService.bioKey == null && authService.pin == null) {
+      return;
+    }
+    if (paymentService.mainMethod != null) {
+      await _requestQR();
+    }
+  }
+
+  Future<void> requestAuthAndQR() async {
     if (paymentService.mainMethod == null) {
       return;
     }
@@ -65,8 +90,7 @@ class HomePageController extends GetxController {
     if (authService.bioKey == null && authService.pin == null) {
       return;
     }
-    await payService.fetchPaymentToken(paymentService.mainMethod!);
-    reserveQRRefresh(payService.expireAt!);
+    await _requestQR();
   }
 
   void reserveQRRefresh(DateTime refreshAt, {bool recursive = true}) {
