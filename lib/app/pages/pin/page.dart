@@ -53,6 +53,7 @@ class UnlockPinPage extends GetView<PinPageController> {
         headerText: '핀을 입력해\n잠금을 해제하세요',
         onPinComplete: controller.validatePin,
         pinCouont: controller.pinCount,
+        faceIDAvailable: true,
       ),
     );
   }
