@@ -9,6 +9,7 @@ import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 
@@ -27,8 +28,7 @@ class HomePageController extends GetxController {
   Timer? _qrRefreshTimer;
 
   @override
-  void onInit() {
-    _prefetchAuthAndQR();
+  void onReady() {
     userService.fetchUser();
     paymentService.fetchPaymentMethods().then((_) {
       if (authService.bioKey != null || authService.pin != null) {
@@ -36,7 +36,9 @@ class HomePageController extends GetxController {
       }
     });
     _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
-    super.onInit();
+
+    prefetchAuthAndQR();
+    super.onReady();
   }
 
   Future<bool> biometricAuth() async {
@@ -62,7 +64,7 @@ class HomePageController extends GetxController {
     reserveQRRefresh(payService.expireAt!);
   }
 
-  Future<void> _prefetchAuthAndQR() async {
+  Future<void> prefetchAuthAndQR() async {
     if (authService.bioKey == null) {
       await biometricAuth();
     }
