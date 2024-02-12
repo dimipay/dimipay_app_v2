@@ -60,5 +60,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>디미페이의 결제 pin을 생체인증으로 해제할 때 사용됩니다.</string>
 </dict>
 </plist>

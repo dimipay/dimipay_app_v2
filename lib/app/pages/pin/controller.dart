@@ -5,9 +5,12 @@ import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 
 enum PinPageType {
   unlock,
@@ -57,6 +60,26 @@ class PinPageController extends GetxController {
   void _shufleList() {
     _nums.value.shuffle();
     _nums.refresh();
+  }
+
+  Future<bool> authWithFaceID() async {
+    final LocalAuthService localAuthService = Get.find<LocalAuthService>();
+    try {
+      final res = await localAuthService.bioAuth();
+
+      if (res) {
+        await authService.loadBioKey();
+        Get.back();
+        return true;
+      }
+    } on PlatformException catch (e) {
+      if (e.code == auth_error.notAvailable) {
+        return false;
+      } else {
+        DPErrorSnackBar().open('생체 인증을 사용할 수 없습니다.(code: ${e.code})');
+      }
+    }
+    return false;
   }
 
   void _initStatus() {

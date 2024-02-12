@@ -6,9 +6,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class PinPad extends StatelessWidget {
   final bool numpadEnabled;
   final bool backBtnEnabled;
+  final bool faceIDAvailable;
+  final void Function()? onFaceID;
   final void Function(String value)? onPinTap;
   final List<int> nums;
-  const PinPad(this.nums, {super.key, this.onPinTap, this.numpadEnabled = true, this.backBtnEnabled = true});
+  const PinPad(this.nums, {super.key, this.onPinTap, this.onFaceID, this.numpadEnabled = true, this.backBtnEnabled = true, this.faceIDAvailable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +109,12 @@ class PinPad extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              PinButton(child: Container()),
+              faceIDAvailable
+                  ? PinButton(
+                      child: SvgPicture.asset('assets/images/face_id.svg', height: 24),
+                      onTap: () => onFaceID?.call(),
+                    )
+                  : PinButton(child: Container()),
               PinButton(
                 onTap: () => onPinTap?.call(nums[9].toString()),
                 enabled: numpadEnabled,

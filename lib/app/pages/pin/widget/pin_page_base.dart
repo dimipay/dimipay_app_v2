@@ -10,6 +10,7 @@ class PinPageBase extends GetView<PinPageController> {
   final String headerText;
   final int? pinCouont;
   final String? helpText;
+  final bool faceIDAvailable;
   final FutureOr<void> Function()? onPinComplete;
   const PinPageBase({
     super.key,
@@ -17,6 +18,7 @@ class PinPageBase extends GetView<PinPageController> {
     this.pinCouont,
     this.helpText,
     this.onPinComplete,
+    this.faceIDAvailable = false,
   });
 
   bool get locked => pinCouont != null && pinCouont! <= 0;
@@ -103,6 +105,8 @@ class PinPageBase extends GetView<PinPageController> {
                     },
                     backBtnEnabled: !locked && controller.backBtnEnabled,
                     numpadEnabled: !locked && controller.numpadEnabled,
+                    faceIDAvailable: faceIDAvailable,
+                    onFaceID: () => controller.authWithFaceID(),
                   ),
                 ),
               ),
