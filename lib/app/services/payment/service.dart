@@ -48,6 +48,11 @@ class PaymentService extends GetxController {
     );
   }
 
+  Future<void> patchMainMethod(String paymentMethodId) async {
+    await repository.patchMainMethod(cardId: paymentMethodId);
+    await fetchPaymentMethods();
+  }
+
   Future<void> deletePaymentMethod(PaymentMethod paymentMethod) async {
     await repository.deletePaymentMethod(id: paymentMethod.id);
     await fetchPaymentMethods();

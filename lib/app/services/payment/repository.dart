@@ -22,7 +22,14 @@ class PaymentRepository {
     return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
   }
 
-  Future<void> createPaymentMethod({required String name, required String number, required String year, required String month, required String idNo, required String pw, required String ownerName}) async {
+  Future<void> createPaymentMethod(
+      {required String name,
+      required String number,
+      required String year,
+      required String month,
+      required String idNo,
+      required String pw,
+      required String ownerName}) async {
     String url = '/payment/method';
     Map body = {"name": name, "number": number, "year": year, "month": month, "idNo": idNo, "pw": pw, "ownerName": ownerName};
 
@@ -41,6 +48,17 @@ class PaymentRepository {
   }) async {
     String url = '/payment/method';
     Map body = {"id": id, "name": name, "color": color, "ownerName": ownerName};
+
+    try {
+      await api.patch(url, data: body);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> patchMainMethod({required String cardId}) async {
+    String url = '/payment/mainMethod';
+    Map body = {"cardId": cardId};
 
     try {
       await api.patch(url, data: body);
