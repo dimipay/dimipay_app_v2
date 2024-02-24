@@ -1,44 +1,64 @@
+import 'package:animated_digit/animated_digit.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/controller.dart';
+import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_date_group.dart';
+import 'package:dimipay_app_v2/app/services/transaction/model.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TransactionPage extends GetView<TransactionPageController> {
   const TransactionPage({super.key});
 
   Widget _transaction() {
     return controller.transactionService.obx(
-      (state) {
-        if (state!.isEmpty) {
-          return const Center(child: Text('거래 내역이 없습니다.'));
+      (transactions) {
+        if (transactions!.isEmpty) {
+          return const Center(child: Text('결제 내역이 없네요!'));
         }
-        return Obx(() => ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.length + (controller.transactionService.hasReachedEnd.value ? 0 : 1),
+        return Obx(() {
+          final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
+
+          for (var transaction in transactions) {
+            if (transactionsGroupedByDate.containsKey(transaction.createdAt)) {
+              transactionsGroupedByDate[transaction.createdAt]?.add(transaction);
+            } else {
+              transactionsGroupedByDate[transaction.createdAt] = [transaction];
+            }
+          }
+
+          return Scrollbar(
+            controller: controller.scrollController,
+            child: SingleChildScrollView(
               controller: controller.scrollController,
-              itemBuilder: (context, index) {
-                if (index >= state.length) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Column(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        state[index].totalPrice.toString(),
-                      ),
-                      subtitle: Text(
-                        state[index].createdAt.toString(),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ));
+              child: Column(
+                children: [
+                  ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                  !controller.transactionService.hasReachedEnd
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: DPColors.primaryBrand,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Container(),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
+          );
+        });
       },
       onLoading: const Center(
-        child: Text(
-          'loading...',
+        child: SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(
+            color: DPColors.primaryBrand,
+            strokeWidth: 2,
+          ),
         ),
       ),
     );
@@ -47,39 +67,74 @@ class TransactionPage extends GetView<TransactionPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('TransactionPage'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: () {
-                    controller.minusMonth();
-                  },
-                  icon: const Icon(Icons.arrow_left),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text('결제 내역', style: DPTypography.header1(color: DPColors.grayscale1000)),
                 ),
-                Obx(
-                  () => Text(
-                    controller.date.value.month.toString(),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              controller.minusMonth();
+                            },
+                            icon: const Icon(Icons.chevron_left),
+                          ),
+                          Obx(
+                            () => Text(
+                              DateFormat('yyyy년 M월').format(controller.date.value),
+                              style: DPTypography.description(color: DPColors.grayscale800),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              controller.plusMonth();
+                            },
+                            icon: const Icon(Icons.chevron_right),
+                          ),
+                        ],
+                      ),
+                      Obx(
+                        () => Row(
+                          children: [
+                            Text(
+                              '총 ',
+                              style: DPTypography.header2(color: DPColors.primaryBrand),
+                            ),
+                            AnimatedDigitWidget(
+                              value: controller.transactionService.totalPrice ?? 0,
+                              textStyle: DPTypography.header2(color: DPColors.primaryBrand),
+                              enableSeparator: true,
+                            ),
+                            Text(
+                              '원',
+                              style: DPTypography.header2(color: DPColors.primaryBrand),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    controller.plusMonth();
-                  },
-                  icon: const Icon(Icons.arrow_right),
                 ),
               ],
             ),
-            Expanded(child: _transaction()),
-          ],
-        ),
+          ),
+          Container(height: 6, color: DPColors.grayscale200),
+          Expanded(child: _transaction()),
+        ],
       ),
     );
   }

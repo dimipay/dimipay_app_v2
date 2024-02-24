@@ -1,5 +1,3 @@
-import 'dart:developer' as dev;
-
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/respository.dart';
 import 'package:get/get.dart';
@@ -15,10 +13,11 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
   final Rx<DateTime?> _next = Rx(null);
   DateTime? get next => _next.value;
 
-  Rx<bool> hasReachedEnd = Rx(false);
+  bool get hasReachedEnd => next == null;
+
+  int? get totalPrice => transactions?.fold(0, (a, b) => a! + b.totalPrice);
 
   Future<void> fetchTransactions({DateTime? offset}) async {
-    dev.log("Fetching transactions");
     try {
       change(transactions, status: RxStatus.loading());
       Map result = await repository.getTransactions(offset);
@@ -28,7 +27,6 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
         _next.value = DateTime.parse(result["next"]);
       } else {
         _next.value = null;
-        hasReachedEnd.value = true;
       }
 
       change(transactions, status: RxStatus.success());
@@ -40,13 +38,8 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
 
   Future<void> fetchMoreTransactions() async {
     if (next == null) {
-      dev.log("No more transactions to fetch");
-      hasReachedEnd.value = true;
       return;
     }
-
-    dev.log("Fetching more transactions");
-    dev.log("Next: $next");
 
     try {
       Map result = await repository.getTransactions(next!);
@@ -56,10 +49,8 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
         _next.value = DateTime.parse(result["next"]);
       } else {
         _next.value = null;
-        hasReachedEnd.value = true;
       }
 
-      dev.log("Transactions Length : ${_transactions.value!.length}");
       change(transactions, status: RxStatus.success());
     } catch (e) {
       rethrow;
