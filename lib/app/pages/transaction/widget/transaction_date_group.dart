@@ -35,7 +35,11 @@ class TransactionDateGroup extends StatelessWidget {
           children: transactions
               .map((e) => TransactionItem(
                     transaction: e,
-                    onTap: () => Get.toNamed(Routes.TRANSACTION_DETAIL),
+                    onTap: () async {
+                      Get.put<Transaction>(e);
+                      await Get.toNamed(Routes.TRANSACTION_DETAIL);
+                      Get.delete<Transaction>();
+                    },
                   ))
               .toList(),
         ),

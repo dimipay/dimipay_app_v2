@@ -52,6 +52,6 @@ class AppPages {
     GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding()),
     GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding()),
     GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding()),
-    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => const TransactionDetailPage()),
+    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => TransactionDetailPage()),
   ];
 }

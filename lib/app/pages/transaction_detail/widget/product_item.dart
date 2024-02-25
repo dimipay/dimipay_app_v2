@@ -1,9 +1,11 @@
+import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key});
+  final Product product;
+  const ProductItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +18,18 @@ class ProductItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  '티즐 유자 그린티',
+                  product.name,
                   style: DPTypography.itemTitle(color: DPColors.grayscale700),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'ㅇㅁㄹ',
+                  '${product.count}개',
                   style: DPTypography.paragraph2(color: DPColors.grayscale600),
                 ),
               ],
             ),
           ),
-          Text('1600원', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
+          Text('${product.count * product.unitCost}원', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
         ],
       ),
     );
