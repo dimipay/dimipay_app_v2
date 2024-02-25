@@ -39,14 +39,12 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.PIN),
           linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
           linkToRoute(Routes.USER),
-
           linkToRoute(Routes.TRANSACTION),
-
           linkToRoute(Routes.INFO),
           linkToRoute(Routes.FACESIGN),
           linkToRoute(Routes.PAYMENT),
           linkToRoute(Routes.REGISTER_CARD),
-
+          linkToRoute(Routes.TRANSACTION_DETAIL),
         ],
       ),
     );

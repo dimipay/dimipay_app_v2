@@ -33,7 +33,12 @@ class TransactionPage extends GetView<TransactionPageController> {
               controller: controller.scrollController,
               child: Column(
                 children: [
-                  ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                  ...transactionsGroupedByDate.entries
+                      .map((e) => TransactionDateGroup(
+                            date: e.key,
+                            transactions: e.value,
+                          ))
+                      .toList(),
                   !controller.transactionService.hasReachedEnd
                       ? const SizedBox(
                           width: 20,

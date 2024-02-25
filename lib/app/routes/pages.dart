@@ -19,6 +19,7 @@ import 'package:dimipay_app_v2/app/pages/register_card/register_card.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
+import 'package:dimipay_app_v2/app/pages/transaction_detail/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -27,12 +28,7 @@ import 'package:get/get.dart';
 class AppPages {
   static final pages = [
     GetPage(name: Routes.TEST, page: () => const TestPage()),
-
-    GetPage(
-        name: Routes.TRANSACTION,
-        page: () => const TransactionPage(),
-        binding: TransactionPageBinding()),
-
+    GetPage(name: Routes.TRANSACTION, page: () => const TransactionPage(), binding: TransactionPageBinding()),
     GetPage(name: Routes.HOME, page: () => const HomePage(), binding: HomePageBinding(), middlewares: [
       LoginMiddleware(),
       OnboardingMiddleware(),
@@ -55,6 +51,7 @@ class AppPages {
     ]),
     GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding()),
     GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding()),
-    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding())
+    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding()),
+    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => const TransactionDetailPage()),
   ];
 }

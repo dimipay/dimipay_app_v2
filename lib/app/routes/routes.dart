@@ -7,7 +7,7 @@ abstract class Routes {
   static const PIN = '/pin';
   static const USER = '/user';
   static const TRANSACTION = '/transaction';
-
+  static const TRANSACTION_DETAIL = '/transaction/detail';
   static const INFO = '/info';
   static const FACESIGN = '/facesign';
   static const PAYMENT = '/payment';
