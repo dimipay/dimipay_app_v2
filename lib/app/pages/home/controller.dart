@@ -9,7 +9,6 @@ import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 

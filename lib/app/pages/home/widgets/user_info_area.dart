@@ -38,7 +38,7 @@ class UserInfoArea extends GetView<HomePageController> {
                   Obx(
                     () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: DPTypography.itemTitle(color: DPColors.grayscale900)),
                   ),
-                  Text('내 결제수단, Face Sign 관리', style: DPTypography.token(color: DPColors.grayscale600)),
+                  Text('결제 내역, 내 결제 수단 관리', style: DPTypography.token(color: DPColors.grayscale600)),
                 ],
               ),
             ),
