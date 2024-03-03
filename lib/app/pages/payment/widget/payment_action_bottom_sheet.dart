@@ -1,6 +1,8 @@
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -58,8 +60,12 @@ class PaymentActionBottomSheet extends StatelessWidget {
             title: '삭제하기',
             titleColor: DPColors.primaryNegative,
             onTap: () async {
-              await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
-              Get.back();
+              try {
+                await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
+                Get.back();
+              } on DioException catch (e) {
+                DPErrorSnackBar().open(e.response?.data['message'] ?? '');
+              }
             },
           ),
           const SizedBox(height: 20),
