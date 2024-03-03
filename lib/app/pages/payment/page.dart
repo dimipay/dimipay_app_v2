@@ -1,10 +1,9 @@
 import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
+import 'package:dimipay_app_v2/app/pages/payment/widget/payment_action_bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/pages/payment/widget/payment_item.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
-import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class PaymentPage extends GetView<PaymentPageController> {
@@ -57,7 +56,17 @@ class PaymentPage extends GetView<PaymentPageController> {
                 return SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
-                    children: controller.paymentService.paymentMethods!.map((e) => PaymentItem(paymentMethod: e)).toList(),
+                    children: controller.paymentService.paymentMethods!
+                        .map((e) => PaymentItem(
+                              paymentMethod: e,
+                              onTap: () => showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                context: context,
+                                builder: (context) => PaymentActionBottomSheet(paymentMethod: e),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 );
               }

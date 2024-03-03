@@ -5,33 +5,36 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class PaymentItem extends StatelessWidget {
   final PaymentMethod paymentMethod;
-  const PaymentItem({super.key, required this.paymentMethod});
+  final void Function()? onTap;
+  final void Function()? onTapThreeDot;
+  const PaymentItem({super.key, required this.paymentMethod, this.onTap, this.onTapThreeDot});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 40,
-            height: 40,
-            child: SvgPicture.asset('assets/images/paymentRequired.svg'),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(paymentMethod.name ?? '', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
-                const SizedBox(height: 4),
-                Text('****-****-****-${paymentMethod.last4Digit}', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
-              ],
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: SvgPicture.asset('assets/images/paymentRequired.svg'),
             ),
-          ),
-          const SizedBox(width: 12),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert), iconSize: 18, color: DPColors.grayscale600),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(paymentMethod.name ?? '', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                  const SizedBox(height: 4),
+                  Text('****-****-****-${paymentMethod.last4Digit}', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
