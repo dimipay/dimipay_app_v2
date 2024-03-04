@@ -51,8 +51,14 @@ class PaymentService extends GetxController {
   }
 
   Future<void> deletePaymentMethod(PaymentMethod paymentMethod) async {
-    await repository.deletePaymentMethod(id: paymentMethod.id);
-    paymentMethods?.remove(paymentMethod);
-    _paymentMethods.refresh();
+    try {
+      paymentMethods?.remove(paymentMethod);
+      _paymentMethods.refresh();
+      await repository.deletePaymentMethod(id: paymentMethod.id);
+    } catch (e) {
+      paymentMethods?.add(paymentMethod);
+      _paymentMethods.refresh();
+      rethrow;
+    }
   }
 }
