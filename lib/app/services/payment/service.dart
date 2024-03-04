@@ -37,7 +37,7 @@ class PaymentService extends GetxController {
     required String pw,
     required String ownerName,
   }) async {
-    await repository.createPaymentMethod(
+    PaymentMethod newPaymentMethod = await repository.createPaymentMethod(
       name: name,
       number: number,
       year: year,
@@ -46,10 +46,19 @@ class PaymentService extends GetxController {
       pw: pw,
       ownerName: ownerName,
     );
+    paymentMethods?.add(newPaymentMethod);
+    _paymentMethods.refresh();
   }
 
   Future<void> deletePaymentMethod(PaymentMethod paymentMethod) async {
-    await repository.deletePaymentMethod(id: paymentMethod.id);
-    await fetchPaymentMethods();
+    try {
+      paymentMethods?.remove(paymentMethod);
+      _paymentMethods.refresh();
+      await repository.deletePaymentMethod(id: paymentMethod.id);
+    } catch (e) {
+      paymentMethods?.add(paymentMethod);
+      _paymentMethods.refresh();
+      rethrow;
+    }
   }
 }
