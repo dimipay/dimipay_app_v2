@@ -46,10 +46,11 @@ abstract class OnboardingPageBase extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    description,
-                    style:
-                    DPTypography.paragraph1(color: DPColors.grayscale700),
+                  Expanded(
+                    child: Text(
+                      description,
+                      style: DPTypography.paragraph1(color: DPColors.grayscale700),
+                    ),
                   ),
                 ],
               ),
@@ -81,7 +82,8 @@ abstract class OnboardingPageBase extends StatelessWidget {
                     children: [
                       Text('등록할래요',
                           style: DPTypography.itemDescription(
-                              color: DPColors.grayscale100)),
+                              color: DPColors.grayscale100),
+                      ),
                     ],
                   ),
                 ),
