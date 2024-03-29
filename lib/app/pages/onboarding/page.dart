@@ -3,6 +3,7 @@ import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OnboardingPage extends GetView<OnboardingPageController> {
   const OnboardingPage({super.key});
@@ -85,7 +86,7 @@ abstract class OnboardingPageBase extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               DPButton(
-                decoration: DPBoxDecorations.box2,
+                decoration: DPBoxDecorations.box2_1,
                 isTapEffectEnabled: true,
                 radius: const BorderRadius.all(Radius.circular(10)),
                 onTap: () {},
@@ -131,10 +132,17 @@ class FaceSignRegistrationPage extends OnboardingPageBase {
   );
 }
 
-class TermsAgreementPage extends StatelessWidget {
+class TermsAgreementPage extends StatefulWidget {
   final OnboardingPageController controller;
 
   const TermsAgreementPage({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  _TermsAgreementPageState createState() => _TermsAgreementPageState();
+}
+
+class _TermsAgreementPageState extends State<TermsAgreementPage> {
+  bool isButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +160,9 @@ class TermsAgreementPage extends StatelessWidget {
                 children: [
                   DPButton(
                     isTapEffectEnabled: false,
-                    onTap: () {},
+                    onTap: () {
+                      launchUrl(Uri.parse('https://dimipay.notion.site/60322b96c77b4855b8c7b72dcfcaa0eb'));
+                    },
                     child: Text('개인정보 보호약관 보기',
                         style: DPTypography.paragraph1Underlined(
                             color: DPColors.grayscale700)),
@@ -165,7 +175,9 @@ class TermsAgreementPage extends StatelessWidget {
                 children: [
                   DPButton(
                     isTapEffectEnabled: false,
-                    onTap: () {},
+                    onTap: () {
+                      launchUrl(Uri.parse('https://dimipay.notion.site/fa05b169a2d94db6b1dd4acae47c66a6'));
+                    },
                     child: Text('서비스 이용약관 보기',
                         style: DPTypography.paragraph1Underlined(
                             color: DPColors.grayscale700)),
@@ -182,16 +194,23 @@ class TermsAgreementPage extends StatelessWidget {
             children: [
               DPButton(
                 isTapEffectEnabled: false,
-                onTap: () {},
+                onTap: () {
+                  setState(() {
+                    isButtonPressed = !isButtonPressed;
+                  });
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: 24,
                       height: 24,
-                      decoration: DPBoxDecorations.box1,
-                      child: const Icon(Icons.check_rounded,
-                          color: DPColors.grayscale500, size: 16),
+                      decoration: isButtonPressed ? DPBoxDecorations.box2 : DPBoxDecorations.box1,
+                      child: Icon(
+                        Icons.check_rounded,
+                        color: isButtonPressed ? DPColors.grayscale100 : DPColors.grayscale500,
+                        size: 16,
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Text('개인정보보호약관',
@@ -211,11 +230,13 @@ class TermsAgreementPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               DPButton(
-                decoration: DPBoxDecorations.box2,
+                decoration: isButtonPressed ? DPBoxDecorations.box2_1 : DPBoxDecorations.box1_1,
                 isTapEffectEnabled: true,
                 radius: const BorderRadius.all(Radius.circular(10)),
                 onTap: () {
-                  controller.nextPage();
+                  if(isButtonPressed){
+                    widget.controller.nextPage();
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -224,7 +245,7 @@ class TermsAgreementPage extends StatelessWidget {
                     children: [
                       Text('다음',
                           style: DPTypography.itemDescription(
-                              color: DPColors.grayscale100)),
+                            color: isButtonPressed ? DPColors.grayscale100 : DPColors.grayscale600,)),
                     ],
                   ),
                 ),
@@ -300,7 +321,7 @@ class HelpPage extends OnboardingPageBase {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: DPButton(
-            decoration: DPBoxDecorations.box2,
+            decoration: DPBoxDecorations.box2_1,
             isTapEffectEnabled: true,
             radius: const BorderRadius.all(Radius.circular(10)),
             onTap: () {

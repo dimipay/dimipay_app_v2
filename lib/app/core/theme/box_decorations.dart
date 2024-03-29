@@ -11,9 +11,31 @@ abstract class DPBoxDecorations {
     )),
   );
 
+  static BoxDecoration box1_1 = const BoxDecoration(
+    color: DPColors.grayscale200,
+    borderRadius: BorderRadius.all(Radius.circular(10)),
+    border: Border.fromBorderSide(BorderSide(
+      color: DPColors.grayscale300,
+      width: 1,
+    )),
+  );
+
   static BoxDecoration box2 = const BoxDecoration(
     color: DPColors.primaryBrand,
+    borderRadius: BorderRadius.all(Radius.circular(16)),
+    border: Border.fromBorderSide(BorderSide(
+      color: DPColors.primaryBrand,
+      width: 1,
+    )),
+  );
+
+  static BoxDecoration box2_1 = const BoxDecoration(
+    color: DPColors.primaryBrand,
     borderRadius: BorderRadius.all(Radius.circular(10)),
+    border: Border.fromBorderSide(BorderSide(
+      color: DPColors.primaryBrand,
+      width: 1,
+    )),
   );
 
   static BoxDecoration box3 = const BoxDecoration(

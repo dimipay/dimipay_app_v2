@@ -45,6 +45,7 @@ dependencies:
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
   intl: ^0.19.0
+  url_launcher: ^6.2.5
 
 
 dev_dependencies:
