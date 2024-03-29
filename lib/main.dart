@@ -29,7 +29,6 @@ void main() async {
               appBarTheme: AppBarTheme(
                 systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarIconBrightness: Brightness.dark,
-                  statusBarColor: Colors.transparent,
                 ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -44,10 +43,6 @@ void main() async {
             darkTheme: ThemeData(
               fontFamily: 'SUITv1',
               appBarTheme: AppBarTheme(
-                systemOverlayStyle: const SystemUiOverlayStyle(
-                  statusBarIconBrightness: Brightness.dark,
-                  statusBarColor: Colors.transparent,
-                ),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 scrolledUnderElevation: 0,
