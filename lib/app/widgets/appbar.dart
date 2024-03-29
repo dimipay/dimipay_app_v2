@@ -35,16 +35,16 @@ class DPAppbar extends StatelessWidget {
                 ),
               ],
             ),
-          if (paragraph != null)
-            Column(
-              children: [
-                const SizedBox(height: 16),
-                Text(
-                  paragraph!,
-                  style: DPTypography.paragraph1(color: DPColors.grayscale700),
-                ),
-              ],
-            ),
+          // if (paragraph != null)
+          //   Column(
+          //     children: [
+          //       const SizedBox(height: 16),
+          //       Text(
+          //         paragraph!,
+          //         style: DPTypography.paragraph1(color: DPColors.grayscale700),
+          //       ),
+          //     ],
+          //   ),
         ],
       ),
     );

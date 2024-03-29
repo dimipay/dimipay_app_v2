@@ -24,16 +24,37 @@ class OnboardingPage extends GetView<PaymentPageController> {
   }
 }
 
-class CardRegistrationPage extends StatelessWidget {
-  const CardRegistrationPage({Key? key}) : super(key: key);
+abstract class OnboardingPageBase extends StatelessWidget {
+  final String header;
+  final String description;
+
+  const OnboardingPageBase({
+    Key? key,
+    required this.header,
+    required this.description,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const DPAppbar(
-          header: '카드를 등록할게요',
-          paragraph: '앱에 카드를 등록해야 결제 단말기에서 결제를 진행할 수 있어요.',
+        DPAppbar(header: header),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    description,
+                    style:
+                    DPTypography.paragraph1(color: DPColors.grayscale700),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         const Spacer(),
         Padding(
@@ -44,7 +65,8 @@ class CardRegistrationPage extends StatelessWidget {
                 isTapEffectEnabled: false,
                 onTap: () {},
                 child: Text('나중에 할래요',
-                    style: DPTypography.paragraph1Underlined(color: DPColors.grayscale600)),
+                    style: DPTypography.paragraph1Underlined(
+                        color: DPColors.grayscale600)),
               ),
               const SizedBox(height: 16),
               DPButton(
@@ -57,8 +79,9 @@ class CardRegistrationPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('등록하기',
-                          style: DPTypography.itemDescription(color: DPColors.grayscale100)),
+                      Text('등록할래요',
+                          style: DPTypography.itemDescription(
+                              color: DPColors.grayscale100)),
                     ],
                   ),
                 ),
@@ -71,51 +94,23 @@ class CardRegistrationPage extends StatelessWidget {
   }
 }
 
-class FaceSignRegistrationPage extends StatelessWidget {
-  const FaceSignRegistrationPage({Key? key}) : super(key: key);
+class CardRegistrationPage extends OnboardingPageBase {
+  const CardRegistrationPage({Key? key})
+      : super(
+          key: key,
+          header: '카드를 등록할게요',
+          description: '앱에 카드를 등록해야 결제 단말기에서 결제를 진행할 수 있어요.',
+        );
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const DPAppbar(
+class FaceSignRegistrationPage extends OnboardingPageBase {
+  const FaceSignRegistrationPage({Key? key})
+      : super(
+          key: key,
           header: 'FaceSign을 등록할게요',
-          paragraph: 'FaceSign을 등록하면 결제 단말기에서 FaceSign으로 디미페이 앱 없이 간편하게 결제할 수 있어요.',
-        ),
-        const Spacer(),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              DPButton(
-                isTapEffectEnabled: false,
-                onTap: () {},
-                child: Text('나중에 할래요',
-                    style: DPTypography.paragraph1Underlined(color: DPColors.grayscale600)),
-              ),
-              const SizedBox(height: 16),
-              DPButton(
-                decoration: DPBoxDecorations.box2,
-                isTapEffectEnabled: true,
-                radius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {},
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('등록하기',
-                          style: DPTypography.itemDescription(color: DPColors.grayscale100)),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+          description:
+              'FaceSign을 등록하면 결제 단말기에서 FaceSign으로 디미페이 앱 없이 간편하게 결제할 수 있어요.',
+        );
 }
 
 class TermsAgreementPage extends StatelessWidget {
@@ -139,7 +134,8 @@ class TermsAgreementPage extends StatelessWidget {
                     isTapEffectEnabled: false,
                     onTap: () {},
                     child: Text('개인정보 보호약관 보기',
-                        style: DPTypography.paragraph1Underlined(color: DPColors.grayscale700)),
+                        style: DPTypography.paragraph1Underlined(
+                            color: DPColors.grayscale700)),
                   ),
                 ],
               ),
@@ -151,7 +147,8 @@ class TermsAgreementPage extends StatelessWidget {
                     isTapEffectEnabled: false,
                     onTap: () {},
                     child: Text('서비스 이용약관 보기',
-                        style: DPTypography.paragraph1Underlined(color: DPColors.grayscale700)),
+                        style: DPTypography.paragraph1Underlined(
+                            color: DPColors.grayscale700)),
                   ),
                 ],
               ),
@@ -173,13 +170,22 @@ class TermsAgreementPage extends StatelessWidget {
                       width: 24,
                       height: 24,
                       decoration: DPBoxDecorations.box1,
-                      child: const Icon(Icons.check_rounded, color: DPColors.grayscale500, size: 16),
+                      child: const Icon(Icons.check_rounded,
+                          color: DPColors.grayscale500, size: 16),
                     ),
                     const SizedBox(width: 10),
-                    Text('개인정보보호약관', style: DPTypography.paragraph2Underlined(color: DPColors.grayscale600)),
-                    Text('와 ', style: DPTypography.paragraph2Underlined(color: DPColors.grayscale600)),
-                    Text('서비스 이용약관', style: DPTypography.paragraph2Underlined(color: DPColors.grayscale600)),
-                    Text('에 동의합니다', style: DPTypography.paragraph2Underlined(color: DPColors.grayscale600)),
+                    Text('개인정보보호약관',
+                        style: DPTypography.paragraph2Underlined(
+                            color: DPColors.grayscale600)),
+                    Text('와 ',
+                        style: DPTypography.paragraph2Underlined(
+                            color: DPColors.grayscale600)),
+                    Text('서비스 이용약관',
+                        style: DPTypography.paragraph2Underlined(
+                            color: DPColors.grayscale600)),
+                    Text('에 동의합니다',
+                        style: DPTypography.paragraph2Underlined(
+                            color: DPColors.grayscale600)),
                   ],
                 ),
               ),
@@ -194,8 +200,9 @@ class TermsAgreementPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('등록하기',
-                          style: DPTypography.itemDescription(color: DPColors.grayscale100)),
+                      Text('다음',
+                          style: DPTypography.itemDescription(
+                              color: DPColors.grayscale100)),
                     ],
                   ),
                 ),
@@ -208,17 +215,37 @@ class TermsAgreementPage extends StatelessWidget {
   }
 }
 
-class HelpPage extends StatelessWidget {
-  const HelpPage({Key? key}) : super(key: key);
+class HelpPage extends OnboardingPageBase {
+  const HelpPage({Key? key})
+      : super(
+          key: key,
+          header: '도움말을 읽어주세요',
+          description: '도움말은 홈에서 또 확인할 수 있어요',
+        );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const DPAppbar(
-          header: '도움말을 읽어주세요',
-          paragraph: '도움말은 홈에서 또 확인할 수 있어요',
+        DPAppbar(header: header),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    description,
+                    style:
+                        DPTypography.paragraph1(color: DPColors.grayscale700),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+        const SizedBox(height: 20),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: Column(
@@ -240,7 +267,8 @@ class HelpPage extends StatelessWidget {
               SizedBox(height: 16),
               ExpandableHelpItem(
                 title: '쿠폰은 어떻게 쓰나요?',
-                details: '물품을 찍은 다음, 결제 단말기에서 “결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
+                details:
+                    '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
               ),
             ],
           ),
@@ -258,7 +286,9 @@ class HelpPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('등록하기', style: DPTypography.itemDescription(color: DPColors.grayscale100)),
+                  Text('출발',
+                      style: DPTypography.itemDescription(
+                          color: DPColors.grayscale100)),
                 ],
               ),
             ),
@@ -294,7 +324,8 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
           _isExpanded = !_isExpanded;
         });
       },
-      decoration: _isExpanded ? DPBoxDecorations.accordion1 : DPBoxDecorations.box1,
+      decoration:
+          _isExpanded ? DPBoxDecorations.accordion1 : DPBoxDecorations.box1,
       radius: BorderRadius.circular(16),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -304,7 +335,11 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.title, style: _isExpanded ? DPTypography.itemTitle(color: DPColors.grayscale700) : DPTypography.description(color: DPColors.grayscale700)),
+                Text(widget.title,
+                    style: _isExpanded
+                        ? DPTypography.itemTitle(color: DPColors.grayscale700)
+                        : DPTypography.description(
+                            color: DPColors.grayscale700)),
                 Icon(
                   _isExpanded ? Icons.expand_less : Icons.expand_more,
                   color: DPColors.grayscale600,
@@ -315,7 +350,9 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
             if (_isExpanded)
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: Text(widget.details, style: DPTypography.paragraph2(color: DPColors.grayscale700)),
+                child: Text(widget.details,
+                    style:
+                        DPTypography.paragraph2(color: DPColors.grayscale700)),
               ),
           ],
         ),
