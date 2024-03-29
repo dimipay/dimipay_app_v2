@@ -13,6 +13,8 @@ class TransactionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -27,7 +29,7 @@ class TransactionDetailPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                     child: Column(
                       children: [
-                        Text('결제액', style: DPTypography.paragraph2(color: DPColors.grayscale600)),
+                        Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +38,7 @@ class TransactionDetailPage extends StatelessWidget {
                             AnimatedDigitWidget(
                               value: transaction.totalPrice,
                               suffix: '원',
-                              textStyle: const TextStyle(color: DPColors.grayscale1000, fontSize: 28, fontWeight: FontWeight.w700, height: 1),
+                              textStyle: TextStyle(color: colorTheme.grayscale1000, fontSize: 28, fontWeight: FontWeight.w700, height: 1),
                               enableSeparator: true,
                               curve: Curves.easeInOutCubicEmphasized,
                               duration: const Duration(milliseconds: 1500),
@@ -49,13 +51,13 @@ class TransactionDetailPage extends StatelessWidget {
                   DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(transaction.createdAt)),
                   const DataItem(header: '결제 카드', value: '국민 카드'),
                   const DataItem(header: '결제 방식', value: 'QR 코드'),
-                  Container(height: 6, color: DPColors.grayscale200),
+                  Container(height: 6, color: colorTheme.grayscale200),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('구매한 상품', style: DPTypography.paragraph2(color: DPColors.grayscale600)),
+                        Text('구매한 상품', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
                         ...transaction.products.map((e) => ProductItem(product: e)).toList(),
                         const SizedBox(height: 40),
                       ],

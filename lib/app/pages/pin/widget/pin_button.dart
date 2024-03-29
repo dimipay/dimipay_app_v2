@@ -12,7 +12,7 @@ class PinButton extends StatelessWidget {
       child: GestureDetector(
         onTap: enabled ? onTap : null,
         child: Container(
-          color: Colors.white,
+          color: Colors.transparent,
           child: Center(
             child: child,
           ),

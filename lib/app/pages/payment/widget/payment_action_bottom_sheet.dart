@@ -12,11 +12,13 @@ class PaymentActionBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 42),
       decoration: BoxDecoration(
-        color: DPColors.grayscale100,
+        color: colorTheme.grayscale100,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -28,7 +30,7 @@ class PaymentActionBottomSheet extends StatelessWidget {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: DPColors.grayscale300,
+                color: colorTheme.grayscale300,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -41,11 +43,11 @@ class PaymentActionBottomSheet extends StatelessWidget {
               children: [
                 Text(
                   paymentMethod.name ?? '',
-                  style: DPTypography.header2(color: DPColors.grayscale1000),
+                  style: textTheme.header2.copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
                   '****-****-****-${paymentMethod.last4Digit}',
-                  style: DPTypography.description(color: DPColors.grayscale600),
+                  style: textTheme.description.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
@@ -58,7 +60,7 @@ class PaymentActionBottomSheet extends StatelessWidget {
           ),
           PaymentActionBottomSheetItem(
             title: '삭제하기',
-            titleColor: DPColors.primaryNegative,
+            titleColor: colorTheme.primaryNegative,
             onTap: () async {
               try {
                 await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
@@ -77,7 +79,7 @@ class PaymentActionBottomSheet extends StatelessWidget {
 
 class PaymentActionBottomSheetItem extends StatelessWidget {
   final String title;
-  final Color titleColor;
+  final Color? titleColor;
   final bool showIcon;
   final void Function()? onTap;
 
@@ -86,11 +88,13 @@ class PaymentActionBottomSheetItem extends StatelessWidget {
     required this.title,
     this.onTap,
     this.showIcon = false,
-    this.titleColor = DPColors.grayscale800,
+    this.titleColor,
   });
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -102,9 +106,9 @@ class PaymentActionBottomSheetItem extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: DPTypography.itemTitle(color: titleColor),
+                style: textTheme.itemTitle.copyWith(color: titleColor ?? colorTheme.grayscale800),
               ),
-              showIcon ? const Icon(Icons.chevron_right, color: DPColors.grayscale500) : Container(),
+              showIcon ? Icon(Icons.chevron_right, color: colorTheme.grayscale500) : Container(),
             ],
           ),
         ),

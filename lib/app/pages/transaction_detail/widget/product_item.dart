@@ -1,7 +1,6 @@
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -9,6 +8,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
@@ -19,17 +20,17 @@ class ProductItem extends StatelessWidget {
               children: [
                 Text(
                   product.name,
-                  style: DPTypography.itemTitle(color: DPColors.grayscale700),
+                  style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale700),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   '${product.count}개',
-                  style: DPTypography.paragraph2(color: DPColors.grayscale600),
+                  style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
           ),
-          Text('${product.count * product.unitCost}원', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
+          Text('${product.count * product.unitCost}원', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
         ],
       ),
     );

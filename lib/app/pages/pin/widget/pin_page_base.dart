@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_pad.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -23,12 +22,12 @@ class PinPageBase extends GetView<PinPageController> {
 
   bool get locked => pinCouont != null && pinCouont! <= 0;
 
-  Widget pinHint(bool activated) {
+  Widget pinHint(bool activated, DPColors colorTheme) {
     return Container(
       width: 20,
       height: 20,
       decoration: ShapeDecoration(
-        color: activated ? DPColors.grayscale800 : DPColors.grayscale300,
+        color: activated ? colorTheme.grayscale800 : colorTheme.grayscale300,
         shape: const OvalBorder(),
       ),
     );
@@ -36,8 +35,10 @@ class PinPageBase extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Container(
-      color: Colors.white,
+      color: colorTheme.grayscale100,
       child: SafeArea(
         bottom: true,
         child: Column(
@@ -49,7 +50,7 @@ class PinPageBase extends GetView<PinPageController> {
                 children: [
                   Text(
                     locked ? '핀 시도 횟수를\n초과했습니다' : headerText,
-                    style: DPTypography.header1(color: DPColors.grayscale1000),
+                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
@@ -57,7 +58,7 @@ class PinPageBase extends GetView<PinPageController> {
                       ? Container(height: 26)
                       : Text(
                           '$pinCouont/5',
-                          style: DPTypography.header2(color: DPColors.primaryNegative),
+                          style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
                         ),
                   const SizedBox(height: 16),
                   Obx(
@@ -65,13 +66,13 @@ class PinPageBase extends GetView<PinPageController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // ignore: prefer_is_empty
-                        pinHint(controller.pin.length > 0),
+                        pinHint(controller.pin.length > 0, colorTheme),
                         const SizedBox(width: 16),
-                        pinHint(controller.pin.length > 1),
+                        pinHint(controller.pin.length > 1, colorTheme),
                         const SizedBox(width: 16),
-                        pinHint(controller.pin.length > 2),
+                        pinHint(controller.pin.length > 2, colorTheme),
                         const SizedBox(width: 16),
-                        pinHint(controller.pin.length > 3),
+                        pinHint(controller.pin.length > 3, colorTheme),
                       ],
                     ),
                   ),
@@ -82,7 +83,7 @@ class PinPageBase extends GetView<PinPageController> {
                         )
                       : Text(
                           helpText!,
-                          style: DPTypography.itemDescription(color: DPColors.grayscale500).copyWith(decoration: TextDecoration.underline),
+                          style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
                         )
                 ],
               ),

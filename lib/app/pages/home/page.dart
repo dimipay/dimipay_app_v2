@@ -1,7 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
-import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -11,8 +11,10 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+
     return Scaffold(
-      backgroundColor: DPColors.grayscale200,
+      backgroundColor: colorTheme.grayscale200,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         titleSpacing: 0,
@@ -27,11 +29,11 @@ class HomePage extends GetView<HomePageController> {
                 height: 16,
               ),
               const Spacer(),
-              const Row(
+              Row(
                 children: [
-                  Icon(Icons.support_agent_rounded, size: 24, color: DPColors.grayscale600),
-                  SizedBox(width: 24),
-                  Icon(Icons.help_rounded, size: 24, color: DPColors.grayscale600),
+                  Icon(Icons.support_agent_rounded, size: 24, color: colorTheme.grayscale600),
+                  const SizedBox(width: 24),
+                  Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
                 ],
               ),
             ],
@@ -44,7 +46,7 @@ class HomePage extends GetView<HomePageController> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -76,11 +78,11 @@ class HomePage extends GetView<HomePageController> {
                     //         child: Column(
                     //           crossAxisAlignment: CrossAxisAlignment.start,
                     //           children: [
-                    //             Text('내 쿠폰', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                    //             Text('내 쿠폰', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
                     //           ],
                     //         ),
                     //       ),
-                    //       const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: DPColors.grayscale500),
+                    //       const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
                     //     ],
                     //   ),
                     // ),

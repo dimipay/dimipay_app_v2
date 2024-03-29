@@ -41,7 +41,6 @@ dependencies:
   uuid: ^4.3.3
   flutter_native_splash: ^2.3.9
   flutter_svg: ^2.0.9
-  dimipay_design_kit: ^0.1.1
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
   intl: ^0.18.1
@@ -49,7 +48,12 @@ dependencies:
   shimmer: ^3.0.0
   local_auth: ^2.1.8
   animated_digit: ^3.2.3
-
+  dimipay_design_kit: 
+    git:
+      url: https://github.com/dimipay/dimipay_design_kit.git
+      ref: main
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 
 

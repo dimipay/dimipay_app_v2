@@ -17,6 +17,8 @@ import 'package:dimipay_app_v2/app/pages/payment/page.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/register_card.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
+import 'package:dimipay_app_v2/app/pages/theme_select/binding.dart';
+import 'package:dimipay_app_v2/app/pages/theme_select/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction_detail/page.dart';
@@ -53,5 +55,6 @@ class AppPages {
     GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding()),
     GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding()),
     GetPage(name: Routes.TRANSACTION_DETAIL, page: () => TransactionDetailPage()),
+    GetPage(name: Routes.THEME_SELECT, page: () => const ThemeSelectPage(), binding: ThemeSelectPageBinding()),
   ];
 }

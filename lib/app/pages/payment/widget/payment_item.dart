@@ -11,6 +11,8 @@ class PaymentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return InkWell(
       onTap: onTap,
       child: Padding(
@@ -27,9 +29,9 @@ class PaymentItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(paymentMethod.name ?? '', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
+                  Text(paymentMethod.name ?? '', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
                   const SizedBox(height: 4),
-                  Text('****-****-****-${paymentMethod.last4Digit}', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
+                  Text('****-****-****-${paymentMethod.last4Digit}', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
                 ],
               ),
             ),

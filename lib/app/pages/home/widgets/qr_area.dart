@@ -12,14 +12,15 @@ class QRArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
-        decoration: const BoxDecoration(
-          color: DPColors.grayscale100,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
-            color: DPColors.grayscale400,
+            color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
@@ -38,16 +39,18 @@ class QRAreaLocked extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return GestureDetector(
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
         aspectRatio: 1,
         child: Container(
-          decoration: const BoxDecoration(
-            color: DPColors.grayscale200,
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+          decoration: BoxDecoration(
+            color: colorTheme.grayscale200,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
             border: Border.fromBorderSide(BorderSide(
-              color: DPColors.grayscale400,
+              color: colorTheme.grayscale400,
               width: 1,
             )),
           ),
@@ -58,20 +61,20 @@ class QRAreaLocked extends GetView<HomePageController> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: const BoxDecoration(
-                    color: DPColors.grayscale100,
-                    borderRadius: BorderRadius.all(Radius.circular(500)),
+                  decoration: BoxDecoration(
+                    color: colorTheme.grayscale100,
+                    borderRadius: const BorderRadius.all(Radius.circular(500)),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.lock_rounded,
                     size: 20,
-                    color: DPColors.grayscale500,
+                    color: colorTheme.grayscale500,
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   'pin 또는 생체 인증 후 결제하기',
-                  style: DPTypography.token(color: DPColors.grayscale600),
+                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
@@ -87,14 +90,16 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
-        decoration: const BoxDecoration(
-          color: DPColors.grayscale200,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale200,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
-            color: DPColors.grayscale400,
+            color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
@@ -105,20 +110,20 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: DPColors.grayscale100,
-                  borderRadius: BorderRadius.all(Radius.circular(500)),
+                decoration: BoxDecoration(
+                  color: colorTheme.grayscale100,
+                  borderRadius: const BorderRadius.all(Radius.circular(500)),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.lock_rounded,
                   size: 20,
-                  color: DPColors.grayscale500,
+                  color: colorTheme.grayscale500,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 '결제수단을 먼저 등록해 주세요.',
-                style: DPTypography.token(color: DPColors.grayscale600),
+                style: textTheme.token.copyWith(color: colorTheme.grayscale600),
               ),
             ],
           ),
@@ -133,21 +138,22 @@ class QRAreaLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
-        decoration: const BoxDecoration(
-          color: DPColors.grayscale100,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale100,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
-            color: DPColors.grayscale400,
+            color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
         padding: const EdgeInsets.all(12),
         child: Shimmer.fromColors(
-          baseColor: DPColors.grayscale300,
-          highlightColor: DPColors.grayscale200,
+          baseColor: colorTheme.grayscale300,
+          highlightColor: colorTheme.grayscale200,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Container(color: Colors.red),

@@ -11,6 +11,8 @@ class PaymentPage extends GetView<PaymentPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -24,12 +26,12 @@ class PaymentPage extends GetView<PaymentPageController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('결제 수단', style: DPTypography.header1(color: DPColors.grayscale1000)),
+                    Text('결제 수단', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
                     SizedBox(
                       height: 32,
                       child: FilledButton(
                         onPressed: () => Get.toNamed(Routes.REGISTER_CARD),
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(DPColors.primaryBrand)),
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(colorTheme.primaryBrand)),
                         child: const Text('추가하기'),
                       ),
                     ),
@@ -42,12 +44,12 @@ class PaymentPage extends GetView<PaymentPageController> {
           Expanded(
             child: Obx(() {
               if (controller.paymentService.paymentMethods == null) {
-                return const Center(
+                return Center(
                   child: SizedBox(
                     width: 20,
                     height: 20,
                     child: CircularProgressIndicator(
-                      color: DPColors.primaryBrand,
+                      color: colorTheme.primaryBrand,
                       strokeWidth: 2,
                     ),
                   ),
