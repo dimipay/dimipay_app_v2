@@ -3,7 +3,7 @@ import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class PaymentPage extends GetView<PaymentPageController> {
+class PaymentPage extends GetView<OnboardingPageController> {
   const PaymentPage({super.key});
 
   @override

@@ -1,25 +1,35 @@
 import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
-import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
+import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OnboardingPage extends GetView<PaymentPageController> {
+class OnboardingPage extends GetView<OnboardingPageController> {
   const OnboardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          children: const [
-            CardRegistrationPage(),
-            FaceSignRegistrationPage(),
-            TermsAgreementPage(),
-            HelpPage(),
-          ],
-        ),
-      ),
+    return GetBuilder<OnboardingPageController>(
+      init: OnboardingPageController(),
+      builder: (controller) {
+        return Scaffold(
+          body: SafeArea(
+            child: PageView(
+              controller: controller.pageController,
+              onPageChanged: (index) {
+                controller.currentPageIndex.value = index;
+              },
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                CardRegistrationPage(controller: controller),
+                FaceSignRegistrationPage(controller: controller),
+                TermsAgreementPage(controller: controller),
+                HelpPage(controller: controller),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -27,11 +37,13 @@ class OnboardingPage extends GetView<PaymentPageController> {
 abstract class OnboardingPageBase extends StatelessWidget {
   final String header;
   final String description;
+  final OnboardingPageController controller;
 
   const OnboardingPageBase({
     Key? key,
     required this.header,
     required this.description,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -64,7 +76,9 @@ abstract class OnboardingPageBase extends StatelessWidget {
             children: [
               DPButton(
                 isTapEffectEnabled: false,
-                onTap: () {},
+                onTap: () {
+                  controller.nextPage();
+                },
                 child: Text('나중에 할래요',
                     style: DPTypography.paragraph1Underlined(
                         color: DPColors.grayscale600)),
@@ -81,8 +95,8 @@ abstract class OnboardingPageBase extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text('등록할래요',
-                          style: DPTypography.itemDescription(
-                              color: DPColors.grayscale100),
+                        style: DPTypography.itemDescription(
+                            color: DPColors.grayscale100),
                       ),
                     ],
                   ),
@@ -97,26 +111,30 @@ abstract class OnboardingPageBase extends StatelessWidget {
 }
 
 class CardRegistrationPage extends OnboardingPageBase {
-  const CardRegistrationPage({Key? key})
+  const CardRegistrationPage({Key? key, required OnboardingPageController controller})
       : super(
-          key: key,
-          header: '카드를 등록할게요',
-          description: '앱에 카드를 등록해야 결제 단말기에서 결제를 진행할 수 있어요.',
-        );
+    key: key,
+    header: '카드를 등록할게요',
+    description: '앱에 카드를 등록해야 결제 단말기에서 결제를 진행할 수 있어요.',
+    controller: controller,
+  );
 }
 
 class FaceSignRegistrationPage extends OnboardingPageBase {
-  const FaceSignRegistrationPage({Key? key})
+  const FaceSignRegistrationPage({Key? key, required OnboardingPageController controller})
       : super(
-          key: key,
-          header: 'FaceSign을 등록할게요',
-          description:
-              'FaceSign을 등록하면 결제 단말기에서 FaceSign으로 디미페이 앱 없이 간편하게 결제할 수 있어요.',
-        );
+    key: key,
+    header: 'FaceSign을 등록할게요',
+    description:
+    'FaceSign을 등록하면 결제 단말기에서 FaceSign으로 디미페이 앱 없이 간편하게 결제할 수 있어요.',
+    controller: controller,
+  );
 }
 
 class TermsAgreementPage extends StatelessWidget {
-  const TermsAgreementPage({Key? key}) : super(key: key);
+  final OnboardingPageController controller;
+
+  const TermsAgreementPage({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -179,14 +197,14 @@ class TermsAgreementPage extends StatelessWidget {
                     Text('개인정보보호약관',
                         style: DPTypography.paragraph2Underlined(
                             color: DPColors.grayscale600)),
-                    Text('와 ',
-                        style: DPTypography.paragraph2Underlined(
+                    Text('과 ',
+                        style: DPTypography.paragraph2(
                             color: DPColors.grayscale600)),
                     Text('서비스 이용약관',
                         style: DPTypography.paragraph2Underlined(
                             color: DPColors.grayscale600)),
                     Text('에 동의합니다',
-                        style: DPTypography.paragraph2Underlined(
+                        style: DPTypography.paragraph2(
                             color: DPColors.grayscale600)),
                   ],
                 ),
@@ -196,7 +214,9 @@ class TermsAgreementPage extends StatelessWidget {
                 decoration: DPBoxDecorations.box2,
                 isTapEffectEnabled: true,
                 radius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {},
+                onTap: () {
+                  controller.nextPage();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
@@ -218,12 +238,13 @@ class TermsAgreementPage extends StatelessWidget {
 }
 
 class HelpPage extends OnboardingPageBase {
-  const HelpPage({Key? key})
+  const HelpPage({Key? key, required OnboardingPageController controller})
       : super(
-          key: key,
-          header: '도움말을 읽어주세요',
-          description: '도움말은 홈에서 또 확인할 수 있어요',
-        );
+    key: key,
+    header: '도움말을 읽어주세요',
+    description: '도움말은 홈에서 또 확인할 수 있어요',
+    controller: controller,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +261,7 @@ class HelpPage extends OnboardingPageBase {
                   Text(
                     description,
                     style:
-                        DPTypography.paragraph1(color: DPColors.grayscale700),
+                    DPTypography.paragraph1(color: DPColors.grayscale700),
                   ),
                 ],
               ),
@@ -270,7 +291,7 @@ class HelpPage extends OnboardingPageBase {
               ExpandableHelpItem(
                 title: '쿠폰은 어떻게 쓰나요?',
                 details:
-                    '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
+                '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
               ),
             ],
           ),
@@ -282,7 +303,9 @@ class HelpPage extends OnboardingPageBase {
             decoration: DPBoxDecorations.box2,
             isTapEffectEnabled: true,
             radius: const BorderRadius.all(Radius.circular(10)),
-            onTap: () {},
+            onTap: () {
+              controller.nextPage();
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Row(
@@ -327,7 +350,7 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
         });
       },
       decoration:
-          _isExpanded ? DPBoxDecorations.accordion1 : DPBoxDecorations.box1,
+      _isExpanded ? DPBoxDecorations.accordion1 : DPBoxDecorations.box1,
       radius: BorderRadius.circular(16),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -341,7 +364,7 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
                     style: _isExpanded
                         ? DPTypography.itemTitle(color: DPColors.grayscale700)
                         : DPTypography.description(
-                            color: DPColors.grayscale700)),
+                        color: DPColors.grayscale700)),
                 Icon(
                   _isExpanded ? Icons.expand_less : Icons.expand_more,
                   color: DPColors.grayscale600,
@@ -354,7 +377,7 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(widget.details,
                     style:
-                        DPTypography.paragraph2(color: DPColors.grayscale700)),
+                    DPTypography.paragraph2(color: DPColors.grayscale700)),
               ),
           ],
         ),

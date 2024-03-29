@@ -6,6 +6,6 @@ class PaymentPageBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<PaymentService>(() => PaymentService());
-    Get.lazyPut<PaymentPageController>(() => PaymentPageController());
+    Get.lazyPut<OnboardingPageController>(() => OnboardingPageController());
   }
 }
