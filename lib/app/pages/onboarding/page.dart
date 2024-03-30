@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,12 +39,14 @@ class OnboardingPage extends GetView<OnboardingPageController> {
 abstract class OnboardingPageBase extends StatelessWidget {
   final String header;
   final String description;
+  final String? action;
   final OnboardingPageController controller;
 
   const OnboardingPageBase({
     Key? key,
     required this.header,
     required this.description,
+    this.action,
     required this.controller,
   }) : super(key: key);
 
@@ -89,7 +92,10 @@ abstract class OnboardingPageBase extends StatelessWidget {
                 decoration: DPBoxDecorations.box2_1,
                 isTapEffectEnabled: true,
                 radius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(action!);
+                  controller.nextPage();
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
@@ -117,6 +123,7 @@ class CardRegistrationPage extends OnboardingPageBase {
     key: key,
     header: '카드를 등록할게요',
     description: '앱에 카드를 등록해야 결제 단말기에서 결제를 진행할 수 있어요.',
+    action: Routes.REGISTER_CARD,
     controller: controller,
   );
 }
@@ -128,6 +135,7 @@ class FaceSignRegistrationPage extends OnboardingPageBase {
     header: 'FaceSign을 등록할게요',
     description:
     'FaceSign을 등록하면 결제 단말기에서 FaceSign으로 디미페이 앱 없이 간편하게 결제할 수 있어요.',
+    action: Routes.FACESIGN,
     controller: controller,
   );
 }
@@ -264,6 +272,7 @@ class HelpPage extends OnboardingPageBase {
     key: key,
     header: '도움말을 읽어주세요',
     description: '도움말은 홈에서 또 확인할 수 있어요',
+    action: null,
     controller: controller,
   );
 
