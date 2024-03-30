@@ -29,8 +29,4 @@ class ThemeService extends GetxService {
 
     _themeMode.value = themeMode;
   }
-
-  // void changeTheme(DPTheme newTheme) {
-  //   _theme.value = newTheme;
-  // }
 }
