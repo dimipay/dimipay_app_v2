@@ -8,6 +8,8 @@ class DataItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Column(
@@ -15,12 +17,12 @@ class DataItem extends StatelessWidget {
         children: [
           Text(
             header,
-            style: DPTypography.paragraph2(color: DPColors.grayscale600),
+            style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600),
           ),
           const SizedBox(height: 4),
           Text(
             value,
-            style: DPTypography.itemTitle(color: DPColors.grayscale700),
+            style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale700),
           ),
         ],
       ),

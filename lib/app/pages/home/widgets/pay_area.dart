@@ -1,4 +1,3 @@
-import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/payment_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/qr_area.dart';
@@ -12,9 +11,19 @@ class PayArea extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: DPBoxDecorations.box3,
+      decoration: BoxDecoration(
+        color: colorTheme.grayscale100,
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        border: Border.fromBorderSide(BorderSide(
+          color: colorTheme.grayscale300,
+          width: 1,
+        )),
+      ),
       child: Column(
         children: [
           Row(
@@ -23,8 +32,8 @@ class PayArea extends GetView<HomePageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('결제 QR', style: DPTypography.itemTitle(color: DPColors.grayscale900)),
-                    Text('스캐너에 결제 QR을 찍어주세요', style: DPTypography.token(color: DPColors.grayscale600)),
+                    Text('결제 QR', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
+                    Text('스캐너에 결제 QR을 찍어주세요', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
                   ],
                 ),
               ),
@@ -37,16 +46,16 @@ class PayArea extends GetView<HomePageController> {
                     return Stack(
                       alignment: Alignment.center,
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 34.0,
                           height: 34.0,
                           child: CircularProgressIndicator(
                             strokeWidth: 1,
                             // value: 1,
-                            color: DPColors.grayscale400,
+                            color: colorTheme.grayscale400,
                           ),
                         ),
-                        Text(controller.timeRemaining.value!.inSeconds.toString(), style: DPTypography.token(color: DPColors.grayscale600)),
+                        Text(controller.timeRemaining.value!.inSeconds.toString(), style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
                       ],
                     );
                   }
@@ -87,11 +96,19 @@ class PayAreaLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Shimmer.fromColors(
-      baseColor: DPColors.grayscale300,
-      highlightColor: DPColors.grayscale200,
+      baseColor: colorTheme.grayscale300,
+      highlightColor: colorTheme.grayscale200,
       child: Container(
-        decoration: DPBoxDecorations.box3,
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale100,
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
+          border: Border.fromBorderSide(BorderSide(
+            color: colorTheme.grayscale300,
+            width: 1,
+          )),
+        ),
         padding: const EdgeInsets.all(20),
         child: const Column(
           children: [

@@ -7,6 +7,7 @@ import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -168,6 +169,8 @@ class PinPageController extends GetxController {
 }
 
 Future<String?> showPinDialog() async {
+  BuildContext context = Get.context!;
+  DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
   await showModalBottomSheet(
     context: Get.context!,
     builder: (_) => SafeArea(
@@ -177,7 +180,7 @@ Future<String?> showPinDialog() async {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
           child: Container(
-            color: Colors.white,
+            color: colorTheme.grayscale100,
             child: Padding(
               padding: const EdgeInsets.only(top: 32),
               child: GetBuilder(
@@ -193,7 +196,7 @@ Future<String?> showPinDialog() async {
     isScrollControlled: true,
     useSafeArea: true,
     showDragHandle: true,
-    backgroundColor: Colors.white,
+    backgroundColor: colorTheme.grayscale100,
     elevation: 0,
   );
   AuthService authService = Get.find<AuthService>();

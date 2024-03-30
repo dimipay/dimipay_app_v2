@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DPSnackBar {
-  static void open(String title, {Color backgroundColor = DPColors.primaryBrand, Color textColor = Colors.white}) {
+  static void open(String title, {Color? backgroundColor, Color? textColor}) {
+    BuildContext context = Get.context!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     Get.rawSnackbar(
-      titleText: Text(title, style: DPTypography.paragraph1().copyWith(color: Colors.white)),
+      titleText: Text(title, style: textTheme.paragraph1.copyWith(color: textColor ?? Colors.white)),
       messageText: Container(),
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor ?? colorTheme.primaryBrand,
       borderRadius: 12,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -18,6 +21,8 @@ class DPSnackBar {
 
 class DPErrorSnackBar {
   void open(String title, {String? message}) {
-    DPSnackBar.open(title, backgroundColor: DPColors.primaryNegative, textColor: Colors.white);
+    BuildContext context = Get.context!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPSnackBar.open(title, backgroundColor: colorTheme.primaryNegative, textColor: Colors.white);
   }
 }

@@ -10,6 +10,8 @@ class TransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -20,12 +22,12 @@ class TransactionItem extends StatelessWidget {
           children: [
             Text(
               '${transaction.totalPrice}원',
-              style: DPTypography.description(color: DPColors.grayscale800),
+              style: textTheme.description.copyWith(color: colorTheme.grayscale800),
             ),
             const SizedBox(height: 4),
             Text(
               transaction.products.map((e) => e.name).toList().join(','),
-              style: DPTypography.itemDescription(color: DPColors.grayscale600),
+              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
             ),
           ],
         ),

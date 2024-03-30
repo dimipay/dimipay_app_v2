@@ -1,10 +1,8 @@
-import 'package:dimipay_design_kit/utils/dimipay_colors.dart';
-import 'package:dimipay_design_kit/utils/dimipay_typography.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/divider.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../widgets/button.dart';
-import '../../../widgets/divider.dart';
 
 class PaymentSelectionBottomSheet extends StatefulWidget {
   const PaymentSelectionBottomSheet({Key? key}) : super(key: key);
@@ -20,11 +18,12 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 42),
       decoration: BoxDecoration(
-        color: DPColors.grayscale100,
+        color: colorTheme.grayscale100,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -81,13 +80,14 @@ class _TopIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Container(
         width: 36,
         height: 4,
         decoration: BoxDecoration(
-          color: DPColors.grayscale300,
+          color: colorTheme.grayscale300,
           borderRadius: BorderRadius.circular(10),
         ),
       ),
@@ -102,11 +102,13 @@ class _Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text(text, style: DPTypography.header2(color: DPColors.grayscale1000)),
+        child: Text(text, style: textTheme.header2.copyWith(color: colorTheme.grayscale1000)),
       ),
     );
   }
@@ -135,6 +137,7 @@ class _PaymentOption extends StatefulWidget {
 class _PaymentOptionState extends State<_PaymentOption> {
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPButton(
       onTap: widget.onSelect,
       child: Container(
@@ -148,9 +151,9 @@ class _PaymentOptionState extends State<_PaymentOption> {
             ),
             const SizedBox(width: 12),
             if (widget.isSelected)
-              const Icon(
+              Icon(
                 Icons.check_rounded,
-                color: DPColors.primaryBrand,
+                color: colorTheme.primaryBrand,
                 size: 24,
               ),
           ],
@@ -168,12 +171,14 @@ class _CardDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: DPTypography.itemTitle(color: DPColors.grayscale800)),
+        Text(title, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800)),
         const SizedBox(height: 4),
-        Text(subtitle, style: DPTypography.itemDescription(color: DPColors.grayscale600)),
+        Text(subtitle, style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
       ],
     );
   }
@@ -184,6 +189,8 @@ class _AddCardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
       child: Row(
@@ -191,13 +198,13 @@ class _AddCardButton extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: DPColors.grayscale200,
+              color: colorTheme.grayscale200,
               borderRadius: BorderRadius.circular(50),
             ),
-            child: const Icon(Icons.credit_card, size: 24, color: DPColors.grayscale600),
+            child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
           ),
           const SizedBox(width: 12),
-          Text('카드 추가하기', style: DPTypography.description(color: DPColors.grayscale600)),
+          Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
         ],
       ),
     );

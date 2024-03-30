@@ -14,6 +14,8 @@ class PinPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Column(
       children: [
         Expanded(
@@ -24,7 +26,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[0].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -32,7 +34,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[1].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -40,7 +42,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[2].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
             ],
@@ -54,7 +56,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[3].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -62,7 +64,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[4].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -70,7 +72,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[5].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
             ],
@@ -84,7 +86,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[6].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -92,7 +94,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[7].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -100,7 +102,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[8].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
             ],
@@ -111,7 +113,11 @@ class PinPad extends StatelessWidget {
             children: [
               faceIDAvailable
                   ? PinButton(
-                      child: SvgPicture.asset('assets/images/face_id.svg', height: 24),
+                      child: SvgPicture.asset(
+                        'assets/images/face_id.svg',
+                        height: 24,
+                        color: colorTheme.grayscale800,
+                      ),
                       onTap: () => onFaceID?.call(),
                     )
                   : PinButton(child: Container()),
@@ -120,7 +126,7 @@ class PinPad extends StatelessWidget {
                 enabled: numpadEnabled,
                 child: Text(
                   nums[9].toString(),
-                  style: DPTypography.header1(color: numpadEnabled ? DPColors.grayscale800 : DPColors.grayscale400),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
                 ),
               ),
               PinButton(
@@ -130,7 +136,7 @@ class PinPad extends StatelessWidget {
                   'assets/images/backspace.svg',
                   width: 32,
                   // ignore: deprecated_member_use
-                  color: backBtnEnabled ? DPColors.grayscale800 : DPColors.grayscale400,
+                  color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
                 ),
               ),
             ],

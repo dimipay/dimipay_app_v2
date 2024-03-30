@@ -10,11 +10,16 @@ import 'package:intl/intl.dart';
 class TransactionPage extends GetView<TransactionPageController> {
   const TransactionPage({super.key});
 
-  Widget _transaction() {
+  Widget _transaction(DPColors colorTheme, DPTypography textTheme) {
     return controller.transactionService.obx(
       (transactions) {
         if (transactions!.isEmpty) {
-          return const Center(child: Text('결제 내역이 없네요!'));
+          return Center(
+            child: Text(
+              '결제 내역이 없네요!',
+              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
+            ),
+          );
         }
         return Obx(() {
           final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
@@ -35,11 +40,11 @@ class TransactionPage extends GetView<TransactionPageController> {
                 children: [
                   ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
                   !controller.transactionService.hasReachedEnd
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(
-                            color: DPColors.primaryBrand,
+                            color: colorTheme.primaryBrand,
                             strokeWidth: 2,
                           ),
                         )
@@ -51,12 +56,12 @@ class TransactionPage extends GetView<TransactionPageController> {
           );
         });
       },
-      onLoading: const Center(
+      onLoading: Center(
         child: SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(
-            color: DPColors.primaryBrand,
+            color: colorTheme.primaryBrand,
             strokeWidth: 2,
           ),
         ),
@@ -66,6 +71,8 @@ class TransactionPage extends GetView<TransactionPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -77,7 +84,7 @@ class TransactionPage extends GetView<TransactionPageController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child: Text('결제 내역', style: DPTypography.header1(color: DPColors.grayscale1000)),
+                  child: Text('결제 내역', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
                 ),
                 const SizedBox(height: 20),
                 Padding(
@@ -91,19 +98,25 @@ class TransactionPage extends GetView<TransactionPageController> {
                             onPressed: () {
                               controller.minusMonth();
                             },
-                            icon: const Icon(Icons.chevron_left),
+                            icon: Icon(
+                              Icons.chevron_left,
+                              color: colorTheme.grayscale500,
+                            ),
                           ),
                           Obx(
                             () => Text(
                               DateFormat('yyyy년 M월').format(controller.date.value),
-                              style: DPTypography.description(color: DPColors.grayscale800),
+                              style: textTheme.description.copyWith(color: colorTheme.grayscale800),
                             ),
                           ),
                           IconButton(
                             onPressed: () {
                               controller.plusMonth();
                             },
-                            icon: const Icon(Icons.chevron_right),
+                            icon: Icon(
+                              Icons.chevron_right,
+                              color: colorTheme.grayscale500,
+                            ),
                           ),
                         ],
                       ),
@@ -112,16 +125,16 @@ class TransactionPage extends GetView<TransactionPageController> {
                           children: [
                             Text(
                               '총 ',
-                              style: DPTypography.header2(color: DPColors.primaryBrand),
+                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
                             ),
                             AnimatedDigitWidget(
                               value: controller.transactionService.totalPrice ?? 0,
-                              textStyle: DPTypography.header2(color: DPColors.primaryBrand),
+                              textStyle: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
                               enableSeparator: true,
                             ),
                             Text(
                               '원',
-                              style: DPTypography.header2(color: DPColors.primaryBrand),
+                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
                             ),
                           ],
                         ),
@@ -132,8 +145,8 @@ class TransactionPage extends GetView<TransactionPageController> {
               ],
             ),
           ),
-          Container(height: 6, color: DPColors.grayscale200),
-          Expanded(child: _transaction()),
+          Container(height: 6, color: colorTheme.grayscale200),
+          Expanded(child: _transaction(colorTheme, textTheme)),
         ],
       ),
     );

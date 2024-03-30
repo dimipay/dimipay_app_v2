@@ -13,4 +13,5 @@ abstract class Routes {
   static const PAYMENT = '/payment';
   static const REGISTER_CARD = '/payment/registerCard';
   static const EDIT_CARD = '/payment/editCard';
+  static const THEME_SELECT = '/themeSelect';
 }

@@ -9,6 +9,8 @@ class LogInPage extends GetView<LoginPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -23,7 +25,7 @@ class LogInPage extends GetView<LoginPageController> {
                 width: 16,
                 height: 16,
                 // ignore: deprecated_member_use
-                color: DPColors.grayscale900,
+                color: colorTheme.grayscale900,
               ),
             ],
           ),
@@ -41,9 +43,9 @@ class LogInPage extends GetView<LoginPageController> {
                 children: [
                   SvgPicture.asset('assets/images/login_page_image.svg'),
                   const SizedBox(height: 48),
-                  Text('손 안에서, 손쉽게 결제하는 매점.', style: DPTypography.header1(color: DPColors.grayscale1000)),
+                  Text('손 안에서, 손쉽게 결제하는 매점.', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
                   const SizedBox(height: 8),
-                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.', style: DPTypography.itemDescription(color: DPColors.grayscale700)),
+                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale700)),
                 ],
               ),
             ),
@@ -73,13 +75,15 @@ class GoogleLoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(12)),
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          color: DPColors.grayscale200,
+          color: colorTheme.grayscale200,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +93,7 @@ class GoogleLoginButton extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 '디미고 구글 계정으로 로그인',
-                style: DPTypography.readable(color: DPColors.grayscale600),
+                style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
               ),
             ],
           ),
@@ -104,18 +108,19 @@ class GoogleLoginButtonLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(12)),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        color: DPColors.grayscale200,
-        child: const Center(
+        color: colorTheme.grayscale200,
+        child: Center(
           child: SizedBox(
             width: 20,
             height: 20,
             child: CircularProgressIndicator(
               strokeWidth: 2,
-              color: DPColors.primaryBrand,
+              color: colorTheme.primaryBrand,
             ),
           ),
         ),
