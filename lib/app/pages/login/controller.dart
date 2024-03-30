@@ -13,10 +13,11 @@ class LoginPageController extends GetxController {
   Future loginWithGoogle() async {
     try {
       _isGoogleLoginInProgress.value = true;
-      await authService.loginWithGoogle();
-      if (authService.isGoogleLoginSuccess) {
+      if (authService.isFirstVisit) {
+        Get.offNamed(Routes.ONBOARDING, arguments: {'redirect': redirect});
+      } else {
         final String nextRoute = redirect ?? Routes.HOME;
-        Get.toNamed(nextRoute);
+        Get.offNamed(nextRoute);
       }
     } on NotDimigoMailExceptoin {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
