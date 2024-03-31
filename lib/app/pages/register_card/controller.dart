@@ -157,14 +157,11 @@ class RegisterCardPageController extends GetxController with StateMixin {
       } on DioException catch (e) {
         log(e.response!.data.toString());
         DPErrorSnackBar().open(e.response!.data["message"]);
+        HapticHelper.feedback(HapticPatterns.error);
       } finally {
         change(null, status: RxStatus.success());
       }
     }
-  }
-
-  bool isTextFieldInFocus(FocusNode focusNode) {
-    return focusNode.hasFocus;
   }
 
   @override
