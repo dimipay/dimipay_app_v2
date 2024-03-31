@@ -26,6 +26,7 @@ void main() async {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               fontFamily: 'SUITv1',
+              brightness: Brightness.light,
               appBarTheme: AppBarTheme(
                 systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarIconBrightness: Brightness.dark,
@@ -41,6 +42,7 @@ void main() async {
               extensions: [lightTheme.colors, lightTheme.textStyle],
             ),
             darkTheme: ThemeData(
+              brightness: Brightness.dark,
               fontFamily: 'SUITv1',
               appBarTheme: AppBarTheme(
                 backgroundColor: Colors.transparent,

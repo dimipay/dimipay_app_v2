@@ -1,7 +1,7 @@
-import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/widget/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +11,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -22,62 +24,96 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 child: Column(
                   children: [
-                    _buildCardRegistrationForm(),
-                    _buildActionButtons(),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                '신용/체크카드 등록 가능해요',
+                                style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          FocusScope(
+                            node: controller.formFocusScopeNode,
+                            child: Form(
+                              key: controller.formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: _buildFormFields(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          DPButton(
+                            decoration: BoxDecoration(
+                              color: colorTheme.grayscale100,
+                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              border: Border.fromBorderSide(
+                                BorderSide(
+                                  color: colorTheme.grayscale300,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                            isTapEffectEnabled: true,
+                            radius: const BorderRadius.all(Radius.circular(10)),
+                            onTap: () => controller.scanCreditCard(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
+                                  const SizedBox(width: 10),
+                                  Text('카드 스캔하기', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          DPButton(
+                            decoration: BoxDecoration(
+                              color: colorTheme.primaryBrand,
+                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                            ),
+                            isTapEffectEnabled: true,
+                            radius: const BorderRadius.all(Radius.circular(10)),
+                            onTap: controller.addPaymentMethod,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                child: controller.obx(
+                                  (state) => Text('등록하기', style: textTheme.itemDescription.copyWith(color: Colors.white)),
+                                  onLoading: const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildCardRegistrationForm() {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                '신용/체크카드 등록 가능해요',
-                style: DPTypography.itemDescription(color: DPColors.grayscale500),
-              ),
-
-              // const Spacer(),
-              // Row(
-              //   children: [
-              //     Container(
-              //       width: 24,
-              //       height: 24,
-              //       margin: const EdgeInsets.symmetric(horizontal: 4),
-              //       decoration: DPBoxDecorations.box1,
-              //       child: const Icon(Icons.check_rounded, color: DPColors.grayscale500, size: 16),
-              //     ),
-              //     const SizedBox(width: 10),
-              //     Text(
-              //       '법인 카드',
-              //       style: DPTypography.itemDescription(color: DPColors.grayscale600),
-              //     ),
-              //   ],
-              // )
-            ],
-          ),
-          const SizedBox(height: 16),
-          FocusScope(
-            node: controller.formFocusScopeNode,
-            child: Form(
-              key: controller.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _buildFormFields(),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -150,60 +186,4 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
   }
 
   Widget _buildSpacer() => const SizedBox(height: 16);
-
-  Widget _buildActionButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildScanCardButton(),
-          const SizedBox(height: 16),
-          _buildRegisterButton(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildScanCardButton() {
-    return DPButton(
-      decoration: DPBoxDecorations.box5,
-      isTapEffectEnabled: true,
-      radius: const BorderRadius.all(Radius.circular(10)),
-      onTap: () => controller.scanCreditCard(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.flip_rounded, color: DPColors.grayscale600, size: 20),
-            const SizedBox(width: 10),
-            Text('카드 스캔하기', style: DPTypography.itemDescription(color: DPColors.grayscale600)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRegisterButton() {
-    return DPButton(
-      decoration: DPBoxDecorations.box2,
-      isTapEffectEnabled: true,
-      radius: const BorderRadius.all(Radius.circular(10)),
-      onTap: controller.addPaymentMethod,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: controller.obx(
-            (state) => Text('등록하기', style: DPTypography.itemDescription(color: DPColors.grayscale100)),
-            onLoading: const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }

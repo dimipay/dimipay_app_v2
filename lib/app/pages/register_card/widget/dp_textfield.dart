@@ -52,6 +52,8 @@ class _DPTextFieldState extends State<DPTextField> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return TextField(
       controller: widget.controller,
       focusNode: widget.focusNode,
@@ -62,28 +64,28 @@ class _DPTextFieldState extends State<DPTextField> {
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 21, horizontal: 16),
         filled: true,
-        fillColor: widget.focusNode.hasFocus ? DPColors.grayscale100 : DPColors.grayscale200,
+        fillColor: widget.focusNode.hasFocus ? colorTheme.grayscale100 : colorTheme.grayscale200,
         counterText: "",
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(
-            color: DPColors.grayscale300,
+            color: colorTheme.grayscale300,
             width: 1,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: DPColors.primaryBrand,
+          borderSide: BorderSide(
+            color: colorTheme.primaryBrand,
             width: 2,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         labelText: widget.labelText,
-        labelStyle: DPTypography.itemDescription(color: DPColors.grayscale500),
+        labelStyle: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
         hintText: widget.hintText,
-        hintStyle: DPTypography.description(color: DPColors.grayscale600),
+        hintStyle: textTheme.description.copyWith(color: colorTheme.grayscale600),
       ),
-      style: DPTypography.description(color: DPColors.grayscale1000),
+      style: textTheme.description.copyWith(color: colorTheme.grayscale1000),
       maxLength: widget.maxLength,
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
