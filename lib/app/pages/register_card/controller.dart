@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -132,6 +133,20 @@ class RegisterCardPageController extends GetxController with StateMixin {
       ownerName.value = data;
     } else {
       ownerName.value = null;
+    }
+  }
+
+  Future<void> scanCreditCard() async {
+    final CardDetails? cardInfo = await CardScanner.scanCard(
+      scanOptions: const CardScanOptions(
+        scanCardHolderName: true,
+      ),
+    );
+
+    if (cardInfo != null) {
+      cardNumberFieldController.text = cardInfo.cardNumber;
+      expiredDateFieldController.text = cardInfo.expiryDate.replaceAll("/", "");
+      ownerNameFieldController.text = cardInfo.cardHolderName;
     }
   }
 

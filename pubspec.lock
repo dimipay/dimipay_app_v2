@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  credit_card_scanner:
+    dependency: "direct main"
+    description:
+      name: credit_card_scanner
+      sha256: "9bbfcac698f01bb32cbb2abfc6a9efa7fdea006e5a982cb4b8dc69fa0e8c1d19"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   cross_file:
     dependency: transitive
     description:

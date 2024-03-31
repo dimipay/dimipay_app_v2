@@ -170,7 +170,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       decoration: DPBoxDecorations.box5,
       isTapEffectEnabled: true,
       radius: const BorderRadius.all(Radius.circular(10)),
-      onTap: () {},
+      onTap: () => controller.scanCreditCard(),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
