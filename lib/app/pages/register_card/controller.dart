@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class RegisterCardPageController extends GetxController {
+class RegisterCardPageController extends GetxController with StateMixin {
   final PaymentService paymentService = Get.find<PaymentService>();
 
   final Rx<String?> name = Rx(null);
@@ -17,13 +17,6 @@ class RegisterCardPageController extends GetxController {
   final Rx<String?> password = Rx(null);
   final Rx<String?> ownerName = Rx(null);
 
-  final Rx<bool> isNameFocused = false.obs;
-  final Rx<bool> isCardNumberFocused = false.obs;
-  final Rx<bool> isExpiredDateFocused = false.obs;
-  final Rx<bool> isOwnerPersonalNumFocused = false.obs;
-  final Rx<bool> isPasswordFocused = false.obs;
-  final Rx<bool> isOwnerNameFocused = false.obs;
-
   final TextEditingController nameFieldController = TextEditingController();
   final TextEditingController cardNumberFieldController = TextEditingController();
   final TextEditingController expiredDateFieldController = TextEditingController();
@@ -31,36 +24,19 @@ class RegisterCardPageController extends GetxController {
   final TextEditingController passwordFieldController = TextEditingController();
   final TextEditingController ownerNameFieldController = TextEditingController();
 
-  final FocusNode nameFocusNode = FocusNode();
-  final FocusNode cardNumberFocusNode = FocusNode();
-  final FocusNode expiredDateFocusNode = FocusNode();
-  final FocusNode ownerPersonalNumFocusNode = FocusNode();
-  final FocusNode passwordFocusNode = FocusNode();
-  final FocusNode ownerNameFocusNode = FocusNode();
-
   final formKey = GlobalKey<FormState>();
   final FocusScopeNode formFocusScopeNode = FocusScopeNode();
 
   @override
   void onInit() {
     super.onInit();
+    change(null, status: RxStatus.success());
     nameFieldController.addListener(onNameChange);
     cardNumberFieldController.addListener(onCardNumberChange);
     expiredDateFieldController.addListener(onExpireDateChange);
     ownerPersonalNumFieldController.addListener(onBirthdayChange);
     passwordFieldController.addListener(onPasswordChange);
     ownerNameFieldController.addListener(onOwnerNameChange);
-
-    _setupFocusNodeListeners();
-  }
-
-  void _setupFocusNodeListeners() {
-    nameFocusNode.addListener(() => isNameFocused.value = nameFocusNode.hasFocus);
-    cardNumberFocusNode.addListener(() => isCardNumberFocused.value = cardNumberFocusNode.hasFocus);
-    expiredDateFocusNode.addListener(() => isExpiredDateFocused.value = expiredDateFocusNode.hasFocus);
-    ownerPersonalNumFocusNode.addListener(() => isOwnerPersonalNumFocused.value = ownerPersonalNumFocusNode.hasFocus);
-    passwordFocusNode.addListener(() => isPasswordFocused.value = passwordFocusNode.hasFocus);
-    ownerNameFocusNode.addListener(() => isOwnerNameFocused.value = ownerNameFocusNode.hasFocus);
   }
 
   void onNameChange() {
@@ -172,10 +148,17 @@ class RegisterCardPageController extends GetxController {
   void addPaymentMethod() async {
     if (isFormValid) {
       try {
+        change(null, status: RxStatus.loading());
         await paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: ownerName.value!);
+
+        Get.back();
+        DPSnackBar.open('카드를 등록했어요!');
+        HapticHelper.feedback(HapticPatterns.success);
       } on DioException catch (e) {
         log(e.response!.data.toString());
         DPErrorSnackBar().open(e.response!.data["message"]);
+      } finally {
+        change(null, status: RxStatus.success());
       }
     }
   }
@@ -186,19 +169,12 @@ class RegisterCardPageController extends GetxController {
 
   @override
   void dispose() {
-    super.dispose();
     nameFieldController.dispose();
     cardNumberFieldController.dispose();
     expiredDateFieldController.dispose();
     ownerPersonalNumFieldController.dispose();
     passwordFieldController.dispose();
     ownerNameFieldController.dispose();
-
-    nameFocusNode.dispose();
-    cardNumberFocusNode.dispose();
-    expiredDateFocusNode.dispose();
-    ownerPersonalNumFocusNode.dispose();
-    passwordFocusNode.dispose();
-    ownerNameFocusNode.dispose();
+    super.dispose();
   }
 }

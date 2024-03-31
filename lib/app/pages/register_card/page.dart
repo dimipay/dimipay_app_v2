@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/theme/box_decorations.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
+import 'package:dimipay_app_v2/app/pages/register_card/widget/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             Expanded(
               child: SingleChildScrollView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 child: Column(
                   children: [
                     _buildCardRegistrationForm(),
@@ -66,11 +67,14 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             ],
           ),
           const SizedBox(height: 16),
-          Form(
-            key: controller.formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildFormFields(),
+          FocusScope(
+            node: controller.formFocusScopeNode,
+            child: Form(
+              key: controller.formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _buildFormFields(),
+              ),
             ),
           ),
         ],
@@ -80,111 +84,78 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
 
   List<Widget> _buildFormFields() {
     return [
-      Obx(() => _buildTextFormField(
-            controller: controller.nameFieldController,
-            focusNode: controller.nameFocusNode,
-            labelText: '카드 이름',
-            hintText: '카드 이름을 입력해주세요',
-            maxLength: 20,
-            isFieldFocused: controller.isNameFocused.value,
-          )),
+      DPTextField(
+        controller: controller.nameFieldController,
+        labelText: '카드 이름',
+        hintText: '카드 이름을 입력해주세요',
+        maxLength: 20,
+        textInputAction: TextInputAction.next,
+        autoFocus: true,
+      ),
       _buildSpacer(),
-      Obx(() => _buildTextFormField(
-            controller: controller.cardNumberFieldController,
-            focusNode: controller.cardNumberFocusNode,
-            labelText: '카드 번호',
-            hintText: '0000-0000-0000-0000',
-            maxLength: 19,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isCardNumberFocused.value,
-          )),
+      DPTextField(
+        controller: controller.cardNumberFieldController,
+        labelText: '카드 번호',
+        hintText: '0000-0000-0000-0000',
+        maxLength: 19,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+      ),
       _buildSpacer(),
-      _buildRowFields(),
+      Row(
+        children: [
+          Expanded(
+            child: DPTextField(
+              controller: controller.expiredDateFieldController,
+              labelText: '유효기간',
+              hintText: 'MM/YY',
+              maxLength: 5,
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: DPTextField(
+              controller: controller.ownerPersonalNumFieldController,
+              labelText: '생년월일 / 사업자번호',
+              hintText: '6 / 10자리',
+              maxLength: 10,
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
+            ),
+          ),
+        ],
+      ),
       _buildSpacer(),
-      Obx(() => _buildTextFormField(
-            controller: controller.passwordFieldController,
-            focusNode: controller.passwordFocusNode,
-            labelText: '비밀번호',
-            hintText: '앞 2자리',
-            maxLength: 2,
-            obscureText: true,
-            keyboardType: TextInputType.number,
-            isFieldFocused: controller.isPasswordFocused.value,
-          )),
+      DPTextField(
+        controller: controller.passwordFieldController,
+        labelText: '비밀번호',
+        hintText: '앞 2자리',
+        maxLength: 2,
+        obscureText: true,
+        keyboardType: TextInputType.number,
+        textInputAction: TextInputAction.next,
+      ),
       _buildSpacer(),
-      Obx(() => _buildTextFormField(
-            controller: controller.ownerNameFieldController,
-            focusNode: controller.ownerNameFocusNode,
-            labelText: '소유자명',
-            hintText: '카드에 적혀있는 영문으로 입력해주세요',
-            isFieldFocused: controller.isOwnerNameFocused.value,
-          )),
+      DPTextField(
+        controller: controller.ownerNameFieldController,
+        labelText: '소유자명',
+        hintText: '카드에 적혀있는 영문으로 입력해주세요',
+        textInputAction: TextInputAction.done,
+        inputFormatters: [UpperCaseTextFormatter()],
+      ),
       const SizedBox(height: 24),
     ];
   }
 
-  Widget _buildRowFields() {
-    return Row(
-      children: [
-        Expanded(
-          child: Obx(() => _buildTextFormField(
-                controller: controller.expiredDateFieldController,
-                focusNode: controller.expiredDateFocusNode,
-                labelText: '유효기간',
-                hintText: 'MM/YY',
-                maxLength: 5,
-                keyboardType: TextInputType.number,
-                isFieldFocused: controller.isExpiredDateFocused.value,
-              )),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Obx(() => _buildTextFormField(
-                controller: controller.ownerPersonalNumFieldController,
-                focusNode: controller.ownerPersonalNumFocusNode,
-                labelText: '생년월일 / 사업자번호',
-                hintText: '6 / 10자리',
-                maxLength: 10,
-                keyboardType: TextInputType.number,
-                isFieldFocused: controller.isOwnerPersonalNumFocused.value,
-              )),
-        ),
-      ],
-    );
-  }
-
   Widget _buildSpacer() => const SizedBox(height: 16);
-
-  Widget _buildTextFormField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String labelText,
-    required String hintText,
-    int? maxLength,
-    bool obscureText = false,
-    TextInputType? keyboardType,
-    required bool isFieldFocused,
-  }) {
-    return TextFormField(
-      enableInteractiveSelection: false,
-      controller: controller,
-      focusNode: focusNode,
-      decoration: DPBoxDecorations.inputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        isFocused: isFieldFocused,
-      ),
-      style: DPTypography.description(color: DPColors.grayscale1000),
-      maxLength: maxLength,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-    );
-  }
 
   Widget _buildActionButtons() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildScanCardButton(),
           const SizedBox(height: 16),
@@ -220,13 +191,17 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       isTapEffectEnabled: true,
       radius: const BorderRadius.all(Radius.circular(10)),
       onTap: controller.addPaymentMethod,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('등록하기', style: DPTypography.itemDescription(color: DPColors.grayscale100)),
-          ],
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: controller.obx(
+            (state) => Text('등록하기', style: DPTypography.itemDescription(color: DPColors.grayscale100)),
+            onLoading: const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+            ),
+          ),
         ),
       ),
     );
