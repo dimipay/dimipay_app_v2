@@ -149,8 +149,7 @@ class _MenuItem extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPButton(
       onTap: onTap,
-      child: Container(
-        color: colorTheme.grayscale100,
+      child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
