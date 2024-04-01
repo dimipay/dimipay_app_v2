@@ -30,6 +30,7 @@ class JWTInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     AuthService authService = Get.find<AuthService>();
     //refresh api가 401시 무한 루프 방지
+
     if (err.response?.requestOptions.path == '/auth/refresh') {
       return handler.next(err);
     }
@@ -45,6 +46,9 @@ class JWTInterceptor extends Interceptor {
         //refresh 실패 시 401을 그대로 반환
         return handler.next(err);
       }
+    }
+    if (err.response?.statusCode == 400) {
+      await authService.logout();
     }
     return handler.next(err);
   }
@@ -62,7 +66,6 @@ class LogInterceptor extends Interceptor {
     if (err.response != null) {
       dev.log('${err.response!.requestOptions.method}[${err.response!.statusCode}] => PATH: ${err.response!.requestOptions.path}', name: 'DIO');
       dev.log('${err.response!.data}');
-
     }
     handler.next(err);
   }
