@@ -1,7 +1,9 @@
 import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
 import 'package:dimipay_app_v2/app/pages/payment/widget/payment_action_bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/pages/payment/widget/payment_item.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,33 +16,41 @@ class PaymentPage extends GetView<PaymentPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
+        body: SafeArea(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          const DPAppbar(header: '결제 수단'),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('결제 수단', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
-                    SizedBox(
-                      height: 32,
-                      child: FilledButton(
-                        onPressed: () => Get.toNamed(Routes.REGISTER_CARD),
-                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(colorTheme.primaryBrand)),
-                        child: const Text('추가하기'),
-                      ),
+                Text('카드',
+                    style: textTheme.header2
+                        .copyWith(color: colorTheme.grayscale900)),
+                const SizedBox(width: 8),
+                Text('1',
+                    style: textTheme.header2
+                        .copyWith(color: colorTheme.primaryBrand)),
+                const Spacer(),
+                DPButton(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
+                      color: colorTheme.grayscale600,
+                      child: Text('추가하기',
+                          style: textTheme.readable.copyWith(
+                            color: colorTheme.grayscale100,
+                          )),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 16),
+                  ),
+                )
               ],
             ),
           ),
+          const DPDivider(),
           Expanded(
             child: Obx(() {
               if (controller.paymentService.paymentMethods == null) {
@@ -65,7 +75,8 @@ class PaymentPage extends GetView<PaymentPageController> {
                                 backgroundColor: Colors.transparent,
                                 elevation: 0,
                                 context: context,
-                                builder: (context) => PaymentActionBottomSheet(paymentMethod: e),
+                                builder: (context) =>
+                                    PaymentActionBottomSheet(paymentMethod: e),
                               ),
                             ))
                         .toList(),
@@ -76,6 +87,6 @@ class PaymentPage extends GetView<PaymentPageController> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

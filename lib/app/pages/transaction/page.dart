@@ -2,6 +2,7 @@ import 'package:animated_digit/animated_digit.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/controller.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_date_group.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -74,81 +75,78 @@ class TransactionPage extends GetView<TransactionPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text('결제 내역', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
-                ),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              controller.minusMonth();
-                            },
-                            icon: Icon(
-                              Icons.chevron_left,
-                              color: colorTheme.grayscale500,
-                            ),
-                          ),
-                          Obx(
-                            () => Text(
-                              DateFormat('yyyy년 M월').format(controller.date.value),
-                              style: textTheme.description.copyWith(color: colorTheme.grayscale800),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              controller.plusMonth();
-                            },
-                            icon: Icon(
-                              Icons.chevron_right,
-                              color: colorTheme.grayscale500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Obx(
-                        () => Row(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DPAppbar(header: '결제 내역'),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              '총 ',
-                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                            IconButton(
+                              onPressed: () {
+                                controller.minusMonth();
+                              },
+                              icon: Icon(
+                                Icons.chevron_left,
+                                color: colorTheme.grayscale500,
+                              ),
                             ),
-                            AnimatedDigitWidget(
-                              value: controller.transactionService.totalPrice ?? 0,
-                              textStyle: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
-                              enableSeparator: true,
+                            Obx(
+                                  () => Text(
+                                DateFormat('yyyy년 M월').format(controller.date.value),
+                                style: textTheme.description.copyWith(color: colorTheme.grayscale800),
+                              ),
                             ),
-                            Text(
-                              '원',
-                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                            IconButton(
+                              onPressed: () {
+                                controller.plusMonth();
+                              },
+                              icon: Icon(
+                                Icons.chevron_right,
+                                color: colorTheme.grayscale500,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        Obx(
+                              () => Row(
+                            children: [
+                              Text(
+                                '총 ',
+                                style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                              ),
+                              AnimatedDigitWidget(
+                                value: controller.transactionService.totalPrice ?? 0,
+                                textStyle: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                                enableSeparator: true,
+                              ),
+                              Text(
+                                '원',
+                                style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(height: 6, color: colorTheme.grayscale200),
-          Expanded(child: _transaction(colorTheme, textTheme)),
-        ],
-      ),
+            Container(height: 6, color: colorTheme.grayscale200),
+            Expanded(child: _transaction(colorTheme, textTheme)),
+          ],
+        ),
+      )
     );
   }
 }

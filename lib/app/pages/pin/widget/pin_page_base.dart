@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_pad.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +45,7 @@ class PinPageBase extends GetView<PinPageController> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            DPAppbar(header: null),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Column(
