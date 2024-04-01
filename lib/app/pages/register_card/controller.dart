@@ -1,5 +1,6 @@
 import 'dart:developer';
-
+import 'package:credit_card_scanner/credit_card_scanner.dart';
+import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class RegisterCardPageController extends GetxController {
+class RegisterCardPageController extends GetxController with StateMixin {
   final PaymentService paymentService = Get.find<PaymentService>();
 
   final Rx<String?> name = Rx(null);
@@ -30,6 +31,7 @@ class RegisterCardPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    change(null, status: RxStatus.success());
     nameFieldController.addListener(onNameChange);
     cardNumberFieldController.addListener(onCardNumberChange);
     expiredDateFieldController.addListener(onExpireDateChange);
@@ -134,6 +136,20 @@ class RegisterCardPageController extends GetxController {
     }
   }
 
+  Future<void> scanCreditCard() async {
+    final CardDetails? cardInfo = await CardScanner.scanCard(
+      scanOptions: const CardScanOptions(
+        scanCardHolderName: true,
+      ),
+    );
+
+    if (cardInfo != null) {
+      cardNumberFieldController.text = cardInfo.cardNumber;
+      expiredDateFieldController.text = cardInfo.expiryDate.replaceAll("/", "");
+      ownerNameFieldController.text = cardInfo.cardHolderName;
+    }
+  }
+
   bool get isFormValid {
     if (name.value == null) return false;
     if (cardNumber.value == null || cardNumber.value!.length < 16) return false;
@@ -147,11 +163,30 @@ class RegisterCardPageController extends GetxController {
   void addPaymentMethod() async {
     if (isFormValid) {
       try {
+        change(null, status: RxStatus.loading());
         await paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: ownerName.value!);
+
+        Get.back();
+        DPSnackBar.open('카드를 등록했어요!');
+        HapticHelper.feedback(HapticPatterns.success);
       } on DioException catch (e) {
         log(e.response!.data.toString());
         DPErrorSnackBar().open(e.response!.data["message"]);
+        HapticHelper.feedback(HapticPatterns.error);
+      } finally {
+        change(null, status: RxStatus.success());
       }
     }
+  }
+
+  @override
+  void dispose() {
+    nameFieldController.dispose();
+    cardNumberFieldController.dispose();
+    expiredDateFieldController.dispose();
+    ownerPersonalNumFieldController.dispose();
+    passwordFieldController.dispose();
+    ownerNameFieldController.dispose();
+    super.dispose();
   }
 }
