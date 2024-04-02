@@ -14,7 +14,10 @@ class PaymentSelectionBottomSheet extends StatefulWidget {
 class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomSheet> {
   String selectedOption = 'X CHECK';
 
-  void selectOption(String option) => setState(() => selectedOption = option);
+  void selectOption(String option) {
+    print(MediaQuery.of(context).size.height);
+    setState(() => selectedOption = option);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,9 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
           const _Heading(text: '결제수단 선택'),
           const SizedBox(height: 20),
           ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 200.0),
+            constraints: MediaQuery.of(context).size.height > 768
+                ? const BoxConstraints(maxHeight: 200.0)
+                : const BoxConstraints(maxHeight: 120.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -66,9 +71,7 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
           ),
           const SizedBox(height: 20),
           const DPDivider(),
-          const SizedBox(height: 20),
           const _AddCardButton(),
-          const SizedBox(height: 20),
         ],
       ),
     );
@@ -191,21 +194,26 @@ class _AddCardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 6),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: colorTheme.grayscale200,
-              borderRadius: BorderRadius.circular(50),
+    return DPButton(
+      onTap: () {},
+      radius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: colorTheme.grayscale200,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
             ),
-            child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
-          ),
-          const SizedBox(width: 12),
-          Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
-        ],
+            const SizedBox(width: 12),
+            Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
+          ],
+        ),
       ),
     );
   }

@@ -17,7 +17,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
       body: SafeArea(
         child: Column(
           children: [
-            const appbar.DPAppbar(header: '카드등록'),
+            const appbar.DPAppbar(header: '카드 등록'),
             Expanded(
               child: SingleChildScrollView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,

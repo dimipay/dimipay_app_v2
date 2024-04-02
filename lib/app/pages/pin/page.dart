@@ -9,7 +9,6 @@ class PinPage extends GetView<PinPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Builder(
         builder: (context) {
           switch (controller.pinPageType) {

@@ -64,24 +64,35 @@ class FaceSignNotRegistered extends StatelessWidget {
           ),
         ),
         controller.obx(
-          (_) => DPButton(
-            onTap: controller.registerFaceSign,
-            child: Container(
-              width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
-              child: Center(child: Text("등록하기", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+          (_) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: DPButton(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorTheme.primaryBrand),
+              radius: BorderRadius.circular(10),
+              onTap: controller.registerFaceSign,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(
+                    child: Text("등록하기",
+                        style: textTheme.itemDescription
+                            .copyWith(color: colorTheme.grayscale100))),
+              ),
             ),
           ),
-          onLoading: DPButton(
-            onTap: () {},
+          onLoading: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Container(
               width: double.infinity,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale500),
-              child: Center(child: Text("등록 중...", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorTheme.grayscale500),
+              child: Center(
+                  child: Text("등록 중...",
+                      style: textTheme.itemDescription
+                          .copyWith(color: colorTheme.grayscale100))),
             ),
           ),
         )
@@ -189,14 +200,21 @@ class FaceSignRegistered extends StatelessWidget {
               child: Text("등록 삭제하기", style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale600)),
             )),
         const SizedBox(height: 8),
-        DPButton(
-          onTap: controller.registerFaceSign,
-          child: Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
-            child: Center(child: Text("다시 등록하기", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: DPButton(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: colorTheme.primaryBrand),
+            radius: BorderRadius.circular(10),
+            onTap: controller.registerFaceSign,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Center(
+                  child: Text("다시 등록하기",
+                      style: textTheme.itemDescription
+                          .copyWith(color: colorTheme.grayscale100))),
+            ),
           ),
         ),
       ],

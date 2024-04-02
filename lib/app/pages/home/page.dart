@@ -41,7 +41,7 @@ class HomePage extends GetView<HomePageController> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
         child: Column(
           children: [
             Expanded(
@@ -67,6 +67,7 @@ class HomePage extends GetView<HomePageController> {
                         duration: const Duration(milliseconds: 100),
                       ),
                     ),
+                    SizedBox(height: 20),
                     // PayArea()
                     // const SizedBox(height: 20),
                     // Container(

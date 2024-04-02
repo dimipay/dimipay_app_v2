@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DPButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final BorderRadius? radius;
   final Decoration? decoration;
   final Widget child;
@@ -9,7 +9,7 @@ class DPButton extends StatelessWidget {
 
   const DPButton({
     Key? key,
-    required this.onTap,
+    this.onTap,
     this.radius,
     this.decoration,
     required this.child,
