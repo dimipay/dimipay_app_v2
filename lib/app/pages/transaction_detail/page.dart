@@ -21,7 +21,7 @@ class TransactionDetailPage extends StatelessWidget {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
