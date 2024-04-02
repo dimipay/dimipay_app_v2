@@ -36,6 +36,7 @@ class TestPage extends StatelessWidget {
         children: [
           linkToRoute(Routes.HOME),
           linkToRoute(Routes.LOGIN),
+          linkToRoute(Routes.ONBOARDING),
           linkToRoute(Routes.PIN),
           linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
           linkToRoute(Routes.USER),

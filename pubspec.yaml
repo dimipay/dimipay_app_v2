@@ -57,6 +57,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
   credit_card_scanner: ^1.0.5
+  url_launcher: ^6.2.5
 
 
 dev_dependencies:
