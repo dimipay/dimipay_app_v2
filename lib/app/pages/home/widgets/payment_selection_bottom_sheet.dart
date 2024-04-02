@@ -1,8 +1,10 @@
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class PaymentSelectionBottomSheet extends StatefulWidget {
   const PaymentSelectionBottomSheet({Key? key}) : super(key: key);
@@ -195,7 +197,7 @@ class _AddCardButton extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPButton(
-      onTap: () {},
+      onTap: () => Get.toNamed(Routes.REGISTER_CARD),
       radius: const BorderRadius.only(
           bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       child: Padding(
