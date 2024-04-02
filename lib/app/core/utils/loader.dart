@@ -19,11 +19,12 @@ class AppLoader {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await dotenv.load(fileName: "env/.env", isOptional: true);
-    if (kReleaseMode) {
-      Get.lazyPut<ApiProvider>(() => ProdApiProvider());
-    } else {
-      Get.lazyPut<ApiProvider>(() => DevApiProvider());
-    }
+    // if (kReleaseMode) {
+    //   Get.lazyPut<ApiProvider>(() => ProdApiProvider());
+    // } else {
+    //   Get.lazyPut<ApiProvider>(() => DevApiProvider());
+    // }
+    Get.lazyPut<ApiProvider>(() => ProdApiProvider());
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);

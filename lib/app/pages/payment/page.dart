@@ -68,21 +68,25 @@ class PaymentPage extends GetView<PaymentPageController> {
                   ),
                 );
               } else {
-                return SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
+                return Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Column(
                     children: controller.paymentService.paymentMethods!
                         .map((e) => PaymentItem(
-                              paymentMethod: e,
-                              onTap: () => showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                context: context,
-                                builder: (context) =>
-                                    PaymentActionBottomSheet(paymentMethod: e),
-                              ),
-                            ))
-                        .toList(),
+                                paymentMethod: e,
+                                onTap: () => showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  context: context,
+                                  builder: (context) =>
+                                      PaymentActionBottomSheet(
+                                          paymentMethod: e),
+                                ),
+                              ))
+                          .toList(),
+                  ),
                   ),
                 );
               }

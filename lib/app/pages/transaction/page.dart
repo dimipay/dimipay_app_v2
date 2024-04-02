@@ -35,25 +35,28 @@ class TransactionPage extends GetView<TransactionPageController> {
 
           return Scrollbar(
             controller: controller.scrollController,
-            child: SingleChildScrollView(
-              controller: controller.scrollController,
-              child: Column(
-                children: [
-                  ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
-                  !controller.transactionService.hasReachedEnd
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: colorTheme.primaryBrand,
-                            strokeWidth: 2,
-                          ),
-                        )
-                      : Container(),
-                  const SizedBox(height: 40),
-                ],
+            child: Expanded(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                controller: controller.scrollController,
+                child: Column(
+                  children: [
+                    ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                    !controller.transactionService.hasReachedEnd
+                        ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: colorTheme.primaryBrand,
+                        strokeWidth: 2,
+                      ),
+                    )
+                        : Container(),
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
-            ),
+            )
           );
         });
       },
