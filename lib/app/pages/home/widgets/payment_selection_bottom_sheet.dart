@@ -14,7 +14,10 @@ class PaymentSelectionBottomSheet extends StatefulWidget {
 class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomSheet> {
   String selectedOption = 'X CHECK';
 
-  void selectOption(String option) => setState(() => selectedOption = option);
+  void selectOption(String option) {
+    print(MediaQuery.of(context).size.height);
+    setState(() => selectedOption = option);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,9 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
           const _Heading(text: '결제수단 선택'),
           const SizedBox(height: 20),
           ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 200.0),
+            constraints: MediaQuery.of(context).size.height > 768
+                ? const BoxConstraints(maxHeight: 200.0)
+                : const BoxConstraints(maxHeight: 120.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -191,7 +196,8 @@ class _AddCardButton extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPButton(
       onTap: () {},
-      radius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+      radius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
         child: Row(
