@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,26 +78,27 @@ class GoogleLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          color: colorTheme.grayscale200,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/images/google-logo.svg'),
-              const SizedBox(width: 10),
-              Text(
-                '디미고 구글 계정으로 로그인',
-                style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
-              ),
-            ],
-          ),
+    return DPButton(
+      onTap: onTap,
+      decoration: BoxDecoration(
+        color: colorTheme.grayscale200,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      radius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/images/google-logo.svg'),
+            const SizedBox(width: 10),
+            Text(
+              '디미고 구글 계정으로 로그인',
+              style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
+            ),
+          ],
         ),
       ),
     );

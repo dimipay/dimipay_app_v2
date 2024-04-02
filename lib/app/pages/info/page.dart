@@ -21,16 +21,17 @@ class InfoPage extends GetView<InfoPageController> {
         child: Column(
           children: [
             const DPAppbar(header: '정보'),
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               child: Column(children: [
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(
                     children: [
                       controller.userService.obx(
-                        (state) => CircleAvatar(
-                          radius: 21,
+                          (state) => CircleAvatar(
+                            radius: 21,
                           backgroundImage: NetworkImage(state!.profileImage),
                         ),
                         onLoading: CircleAvatar(
@@ -44,20 +45,20 @@ class InfoPage extends GetView<InfoPageController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Obx(
-                              () => Text(
-                                  controller.userService.user == null
+                                () => Text(
+                                    controller.userService.user == null
                                       ? 'loading...'
                                       : controller.userService.user!.name,
                                   style: textTheme.itemTitle.copyWith(
                                       color: colorTheme.grayscale800)),
                             ),
                             Obx(
-                              () => Text(
-                                  controller.userService.user == null
+                                () => Text(
+                                    controller.userService.user == null
                                       ? 'loading...'
                                       : controller
-                                          .userService.user!.accountName,
-                                  style: textTheme.token.copyWith(
+                                            .userService.user!.accountName,
+                                    style: textTheme.token.copyWith(
                                       color: colorTheme.grayscale500)),
                             )
                           ],
@@ -105,8 +106,10 @@ class InfoPage extends GetView<InfoPageController> {
                 ),
                 const _MenuItem(title: '앱 버전'),
                 const _MenuItem(title: '이용 약관 및 정책'),
+                SizedBox(height: 20),
               ]),
-            )
+              ),
+            ),
           ],
         ),
       ),
