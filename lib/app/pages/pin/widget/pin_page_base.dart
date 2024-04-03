@@ -1,7 +1,9 @@
 import 'dart:async';
+
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_pad.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,9 +45,8 @@ class PinPageBase extends GetView<PinPageController> {
       child: SafeArea(
         bottom: true,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
-            DPAppbar(header: null),
+            const DPAppbar(header: null),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               child: Column(
@@ -60,7 +61,8 @@ class PinPageBase extends GetView<PinPageController> {
                       ? Container(height: 26)
                       : Text(
                           '$pinCouont/5',
-                          style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
+                          style: textTheme.header2
+                              .copyWith(color: colorTheme.primaryNegative),
                         ),
                   const SizedBox(height: 16),
                   Obx(
@@ -78,19 +80,22 @@ class PinPageBase extends GetView<PinPageController> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 120),
                   helpText == null
-                      ? Container(
-                          height: 20,
-                        )
+                      ? const SizedBox(height: 20)
                       : Text(
                           helpText!,
-                          style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
-                        )
+                          style: textTheme.itemDescription
+                              .copyWith(color: colorTheme.grayscale500)
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
                 ],
               ),
             ),
-            Expanded(
+            const Spacer(
+              flex: 2,
+            ),
+            SizedBox(
+              height: 320,
               child: Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
                 child: Obx(
@@ -114,6 +119,19 @@ class PinPageBase extends GetView<PinPageController> {
                 ),
               ),
             ),
+            const Spacer(),
+            if (MediaQuery.of(context).size.height > 768)
+              DPButton(
+                isTapEffectEnabled: false,
+                onTap: () {},
+                child: Text(
+                  '결제 핀을 잊어버렸어요',
+                  style: textTheme.paragraph1Underlined
+                      .copyWith(color: colorTheme.grayscale500),
+                ),
+              ),
+            if (MediaQuery.of(context).size.height > 768)
+              const Spacer(),
           ],
         ),
       ),

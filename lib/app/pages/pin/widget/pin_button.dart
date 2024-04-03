@@ -12,6 +12,7 @@ class PinButton extends StatelessWidget {
     return Expanded(
       child: DPButton(
         isTapEffectEnabled: false,
+        radius: BorderRadius.circular(16),
         onTap: enabled ? onTap : null,
         child: Container(
           color: Colors.transparent,
