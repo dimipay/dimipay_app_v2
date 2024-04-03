@@ -21,7 +21,7 @@ void main() async {
         ThemeService themeService = Get.find<ThemeService>();
         return GetMaterialApp(
             title: '디미페이',
-            initialRoute: getInintialRoute(debug: false),
+            initialRoute: getInintialRoute(debug: true),
             getPages: AppPages.pages,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

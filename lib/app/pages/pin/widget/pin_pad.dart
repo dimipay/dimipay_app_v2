@@ -10,62 +10,246 @@ class PinPad extends StatelessWidget {
   final void Function()? onFaceID;
   final void Function(String value)? onPinTap;
   final List<int> nums;
-  const PinPad(this.nums,
-      {super.key,
-        this.onPinTap,
-        this.onFaceID,
-        this.numpadEnabled = true,
-        this.backBtnEnabled = true,
-        this.faceIDAvailable = false});
+  const PinPad(this.nums, {super.key, this.onPinTap, this.onFaceID, this.numpadEnabled = true, this.backBtnEnabled = true, this.faceIDAvailable = false});
 
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return SizedBox(
-      height: 320,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 1.6,
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(12, (index) {
-          if (index == 9) {
-            return faceIDAvailable
-                ? PinButton(
-              child: SvgPicture.asset(
-                'assets/images/face_id.svg',
-                height: 24,
-                color: colorTheme.grayscale800,
-              ),
-              onTap: () => onFaceID?.call(),
-            )
-                : PinButton(child: Container());
-          } else if (index == 11) {
-            return PinButton(
-              onTap: () => onPinTap?.call('del'),
-              enabled: backBtnEnabled,
-              child: SvgPicture.asset(
-                'assets/images/backspace.svg',
-                width: 32,
-                // ignore: deprecated_member_use
-                color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
-              ),
-            );
-          } else {
-            final num = nums[index == 10 ? 9 : index];
-            return PinButton(
-              onTap: () => onPinTap?.call(num.toString()),
-              enabled: numpadEnabled,
-              child: Text(
-                num.toString(),
-                style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
-              ),
-            );
-          }
-        }),
-      ),
+    return GridView(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.3),
+      children: [
+        PinButton(
+          onTap: () => onPinTap?.call(nums[0].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[0].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[1].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[1].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[2].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[2].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[3].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[3].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[4].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[4].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[5].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[5].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[6].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[6].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[7].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[7].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[8].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[8].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        faceIDAvailable
+            ? PinButton(
+                child: SvgPicture.asset(
+                  'assets/images/face_id.svg',
+                  height: 24,
+                  color: colorTheme.grayscale800,
+                ),
+                onTap: () => onFaceID?.call(),
+              )
+            : PinButton(child: Container()),
+        PinButton(
+          onTap: () => onPinTap?.call(nums[9].toString()),
+          enabled: numpadEnabled,
+          child: Text(
+            nums[9].toString(),
+            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+          ),
+        ),
+        PinButton(
+          onTap: () => onPinTap?.call('del'),
+          enabled: backBtnEnabled,
+          child: SvgPicture.asset(
+            'assets/images/backspace.svg',
+            width: 32,
+            // ignore: deprecated_member_use
+            color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
+          ),
+        ),
+      ],
     );
 
+    Column(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              PinButton(
+                onTap: () => onPinTap?.call(nums[0].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[0].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[1].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[1].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[2].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[2].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              PinButton(
+                onTap: () => onPinTap?.call(nums[3].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[3].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[4].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[4].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[5].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[5].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              PinButton(
+                onTap: () => onPinTap?.call(nums[6].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[6].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[7].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[7].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[8].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[8].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              faceIDAvailable
+                  ? PinButton(
+                      child: SvgPicture.asset(
+                        'assets/images/face_id.svg',
+                        height: 24,
+                        color: colorTheme.grayscale800,
+                      ),
+                      onTap: () => onFaceID?.call(),
+                    )
+                  : PinButton(child: Container()),
+              PinButton(
+                onTap: () => onPinTap?.call(nums[9].toString()),
+                enabled: numpadEnabled,
+                child: Text(
+                  nums[9].toString(),
+                  style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+                ),
+              ),
+              PinButton(
+                onTap: () => onPinTap?.call('del'),
+                enabled: backBtnEnabled,
+                child: SvgPicture.asset(
+                  'assets/images/backspace.svg',
+                  width: 32,
+                  // ignore: deprecated_member_use
+                  color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

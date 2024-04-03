@@ -11,66 +11,6 @@ import 'package:intl/intl.dart';
 class TransactionPage extends GetView<TransactionPageController> {
   const TransactionPage({super.key});
 
-  Widget _transaction(DPColors colorTheme, DPTypography textTheme) {
-    return controller.transactionService.obx(
-      (transactions) {
-        if (transactions!.isEmpty) {
-          return Center(
-            child: Text(
-              '결제 내역이 없네요!',
-              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
-            ),
-          );
-        }
-        return Obx(() {
-          final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
-
-          for (var transaction in transactions) {
-            if (transactionsGroupedByDate.containsKey(transaction.createdAt)) {
-              transactionsGroupedByDate[transaction.createdAt]?.add(transaction);
-            } else {
-              transactionsGroupedByDate[transaction.createdAt] = [transaction];
-            }
-          }
-
-          return Expanded(child: Scrollbar(
-            controller: controller.scrollController,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-              controller: controller.scrollController,
-              child: Column(
-                children: [
-                  ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
-                  !controller.transactionService.hasReachedEnd
-                      ? SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      color: colorTheme.primaryBrand,
-                      strokeWidth: 2,
-                    ),
-                  )
-                      : Container(),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ),);
-        });
-      },
-      onLoading: Center(
-        child: SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(
-            color: colorTheme.primaryBrand,
-            strokeWidth: 2,
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
@@ -84,7 +24,7 @@ class TransactionPage extends GetView<TransactionPageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DPAppbar(header: '결제 내역'),
+                  const DPAppbar(header: '결제 내역'),
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Row(
@@ -102,7 +42,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                               ),
                             ),
                             Obx(
-                                  () => Text(
+                              () => Text(
                                 DateFormat('yyyy년 M월').format(controller.date.value),
                                 style: textTheme.description.copyWith(color: colorTheme.grayscale800),
                               ),
@@ -119,7 +59,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                           ],
                         ),
                         Obx(
-                              () => Row(
+                          () => Row(
                             children: [
                               Text(
                                 '총 ',
@@ -144,10 +84,68 @@ class TransactionPage extends GetView<TransactionPageController> {
               ),
             ),
             Container(height: 6, color: colorTheme.grayscale200),
-            Expanded(child: _transaction(colorTheme, textTheme)),
+            Expanded(
+              child: controller.transactionService.obx(
+                (transactions) {
+                  if (transactions!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        '결제 내역이 없네요!',
+                        style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
+                      ),
+                    );
+                  }
+                  return Obx(() {
+                    final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
+
+                    for (var transaction in transactions) {
+                      if (transactionsGroupedByDate.containsKey(transaction.createdAt)) {
+                        transactionsGroupedByDate[transaction.createdAt]?.add(transaction);
+                      } else {
+                        transactionsGroupedByDate[transaction.createdAt] = [transaction];
+                      }
+                    }
+
+                    return Scrollbar(
+                      controller: controller.scrollController,
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        controller: controller.scrollController,
+                        child: Column(
+                          children: [
+                            ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                            !controller.transactionService.hasReachedEnd
+                                ? SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      color: colorTheme.primaryBrand,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(height: 40),
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+                },
+                onLoading: Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      color: colorTheme.primaryBrand,
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
-      )
+      ),
     );
   }
 }

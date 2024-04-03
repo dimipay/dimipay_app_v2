@@ -9,6 +9,7 @@ class PinPage extends GetView<PinPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Builder(
         builder: (context) {
           switch (controller.pinPageType) {
@@ -37,6 +38,7 @@ class OnboardingPinPage extends GetView<PinPageController> {
         headerText: '로그인을 완료하기 위해\n핀을 입력해주세요',
         onPinComplete: controller.onboardingAuth,
         pinCouont: controller.pinCount,
+        // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
       ),
     );
   }

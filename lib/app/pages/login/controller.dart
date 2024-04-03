@@ -17,10 +17,10 @@ class LoginPageController extends GetxController {
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
         if (authService.isFirstVisit) {
-          Get.offNamed(Routes.ONBOARDING, arguments: {'redirect': redirect});
+          Get.toNamed(Routes.ONBOARDING, arguments: {'redirect': redirect});
         } else {
           final String nextRoute = redirect ?? Routes.HOME;
-          Get.offNamed(nextRoute);
+          Get.toNamed(nextRoute);
         }
       }
     } on NotDimigoMailExceptoin {

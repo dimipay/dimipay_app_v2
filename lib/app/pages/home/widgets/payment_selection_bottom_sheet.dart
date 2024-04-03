@@ -17,7 +17,6 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
   String selectedOption = 'X CHECK';
 
   void selectOption(String option) {
-    print(MediaQuery.of(context).size.height);
     setState(() => selectedOption = option);
   }
 
@@ -37,11 +36,9 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
           const _TopIndicator(),
           const SizedBox(height: 20),
           const _Heading(text: '결제수단 선택'),
-          const SizedBox(height: 20),
+          const SizedBox(height: 8),
           ConstrainedBox(
-            constraints: MediaQuery.of(context).size.height > 768
-                ? const BoxConstraints(maxHeight: 200.0)
-                : const BoxConstraints(maxHeight: 120.0),
+            constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -71,7 +68,6 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
               ),
             ),
           ),
-          const SizedBox(height: 20),
           const DPDivider(),
           const _AddCardButton(),
         ],
@@ -198,8 +194,6 @@ class _AddCardButton extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPButton(
       onTap: () => Get.toNamed(Routes.REGISTER_CARD),
-      radius: const BorderRadius.only(
-          bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
         child: Row(

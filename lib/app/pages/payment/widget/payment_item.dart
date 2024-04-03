@@ -35,6 +35,11 @@ class PaymentItem extends StatelessWidget {
                 ],
               ),
             ),
+            Icon(
+              Icons.more_vert,
+              size: 18,
+              color: colorTheme.grayscale500,
+            ),
           ],
         ),
       ),
