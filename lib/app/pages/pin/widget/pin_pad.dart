@@ -22,46 +22,49 @@ class PinPad extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return GridView.count(
-      crossAxisCount: 3,
-      childAspectRatio: 1.6,
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      children: List.generate(12, (index) {
-        if (index == 9) {
-          return faceIDAvailable
-              ? PinButton(
-            child: SvgPicture.asset(
-              'assets/images/face_id.svg',
-              height: 24,
-              color: colorTheme.grayscale800,
-            ),
-            onTap: () => onFaceID?.call(),
-          )
-              : PinButton(child: Container());
-        } else if (index == 11) {
-          return PinButton(
-            onTap: () => onPinTap?.call('del'),
-            enabled: backBtnEnabled,
-            child: SvgPicture.asset(
-              'assets/images/backspace.svg',
-              width: 32,
-              // ignore: deprecated_member_use
-              color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
-            ),
-          );
-        } else {
-          final num = nums[index == 10 ? 9 : index];
-          return PinButton(
-            onTap: () => onPinTap?.call(num.toString()),
-            enabled: numpadEnabled,
-            child: Text(
-              num.toString(),
-              style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
-            ),
-          );
-        }
-      }),
+    return SizedBox(
+      height: 320,
+      child: GridView.count(
+        crossAxisCount: 3,
+        childAspectRatio: 1.6,
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        children: List.generate(12, (index) {
+          if (index == 9) {
+            return faceIDAvailable
+                ? PinButton(
+              child: SvgPicture.asset(
+                'assets/images/face_id.svg',
+                height: 24,
+                color: colorTheme.grayscale800,
+              ),
+              onTap: () => onFaceID?.call(),
+            )
+                : PinButton(child: Container());
+          } else if (index == 11) {
+            return PinButton(
+              onTap: () => onPinTap?.call('del'),
+              enabled: backBtnEnabled,
+              child: SvgPicture.asset(
+                'assets/images/backspace.svg',
+                width: 32,
+                // ignore: deprecated_member_use
+                color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,
+              ),
+            );
+          } else {
+            final num = nums[index == 10 ? 9 : index];
+            return PinButton(
+              onTap: () => onPinTap?.call(num.toString()),
+              enabled: numpadEnabled,
+              child: Text(
+                num.toString(),
+                style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+              ),
+            );
+          }
+        }),
+      ),
     );
 
   }

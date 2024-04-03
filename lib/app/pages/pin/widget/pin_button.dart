@@ -9,16 +9,14 @@ class PinButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: DPButton(
-        isTapEffectEnabled: false,
-        radius: BorderRadius.circular(16),
-        onTap: enabled ? onTap : null,
-        child: Container(
-          color: Colors.transparent,
-          child: Center(
-            child: child,
-          ),
+    return DPButton(
+      isTapEffectEnabled: false,
+      radius: BorderRadius.circular(16),
+      onTap: enabled ? onTap : null,
+      child: Container(
+        color: Colors.transparent,
+        child: Center(
+          child: child,
         ),
       ),
     );

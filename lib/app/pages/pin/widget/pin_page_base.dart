@@ -94,10 +94,8 @@ class PinPageBase extends GetView<PinPageController> {
             const Spacer(
               flex: 2,
             ),
-            SizedBox(
-              height: 320,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
+            Padding(
+              padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
                 child: Obx(
                   () => PinPad(
                     controller.nums,
@@ -118,7 +116,6 @@ class PinPageBase extends GetView<PinPageController> {
                   ),
                 ),
               ),
-            ),
             const Spacer(),
             if (MediaQuery.of(context).size.height > 768)
               DPButton(
