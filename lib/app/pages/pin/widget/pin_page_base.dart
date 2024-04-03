@@ -92,7 +92,7 @@ class PinPageBase extends GetView<PinPageController> {
               ),
             ),
             const Spacer(
-              flex: 2,
+              flex: 3,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
@@ -116,7 +116,8 @@ class PinPageBase extends GetView<PinPageController> {
                   ),
                 ),
               ),
-            const Spacer(),
+            if (MediaQuery.of(context).size.height <= 768)
+              const Spacer(flex: 2,),
             if (MediaQuery.of(context).size.height > 768)
               DPButton(
                 isTapEffectEnabled: false,
@@ -128,7 +129,7 @@ class PinPageBase extends GetView<PinPageController> {
                 ),
               ),
             if (MediaQuery.of(context).size.height > 768)
-              const Spacer(),
+              const Spacer(flex: 2,),
           ],
         ),
       ),
