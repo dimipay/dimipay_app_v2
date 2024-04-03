@@ -47,7 +47,7 @@ class JWTInterceptor extends Interceptor {
         return handler.next(err);
       }
     }
-    if (err.response?.statusCode == 400) {
+    if (err.response?.data['message'] == '알 수 없는 사용자입니다.') {
       await authService.logout();
     }
     return handler.next(err);
