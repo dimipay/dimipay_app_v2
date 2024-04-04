@@ -44,55 +44,54 @@ class PinPageBase extends GetView<PinPageController> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
-                child: Column(
-                  children: [
-                    Text(
-                      locked ? '핀 시도 횟수를\n초과했습니다' : headerText,
-                      style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                      textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+              child: Column(
+                children: [
+                  Text(
+                    locked ? '핀 시도 횟수를\n초과했습니다' : headerText,
+                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  pinCouont == null || locked
+                      ? Container(height: 26)
+                      : Text(
+                    '$pinCouont/5',
+                    style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
+                  ),
+                  const SizedBox(height: 16),
+                  Obx(
+                        () => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // ignore: prefer_is_empty
+                        pinHint(controller.pin.length > 0, colorTheme),
+                        const SizedBox(width: 16),
+                        pinHint(controller.pin.length > 1, colorTheme),
+                        const SizedBox(width: 16),
+                        pinHint(controller.pin.length > 2, colorTheme),
+                        const SizedBox(width: 16),
+                        pinHint(controller.pin.length > 3, colorTheme),
+                      ],
                     ),
-                    const SizedBox(height: 8),
-                    pinCouont == null || locked
-                        ? Container(height: 26)
-                        : Text(
-                            '$pinCouont/5',
-                            style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
-                          ),
-                    const SizedBox(height: 16),
-                    Obx(
-                      () => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // ignore: prefer_is_empty
-                          pinHint(controller.pin.length > 0, colorTheme),
-                          const SizedBox(width: 16),
-                          pinHint(controller.pin.length > 1, colorTheme),
-                          const SizedBox(width: 16),
-                          pinHint(controller.pin.length > 2, colorTheme),
-                          const SizedBox(width: 16),
-                          pinHint(controller.pin.length > 3, colorTheme),
-                        ],
-                      ),
+                  ),
+                  const SizedBox(height: 24),
+                  showForgotPasswordMessage == null
+                      ? Container(
+                    height: 20,
+                  )
+                      : GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      showForgotPasswordMessage!,
+                      style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
                     ),
-                    const SizedBox(height: 24),
-                    showForgotPasswordMessage == null
-                        ? Container(
-                            height: 20,
-                          )
-                        : GestureDetector(
-                            onTap: () {},
-                            child: Text(
-                              showForgotPasswordMessage!,
-                              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
-                            ),
-                          )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
+            const Spacer(flex: 2,),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
               child: Obx(
@@ -115,6 +114,7 @@ class PinPageBase extends GetView<PinPageController> {
                 ),
               ),
             ),
+            const Spacer(),
           ],
         ),
       ),
