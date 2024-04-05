@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +12,7 @@ class FaceSignRepository {
 
   Future<bool> checkIfFaceSignRegistered() async {
     String url = '/user/me/face-registered';
-    Response response = await api.get(url);
+    DPHttpResponse response = await api.get(url);
     return response.data['registered'];
   }
 

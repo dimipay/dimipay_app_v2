@@ -1,6 +1,6 @@
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/user/model.dart';
-import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
 class UserRepository {
@@ -10,7 +10,7 @@ class UserRepository {
 
   Future<User> getUserInfo() async {
     String url = '/user/me';
-    Response response = await api.get(url);
+    DPHttpResponse response = await api.get(url);
     return User.fromJson(response.data);
   }
 }

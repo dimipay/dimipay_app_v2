@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
@@ -11,12 +12,12 @@ class AuthRepository {
   ///returnes Login Result
   ///throews NotDimigoMailExceptoin if emial provider trying to login is not @dimigo.hs.kr
   Future<Map> loginWithGoogle(String idToken) async {
-    String url = '/auth/login';
-    Map body = {
-      'idToken': idToken,
+    String url = '/login/google';
+    Map<String, dynamic> header = {
+      'Google-Access-Token': idToken,
     };
     try {
-      Response response = await api.post(url, data: body);
+      DPHttpResponse response = await api.post(url, options: Options(headers: header));
       return response.data;
     } on DioException catch (e) {
       if (e.response?.data['code'] == 'ERR_NOT_ALLOWED_EMAIL') {
@@ -33,7 +34,7 @@ class AuthRepository {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer $refreshToken',
     };
-    Response response = await api.post(url, options: Options(headers: headers));
+    DPHttpResponse response = await api.post(url, options: Options(headers: headers));
     return response.data['accessToken'];
   }
 
@@ -53,7 +54,7 @@ class AuthRepository {
       body['bioKey'] = bioKey;
     }
     try {
-      Response response = await api.post(url, data: body);
+      DPHttpResponse response = await api.post(url, data: body);
       return response.data['tokens'];
     } on DioException catch (e) {
       switch (e.response?.statusCode) {

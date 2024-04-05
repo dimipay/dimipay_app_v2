@@ -1,25 +1,31 @@
 import 'dart:async';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dio/dio.dart';
 
 abstract class ApiProvider {
   final Dio dio = Dio();
-  Future<Response<T>> get<T>(String path, {Map<String, dynamic>? queryParameters, Options? options}) {
-    return dio.get<T>(path, queryParameters: queryParameters, options: options);
+  Future<DPHttpResponse> get(String path, {Map<String, dynamic>? queryParameters, Options? options}) async {
+    Response dioResponse = await dio.get(path, queryParameters: queryParameters, options: options);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> delete<T>(String path, {dynamic data}) {
-    return dio.delete<T>(path, data: data);
+  Future<DPHttpResponse> delete(String path, {dynamic data}) async {
+    Response dioResponse = await dio.delete(path, data: data);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> post<T>(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) {
-    return dio.post<T>(path, data: data, queryParameters: queryParameters, options: options);
+  Future<DPHttpResponse> post(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
+    Response dioResponse = await dio.post(path, data: data, queryParameters: queryParameters, options: options);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> patch<T>(String path, {dynamic data}) {
-    return dio.patch<T>(path, data: data);
+  Future<DPHttpResponse> patch(String path, {dynamic data}) async {
+    Response dioResponse = await dio.patch(path, data: data);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> put<T>(String path, {dynamic data}) {
-    return dio.put(path, data: data);
+  Future<DPHttpResponse> put(String path, {dynamic data}) async {
+    Response dioResponse = await dio.put(path, data: data);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 }

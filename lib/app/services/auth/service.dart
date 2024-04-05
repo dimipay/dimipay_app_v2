@@ -91,7 +91,7 @@ class AuthService {
     dev.log('idToken: $idToken');
     Map loginResult = await repository.loginWithGoogle(idToken);
 
-    _onboardingToken.value = JWTToken(accessToken: loginResult['accessToken']);
+    _onboardingToken.value = JWTToken(accessToken: loginResult['tokens']['accessToken']);
     _isFirstVisit.value = loginResult['isFirstVisit'];
   }
 

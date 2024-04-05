@@ -1,6 +1,6 @@
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
-import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
 class TransactionRepository {
@@ -16,7 +16,7 @@ class TransactionRepository {
       queryParameter["offset"] = offset.toIso8601String();
     }
 
-    Response response = await api.get(url, queryParameters: queryParameter);
+    DPHttpResponse response = await api.get(url, queryParameters: queryParameter);
     List<Transaction> transactions = response.data["history"].map<Transaction>((json) {
       return Transaction.fromJson(json);
     }).toList();
