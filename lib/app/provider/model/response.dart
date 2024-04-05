@@ -4,7 +4,7 @@ class DPHttpResponse {
   String code;
   String? message;
   int statusCode;
-  String? timeStamp;
+  String timeStamp;
   dynamic data;
   dynamic errors;
   DPHttpResponse({
@@ -20,7 +20,7 @@ class DPHttpResponse {
         code: dioResponse.data['code'],
         message: dioResponse.data['message'],
         statusCode: dioResponse.data['statusCode'],
-        timeStamp: dioResponse.data['timeStamp'],
+        timeStamp: dioResponse.data['timestamp'],
         data: dioResponse.data['data'],
         errors: dioResponse.data['errors'],
       );
