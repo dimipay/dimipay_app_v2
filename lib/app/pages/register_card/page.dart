@@ -58,11 +58,11 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                         children: [
                           DPButton(
                             decoration: BoxDecoration(
-                              color: colorTheme.grayscale100,
+                              color: colorTheme.grayscale200,
                               borderRadius: const BorderRadius.all(Radius.circular(10)),
                               border: Border.fromBorderSide(
                                 BorderSide(
-                                  color: colorTheme.grayscale200,
+                                  color: colorTheme.grayscale300,
                                   width: 1,
                                 ),
                               ),

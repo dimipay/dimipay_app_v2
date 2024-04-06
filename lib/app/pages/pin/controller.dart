@@ -22,7 +22,8 @@ enum PinPageType {
 
 enum PinPageStatus {
   preCheck,
-  nomal,
+  normal,
+  wrong,
   doubleCheck,
 }
 
@@ -32,7 +33,7 @@ class PinPageController extends GetxController {
 
   final PinPageType pinPageType = Get.arguments?['pinPageType'] ?? PinPageType.unlock;
 
-  final Rx<PinPageStatus> _status = Rx(PinPageStatus.nomal);
+  final Rx<PinPageStatus> _status = Rx(PinPageStatus.normal);
   PinPageStatus get status => _status.value;
 
   final Rx<List<int>> _nums = Rx([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -85,13 +86,13 @@ class PinPageController extends GetxController {
 
   void _initStatus() {
     if (pinPageType == PinPageType.unlock) {
-      _status.value = PinPageStatus.nomal;
+      _status.value = PinPageStatus.normal;
     } else if (pinPageType == PinPageType.onboarding) {
-      _status.value = PinPageStatus.nomal;
+      _status.value = PinPageStatus.normal;
     } else if (pinPageType == PinPageType.editPin) {
       _status.value = PinPageStatus.preCheck;
     } else if (pinPageType == PinPageType.createPin) {
-      _status.value = PinPageStatus.nomal;
+      _status.value = PinPageStatus.normal;
     }
   }
 
@@ -113,6 +114,7 @@ class PinPageController extends GetxController {
       Get.offAllNamed(nextRoute);
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
+      _status.value = PinPageStatus.wrong;
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
       clearPin();
     }
@@ -124,6 +126,7 @@ class PinPageController extends GetxController {
       Get.back();
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
+      _status.value = PinPageStatus.wrong;
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;
@@ -135,7 +138,7 @@ class PinPageController extends GetxController {
     try {
       await authService.validatePin(pin);
       _pinCount.value = null;
-      _status.value = PinPageStatus.nomal;
+      _status.value = PinPageStatus.normal;
       clearPin();
       _shufleList();
     } on IncorrectPinException catch (e) {
@@ -157,6 +160,7 @@ class PinPageController extends GetxController {
   Future<void> changePinDoubleCheck() async {
     if (pin != _newPin) {
       DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
+      _status.value = PinPageStatus.normal;
       return;
     }
     await authService.changePin(authService.pin!, pin);
