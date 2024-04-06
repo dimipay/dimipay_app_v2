@@ -3,6 +3,8 @@ import 'package:dimipay_app_v2/app/pages/transaction/controller.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_date_group.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,40 +22,46 @@ class TransactionPage extends GetView<TransactionPageController> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.only(bottom: 9),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const DPAppbar(header: '결제 내역'),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            IconButton(
-                              onPressed: () {
+                            DPButton(
+                              isTapEffectEnabled: false,
+                              onTap: () {
                                 controller.minusMonth();
                               },
-                              icon: Icon(
-                                Icons.chevron_left,
+                              child: Icon(
+                                Icons.arrow_back_ios_rounded,
                                 color: colorTheme.grayscale500,
+                                size: 16,
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Obx(
                               () => Text(
                                 DateFormat('yyyy년 M월').format(controller.date.value),
-                                style: textTheme.description.copyWith(color: colorTheme.grayscale800),
+                                style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
+                            const SizedBox(width: 8),
+                            DPButton(
+                              isTapEffectEnabled: false,
+                              onTap: () {
                                 controller.plusMonth();
                               },
-                              icon: Icon(
-                                Icons.chevron_right,
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
                                 color: colorTheme.grayscale500,
+                                size: 16,
                               ),
                             ),
                           ],
@@ -83,7 +91,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                 ],
               ),
             ),
-            Container(height: 6, color: colorTheme.grayscale200),
+            const DPDivider(),
             Expanded(
               child: controller.transactionService.obx(
                 (transactions) {

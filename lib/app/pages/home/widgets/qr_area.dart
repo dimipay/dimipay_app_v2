@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,40 +93,43 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorTheme.grayscale200,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.fromBorderSide(BorderSide(
-            color: colorTheme.grayscale400,
-            width: 1,
-          )),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: colorTheme.grayscale100,
-                  borderRadius: const BorderRadius.all(Radius.circular(500)),
+    return GestureDetector(
+      onTap: () => Get.toNamed(Routes.REGISTER_CARD),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Container(
+          decoration: BoxDecoration(
+            color: colorTheme.grayscale200,
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            border: Border.fromBorderSide(BorderSide(
+              color: colorTheme.grayscale400,
+              width: 1,
+            )),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorTheme.grayscale100,
+                    borderRadius: const BorderRadius.all(Radius.circular(500)),
+                  ),
+                  child: Icon(
+                    Icons.lock_rounded,
+                    size: 20,
+                    color: colorTheme.grayscale500,
+                  ),
                 ),
-                child: Icon(
-                  Icons.lock_rounded,
-                  size: 20,
-                  color: colorTheme.grayscale500,
+                const SizedBox(height: 10),
+                Text(
+                  '결제수단을 먼저 등록해 주세요.',
+                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                '결제수단을 먼저 등록해 주세요.',
-                style: textTheme.token.copyWith(color: colorTheme.grayscale600),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_page_base.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +10,16 @@ class PinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: DPButton(
+          onTap: () => Get.back(),
+          radius: BorderRadius.circular(20),
+          isTapEffectEnabled: false,
+          child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
+        ),
+      ),
       body: Builder(
         builder: (context) {
           switch (controller.pinPageType) {

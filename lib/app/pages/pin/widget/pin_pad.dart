@@ -25,7 +25,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[0].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -33,7 +37,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[1].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -41,7 +49,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[2].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -49,7 +61,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[3].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -57,7 +73,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[4].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -65,7 +85,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[5].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -73,7 +97,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[6].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -81,7 +109,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[7].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(
@@ -89,7 +121,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[8].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         faceIDAvailable
@@ -107,7 +143,11 @@ class PinPad extends StatelessWidget {
           enabled: numpadEnabled,
           child: Text(
             nums[9].toString(),
-            style: textTheme.header1.copyWith(color: numpadEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400),
+            style: textTheme.header1.copyWith(
+                fontWeight: Weight.medium,
+                color: numpadEnabled
+                    ? colorTheme.grayscale800
+                    : colorTheme.grayscale400),
           ),
         ),
         PinButton(

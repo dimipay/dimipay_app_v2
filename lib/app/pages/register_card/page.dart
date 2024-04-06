@@ -59,10 +59,10 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                           DPButton(
                             decoration: BoxDecoration(
                               color: colorTheme.grayscale100,
-                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
                               border: Border.fromBorderSide(
                                 BorderSide(
-                                  color: colorTheme.grayscale300,
+                                  color: colorTheme.grayscale200,
                                   width: 1,
                                 ),
                               ),
@@ -86,7 +86,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                           DPButton(
                             decoration: BoxDecoration(
                               color: colorTheme.primaryBrand,
-                              borderRadius: const BorderRadius.all(Radius.circular(16)),
+                              borderRadius: const BorderRadius.all(Radius.circular(10)),
                             ),
                             isTapEffectEnabled: true,
                             radius: const BorderRadius.all(Radius.circular(10)),

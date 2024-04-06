@@ -86,7 +86,7 @@ class InfoPage extends GetView<InfoPageController> {
                 }),
                 Obx(() {
                   return _MenuItem(
-                    title: 'Face Sign',
+                    title: 'FaceSign',
                     onTap: () => Get.toNamed(Routes.FACESIGN),
                     hint: controller.faceSignService.isRegistered
                         ? '등록 됨'
@@ -125,10 +125,10 @@ class LogOutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return SizedBox(
-      child: IconButton(
-        padding: EdgeInsets.zero,
-        icon: Icon(Icons.logout_rounded, size: 16, color: colorTheme.grayscale500),
-        onPressed: onTap,
+      child: DPButton(
+        isTapEffectEnabled: false,
+        onTap: onTap,
+        child: Icon(Icons.logout_rounded, size: 20, color: colorTheme.grayscale500),
       ),
     );
   }

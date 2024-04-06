@@ -37,6 +37,7 @@ class LogInPage extends GetView<LoginPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 36),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,16 +53,9 @@ class LogInPage extends GetView<LoginPageController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-              child: Obx(() {
-                if (controller.isGoogleLoginInProgress) {
-                  return const GoogleLoginButtonLoading();
-                }
-                {
-                  return GoogleLoginButton(
-                    onTap: controller.loginWithGoogle,
-                  );
-                }
-              }),
+              child: GoogleLoginButton(
+                onTap: controller.loginWithGoogle,
+              ),
             ),
           ],
         ),
@@ -70,7 +64,7 @@ class LogInPage extends GetView<LoginPageController> {
   }
 }
 
-class GoogleLoginButton extends StatelessWidget {
+class GoogleLoginButton extends GetView<LoginPageController> {
   final void Function()? onTap;
   const GoogleLoginButton({super.key, this.onTap});
 
@@ -83,49 +77,48 @@ class GoogleLoginButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorTheme.grayscale200,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: colorTheme.grayscale300,
+          width: 1,
+        ),
       ),
       radius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset('assets/images/google-logo.svg'),
-            const SizedBox(width: 10),
-            Text(
-              '디미고 구글 계정으로 로그인',
-              style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class GoogleLoginButtonLoading extends StatelessWidget {
-  const GoogleLoginButtonLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        color: colorTheme.grayscale200,
-        child: Center(
-          child: SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: colorTheme.primaryBrand,
-            ),
-          ),
-        ),
+        child: Obx(() {
+          if (controller.isGoogleLoginInProgress) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: colorTheme.primaryBrand,
+                  ),
+                ),
+              ],
+            );
+          }
+          {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset('assets/images/google-logo.svg'),
+                const SizedBox(width: 10),
+                Text(
+                  '디미고 구글 계정으로 로그인',
+                  style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
+                ),
+              ],
+            );
+          }
+        }),
       ),
     );
   }

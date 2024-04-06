@@ -30,7 +30,9 @@ class PaymentPage extends GetView<PaymentPageController> {
                     style: textTheme.header2
                         .copyWith(color: colorTheme.grayscale900)),
                 const SizedBox(width: 8),
-                Text('1',
+                Text(controller.paymentService.paymentMethods == null
+                    ? '0'
+                    :'${controller.paymentService.paymentMethods!.length}',
                     style: textTheme.header2
                         .copyWith(color: colorTheme.primaryBrand)),
                 const Spacer(),

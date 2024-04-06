@@ -15,7 +15,7 @@ class FaceSignPage extends GetView<FaceSignPageController> {
       body: SafeArea(
         child: Column(
           children: [
-            const DPAppbar(header: '얼굴등록'),
+            const DPAppbar(header: 'FaceSign'),
             Expanded(child: Obx(() {
               if (controller.faceSignService.isRegistered) {
                 return FaceSignRegistered(controller: controller);
