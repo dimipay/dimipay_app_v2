@@ -143,6 +143,7 @@ class PinPageController extends GetxController {
       _shufleList();
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
+      _status.value = PinPageStatus.wrong;
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;

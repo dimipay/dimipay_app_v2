@@ -65,7 +65,7 @@ class FaceSignNotRegistered extends StatelessWidget {
         ),
         controller.obx(
           (_) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: DPButton(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -82,7 +82,7 @@ class FaceSignNotRegistered extends StatelessWidget {
             ),
           ),
           onLoading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -200,23 +200,39 @@ class FaceSignRegistered extends StatelessWidget {
               child: Text("등록 삭제하기", style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale600)),
             )),
         const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: DPButton(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: colorTheme.primaryBrand),
-            radius: BorderRadius.circular(10),
-            onTap: controller.registerFaceSign,
-            child: Padding(
+        controller.obx(
+              (_) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: DPButton(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorTheme.primaryBrand),
+              radius: BorderRadius.circular(10),
+              onTap: controller.registerFaceSign,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(
+                    child: Text("다시 등록하기",
+                        style: textTheme.itemDescription
+                            .copyWith(color: colorTheme.grayscale100))),
+              ),
+            ),
+          ),
+          onLoading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Container(
+              width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colorTheme.grayscale500),
               child: Center(
-                  child: Text("다시 등록하기",
+                  child: Text("등록 중...",
                       style: textTheme.itemDescription
                           .copyWith(color: colorTheme.grayscale100))),
             ),
           ),
-        ),
+        )
       ],
     );
   }
