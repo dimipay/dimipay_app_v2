@@ -12,26 +12,36 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class AppLoader {
   Future<void> load() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     await dotenv.load(fileName: "env/.env", isOptional: true);
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    await Hive.initFlutter();
+
+    KakaoSdk.init(nativeAppKey: dotenv.get("KAKAO_NATIVE_KEY"));
+
     if (kReleaseMode) {
       Get.lazyPut<ApiProvider>(() => ProdApiProvider());
     } else {
       Get.lazyPut<ApiProvider>(() => DevApiProvider());
     }
-    await Hive.initFlutter();
+
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);
+
     await initializeDateFormatting('ko_KR');
-    // 웹에서는 Platform.isAndroid 사용 불가, 부득이하게 이중 If문 사용
+
     if (Platform.isAndroid) {
       FlutterDisplayMode.setHighRefreshRate();
     }
+
     FlutterNativeSplash.remove();
   }
 }

@@ -10,9 +10,11 @@ import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePageController extends GetxController {
   final UserService userService = Get.find<UserService>();
@@ -118,6 +120,21 @@ class HomePageController extends GetxController {
 
     if (useHaptic) {
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
+    }
+  }
+
+  openKakaoChannelTalk() async {
+    try {
+      if (await isKakaoTalkInstalled()) {
+        await launchBrowserTab(await TalkApi.instance.channelChatUrl('_gHxlCxj'));
+      } else {
+        DPErrorSnackBar().open("카카오톡이 현재 설치되어 있지 않습니다.\n설치 후 다시 시도해 주세요.");
+      }
+    } catch (error) {
+      PlatformException exception = (error as PlatformException);
+      if (exception.code != "CANCELED") {
+        DPErrorSnackBar().open("카카오톡을 통한 문의 채널 연결에 실패하였습니다.");
+      }
     }
   }
 

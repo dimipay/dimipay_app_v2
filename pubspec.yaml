@@ -58,6 +58,7 @@ dependencies:
 
   credit_card_scanner: ^1.0.5
   url_launcher: ^6.2.5
+  kakao_flutter_sdk: ^1.9.1+2
 
 
 dev_dependencies:
