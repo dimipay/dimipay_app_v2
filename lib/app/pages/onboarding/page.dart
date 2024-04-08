@@ -183,10 +183,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                 children: [
                   DPButton(
                     isTapEffectEnabled: false,
-                    onTap: () {
-                      launchUrl(Uri.parse(
-                          'https://dimipay.notion.site/60322b96c77b4855b8c7b72dcfcaa0eb'));
-                    },
+                    onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
                     child: Text('개인정보 보호약관 보기',
                         style: textTheme.paragraph1Underlined
                             .copyWith(color: colorTheme.grayscale700)),
@@ -199,10 +196,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                 children: [
                   DPButton(
                     isTapEffectEnabled: false,
-                    onTap: () {
-                      launchUrl(Uri.parse(
-                          'https://dimipay.notion.site/fa05b169a2d94db6b1dd4acae47c66a6'));
-                    },
+                    onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
                     child: Text('서비스 이용약관 보기',
                         style: textTheme.paragraph1Underlined
                             .copyWith(color: colorTheme.grayscale700)),

@@ -15,8 +15,13 @@ import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
 import 'package:dimipay_app_v2/app/pages/payment/page.dart';
 import 'package:dimipay_app_v2/app/pages/pin/binding.dart';
 import 'package:dimipay_app_v2/app/pages/pin/page.dart';
+import 'package:dimipay_app_v2/app/pages/privacy_policy/binding.dart';
+import 'package:dimipay_app_v2/app/pages/privacy_policy/controller.dart';
+import 'package:dimipay_app_v2/app/pages/privacy_policy/page.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/page.dart';
+import 'package:dimipay_app_v2/app/pages/terms_of_service/binding.dart';
+import 'package:dimipay_app_v2/app/pages/terms_of_service/page.dart';
 import 'package:dimipay_app_v2/app/pages/test/page.dart';
 import 'package:dimipay_app_v2/app/pages/theme_select/binding.dart';
 import 'package:dimipay_app_v2/app/pages/theme_select/page.dart';
@@ -85,6 +90,16 @@ class AppPages {
     GetPage(
         name: Routes.LICENSE,
         page: () => const LicensePage(),
+    ),
+    GetPage(
+      name: Routes.TERMS_OF_SERVICE,
+      page: () => const TermsOfServicePage(),
+      binding: TermsOfServiceBinding(),
+    ),
+    GetPage(
+      name: Routes.PRIVACY_POLICY,
+      page: () => const PrivacyPolicyPage(),
+      binding: PrivacyPolicyBinding(),
     ),
   ];
 }

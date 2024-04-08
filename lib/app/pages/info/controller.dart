@@ -27,4 +27,9 @@ class InfoPageController extends GetxController {
     await authService.logout();
     Get.offAllNamed(Routes.LOGIN);
   }
+
+  void openTermsOfServiceAndPrivacyPolicy() {
+    Get.toNamed(Routes.PRIVACY_POLICY);
+    Get.toNamed(Routes.TERMS_OF_SERVICE);
+  }
 }

@@ -50,6 +50,7 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.THEME_SELECT),
           linkToRoute(Routes.VERSION),
           linkToRoute(Routes.LICENSE),
+          linkToRoute(Routes.TERMS_OF_SERVICE),
         ],
       ),
     );

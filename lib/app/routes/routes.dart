@@ -17,4 +17,6 @@ abstract class Routes {
   static const THEME_SELECT = '/themeSelect';
   static const VERSION = '/version';
   static const LICENSE = '/license';
+  static const TERMS_OF_SERVICE = '/termsOfService';
+  static const PRIVACY_POLICY = '/privacyPolicy';
 }
