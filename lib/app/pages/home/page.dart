@@ -25,7 +25,7 @@ class HomePage extends GetView<HomePageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                'assets/images/logoTitle.svg',
+                'assets/icon/logoTitle.svg',
                 width: 16,
                 height: 16,
               ),
