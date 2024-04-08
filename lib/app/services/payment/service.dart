@@ -10,7 +10,7 @@ class PaymentService extends GetxController {
   PaymentService({PaymentRepository? repository}) : repository = repository ?? PaymentRepository();
 
   final Rx<String?> _mainMethodId = Rx(null);
-  PaymentMethod? get mainMethod => paymentMethods?.firstWhereOrNull((payment) => payment.id == _mainMethodId.value);
+  PaymentMethod? get mainMethod => paymentMethods?.firstWhereOrNull((payment) => true);
 
   final Rx<List<PaymentMethod>?> _paymentMethods = Rx(null);
   List<PaymentMethod>? get paymentMethods => _paymentMethods.value;
