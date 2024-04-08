@@ -31,4 +31,6 @@ class PayService extends GetxController with StateMixin<String> {
       log(e.response!.data.toString());
     }
   }
+
+
 }

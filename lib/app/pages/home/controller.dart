@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
@@ -121,6 +122,11 @@ class HomePageController extends GetxController {
     if (useHaptic) {
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
     }
+  }
+
+  void openPaySuccess() {
+    showSuccessDialog();
+    _requestQR();
   }
 
   openKakaoChannelTalk() async {

@@ -17,6 +17,7 @@ class PinPad extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return GridView(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.3),
       children: [

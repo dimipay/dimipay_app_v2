@@ -39,7 +39,12 @@ class HomePage extends GetView<HomePageController> {
                         size: 24, color: colorTheme.grayscale600),
                   ),
                   const SizedBox(width: 24),
-                  Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
+                  DPButton(
+                    isTapEffectEnabled: false,
+                    onTap: () => controller.openPaySuccess(),
+                    child: Icon(Icons.help_rounded,
+                        size: 24, color: colorTheme.grayscale600),
+                  ),
                 ],
               ),
             ],
