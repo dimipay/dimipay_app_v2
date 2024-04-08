@@ -132,7 +132,7 @@ class PinPad extends StatelessWidget {
         faceIDAvailable
             ? PinButton(
                 child: SvgPicture.asset(
-                  'assets/images/face_id.svg',
+                  'assets/icon/face_id.svg',
                   height: 24,
                   color: colorTheme.grayscale800,
                 ),
@@ -155,7 +155,7 @@ class PinPad extends StatelessWidget {
           onTap: () => onPinTap?.call('del'),
           enabled: backBtnEnabled,
           child: SvgPicture.asset(
-            'assets/images/backspace.svg',
+            'assets/icon/backspace.svg',
             width: 32,
             // ignore: deprecated_member_use
             color: backBtnEnabled ? colorTheme.grayscale800 : colorTheme.grayscale400,

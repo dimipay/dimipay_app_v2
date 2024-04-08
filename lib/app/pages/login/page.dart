@@ -22,7 +22,7 @@ class LogInPage extends GetView<LoginPageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                'assets/images/logoTitle.svg',
+                'assets/icon/logoTitle.svg',
                 width: 16,
                 height: 16,
                 // ignore: deprecated_member_use
@@ -109,7 +109,7 @@ class GoogleLoginButton extends GetView<LoginPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset('assets/images/google-logo.svg'),
+                SvgPicture.asset('assets/icon/google-logo.svg'),
                 const SizedBox(width: 10),
                 Text(
                   '디미고 구글 계정으로 로그인',

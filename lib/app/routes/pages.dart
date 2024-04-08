@@ -25,7 +25,10 @@ import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction_detail/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
+import 'package:dimipay_app_v2/app/pages/version/binding.dart';
+import 'package:dimipay_app_v2/app/pages/version/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -75,5 +78,13 @@ class AppPages {
       OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.THEME_SELECT, page: () => const ThemeSelectPage(), binding: ThemeSelectPageBinding()),
+    GetPage(
+        name: Routes.VERSION,
+        page: () => const VersionPage(),
+        binding: VersionPageBinding()),
+    GetPage(
+        name: Routes.LICENSE,
+        page: () => const LicensePage(),
+    ),
   ];
 }

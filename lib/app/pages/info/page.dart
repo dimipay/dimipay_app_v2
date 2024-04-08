@@ -104,9 +104,13 @@ class InfoPage extends GetView<InfoPageController> {
                   title: '화면 테마',
                   onTap: () => Get.toNamed(Routes.THEME_SELECT),
                 ),
-                const _MenuItem(title: '앱 버전'),
-                const _MenuItem(title: '이용 약관 및 정책'),
-                SizedBox(height: 20),
+                  _MenuItem(
+                      title: '앱 버전', onTap: () => Get.toNamed(Routes.VERSION)),
+                  _MenuItem(
+                    title: '이용 약관 및 정책',
+                    //onTap: () => Get.toNamed(Routes.TERMS)
+                  ),
+                  SizedBox(height: 20),
               ]),
               ),
             ),
