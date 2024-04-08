@@ -1065,6 +1065,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
+  screen_brightness:
+    dependency: "direct main"
+    description:
+      name: screen_brightness
+      sha256: a1273cbc854c39c940c17ac400c040afd973166b8808f2efe2072763b23e4d30
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  screen_brightness_android:
+    dependency: transitive
+    description:
+      name: screen_brightness_android
+      sha256: "69d903bb42071aa2ad8853bf24e206ff6c39894930278e6239751447aacb9fe4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  screen_brightness_ios:
+    dependency: transitive
+    description:
+      name: screen_brightness_ios
+      sha256: "0029232923f04912e746cc0844a3e52780a20d146c358b3fa0d79321bbe9c102"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
+  screen_brightness_macos:
+    dependency: transitive
+    description:
+      name: screen_brightness_macos
+      sha256: b83e7a8b7c0f1a3161b586620781517b585deb4082dfff3745a5b2779ea94996
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  screen_brightness_platform_interface:
+    dependency: transitive
+    description:
+      name: screen_brightness_platform_interface
+      sha256: e160b78f37bc093a6a66bfa118bb9266c36bfa3163bf976f94e0e5aa79977ff9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  screen_brightness_windows:
+    dependency: transitive
+    description:
+      name: screen_brightness_windows
+      sha256: "1f1f14436ec3d8fdda4dca60a8c6aa70f9ae1c04a55bd2cf40e3a4453a4bf78e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   shared_preferences:
     dependency: transitive
     description:

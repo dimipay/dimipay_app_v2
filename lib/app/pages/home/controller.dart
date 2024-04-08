@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
@@ -13,9 +14,9 @@ import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
+import 'package:screen_brightness/screen_brightness.dart';
 
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomePageController extends GetxController {
   final UserService userService = Get.find<UserService>();
@@ -28,6 +29,7 @@ class HomePageController extends GetxController {
 
   late Timer _displayTimer;
   Timer? _qrRefreshTimer;
+  double? _screenBrightness;
 
   @override
   void onReady() {
@@ -62,8 +64,29 @@ class HomePageController extends GetxController {
   }
 
   Future<void> _requestQR() async {
+    setBrightness(1);
+
     await payService.fetchPaymentToken(paymentService.mainMethod!);
     reserveQRRefresh(payService.expireAt!);
+  }
+
+  Future<void> setBrightness(double brightness) async {
+    try {
+      _screenBrightness = await ScreenBrightness().system;
+      await ScreenBrightness().setScreenBrightness(brightness);
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> resetBrightness() async {
+    if (_screenBrightness != null) {
+      try {
+        await ScreenBrightness().setScreenBrightness(_screenBrightness!);
+      } catch (e) {
+        log(e.toString());
+      }
+    }
   }
 
   Future<void> prefetchAuthAndQR() async {
@@ -145,8 +168,9 @@ class HomePageController extends GetxController {
   }
 
   @override
-  void onClose() {
+  Future<void> onClose() async {
     _displayTimer.cancel();
+    await resetBrightness();
     super.onClose();
   }
 }
