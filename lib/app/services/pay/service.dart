@@ -32,5 +32,4 @@ class PayService extends GetxController with StateMixin<String> {
     }
   }
 
-
 }

@@ -193,6 +193,7 @@ class _AddCardButton extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPButton(
+      radius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       onTap: () => Get.toNamed(Routes.REGISTER_CARD),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
