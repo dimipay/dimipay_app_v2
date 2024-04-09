@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
@@ -185,7 +186,7 @@ class _CardDetail extends StatelessWidget {
   }
 }
 
-class _AddCardButton extends StatelessWidget {
+class _AddCardButton extends GetView<HomePageController> {
   const _AddCardButton({Key? key}) : super(key: key);
 
   @override
@@ -194,7 +195,10 @@ class _AddCardButton extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPButton(
       radius: const BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-      onTap: () => Get.toNamed(Routes.REGISTER_CARD),
+      onTap: () {
+        controller.resetBrightness();
+        Get.toNamed(Routes.REGISTER_CARD);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
         child: Row(

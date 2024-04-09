@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/payment_selection_bottom_sheet.dart';
@@ -52,7 +53,7 @@ class PaymentArea extends StatelessWidget {
   }
 }
 
-class PaymentAreaNoPaymentRegistered extends StatelessWidget {
+class PaymentAreaNoPaymentRegistered extends GetView<HomePageController> {
   const PaymentAreaNoPaymentRegistered({super.key});
 
   @override
@@ -60,7 +61,10 @@ class PaymentAreaNoPaymentRegistered extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPButton(
-      onTap: () => Get.toNamed(Routes.REGISTER_CARD),
+      onTap: () {
+        controller.resetBrightness();
+        Get.toNamed(Routes.REGISTER_CARD);
+      },
       isTapEffectEnabled: false,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,

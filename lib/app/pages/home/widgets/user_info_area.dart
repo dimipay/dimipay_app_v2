@@ -14,7 +14,10 @@ class UserInfoArea extends GetView<HomePageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPButton(
-      onTap: () => Get.toNamed(Routes.INFO),
+      onTap: () {
+        Get.toNamed(Routes.INFO);
+        controller.resetBrightness();
+      },
       decoration: BoxDecoration(
         color: colorTheme.grayscale100,
         borderRadius: const BorderRadius.all(Radius.circular(16)),

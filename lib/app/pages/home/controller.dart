@@ -64,8 +64,6 @@ class HomePageController extends GetxController {
   }
 
   Future<void> _requestQR() async {
-    setBrightness(1);
-
     await payService.fetchPaymentToken(paymentService.mainMethod!);
     reserveQRRefresh(payService.expireAt!);
   }
@@ -141,6 +139,7 @@ class HomePageController extends GetxController {
       timeRemaining.value = null;
       return;
     }
+    setBrightness(1);
     timeRemaining.value = payService.expireAt!.difference(DateTime.now());
   }
 
