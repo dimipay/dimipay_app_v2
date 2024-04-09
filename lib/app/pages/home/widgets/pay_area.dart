@@ -113,7 +113,7 @@ class PayAreaLoading extends StatelessWidget {
         child: const Column(
           children: [
             SizedBox(height: 128),
-            AspectRatio(aspectRatio: 1),
+            AspectRatio(aspectRatio: 1.5/1),
           ],
         ),
       ),
