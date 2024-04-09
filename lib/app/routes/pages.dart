@@ -90,6 +90,7 @@ class AppPages {
     GetPage(
         name: Routes.LICENSE,
       page: () => LicensePage(
+        applicationName: '',
         applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
       ),
     ),
