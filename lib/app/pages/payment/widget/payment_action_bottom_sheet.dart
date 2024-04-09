@@ -64,7 +64,6 @@ class PaymentActionBottomSheet extends StatelessWidget {
             onTap: () async {
               try {
                 await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
-                DPSnackBar.open('결제 수단이 삭제되었어요!');
                 Get.back();
               } on DioException catch (e) {
                 DPErrorSnackBar().open(e.response?.data['message'] ?? '');
