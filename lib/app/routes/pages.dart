@@ -16,7 +16,6 @@ import 'package:dimipay_app_v2/app/pages/payment/page.dart';
 import 'package:dimipay_app_v2/app/pages/pin/binding.dart';
 import 'package:dimipay_app_v2/app/pages/pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/privacy_policy/binding.dart';
-import 'package:dimipay_app_v2/app/pages/privacy_policy/controller.dart';
 import 'package:dimipay_app_v2/app/pages/privacy_policy/page.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/binding.dart';
 import 'package:dimipay_app_v2/app/pages/register_card/page.dart';
@@ -34,6 +33,7 @@ import 'package:dimipay_app_v2/app/pages/version/binding.dart';
 import 'package:dimipay_app_v2/app/pages/version/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class AppPages {
@@ -89,7 +89,9 @@ class AppPages {
         binding: VersionPageBinding()),
     GetPage(
         name: Routes.LICENSE,
-        page: () => const LicensePage(),
+      page: () => LicensePage(
+        applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
+      ),
     ),
     GetPage(
       name: Routes.TERMS_OF_SERVICE,
