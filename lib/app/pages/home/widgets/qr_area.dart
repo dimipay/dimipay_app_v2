@@ -47,7 +47,7 @@ class QRAreaLocked extends GetView<HomePageController> {
     return GestureDetector(
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
-        aspectRatio: 1,
+        aspectRatio: 1.5/1,
         child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
