@@ -167,7 +167,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
         await paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: ownerName.value!);
 
         Get.back();
-        DPSnackBar.open('카드를 등록했어요!');
+        DPSnackBar.open('결제 수단을 등록했어요!');
         HapticHelper.feedback(HapticPatterns.success);
       } on DioException catch (e) {
         log(e.response!.data.toString());

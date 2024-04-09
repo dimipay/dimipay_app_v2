@@ -115,7 +115,7 @@ class PinPageController extends GetxController {
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
       _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
       clearPin();
     }
   }
@@ -127,10 +127,10 @@ class PinPageController extends GetxController {
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
       _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
     }
   }
 
@@ -144,10 +144,10 @@ class PinPageController extends GetxController {
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
       _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
     }
   }
 

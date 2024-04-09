@@ -131,6 +131,7 @@ class HomePageController extends GetxController {
 
       if (recursive) {
         reserveQRRefresh(payService.expireAt!);
+        HapticHelper.feedback(HapticPatterns.success, hapticType: HapticType.heavy);
       }
     });
   }
@@ -141,10 +142,6 @@ class HomePageController extends GetxController {
       return;
     }
     timeRemaining.value = payService.expireAt!.difference(DateTime.now());
-
-    if (useHaptic) {
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
-    }
   }
 
   void openPaySuccess() {
