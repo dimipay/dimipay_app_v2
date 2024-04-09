@@ -42,6 +42,7 @@ void main() async {
               ),
               scaffoldBackgroundColor: lightTheme.colors.grayscale100,
               extensions: [lightTheme.colors, lightTheme.textStyle],
+              cardColor: lightTheme.colors.grayscale100,
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,
@@ -56,6 +57,7 @@ void main() async {
               ),
               scaffoldBackgroundColor: darkTheme.colors.grayscale100,
               extensions: [darkTheme.colors, darkTheme.textStyle],
+              cardColor: darkTheme.colors.grayscale100,
             ),
             themeMode: themeService.themeMode);
       },
