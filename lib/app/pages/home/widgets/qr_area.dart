@@ -15,7 +15,7 @@ class QRArea extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 1.5/1,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -26,10 +26,12 @@ class QRArea extends StatelessWidget {
           )),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: QrImageView(
-          data: payload,
-          version: 13,
-        ),
+        child: Center(
+          child: QrImageView(
+            data: payload,
+            version: 13,
+          ),
+        )
       ),
     );
   }
@@ -96,7 +98,7 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.toNamed(Routes.REGISTER_CARD),
       child: AspectRatio(
-        aspectRatio: 1,
+        aspectRatio: 1.5/1,
         child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
@@ -144,7 +146,7 @@ class QRAreaLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 1.5/1,
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,

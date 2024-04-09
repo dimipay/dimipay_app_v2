@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/cuppon_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -13,6 +14,7 @@ class HomePage extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return Scaffold(
       backgroundColor: colorTheme.grayscale200,
@@ -78,25 +80,8 @@ class HomePage extends GetView<HomePageController> {
                         duration: const Duration(milliseconds: 100),
                       ),
                     ),
-                    // PayArea()
-                    // const SizedBox(height: 20),
-                    // Container(
-                    //   padding: const EdgeInsets.all(20),
-                    //   decoration: DPBoxDecorations.box3,
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             Text('내 쿠폰', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //       const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
-                    //     ],
-                    //   ),
-                    // ),
+                    const SizedBox(height: 20),
+                    CupponArea(),
                   ],
                 ),
               ),
