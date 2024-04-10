@@ -100,4 +100,13 @@ class AuthRepository {
       }
     }
   }
+
+  Future<String> getEncryptionKey(String publicKey) async {
+    String url = '/auth/encryption-keys';
+    Map<String, dynamic> headers = {
+      'Encryption-Public-Key': publicKey,
+    };
+    DPHttpResponse response = await api.get(url, options: Options(headers: headers));
+    return response.data['encryptionKey'];
+  }
 }

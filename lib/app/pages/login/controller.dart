@@ -16,6 +16,7 @@ class LoginPageController extends GetxController {
       _isGoogleLoginInProgress.value = true;
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
+        await authService.getEncryptionKey();
         if (authService.isFirstVisit) {
           Get.toNamed(Routes.ONBOARDING, arguments: {'redirect': redirect});
         } else {
@@ -27,6 +28,7 @@ class LoginPageController extends GetxController {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
     } on DioException catch (e) {
       DPErrorSnackBar().open(e.response?.data['message'] ?? '');
+      rethrow;
     } finally {
       _isGoogleLoginInProgress.value = false;
     }

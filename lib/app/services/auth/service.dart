@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/model.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
+import 'package:fast_rsa/fast_rsa.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -22,6 +23,10 @@ class AuthService {
   String? _bioKey;
   Completer<void> _refreshTokenApiCompleter = Completer()..complete();
 
+  String? _rsaPrivateKey;
+  String? _rsaPublicKey;
+  String? _aesEncKey;
+
   AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
 
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
@@ -35,6 +40,13 @@ class AuthService {
   bool get isFirstVisit => _isFirstVisit.value;
   String? get bioKey => _bioKey;
   String? get pin => _pin.value;
+
+  Future<void> getEncryptionKey() async {
+    KeyPair res = await RSA.generate(2048);
+    _rsaPrivateKey = (await RSA.convertPrivateKeyToPKCS8(res.privateKey)).replaceFirst('-----BEGIN PRIVATE KEY-----\n', '').replaceFirst('\n-----END PRIVATE KEY-----', '').replaceAll('\n', '');
+    _rsaPublicKey = (await RSA.convertPublicKeyToPKCS1(res.publicKey)).replaceFirst('-----BEGIN RSA PUBLIC KEY-----\n', '').replaceFirst('\n-----END RSA PUBLIC KEY-----', '').replaceAll('\n', '');
+    _aesEncKey = await repository.getEncryptionKey(_rsaPublicKey!);
+  }
 
   Future<String?> _signInWithGoogle() async {
     final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
