@@ -192,22 +192,19 @@ class FaceSignRegistered extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-            child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/images/face-sign.svg',
-              ),
-              const SizedBox(height: 24),
-              Text("Face Sign이 등록되었어요.",
-                  style: textTheme.header2
-                      .copyWith(color: colorTheme.grayscale1000)),
-            ],
-          ),
-        )),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/images/face-sign.svg',
+                ),
+                const SizedBox(height: 24),
+                Text("Face Sign이 등록되었어요.",
+                    style: textTheme.header2
+                        .copyWith(color: colorTheme.grayscale1000)),
+              ],
+            ),
+        ),
         DPButton(
             onTap: controller.deleteFaceSign,
             isTapEffectEnabled: false,
