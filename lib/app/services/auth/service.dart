@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
@@ -6,6 +7,7 @@ import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/model.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
 import 'package:fast_rsa/fast_rsa.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,9 +25,8 @@ class AuthService {
   String? _bioKey;
   Completer<void> _refreshTokenApiCompleter = Completer()..complete();
 
-  String? _rsaPrivateKey;
-  String? _rsaPublicKey;
-  String? _aesEncKey;
+  KeyPair? _rsaKeypair;
+  Uint8List? aesEncKey;
 
   AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
 
@@ -41,11 +42,20 @@ class AuthService {
   String? get bioKey => _bioKey;
   String? get pin => _pin.value;
 
+  Future<KeyPair> _generateRSAKeyPair() async {
+    KeyPair keyPair = await RSA.generate(2048);
+    final pkcs1PubKey = await RSA.convertPublicKeyToPKCS1(keyPair.publicKey);
+    final pkcs8PrivKey = await RSA.convertPrivateKeyToPKCS8(keyPair.privateKey);
+    return KeyPair(pkcs1PubKey, pkcs8PrivKey);
+  }
+
   Future<void> getEncryptionKey() async {
-    KeyPair res = await RSA.generate(2048);
-    _rsaPrivateKey = (await RSA.convertPrivateKeyToPKCS8(res.privateKey)).replaceFirst('-----BEGIN PRIVATE KEY-----\n', '').replaceFirst('\n-----END PRIVATE KEY-----', '').replaceAll('\n', '');
-    _rsaPublicKey = (await RSA.convertPublicKeyToPKCS1(res.publicKey)).replaceFirst('-----BEGIN RSA PUBLIC KEY-----\n', '').replaceFirst('\n-----END RSA PUBLIC KEY-----', '').replaceAll('\n', '');
-    _aesEncKey = await repository.getEncryptionKey(_rsaPublicKey!);
+    _rsaKeypair = await _generateRSAKeyPair();
+
+    final String rawAesEncKey = await repository.getEncryptionKey(_rsaKeypair!.publicKey.replaceAll('\n', '\\r\\n'));
+
+    aesEncKey = (await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, _rsaKeypair!.privateKey));
+    print(aesEncKey);
   }
 
   Future<String?> _signInWithGoogle() async {
@@ -89,7 +99,12 @@ class AuthService {
     _pin.value = newPin;
   }
 
-  Future<void> validatePin(String pin) async {
+  Future<void> registerPin(String pin) async {
+    await repository.registerPin(pin);
+    _pin.value = pin;
+  }
+
+  Future<void> pinCheck(String pin) async {
     await repository.checkPin(pin);
     _pin.value = pin;
   }
@@ -111,13 +126,11 @@ class AuthService {
   ///throws PinLockException when pin locked
   ///thows OnboardingTokenException when OnboardingToken is wrong
   Future<JWTToken> onBoardingAuth(String paymentPin) async {
+    _pin.value = paymentPin;
     String deviceUid = const Uuid().v4();
 
     String? bioKey;
-    if (!GetPlatform.isWeb) {
-      bioKey = const Uuid().v4();
-    }
-
+    bioKey = const Uuid().v4();
     Map onboardingResult = await repository.onBoardingAuth(paymentPin, deviceUid, bioKey);
 
     await _setJWTToken(JWTToken(accessToken: onboardingResult['accessToken'], refreshToken: onboardingResult['refreshToken']));
@@ -125,9 +138,7 @@ class AuthService {
     dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(accessToken!)}');
     dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(refreshToken!)}');
     await _setDeviceUid(deviceUid);
-    if (!GetPlatform.isWeb) {
-      await _setBioKey(bioKey!);
-    }
+    await _setBioKey(bioKey);
     _pin.value = paymentPin;
 
     return _jwtToken.value;

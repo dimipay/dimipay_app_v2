@@ -7,7 +7,7 @@ import 'package:get/instance_manager.dart';
 class PayRepository {
   final ApiProvider api;
 
-  PayRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  PayRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<Map> getPaymentToken({required PaymentMethod paymentMethod, String? pin, String? bioKey}) async {
     String url = '/payment/token';

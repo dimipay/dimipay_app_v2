@@ -6,7 +6,6 @@ import 'package:dimipay_app_v2/app/services/theme/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -17,14 +16,14 @@ class AppLoader {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    await dotenv.load(fileName: "env/.env", isOptional: true);
+    // await dotenv.load(fileName: "env/.env", isOptional: true);
     // if (kReleaseMode) {
     //   Get.lazyPut<ApiProvider>(() => ProdApiProvider());
     // } else {
     //   Get.lazyPut<ApiProvider>(() => DevApiProvider());
     // }
-    Get.lazyPut<ApiProvider>(() => DevApiProvider());
-    await Hive.initFlutter();
+    Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
+
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);
     await initializeDateFormatting('ko_KR');

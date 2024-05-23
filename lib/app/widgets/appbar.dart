@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 class DPAppbar extends StatelessWidget {
   final String? header;
   final String? paragraph;
+  final Widget? leading;
 
-  const DPAppbar({super.key, required this.header, this.paragraph});
+  const DPAppbar({super.key, required this.header, this.paragraph, this.leading});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,14 @@ class DPAppbar extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DPButton(
-              onTap: () => Get.back(),
-              radius: BorderRadius.circular(20),
-              isTapEffectEnabled: false,
-              child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
-            ),
+            leading != null
+                ? leading!
+                : DPButton(
+                    onTap: () => Get.back(),
+                    radius: BorderRadius.circular(20),
+                    isTapEffectEnabled: false,
+                    child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
+                  ),
             if (header != null)
               Column(
                 children: [

@@ -57,12 +57,12 @@ class PinPageBase extends GetView<PinPageController> {
                   pinCouont == null || locked
                       ? Container(height: 26)
                       : Text(
-                    '$pinCouont/5',
-                    style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
-                  ),
+                          '$pinCouont/5',
+                          style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
+                        ),
                   const SizedBox(height: 16),
                   Obx(
-                        () => Row(
+                    () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // ignore: prefer_is_empty
@@ -79,19 +79,19 @@ class PinPageBase extends GetView<PinPageController> {
                   const SizedBox(height: 24),
                   showForgotPasswordMessage == null
                       ? Container(
-                    height: 20,
-                  )
+                          height: 20,
+                        )
                       : GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      showForgotPasswordMessage!,
-                      style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
-                    ),
-                  )
+                          onTap: () {},
+                          child: Text(
+                            showForgotPasswordMessage!,
+                            style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
+                          ),
+                        )
                 ],
               ),
             ),
-            const Spacer(flex: 2,),
+            const Spacer(flex: 2),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
               child: Obx(

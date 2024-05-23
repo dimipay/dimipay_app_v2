@@ -6,10 +6,10 @@ import 'package:get/instance_manager.dart';
 class UserRepository {
   final ApiProvider api;
 
-  UserRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  UserRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<User> getUserInfo() async {
-    String url = '/user/me';
+    String url = '/users/info';
     DPHttpResponse response = await api.get(url);
     return User.fromJson(response.data);
   }

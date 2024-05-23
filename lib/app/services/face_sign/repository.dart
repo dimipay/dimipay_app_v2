@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 class FaceSignRepository {
   final ApiProvider api;
 
-  FaceSignRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  FaceSignRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<bool> checkIfFaceSignRegistered() async {
     String url = '/user/me/face-registered';

@@ -19,11 +19,43 @@ class PinPage extends GetView<PinPageController> {
               return const OnboardingPinPage();
             case PinPageType.editPin:
               return const EditPinPage();
+            case PinPageType.register:
+              return const RegisterPinPage();
             default:
               return const UnlockPinPage();
           }
         },
       ),
+    );
+  }
+}
+
+class RegisterPinPage extends GetView<PinPageController> {
+  const RegisterPinPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () {
+        switch (controller.status) {
+          case PinPageStatus.nomal:
+            return PinPageBase(
+              headerText: '앞으로 사용할\n핀을 입력해주세요',
+              onPinComplete: controller.registerPinNomal,
+              // pinCouont: controller.pinCount,
+              // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
+            );
+          case PinPageStatus.doubleCheck:
+            return PinPageBase(
+              headerText: '다시 한번 입력해주세요\n',
+              onPinComplete: controller.registerPinDoubleCheck,
+              // pinCouont: controller.pinCount,
+              // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
+            );
+          default:
+            return Container();
+        }
+      },
     );
   }
 }
@@ -52,7 +84,7 @@ class UnlockPinPage extends GetView<PinPageController> {
     return Obx(
       () => PinPageBase(
         headerText: '핀을 입력해\n잠금을 해제하세요',
-        onPinComplete: controller.validatePin,
+        onPinComplete: controller.pinCheck,
         pinCouont: controller.pinCount,
         faceIDAvailable: true,
       ),

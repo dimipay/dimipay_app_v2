@@ -6,14 +6,14 @@ import 'package:get/instance_manager.dart';
 class PaymentRepository {
   final ApiProvider api;
 
-  PaymentRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  PaymentRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<Map> getPaymentMethod({bool includeMainMethod = true}) async {
-    String url = '/payment/method';
+    String url = '/payments/methods';
     DPHttpResponse response = await api.get(url, queryParameters: {"includeMainMethod": includeMainMethod});
 
     String? mainMethodId = response.data["mainMethodId"];
-    List<PaymentMethod> paymentMethods = (response.data["paymentMethods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
+    List<PaymentMethod> paymentMethods = (response.data["methods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
 
     return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
   }

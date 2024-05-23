@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
+import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -18,13 +19,12 @@ class LoginPageController extends GetxController {
       if (authService.isGoogleLoginSuccess) {
         await authService.getEncryptionKey();
         if (authService.isFirstVisit) {
-          Get.toNamed(Routes.ONBOARDING, arguments: {'redirect': redirect});
+          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
         } else {
-          final String nextRoute = redirect ?? Routes.HOME;
-          Get.toNamed(nextRoute);
+          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.onboarding});
         }
       }
-    } on NotDimigoMailExceptoin {
+    } on NotDimigoMailException {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
     } on DioException catch (e) {
       DPErrorSnackBar().open(e.response?.data['message'] ?? '');

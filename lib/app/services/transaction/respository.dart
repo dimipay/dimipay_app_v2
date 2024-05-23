@@ -6,7 +6,7 @@ import 'package:get/instance_manager.dart';
 class TransactionRepository {
   final ApiProvider api;
 
-  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<Map> getTransactions(DateTime? offset, {int limit = 15}) async {
     String url = '/transaction';

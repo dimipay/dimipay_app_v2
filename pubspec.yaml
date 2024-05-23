@@ -56,6 +56,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   fast_rsa: ^3.6.1
+  cryptography: ^2.7.0
 
   credit_card_scanner: ^1.0.5
   url_launcher: ^6.2.5
@@ -83,6 +84,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
+    - assets/icon/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see

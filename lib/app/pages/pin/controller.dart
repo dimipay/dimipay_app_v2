@@ -18,6 +18,7 @@ enum PinPageType {
   onboarding,
   createPin,
   editPin,
+  register,
 }
 
 enum PinPageStatus {
@@ -53,6 +54,7 @@ class PinPageController extends GetxController {
 
   @override
   void onInit() {
+    print(pinPageType);
     _shufleList();
     _initStatus();
     super.onInit();
@@ -84,14 +86,17 @@ class PinPageController extends GetxController {
   }
 
   void _initStatus() {
-    if (pinPageType == PinPageType.unlock) {
-      _status.value = PinPageStatus.nomal;
-    } else if (pinPageType == PinPageType.onboarding) {
-      _status.value = PinPageStatus.nomal;
-    } else if (pinPageType == PinPageType.editPin) {
-      _status.value = PinPageStatus.preCheck;
-    } else if (pinPageType == PinPageType.createPin) {
-      _status.value = PinPageStatus.nomal;
+    switch (pinPageType) {
+      case PinPageType.unlock:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.onboarding:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.editPin:
+        _status.value = PinPageStatus.preCheck;
+      case PinPageType.createPin:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.register:
+        _status.value = PinPageStatus.nomal;
     }
   }
 
@@ -118,9 +123,9 @@ class PinPageController extends GetxController {
     }
   }
 
-  void validatePin() async {
+  void pinCheck() async {
     try {
-      await authService.validatePin(pin);
+      await authService.pinCheck(pin);
       Get.back();
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
@@ -133,7 +138,7 @@ class PinPageController extends GetxController {
 
   Future<void> changePinPreCheck() async {
     try {
-      await authService.validatePin(pin);
+      await authService.pinCheck(pin);
       _pinCount.value = null;
       _status.value = PinPageStatus.nomal;
       clearPin();
@@ -156,11 +161,47 @@ class PinPageController extends GetxController {
 
   Future<void> changePinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
+      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "비밀번호를 다시 입력해주세요.");
+      _status.value = PinPageStatus.nomal;
       return;
     }
     await authService.changePin(authService.pin!, pin);
     Get.back();
+  }
+
+  void validatePin(String pin) {
+    List<String> continuousNumber = ['0123', '1234', '2345', '3456', '4567', '5678', '6789', '7890', '9876', '8765', '7654', '6543', '5432', '4321', '3210'];
+    if (continuousNumber.contains(pin)) {
+      throw ContinuousPinException();
+    }
+    if (RegExp(r'^(.)\1{3}$').hasMatch(pin)) {
+      throw SameNumberPinException();
+    }
+  }
+
+  Future<void> registerPinNomal() async {
+    try {
+      validatePin(pin);
+      _newPin = pin;
+      _status.value = PinPageStatus.doubleCheck;
+      clearPin();
+      _shufleList();
+    } on SameNumberPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    } on ContinuousPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    }
+  }
+
+  Future<void> registerPinDoubleCheck() async {
+    if (pin != _newPin) {
+      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "핀을 다시 입력해주세요.");
+      _status.value = PinPageStatus.nomal;
+      return;
+    }
+    await authService.registerPin(pin);
+    final String nextRoute = redirect ?? Routes.HOME;
+    Get.offAllNamed(nextRoute);
   }
 
   void clearPin() {
