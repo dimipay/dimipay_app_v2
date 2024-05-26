@@ -90,7 +90,7 @@ class InfoPage extends GetView<InfoPageController> {
                   ),
                   const _MenuItem(title: '앱 버전'),
                   const _MenuItem(title: '이용 약관 및 정책'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ]),
               ),
             ),

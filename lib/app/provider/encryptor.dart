@@ -14,9 +14,6 @@ class AesGcmEncryptor {
       secretKey: secretKey,
       nonce: nonce,
     );
-    print('Nonce: ${secretBox.nonce}');
-    print('Ciphertext: ${secretBox.cipherText}');
-    print('MAC: ${secretBox.mac.bytes}');
     return base64Encode([nonce.length] + nonce + secretBox.mac.bytes + secretBox.cipherText);
   }
 }
