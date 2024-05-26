@@ -28,8 +28,8 @@ abstract class ApiProvider {
     return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<DPHttpResponse> put(String path, {dynamic data}) async {
-    Response dioResponse = await dio.put(path, data: data);
+  Future<DPHttpResponse> put(String path, {dynamic data, Options? options}) async {
+    Response dioResponse = await dio.put(path, data: data, options: options);
     return DPHttpResponse.fromDioResponse(dioResponse);
   }
 }
@@ -50,7 +50,7 @@ abstract class SecureApiProvider extends ApiProvider {
 
   Future<String> encryptData(dynamic data) async {
     AuthService authService = Get.find<AuthService>();
-    return await AesGcmEncryptor.encrypt(json.encode(data), authService.aesEncKey!);
+    return await AesGcmEncryptor.encrypt(json.encode(data), authService.aes.key!);
   }
 
   @override
@@ -93,7 +93,14 @@ abstract class SecureApiProvider extends ApiProvider {
   }
 
   @override
-  Future<DPHttpResponse> put(String path, {dynamic data}) async {
-    return await super.put(path, data: data);
+  Future<DPHttpResponse> put(String path, {dynamic data, Options? options, bool needPinOTP = false}) async {
+    options ??= Options();
+    options.headers ??= {};
+    if (needPinOTP) {
+      String otp = await getPinOTP();
+
+      options.headers!['Payment-Pin-Otp'] = otp;
+    }
+    return await super.put(path, data: data, options: options);
   }
 }

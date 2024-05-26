@@ -16,9 +16,9 @@ class JWTInterceptor extends Interceptor {
     }
 
     if (authService.isAuthenticated) {
-      options.headers['Authorization'] = 'Bearer ${authService.accessToken}';
+      options.headers['Authorization'] = 'Bearer ${authService.jwt.token.accessToken}';
     } else if (authService.isGoogleLoginSuccess) {
-      options.headers['Authorization'] = 'Bearer ${authService.onboardingToken}';
+      options.headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
     }
 
     return handler.next(options);
@@ -33,7 +33,7 @@ class JWTInterceptor extends Interceptor {
       return handler.next(err);
     }
 
-    if (err.response?.statusCode == 401 && authService.accessToken != null) {
+    if (err.response?.statusCode == 401 && authService.jwt.token.accessToken != null) {
       try {
         await authService.refreshAcessToken();
 

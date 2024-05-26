@@ -54,7 +54,6 @@ class PinPageController extends GetxController {
 
   @override
   void onInit() {
-    print(pinPageType);
     _shufleList();
     _initStatus();
     super.onInit();
@@ -71,7 +70,7 @@ class PinPageController extends GetxController {
       final res = await localAuthService.bioAuth();
 
       if (res) {
-        await authService.loadBioKey();
+        await authService.bioKey.loadBioKey();
         Get.back();
         return true;
       }
@@ -165,8 +164,10 @@ class PinPageController extends GetxController {
       _status.value = PinPageStatus.nomal;
       return;
     }
-    await authService.changePin(authService.pin!, pin);
+    await authService.changePin(pin);
     Get.back();
+    DPSnackBar.open('핀을 변경했어요!');
+    HapticHelper.feedback(HapticPatterns.success);
   }
 
   void validatePin(String pin) {

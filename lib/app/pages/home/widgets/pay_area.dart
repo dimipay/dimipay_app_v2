@@ -68,7 +68,7 @@ class PayArea extends GetView<HomePageController> {
             controller.payService.paymentToken;
             if (controller.paymentService.mainMethod == null) {
               return const QRAreaNoPaymentRegistered();
-            } else if (controller.authService.bioKey == null && controller.authService.pin == null) {
+            } else if (controller.authService.bioKey.key == null && controller.authService.pin == null) {
               return const QRAreaLocked();
             } else if (controller.payService.paymentToken == null) {
               return const QRAreaLoading();

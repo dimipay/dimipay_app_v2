@@ -30,7 +30,7 @@ class HomePageController extends GetxController {
   void onReady() {
     userService.fetchUser();
     paymentService.fetchPaymentMethods().then((_) {
-      if (authService.bioKey != null || authService.pin != null) {
+      if (authService.bioKey.key != null || authService.pin != null) {
         _requestQR();
       }
     });
@@ -45,7 +45,7 @@ class HomePageController extends GetxController {
       final res = await localAuthService.bioAuth();
 
       if (res) {
-        await authService.loadBioKey();
+        await authService.bioKey.loadBioKey();
         return true;
       }
     } on PlatformException catch (e) {
@@ -65,13 +65,13 @@ class HomePageController extends GetxController {
 
   Future<void> prefetchAuthAndQR() async {
     await Future.delayed(const Duration(milliseconds: 300));
-    if (authService.bioKey == null) {
+    if (authService.bioKey.key == null) {
       await biometricAuth();
     }
-    if (authService.bioKey == null && authService.pin == null) {
+    if (authService.bioKey.key == null && authService.pin == null) {
       await showPinDialog();
     }
-    if (authService.bioKey == null && authService.pin == null) {
+    if (authService.bioKey.key == null && authService.pin == null) {
       return;
     }
     if (paymentService.mainMethod != null) {
@@ -83,13 +83,13 @@ class HomePageController extends GetxController {
     if (paymentService.mainMethod == null) {
       return;
     }
-    if (authService.bioKey == null) {
+    if (authService.bioKey.key == null) {
       await biometricAuth();
     }
-    if (authService.bioKey == null && authService.pin == null) {
+    if (authService.bioKey.key == null && authService.pin == null) {
       await showPinDialog();
     }
-    if (authService.bioKey == null && authService.pin == null) {
+    if (authService.bioKey.key == null && authService.pin == null) {
       return;
     }
     await _requestQR();

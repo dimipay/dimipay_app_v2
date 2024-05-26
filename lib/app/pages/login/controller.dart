@@ -17,7 +17,6 @@ class LoginPageController extends GetxController {
       _isGoogleLoginInProgress.value = true;
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
-        await authService.getEncryptionKey();
         if (authService.isFirstVisit) {
           Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
         } else {
