@@ -134,9 +134,9 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('다음',
+                      Text('계속',
                           style: textTheme.itemDescription.copyWith(
-                            color: isTermAgreed ? colorTheme.grayscale1000 : colorTheme.grayscale600,
+                            color: isTermAgreed ? DPLightThemeColors().grayscale100 : colorTheme.grayscale500,
                           )),
                     ],
                   ),

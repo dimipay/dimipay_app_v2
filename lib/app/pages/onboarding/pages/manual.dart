@@ -87,7 +87,7 @@ class ManualPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('확인', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale1000)),
+                  Text('확인', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
                 ],
               ),
             ),

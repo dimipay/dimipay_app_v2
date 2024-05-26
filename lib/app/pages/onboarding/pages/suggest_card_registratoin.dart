@@ -70,7 +70,7 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('등록할래요', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale1000)),
+                      Text('등록할래요', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
                     ],
                   ),
                 ),
@@ -80,6 +80,5 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
         ),
       ],
     );
-    ;
   }
 }
