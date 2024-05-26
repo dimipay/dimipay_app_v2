@@ -18,8 +18,21 @@ class FaceSignService extends GetxController {
     _isRegistered.value = true;
   }
 
+  Future<void> patchFaceSign(XFile image) async {
+    if (isRegistered == false) {
+      return;
+    }
+
+    await repository.patchFaceSign(image);
+  }
+
   Future<void> deleteFaceSign() async {
-    await repository.deleteFaceSign();
-    _isRegistered.value = false;
+    try {
+      _isRegistered.value = false;
+      await repository.deleteFaceSign();
+    } catch (e) {
+      _isRegistered.value = true;
+      rethrow;
+    }
   }
 }

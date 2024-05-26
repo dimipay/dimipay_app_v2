@@ -74,24 +74,30 @@ class FaceSignNotRegistered extends StatelessWidget {
         ),
         controller.obx(
           (_) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: DPButton(
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
               radius: BorderRadius.circular(10),
               onTap: controller.registerFaceSign,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: Text("등록하기", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+                child: Center(child: Text("등록하기", style: textTheme.paragraph2.copyWith(color: DPLightThemeColors().grayscale100))),
               ),
             ),
           ),
           onLoading: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale500),
-              child: Center(child: Text("등록 중...", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale400),
+              child: Center(
+                child: SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(color: colorTheme.primaryBrand, strokeWidth: 2),
+                ),
+              ),
             ),
           ),
         )
@@ -192,22 +198,39 @@ class FaceSignRegistered extends StatelessWidget {
           ),
         ),
         DPButton(
-            onTap: controller.deleteFaceSign,
-            isTapEffectEnabled: false,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Text("등록 삭제하기", style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale600)),
-            )),
-        const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: DPButton(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
-            radius: BorderRadius.circular(10),
-            onTap: controller.registerFaceSign,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Center(child: Text("다시 등록하기", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
+          onTap: controller.deleteFaceSign,
+          isTapEffectEnabled: false,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
+          ),
+        ),
+        controller.obx(
+          (_) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: DPButton(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
+              radius: BorderRadius.circular(10),
+              onTap: controller.patchFaceSign,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(child: Text("다시 등록하기", style: textTheme.paragraph2.copyWith(color: DPLightThemeColors().grayscale100))),
+              ),
+            ),
+          ),
+          onLoading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale400),
+              child: Center(
+                child: SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(color: colorTheme.primaryBrand, strokeWidth: 2),
+                ),
+              ),
             ),
           ),
         ),
