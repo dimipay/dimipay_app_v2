@@ -63,13 +63,12 @@ class AuthRepository {
     return {};
   }
 
-  Future<void> changePin(String originalPin, String newPin) async {
-    String url = '/payment/pin';
+  Future<void> changePin(String newPin) async {
+    String url = '/pin';
     Map<String, String> body = {
-      'originalPin': originalPin,
-      'resetPin': newPin,
+      'pin': newPin,
     };
-    await secureApi.put(url, data: body);
+    await secureApi.put(url, data: body, needPinOTP: true);
   }
 
   Future<void> registerPin(String pin) async {
@@ -81,21 +80,19 @@ class AuthRepository {
   }
 
   Future<void> checkPin(String pin) async {
-    String url = "/payment/check";
+    String url = "/pin/otp";
     Map<String, String> body = {
       "pin": pin,
     };
     try {
-      await secureApi.post(url, data: body);
+      await secureApi.post(url, data: body, encrypt: true);
     } on DioException catch (e) {
       DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
-      if (e.response?.statusCode == 400) {
-        switch (e.response?.data['code']) {
-          case 'ERR_PIN_MISMATCH':
-            throw IncorrectPinException(left: response.errors['remainingTryCount']);
-          case 'PIN_LOCKED':
-            throw PinLockException(e.response?.data['message']);
-        }
+      switch (e.response?.data['code']) {
+        case 'ERR_PAYMENT_PIN_NOT_MATCH':
+          throw IncorrectPinException(left: response.errors['remainingTryCount']);
+        case 'PIN_LOCKED':
+          throw PinLockException(e.response?.data['message']);
       }
     }
   }
