@@ -11,19 +11,15 @@ import 'package:intl/intl.dart';
 class RegisterCardPageController extends GetxController with StateMixin {
   final PaymentService paymentService = Get.find<PaymentService>();
 
-  final Rx<String?> name = Rx(null);
   final Rx<String?> cardNumber = Rx(null);
   final Rx<DateTime?> expiredAt = Rx(null);
   final Rx<String?> ownerPersonalNum = Rx(null);
   final Rx<String?> password = Rx(null);
-  final Rx<String?> ownerName = Rx(null);
 
-  final TextEditingController nameFieldController = TextEditingController();
   final TextEditingController cardNumberFieldController = TextEditingController();
   final TextEditingController expiredDateFieldController = TextEditingController();
   final TextEditingController ownerPersonalNumFieldController = TextEditingController();
   final TextEditingController passwordFieldController = TextEditingController();
-  final TextEditingController ownerNameFieldController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   final FocusScopeNode formFocusScopeNode = FocusScopeNode();
@@ -32,21 +28,10 @@ class RegisterCardPageController extends GetxController with StateMixin {
   void onInit() {
     super.onInit();
     change(null, status: RxStatus.success());
-    nameFieldController.addListener(onNameChange);
     cardNumberFieldController.addListener(onCardNumberChange);
     expiredDateFieldController.addListener(onExpireDateChange);
     ownerPersonalNumFieldController.addListener(onBirthdayChange);
     passwordFieldController.addListener(onPasswordChange);
-    ownerNameFieldController.addListener(onOwnerNameChange);
-  }
-
-  void onNameChange() {
-    String data = nameFieldController.text;
-    if (data.isNotEmpty) {
-      name.value = data;
-    } else {
-      name.value = null;
-    }
   }
 
   String formatCardNumber(String rawData) {
@@ -127,15 +112,6 @@ class RegisterCardPageController extends GetxController with StateMixin {
     }
   }
 
-  void onOwnerNameChange() {
-    String data = ownerNameFieldController.text;
-    if (data.isNotEmpty) {
-      ownerName.value = data;
-    } else {
-      ownerName.value = null;
-    }
-  }
-
   Future<void> scanCreditCard() async {
     final CardDetails? cardInfo = await CardScanner.scanCard(
       scanOptions: const CardScanOptions(
@@ -146,17 +122,14 @@ class RegisterCardPageController extends GetxController with StateMixin {
     if (cardInfo != null) {
       cardNumberFieldController.text = cardInfo.cardNumber;
       expiredDateFieldController.text = cardInfo.expiryDate.replaceAll("/", "");
-      ownerNameFieldController.text = cardInfo.cardHolderName;
     }
   }
 
   bool get isFormValid {
-    if (name.value == null) return false;
     if (cardNumber.value == null || cardNumber.value!.length < 16) return false;
     if (expiredAt.value == null) return false;
     if (ownerPersonalNum.value == null || (ownerPersonalNum.value!.length != 6 && ownerPersonalNum.value!.length != 10)) return false;
     if (password.value == null || password.value!.length != 2) return false;
-    if (ownerName.value == null) return false;
     return true;
   }
 
@@ -164,7 +137,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     if (isFormValid) {
       try {
         change(null, status: RxStatus.loading());
-        await paymentService.createPaymentMethod(name: name.value!, number: cardNumber.value!, year: expiredAt.value!.year.toString().padLeft(2, '0'), month: expiredAt.value!.month.toString().padLeft(2, '0'), idNo: ownerPersonalNum.value!, pw: password.value!, ownerName: ownerName.value!);
+        await paymentService.createPaymentMethod(number: cardNumber.value!, expireYear: expiredAt.value!.year.toString().padLeft(2, '0'), expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'), idNumber: ownerPersonalNum.value!, password: password.value!);
 
         Get.back(result: true);
         DPSnackBar.open('카드를 등록했어요!');
@@ -181,12 +154,10 @@ class RegisterCardPageController extends GetxController with StateMixin {
 
   @override
   void dispose() {
-    nameFieldController.dispose();
     cardNumberFieldController.dispose();
     expiredDateFieldController.dispose();
     ownerPersonalNumFieldController.dispose();
     passwordFieldController.dispose();
-    ownerNameFieldController.dispose();
     super.dispose();
   }
 }

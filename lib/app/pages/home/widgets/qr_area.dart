@@ -27,7 +27,7 @@ class QRArea extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: QrImageView(
           data: payload,
-          version: 13,
+          version: 12,
         ),
       ),
     );

@@ -4,13 +4,13 @@ import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:get/instance_manager.dart';
 
 class PaymentRepository {
-  final ApiProvider api;
+  final SecureApiProvider api;
 
-  PaymentRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
+  PaymentRepository({SecureApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
-  Future<Map> getPaymentMethod({bool includeMainMethod = true}) async {
+  Future<Map> getPaymentMethod() async {
     String url = '/payments/methods';
-    DPHttpResponse response = await api.get(url, queryParameters: {"includeMainMethod": includeMainMethod});
+    DPHttpResponse response = await api.get(url);
 
     String? mainMethodId = response.data["mainMethodId"];
     List<PaymentMethod> paymentMethods = (response.data["methods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
@@ -18,12 +18,18 @@ class PaymentRepository {
     return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
   }
 
-  Future<PaymentMethod> createPaymentMethod({required String name, required String number, required String year, required String month, required String idNo, required String pw, required String ownerName}) async {
-    String url = '/payment/method';
-    Map body = {"name": name, "number": number, "year": year, "month": month, "idNo": idNo, "pw": pw, "ownerName": ownerName};
+  Future<PaymentMethod> createPaymentMethod({required String number, required String expireYear, required String expireMonth, required String idNumber, required String password}) async {
+    String url = '/payments/methods/general';
+    Map body = {
+      "number": number,
+      "expireYear": expireYear,
+      "expireMonth": expireMonth,
+      "idNumber": idNumber,
+      "password": password,
+    };
 
     try {
-      DPHttpResponse response = await api.post(url, data: body);
+      DPHttpResponse response = await api.post(url, data: body, encrypt: true);
       return PaymentMethod.fromJson(response.data);
     } catch (e) {
       rethrow;
@@ -46,13 +52,13 @@ class PaymentRepository {
     }
   }
 
+  Future<void> patchMainMethod({required String id}) async {
+    String url = '/payments/methods/main/$id';
+    await api.patch(url);
+  }
+
   Future<void> deletePaymentMethod({required String id}) async {
-    String url = '/payment/method';
-    Map body = {"id": id};
-    try {
-      await api.delete(url, data: body);
-    } catch (e) {
-      rethrow;
-    }
+    String url = '/payments/methods/$id';
+    await api.delete(url);
   }
 }

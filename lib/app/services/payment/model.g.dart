@@ -9,19 +9,15 @@ part of 'model.dart';
 PaymentMethod _$PaymentMethodFromJson(Map<String, dynamic> json) =>
     PaymentMethod(
       id: json['id'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-      color: json['color'] as String?,
-      name: json['name'] as String?,
-      last4Digit: json['last'] as String,
+      name: json['name'] as String,
+      preview: json['preview'] as String,
+      companyCode: json['companyCode'] as String,
     );
 
 Map<String, dynamic> _$PaymentMethodToJson(PaymentMethod instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'updatedAt': instance.updatedAt.toIso8601String(),
-      'color': instance.color,
       'name': instance.name,
-      'last': instance.last4Digit,
+      'preview': instance.preview,
+      'companyCode': instance.companyCode,
     };

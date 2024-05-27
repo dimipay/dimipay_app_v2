@@ -42,11 +42,11 @@ class PaymentActionBottomSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  paymentMethod.name ?? '',
+                  paymentMethod.name,
                   style: textTheme.header2.copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
-                  '****-****-****-${paymentMethod.last4Digit}',
+                  '****-****-****-${paymentMethod.preview}',
                   style: textTheme.description.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
@@ -63,8 +63,8 @@ class PaymentActionBottomSheet extends StatelessWidget {
             titleColor: colorTheme.primaryNegative,
             onTap: () async {
               try {
-                await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
                 Get.back();
+                await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
               } on DioException catch (e) {
                 DPErrorSnackBar().open(e.response?.data['message'] ?? '');
               }

@@ -5,21 +5,13 @@ import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:get/instance_manager.dart';
 
 class PayRepository {
-  final ApiProvider api;
+  final SecureApiProvider api;
 
-  PayRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
+  PayRepository({SecureApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<Map> getPaymentToken({required PaymentMethod paymentMethod, String? pin, String? bioKey}) async {
-    String url = '/payment/token';
-    Map<String, String> body = {
-      'id': paymentMethod.id,
-    };
-    if (pin != null) {
-      body['pin'] = pin;
-    } else if (bioKey != null) {
-      body['bioKey'] = bioKey;
-    }
-    DPHttpResponse response = await api.post(url, data: body);
+    String url = '/pay/legacy/${paymentMethod.id}';
+    DPHttpResponse response = await api.get(url, needPinOTP: true);
     return response.data;
   }
 }

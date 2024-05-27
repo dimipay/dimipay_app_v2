@@ -16,7 +16,7 @@ class PaymentArea extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       context: context,
-      builder: (context) => const PaymentSelectionBottomSheet(),
+      builder: (context) => PaymentSelectionBottomSheet(),
     );
   }
 
@@ -33,13 +33,13 @@ class PaymentArea extends StatelessWidget {
           SizedBox(
             width: 40,
             height: 40,
-            child: SvgPicture.asset('assets/images/paymentRequired.svg', height: 40),
+            child: SvgPicture.asset(paymentMethod.getLogoImagePath(), height: 40),
           ),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(paymentMethod.name ?? '', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
+              Text(paymentMethod.name, style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
               Text('이 카드로 결제', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
             ],
           ),

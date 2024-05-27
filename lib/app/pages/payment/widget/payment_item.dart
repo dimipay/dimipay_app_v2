@@ -22,16 +22,16 @@ class PaymentItem extends StatelessWidget {
             SizedBox(
               width: 40,
               height: 40,
-              child: SvgPicture.asset('assets/images/paymentRequired.svg'),
+              child: SvgPicture.asset(paymentMethod.getLogoImagePath()),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(paymentMethod.name ?? '', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
+                  Text(paymentMethod.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
                   const SizedBox(height: 4),
-                  Text('****-****-****-${paymentMethod.last4Digit}', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
+                  Text('**** **** **** ${paymentMethod.preview}', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
                 ],
               ),
             ),

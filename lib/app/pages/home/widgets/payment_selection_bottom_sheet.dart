@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -6,19 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class PaymentSelectionBottomSheet extends StatefulWidget {
-  const PaymentSelectionBottomSheet({Key? key}) : super(key: key);
-
-  @override
-  State<PaymentSelectionBottomSheet> createState() => _PaymentSelectionBottomSheetState();
-}
-
-class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomSheet> {
-  String selectedOption = 'X CHECK';
-
-  void selectOption(String option) {
-    setState(() => selectedOption = option);
-  }
+class PaymentSelectionBottomSheet extends StatelessWidget {
+  final PaymentService paymentService = Get.find<PaymentService>();
+  PaymentSelectionBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,30 +32,42 @@ class _PaymentSelectionBottomSheetState extends State<PaymentSelectionBottomShee
             constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  _PaymentOption(
-                    title: 'X CHECK',
-                    subtitle: '현대카드 (370*)',
-                    assetPath: 'assets/images/hyundai.svg',
-                    isSelected: selectedOption == 'X CHECK',
-                    onSelect: () => selectOption('X CHECK'),
-                  ),
-                  _PaymentOption(
-                    title: '지역농협 채움',
-                    subtitle: '농협카드 (782*)',
-                    assetPath: 'assets/images/nh.svg',
-                    isSelected: selectedOption == '지역농협 채움',
-                    onSelect: () => selectOption('지역농협 채움'),
-                  ),
-                  _PaymentOption(
-                    title: 'LOCA Black',
-                    subtitle: '롯데카드 (782*)',
-                    assetPath: 'assets/images/lotte.svg',
-                    isSelected: selectedOption == 'LOCA Black',
-                    onSelect: () => selectOption('LOCA Black'),
-                  ),
-                ],
+              child: Obx(
+                () => Column(
+                    children: paymentService.paymentMethods!
+                        .map(
+                          (e) => _PaymentOption(
+                            title: e.name,
+                            subtitle: '**** **** **** ${e.preview}',
+                            assetPath: e.getLogoImagePath(),
+                            isSelected: false,
+                            onSelect: () {},
+                          ),
+                        )
+                        .toList()
+                    // _PaymentOption(
+                    //   title: 'X CHECK',
+                    //   subtitle: '현대카드 (370*)',
+                    //   assetPath: 'assets/images/hyundai.svg',
+                    //   isSelected: selectedOption == 'X CHECK',
+                    //   onSelect: () => selectOption('X CHECK'),
+                    // ),
+                    // _PaymentOption(
+                    //   title: '지역농협 채움',
+                    //   subtitle: '농협카드 (782*)',
+                    //   assetPath: 'assets/images/nh.svg',
+                    //   isSelected: selectedOption == '지역농협 채움',
+                    //   onSelect: () => selectOption('지역농협 채움'),
+                    // ),
+                    // _PaymentOption(
+                    //   title: 'LOCA Black',
+                    //   subtitle: '롯데카드 (782*)',
+                    //   assetPath: 'assets/images/lotte.svg',
+                    //   isSelected: selectedOption == 'LOCA Black',
+                    //   onSelect: () => selectOption('LOCA Black'),
+                    // ),
+
+                    ),
               ),
             ),
           ),
