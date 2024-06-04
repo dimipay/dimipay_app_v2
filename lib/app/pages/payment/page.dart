@@ -28,7 +28,7 @@ class PaymentPage extends GetView<PaymentPageController> {
               children: [
                 Text('카드', style: textTheme.header2.copyWith(color: colorTheme.grayscale900)),
                 const SizedBox(width: 8),
-                Text('1', style: textTheme.header2.copyWith(color: colorTheme.primaryBrand)),
+                Obx(() => Text(controller.paymentService.paymentMethods?.length.toString() ?? '0', style: textTheme.header2.copyWith(color: colorTheme.primaryBrand))),
                 const Spacer(),
                 DPButton(
                   onTap: () => Get.toNamed(Routes.REGISTER_CARD),
