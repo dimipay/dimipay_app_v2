@@ -32,7 +32,7 @@ class PaymentService extends GetxController {
     _mainMethodId.value = paymentMethod.id;
   }
 
-  Future<void> createPaymentMethod({
+  Future<PaymentMethod> createPaymentMethod({
     required String number,
     required String expireYear,
     required String expireMonth,
@@ -48,23 +48,26 @@ class PaymentService extends GetxController {
     );
     paymentMethods?.add(newPaymentMethod);
     _paymentMethods.refresh();
+    return newPaymentMethod;
   }
 
-  Future<void> editPaymentMethodName({required PaymentMethod paymentMethod, required String newName}) async {
+  Future<PaymentMethod?> editPaymentMethodName({required PaymentMethod paymentMethod, required String newName}) async {
     int paymentMethodIndex = paymentMethods!.indexOf(paymentMethod);
     if (paymentMethodIndex == -1) {
-      return;
+      return null;
     }
 
     try {
-      paymentMethods![paymentMethodIndex] = PaymentMethod(
+      PaymentMethod newPaymentMethod = PaymentMethod(
         id: paymentMethod.id,
         name: newName,
         preview: paymentMethod.preview,
         companyCode: paymentMethod.companyCode,
       );
+      paymentMethods![paymentMethodIndex] = newPaymentMethod;
       _paymentMethods.refresh();
       await repository.patchPaymentMethod(id: paymentMethod.id, name: newName);
+      return newPaymentMethod;
     } catch (e) {
       paymentMethods![paymentMethodIndex] = paymentMethod;
       _paymentMethods.refresh();

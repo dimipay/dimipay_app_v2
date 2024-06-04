@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dio/dio.dart';
@@ -137,11 +139,9 @@ class RegisterCardPageController extends GetxController with StateMixin {
     if (isFormValid) {
       try {
         change(null, status: RxStatus.loading());
-        await paymentService.createPaymentMethod(number: cardNumber.value!, expireYear: expiredAt.value!.year.toString().padLeft(2, '0'), expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'), idNumber: ownerPersonalNum.value!, password: password.value!);
+        PaymentMethod newPaymentMethod = await paymentService.createPaymentMethod(number: cardNumber.value!, expireYear: expiredAt.value!.year.toString().padLeft(2, '0'), expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'), idNumber: ownerPersonalNum.value!, password: password.value!);
 
-        Get.back(result: true);
-        DPSnackBar.open('카드를 등록했어요!');
-        HapticHelper.feedback(HapticPatterns.success);
+        Get.offNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': newPaymentMethod});
       } on DioException catch (e) {
         log(e.response!.data.toString());
         DPErrorSnackBar().open(e.response!.data["message"]);

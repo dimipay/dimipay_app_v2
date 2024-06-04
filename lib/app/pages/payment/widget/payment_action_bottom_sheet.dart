@@ -67,8 +67,8 @@ class PaymentActionBottomSheet extends StatelessWidget {
             titleColor: colorTheme.primaryNegative,
             onTap: () async {
               try {
-                Get.back();
                 await Get.find<PaymentPageController>().deletePaymentMethod(paymentMethod);
+                Get.back();
               } on DioException catch (e) {
                 DPErrorSnackBar().open(e.response?.data['message'] ?? '');
               }
