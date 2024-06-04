@@ -1,6 +1,6 @@
+import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
-import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:dio/dio.dart';
@@ -68,7 +68,7 @@ class PaymentActionBottomSheet extends StatelessWidget {
             onTap: () async {
               try {
                 Get.back();
-                await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
+                await Get.find<PaymentPageController>().deletePaymentMethod(paymentMethod);
               } on DioException catch (e) {
                 DPErrorSnackBar().open(e.response?.data['message'] ?? '');
               }
