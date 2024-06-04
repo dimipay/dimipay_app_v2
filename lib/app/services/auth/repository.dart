@@ -14,7 +14,7 @@ class AuthRepository {
   Future<Map> loginWithGoogle(String idToken) async {
     String url = '/login/google';
     Map<String, dynamic> header = {
-      'Google-Access-Token': idToken,
+      'DP-GOOGLE-ACCESS-TOKEN': idToken,
     };
     try {
       DPHttpResponse response = await secureApi.post(url, options: Options(headers: header));
@@ -101,7 +101,7 @@ class AuthRepository {
     String url = '/auth/encryption-keys';
     publicKey = publicKey.replaceAll('\n', '\\r\\n');
     Map<String, dynamic> headers = {
-      'Encryption-Public-Key': publicKey,
+      'Dp-Public-Key': publicKey,
     };
     DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
     return response.data['encryptionKey'];
