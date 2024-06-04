@@ -69,7 +69,7 @@ class AuthService {
 
   Future<void> _getEncryptionKey() async {
     rsa.setKey(await RsaManager.generateRSAKeyPair());
-    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey.replaceAll('\n', '\\r\\n'));
+    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey.replaceAll('\n', '\\r\\n'), jwt.onboardingToken.accessToken!);
 
     aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
   }
@@ -104,7 +104,7 @@ class AuthService {
     String newDeviceId = const Uuid().v4();
 
     String newBioKey = const Uuid().v4();
-    Map onboardingResult = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey);
+    Map onboardingResult = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, jwt.onboardingToken.accessToken!);
 
     await jwt.setToken(JwtToken(accessToken: onboardingResult['accessToken'], refreshToken: onboardingResult['refreshToken']));
     dev.log('logged in successfully!');

@@ -35,7 +35,7 @@ class AuthRepository {
       'Authorization': 'Bearer $refreshToken',
     };
     DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
-    return response.data['accessToken'];
+    return response.data['tokens']['accessToken'];
   }
 
   ///returns map that contains accessToken and refreshToekn
@@ -44,14 +44,22 @@ class AuthRepository {
   ///throws IncorrectPinException when pin wrong
   ///throws PinLockException when pin locked
   ///thows OnboardingTokenException when OnboardingToken is wrong
-  Future<Map> onBoardingAuth(String paymentPin, String deviceId, String bioKey) async {
+  Future<Map> onBoardingAuth(String paymentPin, String deviceId, String bioKey, String onBoardingToken) async {
     String url = '/auth/onBoarding';
     Map body = {
       'deviceId': deviceId,
       'bioKey': bioKey,
     };
+    Map<String, dynamic> headers = {
+      'Authorization': 'Bearer $onBoardingToken',
+    };
     try {
-      DPHttpResponse response = await secureApi.post(url, data: body, needPinOTP: true);
+      DPHttpResponse response = await secureApi.post(
+        url,
+        data: body,
+        needPinOTP: true,
+        options: Options(headers: headers),
+      );
       return response.data['tokens'];
     } on DioException catch (e) {
       DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
@@ -97,11 +105,12 @@ class AuthRepository {
     }
   }
 
-  Future<String> getEncryptionKey(String publicKey) async {
+  Future<String> getEncryptionKey(String publicKey, String onBoardingToken) async {
     String url = '/auth/encryption-keys';
     publicKey = publicKey.replaceAll('\n', '\\r\\n');
     Map<String, dynamic> headers = {
       'Dp-Public-Key': publicKey,
+      'Authorization': 'Bearer $onBoardingToken',
     };
     DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
     return response.data['encryptionKey'];

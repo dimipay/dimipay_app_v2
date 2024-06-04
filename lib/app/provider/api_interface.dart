@@ -44,7 +44,17 @@ abstract class SecureApiProvider extends ApiProvider {
       'pin': pin,
     };
 
-    DPHttpResponse response = await post(url, data: body, encrypt: true);
+    Map<String, dynamic> headers = {};
+    if (authService.isAuthenticated == false) {
+      headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
+    }
+
+    DPHttpResponse response = await post(
+      url,
+      data: body,
+      encrypt: true,
+      options: Options(headers: headers),
+    );
     return response.data['otp'];
   }
 

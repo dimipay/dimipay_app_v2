@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
@@ -11,15 +12,8 @@ class JWTInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     AuthService authService = Get.find<AuthService>();
-    if (options.path == '/auth/refresh') {
-      return handler.next(options);
-    }
 
-    if (authService.isAuthenticated) {
-      options.headers['Authorization'] = 'Bearer ${authService.jwt.token.accessToken}';
-    } else if (authService.isGoogleLoginSuccess) {
-      options.headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
-    }
+    options.headers['Authorization'] ??= 'Bearer ${authService.jwt.token.accessToken}';
 
     return handler.next(options);
   }
@@ -33,7 +27,13 @@ class JWTInterceptor extends Interceptor {
       return handler.next(err);
     }
 
-    if (err.response?.statusCode == 401 && authService.jwt.token.accessToken != null) {
+    if (err.response == null) {
+      return handler.next(err);
+    }
+
+    DPHttpResponse httpResponse = DPHttpResponse.fromDioResponse(err.response!);
+
+    if (httpResponse.code == 'ERR_TOKEN_EXPIRED') {
       try {
         await authService.refreshAcessToken();
 
@@ -45,7 +45,7 @@ class JWTInterceptor extends Interceptor {
         return handler.next(err);
       }
     }
-    if (err.response?.data['message'] == '알 수 없는 사용자입니다.') {
+    if (httpResponse.message == '알 수 없는 사용자입니다.') {
       await authService.logout();
     }
     return handler.next(err);
