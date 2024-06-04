@@ -67,7 +67,7 @@ class InfoPageController extends GetxController {
             ),
             TextButton(
               onPressed: () => Get.back(result: true),
-              child: const Text('삭제'),
+              child: const Text('로그아웃'),
             ),
           ],
         ),
