@@ -75,7 +75,7 @@ class EditCardPage extends GetView<EditCardPageController> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: controller.obx(
-                    (state) => Text('등록하기', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
+                    (state) => Text('확인', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
                     onLoading: const SizedBox(
                       width: 20,
                       height: 20,
