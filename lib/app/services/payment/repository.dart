@@ -39,17 +39,11 @@ class PaymentRepository {
   Future<void> patchPaymentMethod({
     required String id,
     required String name,
-    required String color,
-    required String ownerName,
   }) async {
-    String url = '/payment/method';
-    Map body = {"id": id, "name": name, "color": color, "ownerName": ownerName};
+    String url = '/payments/methods/$id';
+    Map body = {"name": name};
 
-    try {
-      await api.patch(url, data: body);
-    } catch (e) {
-      rethrow;
-    }
+    await api.patch(url, data: body);
   }
 
   Future<void> patchMainMethod({required String id}) async {

@@ -16,7 +16,7 @@ class PaymentItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Row(
           children: [
             SizedBox(
@@ -30,7 +30,7 @@ class PaymentItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(paymentMethod.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text('**** **** **** ${paymentMethod.preview}', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
                 ],
               ),

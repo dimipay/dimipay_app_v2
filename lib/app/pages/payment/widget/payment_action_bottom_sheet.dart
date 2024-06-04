@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -56,7 +57,10 @@ class PaymentActionBottomSheet extends StatelessWidget {
           PaymentActionBottomSheetItem(
             title: '이름 수정하기',
             showIcon: true,
-            onTap: () {},
+            onTap: () {
+              Get.back();
+              Get.toNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': paymentMethod});
+            },
           ),
           PaymentActionBottomSheetItem(
             title: '삭제하기',

@@ -1,5 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
-import 'package:dimipay_app_v2/app/pages/register_card/widget/dp_textfield.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -56,14 +56,14 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DPButton(
                     decoration: BoxDecoration(
                       color: colorTheme.grayscale100,
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                       border: Border.fromBorderSide(
                         BorderSide(
                           color: colorTheme.grayscale300,
@@ -72,7 +72,6 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                       ),
                     ),
                     isTapEffectEnabled: true,
-                    radius: const BorderRadius.all(Radius.circular(10)),
                     onTap: () => controller.scanCreditCard(),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -90,10 +89,9 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                   DPButton(
                     decoration: BoxDecoration(
                       color: colorTheme.primaryBrand,
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                     isTapEffectEnabled: true,
-                    radius: const BorderRadius.all(Radius.circular(10)),
                     onTap: controller.addPaymentMethod,
                     child: Center(
                       child: Padding(
@@ -127,6 +125,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         maxLength: 19,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
+        hilightOnFocus: true,
       ),
       _buildSpacer(),
       Row(
@@ -139,6 +138,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               maxLength: 5,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
+              hilightOnFocus: true,
             ),
           ),
           const SizedBox(width: 16),
@@ -150,6 +150,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               maxLength: 10,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
+              hilightOnFocus: true,
             ),
           ),
         ],
@@ -163,6 +164,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         obscureText: true,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
+        hilightOnFocus: true,
       ),
       const SizedBox(height: 24),
     ];

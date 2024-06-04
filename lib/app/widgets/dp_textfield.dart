@@ -23,6 +23,7 @@ class DPTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final bool autoFocus;
   final List<TextInputFormatter>? inputFormatters;
+  final bool hilightOnFocus;
   DPTextField({
     super.key,
     this.controller,
@@ -35,6 +36,7 @@ class DPTextField extends StatefulWidget {
     this.textInputAction,
     this.autoFocus = false,
     this.inputFormatters,
+    this.hilightOnFocus = false,
   }) : focusNode = focusNode ?? FocusNode();
 
   @override
@@ -60,11 +62,12 @@ class _DPTextFieldState extends State<DPTextField> {
       textInputAction: widget.textInputAction,
       autofocus: widget.autoFocus,
       inputFormatters: widget.inputFormatters,
+      cursorColor: colorTheme.primaryBrand,
       decoration: InputDecoration(
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 21, horizontal: 16),
         filled: true,
-        fillColor: widget.focusNode.hasFocus ? colorTheme.grayscale100 : colorTheme.grayscale200,
+        fillColor: widget.focusNode.hasFocus && widget.hilightOnFocus ? colorTheme.grayscale100 : colorTheme.grayscale200,
         counterText: "",
         enabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -73,13 +76,21 @@ class _DPTextFieldState extends State<DPTextField> {
             width: 1,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: colorTheme.primaryBrand,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        focusedBorder: widget.hilightOnFocus
+            ? OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: colorTheme.primaryBrand,
+                  width: 2,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              )
+            : OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(
+                  color: colorTheme.grayscale300,
+                  width: 1,
+                ),
+              ),
         labelText: widget.labelText,
         labelStyle: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
         hintText: widget.hintText,
