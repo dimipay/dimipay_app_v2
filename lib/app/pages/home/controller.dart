@@ -64,7 +64,7 @@ class HomePageController extends GetxController {
   }
 
   Future<void> prefetchAuthAndQR() async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 200));
     if (authService.bioKey.key == null) {
       await biometricAuth();
     }
