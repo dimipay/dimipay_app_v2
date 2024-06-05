@@ -6,8 +6,9 @@ class DPAppbar extends StatelessWidget {
   final String? header;
   final String? paragraph;
   final Widget? leading;
+  final void Function()? onBackButtonPressed;
 
-  const DPAppbar({super.key, required this.header, this.paragraph, this.leading});
+  const DPAppbar({super.key, required this.header, this.paragraph, this.leading, this.onBackButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,13 @@ class DPAppbar extends StatelessWidget {
             leading != null
                 ? leading!
                 : GestureDetector(
-                    onTap: () => Get.back(),
+                    onTap: () {
+                      if (onBackButtonPressed != null) {
+                        onBackButtonPressed!.call();
+                      } else {
+                        Get.back();
+                      }
+                    },
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                       color: colorTheme.grayscale100,
