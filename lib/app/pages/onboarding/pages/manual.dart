@@ -69,28 +69,10 @@ class ManualPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: DPButton(
-            decoration: BoxDecoration(
-              color: colorTheme.primaryBrand,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              border: Border.fromBorderSide(BorderSide(
-                color: colorTheme.primaryBrand,
-                width: 1,
-              )),
-            ),
-            isTapEffectEnabled: true,
-            radius: const BorderRadius.all(Radius.circular(10)),
             onTap: () {
               controller.nextPage();
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('확인', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
-                ],
-              ),
-            ),
+            child: const Text('확인'),
           ),
         ),
       ],
@@ -119,31 +101,30 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPButton(
+    return GestureDetector(
       onTap: () {
         setState(() {
           _isExpanded = !_isExpanded;
         });
       },
-      decoration: _isExpanded
-          ? BoxDecoration(
-              color: colorTheme.grayscale200,
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
-              border: Border.fromBorderSide(BorderSide(
-                color: colorTheme.primaryBrand,
-                width: 2,
-              )),
-            )
-          : BoxDecoration(
-              color: colorTheme.grayscale200,
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
-              border: Border.fromBorderSide(BorderSide(
-                color: colorTheme.grayscale300,
-                width: 1,
-              )),
-            ),
-      radius: BorderRadius.circular(16),
-      child: Padding(
+      child: Container(
+        decoration: _isExpanded
+            ? BoxDecoration(
+                color: colorTheme.grayscale200,
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                border: Border.fromBorderSide(BorderSide(
+                  color: colorTheme.primaryBrand,
+                  width: 2,
+                )),
+              )
+            : BoxDecoration(
+                color: colorTheme.grayscale200,
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                border: Border.fromBorderSide(BorderSide(
+                  color: colorTheme.grayscale300,
+                  width: 1,
+                )),
+              ),
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,

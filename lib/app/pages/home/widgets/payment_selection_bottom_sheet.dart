@@ -1,6 +1,5 @@
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -14,66 +13,67 @@ class PaymentSelectionBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 42),
-      decoration: BoxDecoration(
-        color: colorTheme.grayscale100,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const _TopIndicator(),
-          const SizedBox(height: 20),
-          const _Heading(text: '결제수단 선택'),
-          const SizedBox(height: 8),
-          ConstrainedBox(
-            constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Obx(
-                () => Column(
-                    children: paymentService.paymentMethods!
-                        .map(
-                          (e) => _PaymentOption(
-                            title: e.name,
-                            subtitle: '**** **** **** ${e.preview}',
-                            assetPath: e.getLogoImagePath(),
-                            isSelected: false,
-                            onSelect: () {},
-                          ),
-                        )
-                        .toList()
-                    // _PaymentOption(
-                    //   title: 'X CHECK',
-                    //   subtitle: '현대카드 (370*)',
-                    //   assetPath: 'assets/images/hyundai.svg',
-                    //   isSelected: selectedOption == 'X CHECK',
-                    //   onSelect: () => selectOption('X CHECK'),
-                    // ),
-                    // _PaymentOption(
-                    //   title: '지역농협 채움',
-                    //   subtitle: '농협카드 (782*)',
-                    //   assetPath: 'assets/images/nh.svg',
-                    //   isSelected: selectedOption == '지역농협 채움',
-                    //   onSelect: () => selectOption('지역농협 채움'),
-                    // ),
-                    // _PaymentOption(
-                    //   title: 'LOCA Black',
-                    //   subtitle: '롯데카드 (782*)',
-                    //   assetPath: 'assets/images/lotte.svg',
-                    //   isSelected: selectedOption == 'LOCA Black',
-                    //   onSelect: () => selectOption('LOCA Black'),
-                    // ),
+        child: Container(
+          color: colorTheme.grayscale100,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const _TopIndicator(),
+              const SizedBox(height: 20),
+              const _Heading(text: '결제수단 선택'),
+              const SizedBox(height: 8),
+              ConstrainedBox(
+                constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Obx(
+                    () => Column(
+                        children: paymentService.paymentMethods!
+                            .map(
+                              (e) => _PaymentOption(
+                                title: e.name,
+                                subtitle: '**** **** **** ${e.preview}',
+                                assetPath: e.getLogoImagePath(),
+                                isSelected: false,
+                                onSelect: () {},
+                              ),
+                            )
+                            .toList()
+                        // _PaymentOption(
+                        //   title: 'X CHECK',
+                        //   subtitle: '현대카드 (370*)',
+                        //   assetPath: 'assets/images/hyundai.svg',
+                        //   isSelected: selectedOption == 'X CHECK',
+                        //   onSelect: () => selectOption('X CHECK'),
+                        // ),
+                        // _PaymentOption(
+                        //   title: '지역농협 채움',
+                        //   subtitle: '농협카드 (782*)',
+                        //   assetPath: 'assets/images/nh.svg',
+                        //   isSelected: selectedOption == '지역농협 채움',
+                        //   onSelect: () => selectOption('지역농협 채움'),
+                        // ),
+                        // _PaymentOption(
+                        //   title: 'LOCA Black',
+                        //   subtitle: '롯데카드 (782*)',
+                        //   assetPath: 'assets/images/lotte.svg',
+                        //   isSelected: selectedOption == 'LOCA Black',
+                        //   onSelect: () => selectOption('LOCA Black'),
+                        // ),
 
-                    ),
+                        ),
+                  ),
+                ),
               ),
-            ),
+              const DPDivider(),
+              const _AddCardButton(),
+            ],
           ),
-          const DPDivider(),
-          const _AddCardButton(),
-        ],
+        ),
       ),
     );
   }
@@ -86,7 +86,7 @@ class _TopIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
+      padding: const EdgeInsets.only(top: 16),
       child: Container(
         width: 36,
         height: 4,
@@ -142,10 +142,11 @@ class _PaymentOptionState extends State<_PaymentOption> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return DPButton(
+    return GestureDetector(
       onTap: widget.onSelect,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+        color: Colors.transparent,
         child: Row(
           children: [
             SvgPicture.asset(widget.assetPath, height: 40),
@@ -195,9 +196,10 @@ class _AddCardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPButton(
+    return GestureDetector(
       onTap: () => Get.toNamed(Routes.REGISTER_CARD),
-      child: Padding(
+      child: Container(
+        color: Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
         child: Row(
           children: [

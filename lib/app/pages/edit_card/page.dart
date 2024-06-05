@@ -64,24 +64,13 @@ class EditCardPage extends GetView<EditCardPageController> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
             child: DPButton(
-              decoration: BoxDecoration(
-                color: colorTheme.primaryBrand,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              isTapEffectEnabled: true,
-              radius: const BorderRadius.all(Radius.circular(10)),
               onTap: controller.editCardName,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: controller.obx(
-                    (state) => Text('확인', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
-                    onLoading: const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                    ),
-                  ),
+              child: controller.obx(
+                (state) => const Text('확인'),
+                onLoading: const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                 ),
               ),
             ),

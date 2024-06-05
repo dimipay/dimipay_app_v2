@@ -61,49 +61,33 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DPButton(
-                    decoration: BoxDecoration(
-                      color: colorTheme.grayscale100,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.fromBorderSide(
-                        BorderSide(
-                          color: colorTheme.grayscale300,
-                          width: 1,
-                        ),
+                    onTap: () => controller.scanCreditCard(),
+                    backgroundColor: colorTheme.grayscale200,
+                    foregroundColor: colorTheme.grayscale600,
+                    border: Border.fromBorderSide(
+                      BorderSide(
+                        color: colorTheme.grayscale300,
+                        width: 1,
                       ),
                     ),
-                    isTapEffectEnabled: true,
-                    onTap: () => controller.scanCreditCard(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
-                          const SizedBox(width: 10),
-                          Text('카드 스캔하기', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
+                        const SizedBox(width: 10),
+                        const Text('카드 스캔하기'),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 16),
                   DPButton(
-                    decoration: BoxDecoration(
-                      color: colorTheme.primaryBrand,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    ),
-                    isTapEffectEnabled: true,
                     onTap: controller.addPaymentMethod,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: controller.obx(
-                          (state) => Text('등록하기', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
-                          onLoading: const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                          ),
-                        ),
+                    child: controller.obx(
+                      (state) => const Text('등록하기'),
+                      onLoading: const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                       ),
                     ),
                   ),

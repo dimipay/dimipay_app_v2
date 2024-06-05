@@ -3,7 +3,6 @@ import 'package:dimipay_app_v2/app/pages/payment/widget/payment_action_bottom_sh
 import 'package:dimipay_app_v2/app/pages/payment/widget/payment_item.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +29,13 @@ class PaymentPage extends GetView<PaymentPageController> {
                 const SizedBox(width: 8),
                 Obx(() => Text(controller.paymentService.paymentMethods?.length.toString() ?? '0', style: textTheme.header2.copyWith(color: colorTheme.primaryBrand))),
                 const Spacer(),
-                DPButton(
+                GestureDetector(
                   onTap: () => Get.toNamed(Routes.REGISTER_CARD),
-                  radius: BorderRadius.circular(30),
-                  decoration: BoxDecoration(
-                    color: colorTheme.grayscale600,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: colorTheme.grayscale600,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     child: Text('추가하기',
                         style: textTheme.readable.copyWith(

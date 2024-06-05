@@ -34,8 +34,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  DPButton(
-                    isTapEffectEnabled: false,
+                  GestureDetector(
                     onTap: () {
                       launchUrl(Uri.parse('https://dimipay.notion.site/60322b96c77b4855b8c7b72dcfcaa0eb'));
                     },
@@ -47,8 +46,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  DPButton(
-                    isTapEffectEnabled: false,
+                  GestureDetector(
                     onTap: () {
                       launchUrl(Uri.parse('https://dimipay.notion.site/fa05b169a2d94db6b1dd4acae47c66a6'));
                     },
@@ -64,8 +62,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              DPButton(
-                isTapEffectEnabled: false,
+              GestureDetector(
                 onTap: () {
                   setState(() {
                     isTermAgreed = !isTermAgreed;
@@ -74,74 +71,69 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                     }
                   });
                 },
-                child: Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: isTermAgreed
-                          ? BoxDecoration(
-                              color: colorTheme.primaryBrand,
-                              borderRadius: const BorderRadius.all(Radius.circular(16)),
-                              border: Border.fromBorderSide(BorderSide(
-                                color: colorTheme.primaryBrand,
-                                width: 1,
-                              )),
-                            )
-                          : BoxDecoration(
-                              color: colorTheme.grayscale200,
-                              borderRadius: const BorderRadius.all(Radius.circular(16)),
-                              border: Border.fromBorderSide(BorderSide(
-                                color: colorTheme.grayscale300,
-                                width: 1,
-                              )),
-                            ),
-                      child: Icon(
-                        Icons.check_rounded,
-                        color: isTermAgreed ? colorTheme.grayscale100 : colorTheme.grayscale500,
-                        size: 16,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text('개인정보 보호약관과 서비스 이용약관에 동의합니다.', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-              DPButton(
-                decoration: isTermAgreed
-                    ? BoxDecoration(
-                        color: colorTheme.primaryBrand,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.fromBorderSide(BorderSide(
-                          color: colorTheme.primaryBrand,
-                          width: 1,
-                        )),
-                      )
-                    : BoxDecoration(
-                        color: colorTheme.grayscale200,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.fromBorderSide(BorderSide(
-                          color: colorTheme.grayscale300,
-                          width: 1,
-                        )),
-                      ),
-                isTapEffectEnabled: true,
-                radius: const BorderRadius.all(Radius.circular(10)),
-                onTap: isTermAgreed ? widget.controller.nextPage : null,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Container(
+                  color: Colors.transparent,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('계속',
-                          style: textTheme.itemDescription.copyWith(
-                            color: isTermAgreed ? DPLightThemeColors().grayscale100 : colorTheme.grayscale500,
-                          )),
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: isTermAgreed
+                            ? BoxDecoration(
+                                color: colorTheme.primaryBrand,
+                                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                border: Border.fromBorderSide(BorderSide(
+                                  color: colorTheme.primaryBrand,
+                                  width: 1,
+                                )),
+                              )
+                            : BoxDecoration(
+                                color: colorTheme.grayscale200,
+                                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                                border: Border.fromBorderSide(BorderSide(
+                                  color: colorTheme.grayscale300,
+                                  width: 1,
+                                )),
+                              ),
+                        child: Icon(
+                          Icons.check_rounded,
+                          color: isTermAgreed ? colorTheme.grayscale100 : colorTheme.grayscale500,
+                          size: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text('개인정보 보호약관과 서비스 이용약관에 동의합니다.', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
                     ],
                   ),
                 ),
               ),
+              const SizedBox(height: 32),
+              isTermAgreed
+                  ? DPButton(
+                      onTap: widget.controller.nextPage,
+                      child: const Text('계속'),
+                    )
+                  : Container(
+                      decoration: BoxDecoration(
+                        color: colorTheme.grayscale200,
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
+                        border: Border.fromBorderSide(
+                          BorderSide(
+                            color: colorTheme.grayscale300,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Center(
+                        child: Text(
+                          '계속',
+                          style: textTheme.itemDescription.copyWith(
+                            color: colorTheme.grayscale500,
+                          ),
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),

@@ -40,8 +40,7 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              DPButton(
-                isTapEffectEnabled: false,
+              GestureDetector(
                 onTap: () {
                   controller.nextPage();
                 },
@@ -49,31 +48,13 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               DPButton(
-                decoration: BoxDecoration(
-                  color: colorTheme.primaryBrand,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.fromBorderSide(BorderSide(
-                    color: colorTheme.primaryBrand,
-                    width: 1,
-                  )),
-                ),
-                isTapEffectEnabled: true,
-                radius: const BorderRadius.all(Radius.circular(10)),
                 onTap: () async {
                   bool result = await Get.toNamed(Routes.REGISTER_CARD);
                   if (result) {
                     controller.nextPage();
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('등록할래요', style: textTheme.itemDescription.copyWith(color: DPLightThemeColors().grayscale100)),
-                    ],
-                  ),
-                ),
+                child: const Text('등록할래요'),
               ),
             ],
           ),

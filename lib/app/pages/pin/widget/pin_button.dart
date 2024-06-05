@@ -1,4 +1,3 @@
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:flutter/material.dart';
 
 class PinButton extends StatelessWidget {
@@ -9,9 +8,7 @@ class PinButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DPButton(
-      isTapEffectEnabled: false,
-      radius: BorderRadius.circular(16),
+    return GestureDetector(
       onTap: enabled ? onTap : null,
       child: Container(
         color: Colors.transparent,

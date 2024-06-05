@@ -11,19 +11,13 @@ class FaceSignPage extends GetView<FaceSignPageController> {
 
   @override
   Widget build(BuildContext context) {
-    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             DPAppbar(
               header: '얼굴등록',
-              leading: DPButton(
-                onTap: () => Get.back(result: controller.faceSignService.isRegistered),
-                radius: BorderRadius.circular(20),
-                isTapEffectEnabled: false,
-                child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
-              ),
+              onBackButtonPressed: () => Get.back(result: controller.faceSignService.isRegistered),
             ),
             Expanded(child: Obx(() {
               if (controller.faceSignService.isRegistered) {
@@ -54,40 +48,34 @@ class FaceSignNotRegistered extends StatelessWidget {
     return Column(
       children: [
         Expanded(
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
-              SvgPicture.asset(
-                'assets/images/face-sign.svg',
-              ),
-              const SizedBox(height: 24),
-              _DescriptionCard(
-                title: "FaceSign이란?",
-                description: Text("FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
-              ),
-              const _DescriptionCard(
-                title: "정확한 인식을 위해",
-                description: UnorderedList(["평온한 표정으로 카메라를 응시해주세요.", "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.", "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."]),
-              ),
-            ],
-          ),
-        ),
-        controller.obx(
-          (_) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: DPButton(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
-              radius: BorderRadius.circular(10),
-              onTap: controller.registerFaceSign,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: Text("등록하기", style: textTheme.paragraph2.copyWith(color: DPLightThemeColors().grayscale100))),
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                SvgPicture.asset(
+                  'assets/images/face-sign.svg',
+                ),
+                const SizedBox(height: 24),
+                _DescriptionCard(
+                  title: "FaceSign이란?",
+                  description: Text("FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
+                ),
+                const _DescriptionCard(
+                  title: "정확한 인식을 위해",
+                  description: UnorderedList(["평온한 표정으로 카메라를 응시해주세요.", "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.", "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."]),
+                ),
+              ],
             ),
           ),
-          onLoading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: Container(
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: controller.obx(
+            (_) => DPButton(
+              onTap: controller.registerFaceSign,
+              child: const Text("등록하기"),
+            ),
+            onLoading: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale400),
@@ -100,7 +88,7 @@ class FaceSignNotRegistered extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -197,30 +185,18 @@ class FaceSignRegistered extends StatelessWidget {
             ],
           ),
         ),
-        DPButton(
+        GestureDetector(
           onTap: controller.deleteFaceSign,
-          isTapEffectEnabled: false,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
-          ),
+          child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
         ),
-        controller.obx(
-          (_) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: DPButton(
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.primaryBrand),
-              radius: BorderRadius.circular(10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: controller.obx(
+            (_) => DPButton(
               onTap: controller.patchFaceSign,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(child: Text("다시 등록하기", style: textTheme.paragraph2.copyWith(color: DPLightThemeColors().grayscale100))),
-              ),
+              child: const Text("다시 등록하기"),
             ),
-          ),
-          onLoading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: Container(
+            onLoading: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale400),
