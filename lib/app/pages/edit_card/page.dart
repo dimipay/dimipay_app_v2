@@ -15,67 +15,70 @@ class EditCardPage extends GetView<EditCardPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      body: Column(
-        children: [
-          const DPAppbar(header: '카드 이름 설정'),
-          Expanded(
-            child: SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(controller.paymentMethod.getLogoImagePath()),
-                        const SizedBox(width: 12),
-                        Text('**** **** **** ${controller.paymentMethod.preview}', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale500)),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    DPTextField(
-                      autoFocus: true,
-                      controller: controller.nameFieldController,
-                      hintText: controller.paymentMethod.name,
-                      maxLength: 10,
-                    ),
-                    const SizedBox(height: 8),
-                    Obx(
-                      () => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SafeArea(
+        bottom: true,
+        child: Column(
+          children: [
+            const DPAppbar(header: '카드 이름 설정'),
+            Expanded(
+              child: SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Text(
-                            controller.errorMessage.value ?? '',
-                            style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
-                          ),
-                          Text(
-                            '${controller.nameFieldTextLenth.value}/10',
-                            style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
-                          ),
+                          SvgPicture.asset(controller.paymentMethod.getLogoImagePath()),
+                          const SizedBox(width: 12),
+                          Text('**** **** **** ${controller.paymentMethod.preview}', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale500)),
                         ],
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 24),
+                      DPTextField(
+                        autoFocus: true,
+                        controller: controller.nameFieldController,
+                        hintText: controller.paymentMethod.name,
+                        maxLength: 10,
+                      ),
+                      const SizedBox(height: 8),
+                      Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              controller.errorMessage.value ?? '',
+                              style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
+                            ),
+                            Text(
+                              '${controller.nameFieldTextLenth.value}/10',
+                              style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            child: DPButton(
-              onTap: controller.editCardName,
-              child: controller.obx(
-                (state) => const Text('확인'),
-                onLoading: const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: DPButton(
+                onTap: controller.editCardName,
+                child: controller.obx(
+                  (state) => const Text('확인'),
+                  onLoading: const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
