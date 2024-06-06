@@ -17,17 +17,30 @@ class QRArea extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorTheme.grayscale200,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
             color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-        child: QrImageView(
-          data: payload,
-          version: 12,
+        child: Center(
+          child: Container(
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              border: Border.fromBorderSide(BorderSide(
+                color: colorTheme.grayscale400,
+                width: 1,
+              )),
+            ),
+            child: QrImageView(
+              data: payload,
+              version: 12,
+            ),
+          ),
         ),
       ),
     );
@@ -54,7 +67,6 @@ class QRAreaLocked extends GetView<HomePageController> {
               width: 1,
             )),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +115,6 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,20 +154,32 @@ class QRAreaLoading extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          color: colorTheme.grayscale100,
+          color: colorTheme.grayscale200,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
             color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.all(12),
-        child: Shimmer.fromColors(
-          baseColor: colorTheme.grayscale300,
-          highlightColor: colorTheme.grayscale200,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(color: Colors.red),
+        child: Center(
+          child: Container(
+            width: 180,
+            height: 180,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              border: Border.fromBorderSide(BorderSide(
+                color: colorTheme.grayscale400,
+                width: 1,
+              )),
+            ),
+            child: Shimmer.fromColors(
+              baseColor: colorTheme.grayscale300,
+              highlightColor: colorTheme.grayscale200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Container(color: Colors.red),
+              ),
+            ),
           ),
         ),
       ),
