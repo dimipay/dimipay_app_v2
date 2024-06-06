@@ -38,11 +38,15 @@ abstract class SecureApiProvider extends ApiProvider {
   Future<String> getPinOTP() async {
     String url = "/pin/otp";
     AuthService authService = Get.find<AuthService>();
-    String pin = authService.pin!;
 
-    Map<String, dynamic> body = {
-      'pin': pin,
-    };
+    Map<String, dynamic> body = {};
+
+    if (authService.pin != null) {
+      body['pin'] = authService.pin;
+    }
+    if (authService.pin == null && authService.bioKey.key != null) {
+      body['bioKey'] = authService.bioKey.key;
+    }
 
     Map<String, dynamic> headers = {};
     if (authService.isAuthenticated == false) {
