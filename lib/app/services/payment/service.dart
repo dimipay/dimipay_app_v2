@@ -46,6 +46,9 @@ class PaymentService extends GetxController {
       idNumber: idNumber,
       password: password,
     );
+    if (paymentMethods!.isEmpty) {
+      _mainMethodId.value = newPaymentMethod.id;
+    }
     paymentMethods?.add(newPaymentMethod);
     _paymentMethods.refresh();
     return newPaymentMethod;
@@ -80,9 +83,11 @@ class PaymentService extends GetxController {
       paymentMethods?.remove(paymentMethod);
       _paymentMethods.refresh();
       await repository.deletePaymentMethod(id: paymentMethod.id);
+      _mainMethodId.value = paymentMethods!.elementAtOrNull(0)?.id;
     } catch (e) {
       paymentMethods?.add(paymentMethod);
       _paymentMethods.refresh();
+      _mainMethodId.value = paymentMethod.id;
       rethrow;
     }
   }
