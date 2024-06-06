@@ -21,7 +21,7 @@ class OnboardingPageController extends GetxController {
   void nextPage() {
     if (currentPageIndex.value < 3) {
       pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
       );
     } else {

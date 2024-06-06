@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ThemeService extends GetxService {
   late final Rx<ThemeMode> _themeMode;
@@ -11,6 +12,7 @@ class ThemeService extends GetxService {
   late final ThemeServiceRepository _themeServiceRepository;
 
   Future<ThemeService> init() async {
+    await Hive.initFlutter();
     _themeServiceRepository = await ThemeServiceRepository().init();
     _themeMode = Rx(await _themeServiceRepository.getThemeMode());
     if (themeMode == ThemeMode.system) {

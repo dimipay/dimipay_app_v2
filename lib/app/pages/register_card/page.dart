@@ -1,5 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
-import 'package:dimipay_app_v2/app/pages/register_card/widget/dp_textfield.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -51,65 +51,47 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          DPButton(
-                            decoration: BoxDecoration(
-                              color: colorTheme.grayscale200,
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                              border: Border.fromBorderSide(
-                                BorderSide(
-                                  color: colorTheme.grayscale300,
-                                  width: 1,
-                                ),
-                              ),
-                            ),
-                            isTapEffectEnabled: true,
-                            radius: const BorderRadius.all(Radius.circular(10)),
-                            onTap: () => controller.scanCreditCard(),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
-                                  const SizedBox(width: 10),
-                                  Text('카드 스캔하기', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600)),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          DPButton(
-                            decoration: BoxDecoration(
-                              color: colorTheme.primaryBrand,
-                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                            ),
-                            isTapEffectEnabled: true,
-                            radius: const BorderRadius.all(Radius.circular(10)),
-                            onTap: controller.addPaymentMethod,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                child: controller.obx(
-                                  (state) => Text('등록하기', style: textTheme.itemDescription.copyWith(color: Colors.white)),
-                                  onLoading: const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DPButton(
+                    onTap: () => controller.scanCreditCard(),
+                    backgroundColor: colorTheme.grayscale200,
+                    foregroundColor: colorTheme.grayscale600,
+                    border: Border.fromBorderSide(
+                      BorderSide(
+                        color: colorTheme.grayscale300,
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
+                        const SizedBox(width: 10),
+                        const Text('카드 스캔하기'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  DPButton(
+                    onTap: controller.addPaymentMethod,
+                    child: controller.obx(
+                      (state) => const Text('등록하기'),
+                      onLoading: const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -121,21 +103,13 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
   List<Widget> _buildFormFields() {
     return [
       DPTextField(
-        controller: controller.nameFieldController,
-        labelText: '카드 이름',
-        hintText: '카드 이름을 입력해주세요',
-        maxLength: 20,
-        textInputAction: TextInputAction.next,
-        autoFocus: true,
-      ),
-      _buildSpacer(),
-      DPTextField(
         controller: controller.cardNumberFieldController,
         labelText: '카드 번호',
         hintText: '0000-0000-0000-0000',
         maxLength: 19,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
+        hilightOnFocus: true,
       ),
       _buildSpacer(),
       Row(
@@ -148,6 +122,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               maxLength: 5,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
+              hilightOnFocus: true,
             ),
           ),
           const SizedBox(width: 16),
@@ -159,6 +134,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               maxLength: 10,
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
+              hilightOnFocus: true,
             ),
           ),
         ],
@@ -172,14 +148,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         obscureText: true,
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
-      ),
-      _buildSpacer(),
-      DPTextField(
-        controller: controller.ownerNameFieldController,
-        labelText: '소유자명',
-        hintText: '카드에 적혀있는 영문으로 입력해주세요',
-        textInputAction: TextInputAction.done,
-        inputFormatters: [UpperCaseTextFormatter()],
+        hilightOnFocus: true,
       ),
       const SizedBox(height: 24),
     ];

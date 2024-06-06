@@ -3,7 +3,6 @@ import 'package:dimipay_app_v2/app/pages/payment/widget/payment_action_bottom_sh
 import 'package:dimipay_app_v2/app/pages/payment/widget/payment_item.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -26,26 +25,18 @@ class PaymentPage extends GetView<PaymentPageController> {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Row(
               children: [
-                Text('카드',
-                    style: textTheme.header2
-                        .copyWith(color: colorTheme.grayscale900)),
+                Text('카드', style: textTheme.header2.copyWith(color: colorTheme.grayscale900)),
                 const SizedBox(width: 8),
-                Text(controller.paymentService.paymentMethods == null
-                    ? '0'
-                    :'${controller.paymentService.paymentMethods!.length}',
-                    style: textTheme.header2
-                        .copyWith(color: colorTheme.primaryBrand)),
+                Obx(() => Text(controller.paymentService.paymentMethods?.length.toString() ?? '0', style: textTheme.header2.copyWith(color: colorTheme.primaryBrand))),
                 const Spacer(),
-                DPButton(
+                GestureDetector(
                   onTap: () => Get.toNamed(Routes.REGISTER_CARD),
-                  radius: BorderRadius.circular(30),
-                  decoration: BoxDecoration(
-                    color: colorTheme.grayscale600,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: colorTheme.grayscale600,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     child: Text('추가하기',
                         style: textTheme.readable.copyWith(
                           color: colorTheme.grayscale100,
@@ -70,25 +61,20 @@ class PaymentPage extends GetView<PaymentPageController> {
                   ),
                 );
               } else {
-                return Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(
-                        parent: AlwaysScrollableScrollPhysics()),
-                    child: Column(
+                return SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  child: Column(
                     children: controller.paymentService.paymentMethods!
                         .map((e) => PaymentItem(
-                                paymentMethod: e,
-                                onTap: () => showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  elevation: 0,
-                                  context: context,
-                                  builder: (context) =>
-                                      PaymentActionBottomSheet(
-                                          paymentMethod: e),
-                                ),
-                              ))
-                          .toList(),
-                  ),
+                              paymentMethod: e,
+                              onTap: () => showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                context: context,
+                                builder: (context) => PaymentActionBottomSheet(paymentMethod: e),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 );
               }

@@ -16,16 +16,17 @@ class DPSnackBar {
       borderRadius: 12,
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      animationDuration: const Duration(milliseconds: 800),
+      animationDuration: const Duration(milliseconds: 500),
     );
   }
 }
 
 class DPErrorSnackBar {
-  void open(String title, {String? message}) {
+  void open(String title, {String? message, bool haptic = true}) {
     BuildContext context = Get.context!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
     DPSnackBar.open(title, backgroundColor: colorTheme.primaryNegative, textColor: Colors.white);
+    HapticHelper.feedback(HapticPatterns.error);
   }
 }

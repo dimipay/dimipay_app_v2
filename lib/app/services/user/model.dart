@@ -5,20 +5,14 @@ part 'model.g.dart';
 
 @JsonSerializable()
 class User {
-  DateTime createdAt;
-  DateTime updatedAt;
-  String accountName;
+  String email;
   String name;
 
   String profileImage;
-  bool faceSignRegistered;
 
   User({
-    required this.createdAt,
-    required this.updatedAt,
-    required this.accountName,
+    required this.email,
     required this.name,
-    required this.faceSignRegistered,
     required this.profileImage,
   });
 

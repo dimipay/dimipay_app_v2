@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_pad.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -8,23 +7,20 @@ import 'package:get/get.dart';
 
 class PinPageBase extends GetView<PinPageController> {
   final String headerText;
-  final String? textSpan;
-  final int? pinCount;
+  final int? pinCouont;
   final String? showForgotPasswordMessage;
   final bool faceIDAvailable;
   final FutureOr<void> Function()? onPinComplete;
   const PinPageBase({
     super.key,
     required this.headerText,
-    this.textSpan,
-    this.pinCount,
+    this.pinCouont,
     this.showForgotPasswordMessage,
     this.onPinComplete,
-
     this.faceIDAvailable = false,
   });
 
-  bool get locked => pinCount != null && pinCount! <= 0;
+  bool get locked => pinCouont != null && pinCouont! <= 0;
 
   Widget pinHint(bool activated, DPColors colorTheme) {
     return Container(
@@ -52,31 +48,21 @@ class PinPageBase extends GetView<PinPageController> {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
               child: Column(
                 children: [
-                  if (locked)
-                    Text(
-                      '핀 시도 횟수를\n초과했습니다',
-                      style: textTheme.header1
-                          .copyWith(color: colorTheme.grayscale1000),
-                      textAlign: TextAlign.center,
-                    )
-                  else
-                    RichText(
-                      text: TextSpan(
-                        text: headerText,
-                        style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                        children: [
-                          if (textSpan != null)
-                            TextSpan(
-                              text: textSpan,
-                              style: textTheme.header1.copyWith(color: colorTheme.primaryNegative),
-                            ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  const SizedBox(height: 32),
+                  Text(
+                    locked ? '핀 시도 횟수를\n초과했습니다' : headerText,
+                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  pinCouont == null || locked
+                      ? Container(height: 26)
+                      : Text(
+                          '$pinCouont/5',
+                          style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
+                        ),
+                  const SizedBox(height: 16),
                   Obx(
-                        () => Row(
+                    () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // ignore: prefer_is_empty
@@ -93,19 +79,19 @@ class PinPageBase extends GetView<PinPageController> {
                   const SizedBox(height: 24),
                   showForgotPasswordMessage == null
                       ? Container(
-                    height: 20,
-                  )
+                          height: 20,
+                        )
                       : GestureDetector(
-                    onTap: () {},
-                    child: Text(
-                      showForgotPasswordMessage!,
-                      style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
-                    ),
-                  )
+                          onTap: () {},
+                          child: Text(
+                            showForgotPasswordMessage!,
+                            style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500).copyWith(decoration: TextDecoration.underline),
+                          ),
+                        )
                 ],
               ),
             ),
-            const Spacer(flex: 2,),
+            const Spacer(flex: 2),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24, top: 0),
               child: Obx(

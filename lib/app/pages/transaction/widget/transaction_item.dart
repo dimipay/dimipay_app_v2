@@ -1,5 +1,6 @@
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../services/transaction/model.dart';
 
@@ -21,12 +22,12 @@ class TransactionItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${transaction.totalPrice}원',
+              '${NumberFormat('###,###,###,###').format(transaction.totalPrice)}원',
               style: textTheme.description.copyWith(color: colorTheme.grayscale800),
             ),
             const SizedBox(height: 4),
             Text(
-              transaction.products.map((e) => e.name).toList().join(','),
+              transaction.products.join(', '),
               style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
             ),
           ],

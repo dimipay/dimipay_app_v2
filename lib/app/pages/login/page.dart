@@ -1,5 +1,4 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,18 +71,13 @@ class GoogleLoginButton extends GetView<LoginPageController> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPButton(
+    return GestureDetector(
       onTap: onTap,
-      decoration: BoxDecoration(
-        color: colorTheme.grayscale200,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: colorTheme.grayscale300,
-          width: 1,
+      child: Container(
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale200,
+          borderRadius: BorderRadius.circular(12),
         ),
-      ),
-      radius: BorderRadius.circular(12),
-      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Obx(() {
           if (controller.isGoogleLoginInProgress) {

@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/respository.dart';
 import 'package:get/get.dart';
@@ -10,24 +11,28 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
   final Rx<List<Transaction>?> _transactions = Rx(null);
   List<Transaction>? get transactions => _transactions.value;
 
-  final Rx<DateTime?> _next = Rx(null);
-  DateTime? get next => _next.value;
+  int _currentYear = DateTime.now().year;
 
-  bool get hasReachedEnd => next == null;
+  int _currentMonth = DateTime.now().month;
 
-  int? get totalPrice => transactions?.fold(0, (a, b) => a! + b.totalPrice);
+  final Rx<int> _currentMonthTotal = Rx(0);
 
-  Future<void> fetchTransactions({DateTime? offset}) async {
+  int get currentMonthTotal => _currentMonthTotal.value;
+
+  final Rx<int?> _nextOffset = Rx(null);
+
+  bool get hasReachedEnd => _nextOffset.value == null;
+
+  Future<void> getTransactions({required int year, required int month}) async {
     try {
       change(transactions, status: RxStatus.loading());
-      Map result = await repository.getTransactions(offset);
+      Map result = await repository.getTransactions(year: year, month: month);
       _transactions.value = result["transactions"];
+      _nextOffset.value = result['nextOffset'];
+      _currentMonthTotal.value = result['monthTotal'];
 
-      if (result["next"] != null) {
-        _next.value = DateTime.parse(result["next"]);
-      } else {
-        _next.value = null;
-      }
+      _currentYear = year;
+      _currentMonth = month;
 
       change(transactions, status: RxStatus.success());
     } catch (e) {
@@ -36,24 +41,35 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
     }
   }
 
-  Future<void> fetchMoreTransactions() async {
-    if (next == null) {
+  Future<void> loadMoreTransactions() async {
+    if (hasReachedEnd) {
       return;
     }
+    Map result = await repository.getTransactions(year: _currentYear, month: _currentMonth, offset: _nextOffset.value);
+    _transactions.value!.addAll(result["transactions"]);
+    _nextOffset.value = result['nextOffset'];
+  }
 
-    try {
-      Map result = await repository.getTransactions(next!);
-      _transactions.value = [..._transactions.value!, ...result["transactions"]];
+  Future<TransactionDetail> getTransactionDetail(String transactionId) async {
+    return await repository.getTransactionDetail(transactionId);
+  }
 
-      if (result["next"] != null) {
-        _next.value = DateTime.parse(result["next"]);
-      } else {
-        _next.value = null;
-      }
-
-      change(transactions, status: RxStatus.success());
-    } catch (e) {
-      rethrow;
-    }
+  @Deprecated('개발용임.')
+  Future<TransactionDetail> createTransaction({
+    required DateTime createdAt,
+    required String status,
+    required String transactionType,
+    required String purchaseType,
+    required int products,
+    required PaymentMethod paymentMethod,
+  }) async {
+    return await repository.createTransaction(
+      createdAt: createdAt,
+      status: status,
+      transactionType: transactionType,
+      purchaseType: purchaseType,
+      products: products,
+      paymentMethod: paymentMethod,
+    );
   }
 }

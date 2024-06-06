@@ -44,7 +44,7 @@ dependencies:
   flutter_svg: ^2.0.9
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
-  intl: ^0.18.1
+  intl: ^0.19.0
   qr_flutter: ^4.1.0
   shimmer: ^3.0.0
   local_auth: ^2.1.8
@@ -55,6 +55,8 @@ dependencies:
       ref: main
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  fast_rsa: ^3.6.1
+  cryptography: ^2.7.0
 
   credit_card_scanner: ^1.0.5
   url_launcher: ^6.2.5
@@ -87,9 +89,9 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
-    - assets/lottie/
     - assets/icon/
-    - assets/card/
+    - assets/images/card_company_logo/
+    - assets/lottie/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see

@@ -1,5 +1,4 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,7 @@ class QRArea extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -25,13 +24,16 @@ class QRArea extends StatelessWidget {
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         child: Center(
-          child: QrImageView(
-            data: payload,
-            version: 13,
+          child: SizedBox(
+            width: 180,
+            height: 180,
+            child: QrImageView(
+              data: payload,
+              version: 12,
+            ),
           ),
-        )
+        ),
       ),
     );
   }
@@ -47,7 +49,7 @@ class QRAreaLocked extends GetView<HomePageController> {
     return GestureDetector(
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
-        aspectRatio: 1.5/1,
+        aspectRatio: 1.5 / 1,
         child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
@@ -57,7 +59,6 @@ class QRAreaLocked extends GetView<HomePageController> {
               width: 1,
             )),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -95,43 +96,39 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return GestureDetector(
-      onTap: () => Get.toNamed(Routes.REGISTER_CARD),
-      child: AspectRatio(
-        aspectRatio: 1.5/1,
-        child: Container(
-          decoration: BoxDecoration(
-            color: colorTheme.grayscale200,
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            border: Border.fromBorderSide(BorderSide(
-              color: colorTheme.grayscale400,
-              width: 1,
-            )),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: colorTheme.grayscale100,
-                    borderRadius: const BorderRadius.all(Radius.circular(500)),
-                  ),
-                  child: Icon(
-                    Icons.lock_rounded,
-                    size: 20,
-                    color: colorTheme.grayscale500,
-                  ),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Container(
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale200,
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          border: Border.fromBorderSide(BorderSide(
+            color: colorTheme.grayscale400,
+            width: 1,
+          )),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: colorTheme.grayscale100,
+                  borderRadius: const BorderRadius.all(Radius.circular(500)),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  '결제수단을 먼저 등록해 주세요.',
-                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
+                child: Icon(
+                  Icons.lock_rounded,
+                  size: 20,
+                  color: colorTheme.grayscale500,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '결제수단을 먼저 등록해 주세요.',
+                style: textTheme.token.copyWith(color: colorTheme.grayscale600),
+              ),
+            ],
           ),
         ),
       ),
@@ -146,17 +143,15 @@ class QRAreaLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
-          color: colorTheme.grayscale100,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
             color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
-        padding: const EdgeInsets.all(12),
         child: Shimmer.fromColors(
           baseColor: colorTheme.grayscale300,
           highlightColor: colorTheme.grayscale200,

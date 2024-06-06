@@ -1,25 +1,120 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:dimipay_app_v2/app/provider/encryptor.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dio/dio.dart';
+import 'package:get/instance_manager.dart';
 
 abstract class ApiProvider {
   final Dio dio = Dio();
-  Future<Response<T>> get<T>(String path, {Map<String, dynamic>? queryParameters, Options? options}) {
-    return dio.get<T>(path, queryParameters: queryParameters, options: options);
+  Future<DPHttpResponse> get(String path, {Map<String, dynamic>? queryParameters, Options? options}) async {
+    Response dioResponse = await dio.get(path, queryParameters: queryParameters, options: options);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> delete<T>(String path, {dynamic data}) {
-    return dio.delete<T>(path, data: data);
+  Future<DPHttpResponse> delete(String path, {dynamic data}) async {
+    Response dioResponse = await dio.delete(path, data: data);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> post<T>(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) {
-    return dio.post<T>(path, data: data, queryParameters: queryParameters, options: options);
+  Future<DPHttpResponse> post(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) async {
+    Response dioResponse = await dio.post(path, data: data, queryParameters: queryParameters, options: options);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> patch<T>(String path, {dynamic data}) {
-    return dio.patch<T>(path, data: data);
+  Future<DPHttpResponse> patch(String path, {dynamic data}) async {
+    Response dioResponse = await dio.patch(path, data: data);
+    return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
-  Future<Response<T>> put<T>(String path, {dynamic data}) {
-    return dio.put(path, data: data);
+  Future<DPHttpResponse> put(String path, {dynamic data, Options? options}) async {
+    Response dioResponse = await dio.put(path, data: data, options: options);
+    return DPHttpResponse.fromDioResponse(dioResponse);
+  }
+}
+
+abstract class SecureApiProvider extends ApiProvider {
+  Future<String> getPinOTP() async {
+    String url = "/pin/otp";
+    AuthService authService = Get.find<AuthService>();
+
+    Map<String, dynamic> body = {};
+
+    if (authService.pin != null) {
+      body['pin'] = authService.pin;
+    }
+    if (authService.pin == null && authService.bioKey.key != null) {
+      body['bioKey'] = authService.bioKey.key;
+    }
+
+    Map<String, dynamic> headers = {};
+    if (authService.isAuthenticated == false) {
+      headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
+    }
+
+    DPHttpResponse response = await post(
+      url,
+      data: body,
+      encrypt: true,
+      options: Options(headers: headers),
+    );
+    return response.data['otp'];
+  }
+
+  Future<String> encryptData(dynamic data) async {
+    AuthService authService = Get.find<AuthService>();
+    return await AesGcmEncryptor.encrypt(json.encode(data), authService.aes.key!);
+  }
+
+  @override
+  Future<DPHttpResponse> get(String path, {Map<String, dynamic>? queryParameters, Options? options, bool needPinOTP = false}) async {
+    options ??= Options();
+    options.headers ??= {};
+    if (needPinOTP) {
+      String otp = await getPinOTP();
+      options.headers!['Payment-Pin-Otp'] = otp;
+    }
+
+    return await super.get(path, queryParameters: queryParameters, options: options);
+  }
+
+  @override
+  Future<DPHttpResponse> delete(String path, {dynamic data}) async {
+    return await super.delete(path, data: data);
+  }
+
+  @override
+  Future<DPHttpResponse> post(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options, bool needPinOTP = false, bool encrypt = false}) async {
+    options ??= Options();
+    options.headers ??= {};
+    if (needPinOTP) {
+      String otp = await getPinOTP();
+
+      options.headers!['Payment-Pin-Otp'] = otp;
+    }
+
+    if (encrypt) {
+      options.headers!['content-type'] = 'application/octet-stream';
+      data = await encryptData(data);
+    }
+    return await super.post(path, data: data, queryParameters: queryParameters, options: options);
+  }
+
+  @override
+  Future<DPHttpResponse> patch(String path, {dynamic data}) async {
+    return await super.patch(path, data: data);
+  }
+
+  @override
+  Future<DPHttpResponse> put(String path, {dynamic data, Options? options, bool needPinOTP = false}) async {
+    options ??= Options();
+    options.headers ??= {};
+    if (needPinOTP) {
+      String otp = await getPinOTP();
+
+      options.headers!['Payment-Pin-Otp'] = otp;
+    }
+    return await super.put(path, data: data, options: options);
   }
 }

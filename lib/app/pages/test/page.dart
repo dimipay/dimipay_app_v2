@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,6 +52,22 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.VERSION),
           linkToRoute(Routes.LICENSE),
           linkToRoute(Routes.TERMS_OF_SERVICE),
+          TextButton(
+            onPressed: () {
+              Get.find<AuthService>().logout();
+            },
+            child: const Text('Clear Data'),
+          ),
+//           TextButton(
+//             onPressed: () async {
+//               AesGcmEncryptor encryptor = AesGcmEncryptor(secretKey: '570704d9814f97acb8092e859ea9a15c');
+//               final res = await encryptor.encrypt('''{
+// 	pin: '1313',
+// }''');
+//               print(res);
+//             },
+//             child: Text('test encryption'),
+//           ),
         ],
       ),
     );

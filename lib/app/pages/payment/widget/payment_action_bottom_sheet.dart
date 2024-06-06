@@ -1,5 +1,6 @@
+import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
-import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:dio/dio.dart';
@@ -42,11 +43,11 @@ class PaymentActionBottomSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  paymentMethod.name ?? '',
+                  paymentMethod.name,
                   style: textTheme.header2.copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
-                  '****-****-****-${paymentMethod.last4Digit}',
+                  '****-****-****-${paymentMethod.preview}',
                   style: textTheme.description.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
@@ -56,14 +57,17 @@ class PaymentActionBottomSheet extends StatelessWidget {
           PaymentActionBottomSheetItem(
             title: '이름 수정하기',
             showIcon: true,
-            onTap: () {},
+            onTap: () {
+              Get.back();
+              Get.toNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': paymentMethod});
+            },
           ),
           PaymentActionBottomSheetItem(
             title: '삭제하기',
             titleColor: colorTheme.primaryNegative,
             onTap: () async {
               try {
-                await Get.find<PaymentService>().deletePaymentMethod(paymentMethod);
+                await Get.find<PaymentPageController>().deletePaymentMethod(paymentMethod);
                 Get.back();
               } on DioException catch (e) {
                 DPErrorSnackBar().open(e.response?.data['message'] ?? '');

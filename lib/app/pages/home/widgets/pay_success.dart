@@ -25,41 +25,16 @@ class PaySuccessPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Lottie.asset('assets/lottie/complete.json',
-                      height: 240, repeat: false),
-                  Text('성공적으로 결제되었어요',
-                      style: textTheme.token
-                          .copyWith(color: colorTheme.grayscale600)),
+                  Lottie.asset('assets/lottie/complete.json', height: 240, repeat: false),
+                  Text('성공적으로 결제되었어요', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
               child: DPButton(
-                decoration: BoxDecoration(
-                  color: colorTheme.primaryBrand,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.fromBorderSide(
-                    BorderSide(
-                      color: colorTheme.primaryBrand,
-                      width: 1,
-                    ),
-                  ),
-                ),
-                isTapEffectEnabled: true,
-                radius: const BorderRadius.all(Radius.circular(10)),
                 onTap: () => Get.back(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('확인',
-                          style: textTheme.itemDescription
-                              .copyWith(color: colorTheme.grayscale100)),
-                    ],
-                  ),
-                ),
+                child: const Text('확인'),
               ),
             ),
           ],

@@ -18,12 +18,12 @@ enum PinPageType {
   onboarding,
   createPin,
   editPin,
+  register,
 }
 
 enum PinPageStatus {
   preCheck,
-  normal,
-  wrong,
+  nomal,
   doubleCheck,
 }
 
@@ -33,7 +33,7 @@ class PinPageController extends GetxController {
 
   final PinPageType pinPageType = Get.arguments?['pinPageType'] ?? PinPageType.unlock;
 
-  final Rx<PinPageStatus> _status = Rx(PinPageStatus.normal);
+  final Rx<PinPageStatus> _status = Rx(PinPageStatus.nomal);
   PinPageStatus get status => _status.value;
 
   final Rx<List<int>> _nums = Rx([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -70,7 +70,7 @@ class PinPageController extends GetxController {
       final res = await localAuthService.bioAuth();
 
       if (res) {
-        await authService.loadBioKey();
+        await authService.bioKey.loadBioKey();
         Get.back();
         return true;
       }
@@ -85,14 +85,17 @@ class PinPageController extends GetxController {
   }
 
   void _initStatus() {
-    if (pinPageType == PinPageType.unlock) {
-      _status.value = PinPageStatus.normal;
-    } else if (pinPageType == PinPageType.onboarding) {
-      _status.value = PinPageStatus.normal;
-    } else if (pinPageType == PinPageType.editPin) {
-      _status.value = PinPageStatus.preCheck;
-    } else if (pinPageType == PinPageType.createPin) {
-      _status.value = PinPageStatus.normal;
+    switch (pinPageType) {
+      case PinPageType.unlock:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.onboarding:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.editPin:
+        _status.value = PinPageStatus.preCheck;
+      case PinPageType.createPin:
+        _status.value = PinPageStatus.nomal;
+      case PinPageType.register:
+        _status.value = PinPageStatus.nomal;
     }
   }
 
@@ -114,40 +117,37 @@ class PinPageController extends GetxController {
       Get.offAllNamed(nextRoute);
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
-      _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
       clearPin();
     }
   }
 
-  void validatePin() async {
+  void pinCheck() async {
     try {
-      await authService.validatePin(pin);
+      await authService.pinCheck(pin);
       Get.back();
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
-      _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;
-      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     }
   }
 
   Future<void> changePinPreCheck() async {
     try {
-      await authService.validatePin(pin);
+      await authService.pinCheck(pin);
       _pinCount.value = null;
-      _status.value = PinPageStatus.normal;
+      _status.value = PinPageStatus.nomal;
       clearPin();
       _shufleList();
     } on IncorrectPinException catch (e) {
       _pinCount.value = e.left;
-      _status.value = PinPageStatus.wrong;
-      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     } on PinLockException catch (_) {
       _pinCount.value = 0;
-      HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     }
   }
 
@@ -160,12 +160,49 @@ class PinPageController extends GetxController {
 
   Future<void> changePinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 쓴 비밀번호와 다릅니다.", message: "비밀번호를 다시 입력해주세요.");
-      _status.value = PinPageStatus.normal;
+      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "비밀번호를 다시 입력해주세요.");
+      _status.value = PinPageStatus.nomal;
       return;
     }
-    await authService.changePin(authService.pin!, pin);
+    await authService.changePin(pin);
     Get.back();
+    DPSnackBar.open('핀을 변경했어요!');
+    HapticHelper.feedback(HapticPatterns.success);
+  }
+
+  void validatePin(String pin) {
+    List<String> continuousNumber = ['0123', '1234', '2345', '3456', '4567', '5678', '6789', '7890', '9876', '8765', '7654', '6543', '5432', '4321', '3210'];
+    if (continuousNumber.contains(pin)) {
+      throw ContinuousPinException();
+    }
+    if (RegExp(r'^(.)\1{3}$').hasMatch(pin)) {
+      throw SameNumberPinException();
+    }
+  }
+
+  Future<void> registerPinNomal() async {
+    try {
+      validatePin(pin);
+      _newPin = pin;
+      _status.value = PinPageStatus.doubleCheck;
+      clearPin();
+      _shufleList();
+    } on SameNumberPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    } on ContinuousPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    }
+  }
+
+  Future<void> registerPinDoubleCheck() async {
+    if (pin != _newPin) {
+      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "핀을 다시 입력해주세요.");
+      _status.value = PinPageStatus.nomal;
+      return;
+    }
+    await authService.registerPin(pin);
+    final String nextRoute = redirect ?? Routes.HOME;
+    Get.offAllNamed(nextRoute);
   }
 
   void clearPin() {

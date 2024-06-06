@@ -151,7 +151,7 @@ class TermsOfServicePage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            DPAppbar(header: '서비스 이용약관'),
+            const DPAppbar(header: '서비스 이용약관'),
             Expanded(
               child: Scrollbar(
                 interactive: true,
@@ -162,8 +162,7 @@ class TermsOfServicePage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
                       termsOfServiceText,
-                      style: textTheme.paragraph1!
-                          .copyWith(color: colorTheme.grayscale800),
+                      style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
                     ),
                   ),
                 ),

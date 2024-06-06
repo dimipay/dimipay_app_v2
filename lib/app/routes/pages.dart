@@ -26,6 +26,7 @@ import 'package:dimipay_app_v2/app/pages/theme_select/binding.dart';
 import 'package:dimipay_app_v2/app/pages/theme_select/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
+import 'package:dimipay_app_v2/app/pages/transaction_detail/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction_detail/page.dart';
 import 'package:dimipay_app_v2/app/pages/user/binding.dart';
 import 'package:dimipay_app_v2/app/pages/user/page.dart';
@@ -45,12 +46,9 @@ class AppPages {
       OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.LOGIN, page: () => const LogInPage(), binding: LoginPageBinding()),
-    GetPage(
-        name: Routes.ONBOARDING,
-        page: () => const OnboardingPage(),
-        middlewares: [
-          LoginMiddleware(),
-        ]),
+    GetPage(name: Routes.ONBOARDING, page: () => const OnboardingPage(), middlewares: [
+      LoginMiddleware(),
+    ]),
     GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
       LoginMiddleware(),
     ]),
@@ -78,7 +76,7 @@ class AppPages {
       LoginMiddleware(),
       OnboardingMiddleware(),
     ]),
-    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => TransactionDetailPage(), middlewares: [
+    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => const TransactionDetailPage(), binding: TransactionDetailPageBinding(), middlewares: [
       LoginMiddleware(),
       OnboardingMiddleware(),
     ]),

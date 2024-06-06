@@ -1,25 +1,64 @@
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
-import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
 class TransactionRepository {
   final ApiProvider api;
 
-  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
+  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
-  Future<Map> getTransactions(DateTime? offset, {int limit = 15}) async {
-    String url = '/transaction';
-    Map<String, dynamic> queryParameter = {"limit": limit};
+  Future<Map> getTransactions({required int year, required int month, int? offset, int? limit}) async {
+    String url = '/history';
+    Map<String, dynamic> queryParameter = {"year": year, 'month': month};
 
     if (offset != null) {
-      queryParameter["offset"] = offset.toIso8601String();
+      queryParameter['offset'] = offset;
     }
 
-    Response response = await api.get(url, queryParameters: queryParameter);
-    List<Transaction> transactions = response.data["history"].map<Transaction>((json) {
-      return Transaction.fromJson(json);
-    }).toList();
-    return {"transactions": transactions, "next": response.data["next"]};
+    if (limit != null) {
+      queryParameter['limit'] = limit;
+    }
+
+    DPHttpResponse response = await api.get(url, queryParameters: queryParameter);
+    List<Transaction> transactions = [];
+    for (final group in response.data["groups"]) {
+      for (final transaction in group['transactions']) {
+        transactions.add(Transaction.fromJson(transaction));
+      }
+    }
+    return {"transactions": transactions, "monthTotal": response.data["monthTotal"], "nextOffset": response.data["nextOffset"]};
+  }
+
+  Future<TransactionDetail> getTransactionDetail(String transactionId) async {
+    String url = '/history/$transactionId';
+
+    DPHttpResponse response = await api.get(url);
+    return TransactionDetail.fromJson(response.data);
+  }
+
+  Future<TransactionDetail> createTransaction({
+    required DateTime createdAt,
+    required String status,
+    required String transactionType,
+    required String purchaseType,
+    required int products,
+    required PaymentMethod paymentMethod,
+  }) async {
+    String url = '/history';
+
+    Map<String, dynamic> data = {
+      "createdAt": createdAt.toUtc().toIso8601String(),
+      "status": status,
+      "statusMessage": "테스트 결제",
+      "transactionType": transactionType,
+      "purchaseType": purchaseType,
+      "products": products,
+      "paymentMethodId": paymentMethod.id,
+    };
+
+    DPHttpResponse response = await api.post(url, data: data);
+    return TransactionDetail.fromJson(response.data);
   }
 }

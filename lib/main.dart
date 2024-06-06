@@ -3,7 +3,7 @@ import 'package:dimipay_app_v2/app/routes/pages.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ void main() async {
         ThemeService themeService = Get.find<ThemeService>();
         return GetMaterialApp(
             title: '디미페이',
-            initialRoute: getInintialRoute(debug: !kReleaseMode),
+            initialRoute: getInintialRoute(debug: true),
             getPages: AppPages.pages,
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
@@ -40,6 +40,8 @@ void main() async {
                 foregroundColor: lightTheme.colors.grayscale1000,
                 centerTitle: false,
               ),
+              textSelectionTheme: TextSelectionThemeData(selectionColor: lightTheme.colors.primaryBrand.withAlpha(100), selectionHandleColor: lightTheme.colors.primaryBrand),
+              cupertinoOverrideTheme: CupertinoThemeData(primaryColor: lightTheme.colors.primaryBrand),
               scaffoldBackgroundColor: lightTheme.colors.grayscale100,
               extensions: [lightTheme.colors, lightTheme.textStyle],
               cardColor: lightTheme.colors.grayscale100,
@@ -55,6 +57,8 @@ void main() async {
                 foregroundColor: darkTheme.colors.grayscale1000,
                 centerTitle: false,
               ),
+              textSelectionTheme: TextSelectionThemeData(selectionColor: darkTheme.colors.primaryBrand.withAlpha(100), selectionHandleColor: lightTheme.colors.primaryBrand),
+              cupertinoOverrideTheme: CupertinoThemeData(primaryColor: darkTheme.colors.primaryBrand),
               scaffoldBackgroundColor: darkTheme.colors.grayscale100,
               extensions: [darkTheme.colors, darkTheme.textStyle],
               cardColor: darkTheme.colors.grayscale100,

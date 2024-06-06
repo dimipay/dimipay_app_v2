@@ -2,7 +2,6 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/cuppon_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,7 +13,6 @@ class HomePage extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return Scaffold(
       backgroundColor: colorTheme.grayscale200,
@@ -34,18 +32,14 @@ class HomePage extends GetView<HomePageController> {
               const Spacer(),
               Row(
                 children: [
-                  DPButton(
-                    isTapEffectEnabled: false,
+                  GestureDetector(
                     onTap: () => controller.openKakaoChannelTalk(),
-                    child: Icon(Icons.support_agent_rounded,
-                        size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.support_agent_rounded, size: 24, color: colorTheme.grayscale600),
                   ),
                   const SizedBox(width: 24),
-                  DPButton(
-                    isTapEffectEnabled: false,
+                  GestureDetector(
                     onTap: () => controller.openPaySuccess(),
-                    child: Icon(Icons.help_rounded,
-                        size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
                   ),
                 ],
               ),
@@ -85,10 +79,7 @@ class HomePage extends GetView<HomePageController> {
                       () => AnimatedCrossFade(
                         firstChild: const CupponAreaLoading(),
                         secondChild: const CupponArea(),
-                        crossFadeState:
-                            controller.paymentService.paymentMethods == null
-                                ? CrossFadeState.showFirst
-                                : CrossFadeState.showSecond,
+                        crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         duration: const Duration(milliseconds: 100),
                       ),
                     ),

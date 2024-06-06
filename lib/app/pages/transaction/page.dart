@@ -3,8 +3,6 @@ import 'package:dimipay_app_v2/app/pages/transaction/controller.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_date_group.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
-import 'package:dimipay_app_v2/app/widgets/button.dart';
-import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,141 +16,134 @@ class TransactionPage extends GetView<TransactionPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 9),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const DPAppbar(header: '결제 내역'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            DPButton(
-                              isTapEffectEnabled: false,
-                              onTap: () {
-                                controller.minusMonth();
-                              },
-                              child: Icon(
-                                Icons.arrow_back_ios_rounded,
-                                color: colorTheme.grayscale500,
-                                size: 16,
-                              ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const DPAppbar(header: '결제 내역'),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              controller.minusMonth();
+                            },
+                            icon: Icon(
+                              Icons.chevron_left,
+                              color: colorTheme.grayscale500,
                             ),
-                            const SizedBox(width: 8),
-                            Obx(
-                              () => Text(
-                                DateFormat('yyyy년 M월').format(controller.date.value),
-                                style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            DPButton(
-                              isTapEffectEnabled: false,
-                              onTap: () {
-                                controller.plusMonth();
-                              },
-                              child: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: colorTheme.grayscale500,
-                                size: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Obx(
-                          () => Row(
-                            children: [
-                              Text(
-                                '총 ',
-                                style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
-                              ),
-                              AnimatedDigitWidget(
-                                value: controller.transactionService.totalPrice ?? 0,
-                                textStyle: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
-                                enableSeparator: true,
-                              ),
-                              Text(
-                                '원',
-                                style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
-                              ),
-                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const DPDivider(),
-            Expanded(
-              child: controller.transactionService.obx(
-                (transactions) {
-                  if (transactions!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        '결제 내역이 없네요!',
-                        style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
+                          Obx(
+                            () => Text(
+                              DateFormat('yyyy년 M월').format(controller.date.value),
+                              style: textTheme.description.copyWith(color: colorTheme.grayscale800),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              controller.plusMonth();
+                            },
+                            icon: Icon(
+                              Icons.chevron_right,
+                              color: colorTheme.grayscale500,
+                            ),
+                          ),
+                        ],
                       ),
-                    );
-                  }
-                  return Obx(() {
-                    final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
-
-                    for (var transaction in transactions) {
-                      if (transactionsGroupedByDate.containsKey(transaction.createdAt)) {
-                        transactionsGroupedByDate[transaction.createdAt]?.add(transaction);
-                      } else {
-                        transactionsGroupedByDate[transaction.createdAt] = [transaction];
-                      }
-                    }
-
-                    return Scrollbar(
-                      controller: controller.scrollController,
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                        controller: controller.scrollController,
-                        child: Column(
+                      Obx(
+                        () => Row(
                           children: [
-                            ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
-                            !controller.transactionService.hasReachedEnd
-                                ? SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      color: colorTheme.primaryBrand,
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : Container(),
-                            const SizedBox(height: 40),
+                            Text(
+                              '총 ',
+                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                            ),
+                            AnimatedDigitWidget(
+                              value: controller.transactionService.currentMonthTotal,
+                              textStyle: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                              enableSeparator: true,
+                            ),
+                            Text(
+                              '원',
+                              style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
+                            ),
                           ],
                         ),
                       ),
-                    );
-                  });
-                },
-                onLoading: Center(
-                  child: SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      color: colorTheme.primaryBrand,
-                      strokeWidth: 2,
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(height: 6, color: colorTheme.grayscale200),
+          Expanded(
+            child: controller.transactionService.obx(
+              (transactions) {
+                if (transactions!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      '결제 내역이 없네요!',
+                      style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
                     ),
+                  );
+                }
+                return Obx(() {
+                  final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
+
+                  for (var transaction in transactions) {
+                    DateTime dateOnly = DateUtils.dateOnly(transaction.date);
+                    if (transactionsGroupedByDate.containsKey(dateOnly)) {
+                      transactionsGroupedByDate[dateOnly]?.add(transaction);
+                    } else {
+                      transactionsGroupedByDate[dateOnly] = [transaction];
+                    }
+                  }
+
+                  return Scrollbar(
+                    controller: controller.scrollController,
+                    child: SingleChildScrollView(
+                      controller: controller.scrollController,
+                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                      child: Column(
+                        children: [
+                          ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                          !controller.transactionService.hasReachedEnd
+                              ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    color: colorTheme.primaryBrand,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Container(),
+                          const SizedBox(height: 40),
+                        ],
+                      ),
+                    ),
+                  );
+                });
+              },
+              onLoading: Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: colorTheme.primaryBrand,
+                    strokeWidth: 2,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -40,7 +40,7 @@ class PrivacyPolicyPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            DPAppbar(header: '개인정보 보호약관'),
+            const DPAppbar(header: '개인정보 보호약관'),
             Expanded(
               child: Scrollbar(
                 interactive: true,
@@ -51,8 +51,7 @@ class PrivacyPolicyPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
                       privacyPolicyText,
-                      style: textTheme.paragraph1!
-                          .copyWith(color: colorTheme.grayscale800),
+                      style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
                     ),
                   ),
                 ),
