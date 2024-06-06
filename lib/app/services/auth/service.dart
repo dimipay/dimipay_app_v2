@@ -130,8 +130,8 @@ class AuthService {
       if (jwt.token.refreshToken == null) {
         throw NoRefreshTokenException();
       }
-      String newAccessToken = await repository.refreshAccessToken(jwt.token.refreshToken!);
-      await jwt.setToken(JwtToken(accessToken: newAccessToken, refreshToken: jwt.token.refreshToken));
+      JwtToken newJwt = await repository.refreshAccessToken(jwt.token.refreshToken!);
+      await jwt.setToken(newJwt);
       _refreshTokenApiCompleter.complete();
     } catch (_) {
       await logout();
