@@ -8,7 +8,7 @@ class DPAppbar extends StatelessWidget {
   final Widget? leading;
   final void Function()? onBackButtonPressed;
 
-  const DPAppbar({super.key, required this.header, this.paragraph, this.leading, this.onBackButtonPressed});
+  const DPAppbar({super.key, this.header, this.paragraph, this.leading, this.onBackButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class DPAppbar extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return SafeArea(
       bottom: false,
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class DPAppbar extends StatelessWidget {
                     ),
                   ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
                   if (header != null)
@@ -49,6 +49,7 @@ class DPAppbar extends StatelessWidget {
                           header!,
                           style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
                         ),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   if (paragraph != null)
@@ -59,6 +60,7 @@ class DPAppbar extends StatelessWidget {
                           paragraph!,
                           style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
                         ),
+                        const SizedBox(height: 16),
                       ],
                     ),
                 ],

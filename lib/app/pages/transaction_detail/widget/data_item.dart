@@ -11,7 +11,7 @@ class DataItem extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
