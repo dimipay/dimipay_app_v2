@@ -17,7 +17,7 @@ class QRArea extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          color: colorTheme.grayscale200,
+          color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
             color: colorTheme.grayscale400,
@@ -28,14 +28,6 @@ class QRArea extends StatelessWidget {
           child: Container(
             width: 180,
             height: 180,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              border: Border.fromBorderSide(BorderSide(
-                color: colorTheme.grayscale400,
-                width: 1,
-              )),
-            ),
             child: QrImageView(
               data: payload,
               version: 12,
@@ -154,32 +146,18 @@ class QRAreaLoading extends StatelessWidget {
       aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
-          color: colorTheme.grayscale200,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
             color: colorTheme.grayscale400,
             width: 1,
           )),
         ),
-        child: Center(
-          child: Container(
-            width: 180,
-            height: 180,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              border: Border.fromBorderSide(BorderSide(
-                color: colorTheme.grayscale400,
-                width: 1,
-              )),
-            ),
-            child: Shimmer.fromColors(
-              baseColor: colorTheme.grayscale300,
-              highlightColor: colorTheme.grayscale200,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Container(color: Colors.red),
-              ),
-            ),
+        child: Shimmer.fromColors(
+          baseColor: colorTheme.grayscale300,
+          highlightColor: colorTheme.grayscale200,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Container(color: Colors.red),
           ),
         ),
       ),
