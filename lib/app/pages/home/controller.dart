@@ -124,6 +124,7 @@ class HomePageController extends GetxController {
   @override
   void onClose() {
     _displayTimer.cancel();
+    _qrRefreshTimer?.cancel();
     super.onClose();
   }
 }
