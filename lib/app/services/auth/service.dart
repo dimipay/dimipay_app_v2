@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
-import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
@@ -38,7 +37,7 @@ class AuthService {
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
 
-  Completer<void> _refreshTokenApiCompleter = Completer()..complete();
+  Completer _refreshTokenApiCompleter = Completer()..complete();
 
   AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
 
@@ -127,13 +126,14 @@ class AuthService {
     //첫 호출(null)이거나 이미 완료된 호출(completed completer)일 경우 새 객체 할당
     _refreshTokenApiCompleter = Completer();
     try {
-      if (jwt.token.refreshToken == null) {
-        throw NoRefreshTokenException();
-      }
       JwtToken newJwt = await repository.refreshAccessToken(jwt.token.refreshToken!);
+      dev.log('token refreshed!');
+      dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(newJwt.accessToken!)}');
+      dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(newJwt.refreshToken!)}');
       await jwt.setToken(newJwt);
       _refreshTokenApiCompleter.complete();
     } catch (_) {
+      _refreshTokenApiCompleter.complete();
       await logout();
       Get.offAllNamed(Routes.LOGIN);
     }

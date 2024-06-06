@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
@@ -28,14 +29,14 @@ class AuthRepository {
   }
 
   ///returns accessToken
-  Future<String> refreshAccessToken(String refreshToken) async {
+  Future<JwtToken> refreshAccessToken(String refreshToken) async {
     String url = "/auth/refresh";
 
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer $refreshToken',
     };
     DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
-    return response.data['tokens']['accessToken'];
+    return JwtToken(accessToken: response.data['tokens']['accessToken'], refreshToken: response.data['tokens']['refreshToken']);
   }
 
   ///returns map that contains accessToken and refreshToekn
