@@ -152,10 +152,17 @@ class PinPageController extends GetxController {
   }
 
   Future<void> changePinNomal() async {
-    _newPin = pin;
-    _status.value = PinPageStatus.doubleCheck;
-    clearPin();
-    _shufleList();
+    try {
+      validatePin(pin);
+      _newPin = pin;
+      _status.value = PinPageStatus.doubleCheck;
+      clearPin();
+      _shufleList();
+    } on SameNumberPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    } on ContinuousPinException catch (e) {
+      DPErrorSnackBar().open(e.message);
+    }
   }
 
   Future<void> changePinDoubleCheck() async {
