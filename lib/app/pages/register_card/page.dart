@@ -80,16 +80,12 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  DPButton(
-                    onTap: controller.addPaymentMethod,
-                    child: controller.obx(
-                      (state) => const Text('등록하기'),
-                      onLoading: const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                      ),
+                  controller.obx(
+                    (_) => DPButton(
+                      onTap: controller.addPaymentMethod,
+                      child: const Text('등록하기'),
                     ),
+                    onLoading: DPButton.loading(),
                   ),
                 ],
               ),

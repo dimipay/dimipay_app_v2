@@ -65,18 +65,14 @@ class EditCardPage extends GetView<EditCardPageController> {
             ),
             Padding(
               padding: const EdgeInsets.all(16),
-              child: DPButton(
-                onTap: controller.editCardName,
-                child: controller.obx(
-                  (state) => const Text('확인'),
-                  onLoading: const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                  ),
+              child: controller.obx(
+                (_) => DPButton(
+                  onTap: controller.editCardName,
+                  child: const Text('확인'),
                 ),
+                onLoading: DPButton.loading(),
               ),
-            ),
+            )
           ],
         ),
       ),

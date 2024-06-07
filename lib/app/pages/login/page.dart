@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,8 +53,19 @@ class LogInPage extends GetView<LoginPageController> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-              child: GoogleLoginButton(
-                onTap: controller.loginWithGoogle,
+              child: Obx(
+                () {
+                  if (controller.isGoogleLoginInProgress) {
+                    return DPButton.loading(
+                      backgroundColor: colorTheme.grayscale200,
+                      foregroundColor: colorTheme.primaryBrand,
+                    );
+                  } else {
+                    return GoogleLoginButton(
+                      onTap: controller.loginWithGoogle,
+                    );
+                  }
+                },
               ),
             ),
           ],
@@ -63,7 +75,7 @@ class LogInPage extends GetView<LoginPageController> {
   }
 }
 
-class GoogleLoginButton extends GetView<LoginPageController> {
+class GoogleLoginButton extends StatelessWidget {
   final void Function()? onTap;
   const GoogleLoginButton({super.key, this.onTap});
 
@@ -79,40 +91,19 @@ class GoogleLoginButton extends GetView<LoginPageController> {
           borderRadius: BorderRadius.circular(12),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Obx(() {
-          if (controller.isGoogleLoginInProgress) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: colorTheme.primaryBrand,
-                  ),
-                ),
-              ],
-            );
-          }
-          {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/icon/google-logo.svg'),
-                const SizedBox(width: 10),
-                Text(
-                  '디미고 구글 계정으로 로그인',
-                  style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
-                ),
-              ],
-            );
-          }
-        }),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icon/google-logo.svg'),
+            const SizedBox(width: 10),
+            Text(
+              '디미고 구글 계정으로 로그인',
+              style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
+            ),
+          ],
+        ),
       ),
     );
   }

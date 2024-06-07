@@ -17,6 +17,14 @@ class DPButton extends StatelessWidget {
     required this.child,
   }) : super(key: key);
 
+  DPButton.loading({super.key, this.backgroundColor, this.border, this.foregroundColor})
+      : onTap = null,
+        child = SizedBox(
+          width: 20,
+          height: 20,
+          child: CircularProgressIndicator(color: foregroundColor ?? Colors.white, strokeWidth: 2),
+        );
+
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;

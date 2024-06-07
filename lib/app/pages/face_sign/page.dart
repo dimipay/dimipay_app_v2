@@ -72,17 +72,9 @@ class FaceSignNotRegistered extends StatelessWidget {
               onTap: controller.registerFaceSign,
               child: const Text("등록하기"),
             ),
-            onLoading: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: colorTheme.grayscale400),
-              child: Center(
-                child: SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(color: colorTheme.primaryBrand, strokeWidth: 2),
-                ),
-              ),
+            onLoading: DPButton.loading(
+              backgroundColor: colorTheme.grayscale400,
+              foregroundColor: colorTheme.primaryBrand,
             ),
           ),
         ),
