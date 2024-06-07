@@ -29,8 +29,9 @@ class FaceSignRepository {
 
       return;
     } on DioException catch (e) {
-      if (e.response?.data['code'] == 'ERR_FACE_REGISTER_FAILED') {
-        throw FaceSignException(e.response?.data['message']);
+      DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
+      if (response.code == 'ERR_FAILED_TO_REGISTER_FACE_SIGN') {
+        throw FaceSignException(response.message!);
       }
       rethrow;
     }

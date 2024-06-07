@@ -182,21 +182,18 @@ class FaceSignRegistered extends StatelessWidget {
             ],
           ),
         ),
-        DPButton(
-            onTap: controller.deleteFaceSign,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Text("등록 삭제하기", style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale600)),
-            )),
-        const SizedBox(height: 8),
+        GestureDetector(
+          onTap: controller.deleteFaceSign,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: DPButton(
             onTap: controller.registerFaceSign,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Center(child: Text("다시 등록하기", style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale100))),
-            ),
+            child: const Text("다시 등록하기"),
           ),
         ),
       ],
