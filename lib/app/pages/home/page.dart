@@ -75,14 +75,14 @@ class HomePage extends GetView<HomePageController> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Obx(
-                      () => AnimatedCrossFade(
-                        firstChild: const CupponAreaLoading(),
-                        secondChild: const CupponArea(),
-                        crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                        duration: const Duration(milliseconds: 100),
-                      ),
-                    ),
+                    // Obx(
+                    //   () => AnimatedCrossFade(
+                    //     firstChild: const CupponAreaLoading(),
+                    //     secondChild: const CupponArea(),
+                    //     crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                    //     duration: const Duration(milliseconds: 100),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
