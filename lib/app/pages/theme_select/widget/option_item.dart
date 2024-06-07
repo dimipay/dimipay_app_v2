@@ -25,7 +25,7 @@ class OptionItem extends StatelessWidget {
                     color: colorTheme.primaryBrand,
                     size: 24,
                   )
-                : Container(),
+                : Container(height: 24),
           ],
         ),
       ),
