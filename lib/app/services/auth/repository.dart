@@ -97,11 +97,11 @@ class AuthRepository {
       await secureApi.post(url, data: body, encrypt: true);
     } on DioException catch (e) {
       DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
-      switch (e.response?.data['code']) {
+      switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
           throw IncorrectPinException(left: response.errors['remainingTryCount']);
-        case 'PIN_LOCKED':
-          throw PinLockException(e.response?.data['message']);
+        case 'ERR_TRY_LIMIT_EXCEEDED':
+          throw PinLockException(response.message!);
       }
     }
   }
