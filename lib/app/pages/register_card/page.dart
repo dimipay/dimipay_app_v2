@@ -81,9 +81,19 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                   ),
                   const SizedBox(height: 16),
                   controller.obx(
-                    (_) => DPButton(
-                      onTap: controller.addPaymentMethod,
-                      child: const Text('등록하기'),
+                    (_) => Obx(
+                      () {
+                        if (controller.isFormValid) {
+                          return DPButton(
+                            onTap: controller.addPaymentMethod,
+                            child: const Text('등록하기'),
+                          );
+                        } else {
+                          return DPButton.disabled(
+                            child: const Text('등록하기'),
+                          );
+                        }
+                      },
                     ),
                     onLoading: DPButton.loading(),
                   ),
@@ -106,6 +116,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
         hilightOnFocus: true,
+        onChanged: controller.onCardNumberChange,
       ),
       _buildSpacer(),
       Row(
@@ -119,6 +130,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               hilightOnFocus: true,
+              onChanged: controller.onExpireDateChange,
             ),
           ),
           const SizedBox(width: 16),
@@ -131,6 +143,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
               keyboardType: TextInputType.number,
               textInputAction: TextInputAction.next,
               hilightOnFocus: true,
+              onChanged: controller.onBirthdayChange,
             ),
           ),
         ],
@@ -145,6 +158,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
         keyboardType: TextInputType.number,
         textInputAction: TextInputAction.next,
         hilightOnFocus: true,
+        onChanged: controller.onPasswordChange,
       ),
       const SizedBox(height: 24),
     ];

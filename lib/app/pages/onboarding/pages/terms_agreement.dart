@@ -113,27 +113,9 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                       onTap: widget.controller.nextPage,
                       child: const Text('계속'),
                     )
-                  : Container(
-                      decoration: BoxDecoration(
-                        color: colorTheme.grayscale200,
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.fromBorderSide(
-                          BorderSide(
-                            color: colorTheme.grayscale300,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: Center(
-                        child: Text(
-                          '계속',
-                          style: textTheme.itemDescription.copyWith(
-                            color: colorTheme.grayscale500,
-                          ),
-                        ),
-                      ),
-                    ),
+                  : DPButton.disabled(
+                      child: const Text('계속'),
+                    )
             ],
           ),
         ),

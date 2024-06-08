@@ -30,10 +30,6 @@ class RegisterCardPageController extends GetxController with StateMixin {
   void onInit() {
     super.onInit();
     change(null, status: RxStatus.success());
-    cardNumberFieldController.addListener(onCardNumberChange);
-    expiredDateFieldController.addListener(onExpireDateChange);
-    ownerPersonalNumFieldController.addListener(onBirthdayChange);
-    passwordFieldController.addListener(onPasswordChange);
   }
 
   String formatCardNumber(String rawData) {
@@ -47,16 +43,15 @@ class RegisterCardPageController extends GetxController with StateMixin {
     return formatedData;
   }
 
-  void onCardNumberChange() {
+  void onCardNumberChange(String str) {
     String data = cardNumberFieldController.text;
     String rawData = data.replaceAll('-', '');
     String formatedData = formatCardNumber(rawData);
-    if (data != formatedData) {
-      cardNumberFieldController.text = formatedData;
-      cardNumberFieldController.selection = TextSelection.fromPosition(TextPosition(offset: cardNumberFieldController.text.length));
-      return;
-    }
-    if (data.length == 19) {
+
+    cardNumberFieldController.text = formatedData;
+    cardNumberFieldController.selection = TextSelection.fromPosition(TextPosition(offset: cardNumberFieldController.text.length));
+
+    if (rawData.length == 16) {
       cardNumber.value = rawData;
       formFocusScopeNode.nextFocus();
     } else {
@@ -75,7 +70,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     return formatedData;
   }
 
-  void onExpireDateChange() {
+  void onExpireDateChange(String str) {
     String data = expiredDateFieldController.text;
     String rawData = data.replaceAll('/', '');
     String formatedData = formatExpireDate(rawData);
@@ -92,7 +87,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     }
   }
 
-  void onBirthdayChange() {
+  void onBirthdayChange(String str) {
     String data = ownerPersonalNumFieldController.text;
     if (data.length == 6) {
       ownerPersonalNum.value = DateFormat('yyyyMMdd').format(DateTime.parse("00$data")).substring(2);
@@ -104,11 +99,11 @@ class RegisterCardPageController extends GetxController with StateMixin {
     }
   }
 
-  void onPasswordChange() {
+  void onPasswordChange(String str) {
     String data = passwordFieldController.text;
     if (data.length == 2) {
       password.value = data;
-      formFocusScopeNode.nextFocus();
+      formFocusScopeNode.unfocus();
     } else {
       password.value = null;
     }
@@ -122,17 +117,18 @@ class RegisterCardPageController extends GetxController with StateMixin {
     );
 
     if (cardInfo != null) {
-      cardNumberFieldController.text = cardInfo.cardNumber;
-      expiredDateFieldController.text = cardInfo.expiryDate.replaceAll("/", "");
+      cardNumberFieldController.text = formatCardNumber(cardInfo.cardNumber);
+      cardNumber.value = cardInfo.cardNumber;
+      expiredDateFieldController.text = cardInfo.expiryDate;
+      expiredAt.value = expiredAt.value = DateTime(int.parse(cardInfo.expiryDate.substring(3)), int.parse(cardInfo.expiryDate.substring(0, 2)));
+      formFocusScopeNode.nextFocus();
+      formFocusScopeNode.nextFocus();
+      formFocusScopeNode.nextFocus();
     }
   }
 
   bool get isFormValid {
-    if (cardNumber.value == null || cardNumber.value!.length < 16) return false;
-    if (expiredAt.value == null) return false;
-    if (ownerPersonalNum.value == null || (ownerPersonalNum.value!.length != 6 && ownerPersonalNum.value!.length != 10)) return false;
-    if (password.value == null || password.value!.length != 2) return false;
-    return true;
+    return cardNumber.value != null && expiredAt.value != null && ownerPersonalNum.value != null && password.value != null;
   }
 
   void addPaymentMethod() async {

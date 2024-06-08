@@ -52,7 +52,7 @@ class EditCardPage extends GetView<EditCardPageController> {
                               style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
                             ),
                             Text(
-                              '${controller.nameFieldTextLenth.value}/10',
+                              '${controller.nameFieldText.value.length}/10',
                               style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
                             ),
                           ],
@@ -66,10 +66,18 @@ class EditCardPage extends GetView<EditCardPageController> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: controller.obx(
-                (_) => DPButton(
-                  onTap: controller.editCardName,
-                  child: const Text('확인'),
-                ),
+                (_) => Obx(() {
+                  if (controller.validateName(controller.nameFieldText.value) == null) {
+                    return DPButton(
+                      onTap: controller.editCardName,
+                      child: const Text('확인'),
+                    );
+                  } else {
+                    return DPButton.disabled(
+                      child: const Text('확인'),
+                    );
+                  }
+                }),
                 onLoading: DPButton.loading(),
               ),
             )

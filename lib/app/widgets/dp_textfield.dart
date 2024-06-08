@@ -24,6 +24,7 @@ class DPTextField extends StatefulWidget {
   final bool autoFocus;
   final List<TextInputFormatter>? inputFormatters;
   final bool hilightOnFocus;
+  final void Function(String)? onChanged;
   DPTextField({
     super.key,
     this.controller,
@@ -37,6 +38,7 @@ class DPTextField extends StatefulWidget {
     this.autoFocus = false,
     this.inputFormatters,
     this.hilightOnFocus = false,
+    this.onChanged,
   }) : focusNode = focusNode ?? FocusNode();
 
   @override
@@ -63,6 +65,7 @@ class _DPTextFieldState extends State<DPTextField> {
       autofocus: widget.autoFocus,
       inputFormatters: widget.inputFormatters,
       cursorColor: colorTheme.primaryBrand,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 21, horizontal: 16),

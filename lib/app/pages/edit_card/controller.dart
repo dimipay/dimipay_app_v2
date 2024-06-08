@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 class EditCardPageController extends GetxController with StateMixin {
   PaymentMethod paymentMethod = Get.arguments?['paymentMethod'];
   TextEditingController nameFieldController = TextEditingController();
-  Rx<int> nameFieldTextLenth = Rx(0);
   Rx<String?> errorMessage = Rx(null);
+  Rx<String> nameFieldText = Rx('');
   PaymentService paymentService = Get.find<PaymentService>();
 
   @override
@@ -15,7 +15,7 @@ class EditCardPageController extends GetxController with StateMixin {
     change(null, status: RxStatus.success());
     nameFieldController.addListener(
       () {
-        nameFieldTextLenth.value = nameFieldController.text.length;
+        nameFieldText.value = nameFieldController.text;
       },
     );
     nameFieldController.addListener(() {
@@ -29,6 +29,9 @@ class EditCardPageController extends GetxController with StateMixin {
   }
 
   String? validateName(String name) {
+    if (name.isEmpty) {
+      return '';
+    }
     if (name != name.trim()) {
       return '시작과 끝에는 공백 문자가 올 수 없어요.';
     }
@@ -43,9 +46,6 @@ class EditCardPageController extends GetxController with StateMixin {
 
   Future<void> editCardName() async {
     String newName = nameFieldController.text;
-    if (newName.isEmpty) {
-      return;
-    }
     if (validateName(newName) != null) {
       return;
     }

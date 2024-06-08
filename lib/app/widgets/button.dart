@@ -9,21 +9,35 @@ class DPButton extends StatelessWidget {
   final BoxBorder? border;
 
   const DPButton({
-    Key? key,
+    super.key,
     this.onTap,
     this.backgroundColor,
     this.border,
     this.foregroundColor,
     required this.child,
-  }) : super(key: key);
+  });
 
-  DPButton.loading({super.key, this.backgroundColor, this.border, this.foregroundColor})
-      : onTap = null,
+  DPButton.loading({
+    super.key,
+    this.backgroundColor,
+    this.border,
+    this.foregroundColor,
+  })  : onTap = null,
         child = SizedBox(
           width: 20,
           height: 20,
           child: CircularProgressIndicator(color: foregroundColor ?? Colors.white, strokeWidth: 2),
         );
+
+  DPButton.disabled({
+    super.key,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    this.border,
+    required this.child,
+  })  : onTap = null,
+        backgroundColor = backgroundColor ?? DPLightThemeColors().primaryBrand.withAlpha(100),
+        foregroundColor = foregroundColor ?? Colors.white.withAlpha(120);
 
   @override
   Widget build(BuildContext context) {
