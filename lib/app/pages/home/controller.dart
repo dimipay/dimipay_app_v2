@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -129,7 +128,6 @@ class HomePageController extends GetxController {
 
       if (recursive) {
         reserveQRRefresh(payService.expireAt!);
-        HapticHelper.feedback(HapticPatterns.success, hapticType: HapticType.heavy);
       }
     });
   }
