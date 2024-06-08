@@ -6,7 +6,6 @@ abstract class Routes {
   static const LOGIN = '/login';
   static const ONBOARDING = '/onboarding';
   static const PIN = '/pin';
-  static const USER = '/user';
   static const TRANSACTION = '/transaction';
   static const TRANSACTION_DETAIL = '/transaction/detail';
   static const INFO = '/info';

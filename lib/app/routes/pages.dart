@@ -28,8 +28,6 @@ import 'package:dimipay_app_v2/app/pages/transaction/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/page.dart';
 import 'package:dimipay_app_v2/app/pages/transaction_detail/binding.dart';
 import 'package:dimipay_app_v2/app/pages/transaction_detail/page.dart';
-import 'package:dimipay_app_v2/app/pages/user/binding.dart';
-import 'package:dimipay_app_v2/app/pages/user/page.dart';
 import 'package:dimipay_app_v2/app/pages/version/binding.dart';
 import 'package:dimipay_app_v2/app/pages/version/page.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -51,10 +49,6 @@ class AppPages {
     ]),
     GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
       LoginMiddleware(),
-    ]),
-    GetPage(name: Routes.USER, page: () => const UserPage(), binding: UserPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.INFO, page: () => const InfoPage(), binding: InfoPageBinding(), middlewares: [
       LoginMiddleware(),
@@ -81,12 +75,9 @@ class AppPages {
       OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.THEME_SELECT, page: () => const ThemeSelectPage(), binding: ThemeSelectPageBinding()),
+    GetPage(name: Routes.VERSION, page: () => const VersionPage(), binding: VersionPageBinding()),
     GetPage(
-        name: Routes.VERSION,
-        page: () => const VersionPage(),
-        binding: VersionPageBinding()),
-    GetPage(
-        name: Routes.LICENSE,
+      name: Routes.LICENSE,
       page: () => LicensePage(
         applicationName: '',
         applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
