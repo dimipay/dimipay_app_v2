@@ -148,28 +148,26 @@ class TermsOfServicePage extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const DPAppbar(header: '서비스 이용약관'),
-            Expanded(
-              child: Scrollbar(
-                interactive: true,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      termsOfServiceText,
-                      style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
-                    ),
+      body: Column(
+        children: [
+          const DPAppbar(header: '서비스 이용약관'),
+          Expanded(
+            child: Scrollbar(
+              interactive: true,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    termsOfServiceText,
+                    style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
