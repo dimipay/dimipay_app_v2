@@ -1,6 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/cuppon_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class HomePage extends GetView<HomePageController> {
                   ),
                   const SizedBox(width: 24),
                   GestureDetector(
-                    onTap: () => controller.openPaySuccess(),
+                    onTap: () => showSuccessDialog(),
                     child: Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
                   ),
                 ],

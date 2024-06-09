@@ -13,6 +13,27 @@ abstract class ApiProvider {
     return DPHttpResponse.fromDioResponse(dioResponse);
   }
 
+  Future<Stream<Map<String, dynamic>>> getStream(String path) async {
+    Response<ResponseBody> dioResponse = await dio.get(
+      path,
+      options: Options(
+        headers: {"Accept": "text/event-stream"},
+        responseType: ResponseType.stream,
+      ),
+    );
+    return dioResponse.data!.stream.transform(
+      StreamTransformer.fromHandlers(
+        handleData: (rawdata, sink) {
+          String strData = String.fromCharCodes(rawdata);
+          String formatedData = strData.substring(strData.indexOf('{'), strData.indexOf('}') + 1);
+          Map<String, dynamic> data = json.decode(formatedData);
+
+          sink.add(data);
+        },
+      ),
+    );
+  }
+
   Future<DPHttpResponse> delete(String path, {dynamic data}) async {
     Response dioResponse = await dio.delete(path, data: data);
     return DPHttpResponse.fromDioResponse(dioResponse);
