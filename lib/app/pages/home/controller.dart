@@ -7,6 +7,7 @@ import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
+import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
@@ -42,7 +43,18 @@ class HomePageController extends GetxController {
     _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
 
     prefetchAuthAndQR();
+    handleSse();
     super.onReady();
+  }
+
+  void handleSse() {
+    payService.getTransactionStatusStream().onData(
+      (data) {
+        if (data == TransactionStatus.CONFIRMED) {
+          showSuccessDialog();
+        }
+      },
+    );
   }
 
   Future<bool> biometricAuth() async {
@@ -145,11 +157,6 @@ class HomePageController extends GetxController {
 
     setBrightness(1);
     timeRemaining.value = payService.expireAt!.difference(DateTime.now());
-  }
-
-  void openPaySuccess() {
-    showSuccessDialog();
-    _requestQR();
   }
 
   openKakaoChannelTalk() async {

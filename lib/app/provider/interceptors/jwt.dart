@@ -31,6 +31,20 @@ class JWTInterceptor extends Interceptor {
       return handler.next(err);
     }
 
+    if (err.requestOptions.responseType == ResponseType.stream) {
+      try {
+        await authService.refreshAcessToken();
+
+        //api 호출을 다시 시도함
+        err.requestOptions.headers['Authorization'] = null;
+        final Response response = await _dioInstance.fetch(err.requestOptions);
+        return handler.resolve(response);
+      } catch (e) {
+        //refresh 실패 시 401을 그대로 반환
+        return handler.next(err);
+      }
+    }
+
     DPHttpResponse httpResponse = DPHttpResponse.fromDioResponse(err.response!);
 
     if (httpResponse.code == 'ERR_TOKEN_EXPIRED') {
