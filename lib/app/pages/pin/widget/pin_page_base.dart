@@ -7,20 +7,22 @@ import 'package:get/get.dart';
 
 class PinPageBase extends GetView<PinPageController> {
   final String headerText;
-  final int? pinCouont;
+  final String? textSpan;
+  final int? pinCount;
   final String? showForgotPasswordMessage;
   final bool faceIDAvailable;
   final FutureOr<void> Function()? onPinComplete;
   const PinPageBase({
     super.key,
     required this.headerText,
-    this.pinCouont,
+    this.textSpan,
+    this.pinCount,
     this.showForgotPasswordMessage,
     this.onPinComplete,
     this.faceIDAvailable = false,
   });
 
-  bool get locked => pinCouont != null && pinCouont! <= 0;
+  bool get locked => pinCount != null && pinCount! <= 0;
 
   Widget pinHint(bool activated, DPColors colorTheme) {
     return Container(
@@ -48,19 +50,29 @@ class PinPageBase extends GetView<PinPageController> {
               padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
               child: Column(
                 children: [
-                  Text(
-                    locked ? '핀 시도 횟수를\n초과했습니다' : headerText,
-                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  pinCouont == null || locked
-                      ? Container(height: 26)
-                      : Text(
-                          '$pinCouont/5',
-                          style: textTheme.header2.copyWith(color: colorTheme.primaryNegative),
-                        ),
-                  const SizedBox(height: 16),
+                  if (locked)
+                    Text(
+                      '핀 시도 횟수를\n초과했습니다',
+                      style: textTheme.header1
+                          .copyWith(color: colorTheme.grayscale1000),
+                      textAlign: TextAlign.center,
+                    )
+                  else
+                    RichText(
+                      text: TextSpan(
+                        text: headerText,
+                        style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
+                        children: [
+                          if (textSpan != null)
+                            TextSpan(
+                              text: textSpan,
+                              style: textTheme.header1.copyWith(color: colorTheme.primaryNegative),
+                            ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  const SizedBox(height: 32),
                   Obx(
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
