@@ -3,10 +3,11 @@ import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shimmer/shimmer.dart';
 
-class CupponArea extends GetView<HomePageController> {
-  const CupponArea({super.key});
+class ApplyArea extends GetView<HomePageController> {
+  const ApplyArea({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,7 @@ class CupponArea extends GetView<HomePageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return GestureDetector(
-      onTap: () => DPErrorSnackBar().open("쿠폰 기능은 아직 준비 중이에요!"),
-      child: Container(
+      onTap: () => launchBrowserTab(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),      child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -33,7 +33,7 @@ class CupponArea extends GetView<HomePageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('내 쿠폰', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
+                  Text('상품 신청하기', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
                 ],
               ),
             ),

@@ -38,7 +38,7 @@ class RegisterPinPage extends GetView<PinPageController> {
     return Obx(
       () {
         switch (controller.status) {
-          case PinPageStatus.nomal:
+          case PinPageStatus.normal:
             return PinPageBase(
               headerText: '앞으로 사용할\n핀을 입력해주세요',
               onPinComplete: controller.registerPinNomal,
@@ -65,14 +65,24 @@ class OnboardingPinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => PinPageBase(
-        headerText: '로그인을 완료하기 위해\n핀을 입력해주세요',
-        onPinComplete: controller.onboardingAuth,
-        pinCouont: controller.pinCount,
-        // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
-      ),
-    );
+    return Obx(() {
+      switch (controller.status) {
+        case PinPageStatus.wrong:
+          return PinPageBase(
+            headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+            textSpan: ' ${controller.pinCount}/5',
+            onPinComplete: controller.onboardingAuth,
+            pinCount: controller.pinCount,
+          );
+        default:
+          return PinPageBase(
+            headerText: '로그인을 완료하기 위해\n핀을 입력해주세요',
+            onPinComplete: controller.onboardingAuth,
+            pinCount: controller.pinCount,
+            // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
+          );
+      }
+    });
   }
 }
 
@@ -81,14 +91,25 @@ class UnlockPinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => PinPageBase(
-        headerText: '핀을 입력해\n잠금을 해제하세요',
-        onPinComplete: controller.pinCheck,
-        pinCouont: controller.pinCount,
-        faceIDAvailable: true,
-      ),
-    );
+    return Obx(() {
+      switch (controller.status) {
+        case PinPageStatus.wrong:
+          return PinPageBase(
+            headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+            textSpan: ' ${controller.pinCount}/5',
+            onPinComplete: controller.pinCheck,
+            pinCount: controller.pinCount,
+            faceIDAvailable: true,
+          );
+        default:
+          return PinPageBase(
+            headerText: '결제 QR을 보려면\n결제 핀을 입력해주세요',
+            onPinComplete: controller.pinCheck,
+            pinCount: controller.pinCount,
+            faceIDAvailable: true,
+          );
+      }
+    });
   }
 }
 
@@ -102,21 +123,28 @@ class EditPinPage extends GetView<PinPageController> {
         switch (controller.status) {
           case PinPageStatus.preCheck:
             return PinPageBase(
-              headerText: '기존의 결제 핀을\n입력해주세요',
+              headerText: '기존에 쓰고 있었던\n결제 핀을 입력해주세요',
               onPinComplete: controller.changePinPreCheck,
-              pinCouont: controller.pinCount,
+              pinCount: controller.pinCount,
             );
-          case PinPageStatus.nomal:
+          case PinPageStatus.wrong:
+            return PinPageBase(
+              headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+              textSpan: ' ${controller.pinCount}/5',
+              onPinComplete: controller.changePinPreCheck,
+              pinCount: controller.pinCount,
+            );
+          case PinPageStatus.normal:
             return PinPageBase(
               headerText: '앞으로 사용할\n새 결제 핀을 입력해주세요',
               onPinComplete: controller.changePinNomal,
-              pinCouont: controller.pinCount,
+              pinCount: controller.pinCount,
             );
           case PinPageStatus.doubleCheck:
             return PinPageBase(
               headerText: '앞으로 사용할\n결제 핀을 다시 입력해주세요',
               onPinComplete: controller.changePinDoubleCheck,
-              pinCouont: controller.pinCount,
+              pinCount: controller.pinCount,
             );
         }
       },
