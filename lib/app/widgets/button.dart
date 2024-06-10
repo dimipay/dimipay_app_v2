@@ -1,7 +1,7 @@
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 
-class DPButton extends StatelessWidget {
+class DPButton extends StatefulWidget {
   final VoidCallback? onTap;
   final Widget child;
   final Color? backgroundColor;
@@ -40,26 +40,65 @@ class DPButton extends StatelessWidget {
         foregroundColor = foregroundColor ?? Colors.white.withAlpha(120);
 
   @override
+  State<DPButton> createState() => _DPButtonState();
+}
+
+class _DPButtonState extends State<DPButton> {
+  bool isPressed = false;
+
+  void pressUp() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = false;
+    });
+  }
+
+  void pressDown() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = true;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(10),
-        child: Ink(
-          decoration: BoxDecoration(
-            color: backgroundColor ?? colorTheme.primaryBrand,
+    return AnimatedScale(
+      scale: isPressed ? 0.97 : 1,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeOut,
+      child: GestureDetector(
+        onTapCancel: pressUp,
+        onTap: widget.onTap,
+        child: Listener(
+          onPointerDown: (event) => pressDown(),
+          onPointerUp: (event) => pressUp(),
+          child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: border,
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: DefaultTextStyle.merge(
-                style: textTheme.itemDescription.copyWith(color: foregroundColor ?? Colors.white),
-                child: child,
+            child: AnimatedOpacity(
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.easeOut,
+              opacity: isPressed ? 0.6 : 1,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: widget.backgroundColor ?? colorTheme.primaryBrand,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: widget.border,
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: DefaultTextStyle.merge(
+                      style: textTheme.itemDescription.copyWith(color: widget.foregroundColor ?? Colors.white),
+                      child: widget.child,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
