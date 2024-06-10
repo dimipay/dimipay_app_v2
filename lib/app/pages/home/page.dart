@@ -48,51 +48,38 @@ class HomePage extends GetView<HomePageController> {
           ),
         ),
       ),
-      body: Padding(
+      body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      const SizedBox(height: 20),
-                      Obx(
-                        () => AnimatedCrossFade(
-                          firstChild: const UserInfoAreaLoading(),
-                          secondChild: const UserInfoArea(),
-                          crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                          duration: const Duration(milliseconds: 100),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Obx(
-                        () => AnimatedCrossFade(
-                          firstChild: const PayAreaLoading(),
-                          secondChild: const PayArea(),
-                          crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                          duration: const Duration(milliseconds: 100),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Obx(
-                        () => AnimatedCrossFade(
-                          firstChild: const ApplyAreaLoading(),
-                          secondChild: const ApplyArea(),
-                          crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                          duration: const Duration(milliseconds: 100),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          const SizedBox(height: 20),
+          Obx(
+            () => AnimatedCrossFade(
+              firstChild: const UserInfoAreaLoading(),
+              secondChild: const UserInfoArea(),
+              crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 100),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 20),
+          Obx(
+            () => AnimatedCrossFade(
+              firstChild: const PayAreaLoading(),
+              secondChild: const PayArea(),
+              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 100),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Obx(
+            () => AnimatedCrossFade(
+              firstChild: const ApplyAreaLoading(),
+              secondChild: const ApplyArea(),
+              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 100),
+            ),
+          ),
+        ],
       ),
     );
   }
