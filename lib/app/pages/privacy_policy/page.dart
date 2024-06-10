@@ -37,28 +37,26 @@ class PrivacyPolicyPage extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            const DPAppbar(header: '개인정보 보호약관'),
-            Expanded(
-              child: Scrollbar(
-                interactive: true,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      privacyPolicyText,
-                      style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
-                    ),
+      body: Column(
+        children: [
+          const DPAppbar(header: '개인정보 보호약관'),
+          Expanded(
+            child: Scrollbar(
+              interactive: true,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    privacyPolicyText,
+                    style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
                   ),
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

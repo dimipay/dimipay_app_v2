@@ -16,95 +16,93 @@ class InfoPage extends GetView<InfoPageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       backgroundColor: colorTheme.grayscale100,
-      body: SafeArea(
-        child: Column(
-          children: [
-            const DPAppbar(header: '정보'),
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                child: Column(children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        controller.userService.obx(
-                          (state) => CircleAvatar(
-                            radius: 21,
-                            backgroundImage: NetworkImage(state!.profileImage),
-                          ),
-                          onLoading: CircleAvatar(
-                            radius: 21,
-                            backgroundColor: colorTheme.grayscale200,
-                          ),
+      body: Column(
+        children: [
+          const DPAppbar(header: '정보'),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              child: Column(children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      controller.userService.obx(
+                        (state) => CircleAvatar(
+                          radius: 21,
+                          backgroundImage: NetworkImage(state!.profileImage),
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Obx(
-                                () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800)),
-                              ),
-                              Obx(
-                                () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.email, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
-                              )
-                            ],
-                          ),
+                        onLoading: CircleAvatar(
+                          radius: 21,
+                          backgroundColor: colorTheme.grayscale200,
                         ),
-                        const SizedBox(width: 16),
-                        LogOutButton(onTap: controller.logout),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(
+                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800)),
+                            ),
+                            Obx(
+                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.email, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      LogOutButton(onTap: controller.logout),
+                    ],
                   ),
-                  const DPDivider(),
-                  const _SectionHeader(title: '결제 관리'),
-                  _MenuItem(
-                    title: '결제 내역',
-                    onTap: () => Get.toNamed(Routes.TRANSACTION),
-                  ),
-                  Obx(() {
-                    return _MenuItem(
-                      title: '결제 수단',
-                      onTap: () => Get.toNamed(Routes.PAYMENT),
-                      hint: controller.paymentService.paymentMethods == null ? null : '${controller.paymentService.paymentMethods!.length}개',
-                    );
-                  }),
-                  Obx(() {
-                    return _MenuItem(
-                      title: 'Face Sign',
-                      onTap: () => Get.toNamed(Routes.FACESIGN),
-                      hint: controller.faceSignService.isRegistered ? '등록 됨' : '등록 안됨',
-                    );
-                  }),
-                  _MenuItem(
-                    title: '핀 변경',
-                    onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
-                  ),
-                  const DPDivider(),
-                  const _SectionHeader(title: '기타'),
-                  _MenuItem(
-                    title: '화면 테마',
-                    onTap: () => Get.toNamed(Routes.THEME_SELECT),
-                  ),
-                  _MenuItem(
-                    title: '앱 버전',
-                    onTap: () => Get.toNamed(Routes.VERSION),
-                  ),
-                  _MenuItem(
-                    title: '서비스 이용약관',
-                    onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
-                  ),
-                  _MenuItem(
-                    title: '개인정보 보호약관',
-                    onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
-                  ),
-                  const SizedBox(height: 20),
-                ]),
-              ),
+                ),
+                const DPDivider(),
+                const _SectionHeader(title: '결제 관리'),
+                _MenuItem(
+                  title: '결제 내역',
+                  onTap: () => Get.toNamed(Routes.TRANSACTION),
+                ),
+                Obx(() {
+                  return _MenuItem(
+                    title: '결제 수단',
+                    onTap: () => Get.toNamed(Routes.PAYMENT),
+                    hint: controller.paymentService.paymentMethods == null ? null : '${controller.paymentService.paymentMethods!.length}개',
+                  );
+                }),
+                Obx(() {
+                  return _MenuItem(
+                    title: 'Face Sign',
+                    onTap: () => Get.toNamed(Routes.FACESIGN),
+                    hint: controller.faceSignService.isRegistered ? '등록 됨' : '등록 안됨',
+                  );
+                }),
+                _MenuItem(
+                  title: '핀 변경',
+                  onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
+                ),
+                const DPDivider(),
+                const _SectionHeader(title: '기타'),
+                _MenuItem(
+                  title: '화면 테마',
+                  onTap: () => Get.toNamed(Routes.THEME_SELECT),
+                ),
+                _MenuItem(
+                  title: '앱 버전',
+                  onTap: () => Get.toNamed(Routes.VERSION),
+                ),
+                _MenuItem(
+                  title: '서비스 이용약관',
+                  onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
+                ),
+                _MenuItem(
+                  title: '개인정보 보호약관',
+                  onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
+                ),
+                const SizedBox(height: 72),
+              ]),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
