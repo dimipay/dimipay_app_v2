@@ -92,6 +92,10 @@ class InfoPage extends GetView<InfoPageController> {
                     onTap: () => Get.toNamed(Routes.VERSION),
                   ),
                   _MenuItem(
+                    title: '서비스 이용약관',
+                    onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
+                  ),
+                  _MenuItem(
                     title: '개인정보 보호약관',
                     onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
                   ),
