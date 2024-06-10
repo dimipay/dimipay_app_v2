@@ -23,10 +23,10 @@ class OnboardingPage extends GetView<OnboardingPageController> {
               },
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                TermsAgreementPage(controller: controller),
-                ManualPage(controller: controller),
                 SuggestCardRegistratoinPage(controller: controller),
                 SuggestFaceSignRegistratoinPage(controller: controller),
+                TermsAgreementPage(controller: controller),
+                ManualPage(controller: controller),
               ],
             ),
           ),
