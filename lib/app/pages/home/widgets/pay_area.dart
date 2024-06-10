@@ -51,6 +51,7 @@ class PayArea extends GetView<HomePageController> {
                           height: 34.0,
                           child: CircularProgressIndicator(
                             strokeWidth: 1,
+                            value: (60 - controller.timeRemaining.value!.inSeconds) / 60,
                             color: colorTheme.grayscale400,
                           ),
                         ),
