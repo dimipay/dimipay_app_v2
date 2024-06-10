@@ -4,19 +4,26 @@ import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/payment_selection_bottom_sheet.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class PaymentArea extends StatelessWidget {
+class PaymentArea extends GetView<HomePageController> {
   final PaymentMethod paymentMethod;
   const PaymentArea({super.key, required this.paymentMethod});
 
   void _showBottomSheet(BuildContext context) {
+    HapticFeedback.heavyImpact();
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       elevation: 0,
       context: context,
-      builder: (context) => PaymentSelectionBottomSheet(),
+      builder: (context) => PaymentSelectionBottomSheet(
+        onSelect: (paymentMethod) {
+          controller.changeSelectedPaymentMethod(paymentMethod);
+          Get.back();
+        },
+      ),
     );
   }
 

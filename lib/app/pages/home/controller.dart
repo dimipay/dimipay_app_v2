@@ -9,6 +9,7 @@ import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -28,6 +29,9 @@ class HomePageController extends GetxController {
 
   final Rx<Duration?> timeRemaining = Rx(null);
 
+  final Rx<PaymentMethod?> _selectedPaymentMethod = Rx(null);
+  PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod.value;
+
   late Timer _displayTimer;
   Timer? _qrRefreshTimer;
   double? _screenBrightness;
@@ -35,16 +39,26 @@ class HomePageController extends GetxController {
   @override
   void onReady() {
     userService.fetchUser();
-    paymentService.fetchPaymentMethods().then((_) {
-      if (authService.bioKey.key != null || authService.pin != null) {
-        _requestQR();
-      }
-    });
+    paymentService.fetchPaymentMethods();
+    paymentService.paymentStream.onData(
+      (data) {
+        if (_selectedPaymentMethod.value == null || paymentService.paymentMethods!.contains(_selectedPaymentMethod.value) == false) {
+          changeSelectedPaymentMethod(paymentService.mainMethod);
+        }
+      },
+    );
     _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
 
     prefetchAuthAndQR();
     handleSse();
     super.onReady();
+  }
+
+  void changeSelectedPaymentMethod(PaymentMethod? paymentMethod) {
+    _selectedPaymentMethod.value = paymentMethod;
+    if (_selectedPaymentMethod.value != null && (authService.bioKey.key != null || authService.pin != null)) {
+      _requestQR(_selectedPaymentMethod.value!);
+    }
   }
 
   void handleSse() {
@@ -75,8 +89,11 @@ class HomePageController extends GetxController {
     return false;
   }
 
-  Future<void> _requestQR() async {
-    await payService.fetchPaymentToken(paymentService.mainMethod!);
+  Future<void> _requestQR(PaymentMethod paymentMethod) async {
+    _qrRefreshTimer?.cancel();
+    timeRemaining.value = null;
+    await payService.fetchPaymentToken(paymentMethod);
+    updateTimeRemainning();
     reserveQRRefresh(payService.expireAt!);
   }
 
@@ -110,13 +127,13 @@ class HomePageController extends GetxController {
     if (authService.bioKey.key == null && authService.pin == null) {
       return;
     }
-    if (paymentService.mainMethod != null) {
-      await _requestQR();
+    if (_selectedPaymentMethod.value != null) {
+      await _requestQR(_selectedPaymentMethod.value!);
     }
   }
 
   Future<void> requestAuthAndQR() async {
-    if (paymentService.mainMethod == null) {
+    if (_selectedPaymentMethod.value == null) {
       return;
     }
     if (authService.bioKey.key == null) {
@@ -128,16 +145,15 @@ class HomePageController extends GetxController {
     if (authService.bioKey.key == null && authService.pin == null) {
       return;
     }
-    await _requestQR();
+    await _requestQR(_selectedPaymentMethod.value!);
   }
 
   void reserveQRRefresh(DateTime refreshAt, {bool recursive = true}) {
-    _qrRefreshTimer?.cancel();
-    updateTimeRemainning(useHaptic: false);
     Duration awaitTime = refreshAt.difference(DateTime.now());
     _qrRefreshTimer = Timer(awaitTime, () async {
       timeRemaining.value = null;
-      await payService.fetchPaymentToken(paymentService.mainMethod!);
+      await payService.fetchPaymentToken(_selectedPaymentMethod.value!);
+      updateTimeRemainning();
 
       if (recursive) {
         reserveQRRefresh(payService.expireAt!);
@@ -145,14 +161,10 @@ class HomePageController extends GetxController {
     });
   }
 
-  void updateTimeRemainning({bool useHaptic = true}) {
-    if (payService.expireAt == null || paymentService.mainMethod == null || Get.currentRoute != Routes.HOME) {
+  void updateTimeRemainning() {
+    if (payService.expireAt == null || _selectedPaymentMethod.value == null || Get.currentRoute != Routes.HOME) {
       timeRemaining.value = null;
       return;
-    }
-
-    if (useHaptic) {
-      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
     }
 
     setBrightness(1);
@@ -161,11 +173,7 @@ class HomePageController extends GetxController {
 
   openKakaoChannelTalk() async {
     try {
-      if (await isKakaoTalkInstalled()) {
-        await launchBrowserTab(await TalkApi.instance.channelChatUrl('_gHxlCxj'));
-      } else {
-        DPErrorSnackBar().open("카카오톡이 현재 설치되어 있지 않습니다.\n설치 후 다시 시도해 주세요.");
-      }
+      await launchBrowserTab(await TalkApi.instance.chatChannelUrl('_gHxlCxj'));
     } catch (error) {
       PlatformException exception = (error as PlatformException);
       if (exception.code != "CANCELED") {

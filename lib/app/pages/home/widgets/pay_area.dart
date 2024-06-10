@@ -82,7 +82,7 @@ class PayArea extends GetView<HomePageController> {
             if (controller.paymentService.mainMethod == null) {
               return const PaymentAreaNoPaymentRegistered();
             } else {
-              return PaymentArea(paymentMethod: controller.paymentService.mainMethod!);
+              return PaymentArea(paymentMethod: controller.selectedPaymentMethod!);
             }
           })
         ],

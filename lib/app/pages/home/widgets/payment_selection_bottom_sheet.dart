@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -7,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class PaymentSelectionBottomSheet extends StatelessWidget {
+class PaymentSelectionBottomSheet extends GetView<HomePageController> {
   final PaymentService paymentService = Get.find<PaymentService>();
-  PaymentSelectionBottomSheet({super.key});
+  final void Function(PaymentMethod paymentMethod)? onSelect;
+  PaymentSelectionBottomSheet({super.key, this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +41,8 @@ class PaymentSelectionBottomSheet extends StatelessWidget {
                                 title: e.name,
                                 subtitle: '**** **** **** ${e.preview}',
                                 assetPath: e.getLogoImagePath(),
-                                isSelected: false,
-                                onSelect: () {},
+                                isSelected: controller.selectedPaymentMethod == e,
+                                onSelect: () => onSelect?.call(e),
                               ),
                             )
                             .toList()
@@ -124,7 +126,7 @@ class _PaymentOption extends StatefulWidget {
   final String subtitle;
   final String assetPath;
   final bool isSelected;
-  final VoidCallback onSelect;
+  final void Function()? onSelect;
 
   const _PaymentOption({
     Key? key,
@@ -132,7 +134,7 @@ class _PaymentOption extends StatefulWidget {
     required this.subtitle,
     required this.assetPath,
     required this.isSelected,
-    required this.onSelect,
+    this.onSelect,
   }) : super(key: key);
 
   @override

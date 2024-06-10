@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
@@ -12,6 +13,9 @@ class PaymentService extends GetxController {
   final Rx<String?> _mainMethodId = Rx(null);
   PaymentMethod? get mainMethod => paymentMethods?.firstWhereOrNull((payment) => true);
 
+  final StreamController<List<PaymentMethod>> _paymentStreamController = StreamController.broadcast();
+  StreamSubscription<List<PaymentMethod>> get paymentStream => _paymentStreamController.stream.listen(null);
+
   final Rx<List<PaymentMethod>?> _paymentMethods = Rx(null);
   List<PaymentMethod>? get paymentMethods => _paymentMethods.value;
 
@@ -21,9 +25,16 @@ class PaymentService extends GetxController {
 
       _mainMethodId.value = data["mainMethodId"];
       _paymentMethods.value = data["paymentMethods"];
+      _paymentStreamController.add(paymentMethods!);
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  @override
+  void onClose() {
+    _paymentStreamController.close();
+    super.onClose();
   }
 
   @Deprecated("v2에서 사용 중지됨")
@@ -51,6 +62,7 @@ class PaymentService extends GetxController {
     }
     paymentMethods?.add(newPaymentMethod);
     _paymentMethods.refresh();
+    _paymentStreamController.add(paymentMethods!);
     return newPaymentMethod;
   }
 
@@ -75,6 +87,8 @@ class PaymentService extends GetxController {
       paymentMethods![paymentMethodIndex] = paymentMethod;
       _paymentMethods.refresh();
       rethrow;
+    } finally {
+      _paymentStreamController.add(paymentMethods!);
     }
   }
 
@@ -83,12 +97,13 @@ class PaymentService extends GetxController {
       paymentMethods?.remove(paymentMethod);
       _paymentMethods.refresh();
       await repository.deletePaymentMethod(id: paymentMethod.id);
-      _mainMethodId.value = paymentMethods!.elementAtOrNull(0)?.id;
+      _mainMethodId.value = paymentMethods!.firstWhereOrNull((element) => element.id == _mainMethodId.value)?.id ?? paymentMethods!.firstOrNull?.id;
     } catch (e) {
       paymentMethods?.add(paymentMethod);
       _paymentMethods.refresh();
-      _mainMethodId.value = paymentMethod.id;
       rethrow;
+    } finally {
+      _paymentStreamController.add(paymentMethods!);
     }
   }
 }
