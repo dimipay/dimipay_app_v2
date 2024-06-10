@@ -78,7 +78,7 @@ class HomePage extends GetView<HomePageController> {
                     const SizedBox(height: 20),
                     Obx(
                       () => AnimatedCrossFade(
-                        firstChild: const CupponAreaLoading(),
+                        firstChild: const ApplyAreaLoading(),
                         secondChild: const ApplyArea(),
                         crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         duration: const Duration(milliseconds: 100),

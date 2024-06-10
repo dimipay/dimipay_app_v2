@@ -1,10 +1,9 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ApplyArea extends GetView<HomePageController> {
   const ApplyArea({super.key});
@@ -15,7 +14,8 @@ class ApplyArea extends GetView<HomePageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return GestureDetector(
-      onTap: () => launchBrowserTab(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),      child: Container(
+      onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz'), mode: LaunchMode.inAppBrowserView),
+      child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -45,8 +45,8 @@ class ApplyArea extends GetView<HomePageController> {
   }
 }
 
-class CupponAreaLoading extends StatelessWidget {
-  const CupponAreaLoading({super.key});
+class ApplyAreaLoading extends StatelessWidget {
+  const ApplyAreaLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
