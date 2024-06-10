@@ -1,5 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/cuppon_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/apply_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
@@ -79,7 +79,7 @@ class HomePage extends GetView<HomePageController> {
                     Obx(
                       () => AnimatedCrossFade(
                         firstChild: const CupponAreaLoading(),
-                        secondChild: const CupponArea(),
+                        secondChild: const ApplyArea(),
                         crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                         duration: const Duration(milliseconds: 100),
                       ),
