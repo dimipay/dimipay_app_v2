@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/cuppon_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
@@ -75,14 +76,14 @@ class HomePage extends GetView<HomePageController> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Obx(
-                    //   () => AnimatedCrossFade(
-                    //     firstChild: const CupponAreaLoading(),
-                    //     secondChild: const CupponArea(),
-                    //     crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                    //     duration: const Duration(milliseconds: 100),
-                    //   ),
-                    // ),
+                    Obx(
+                      () => AnimatedCrossFade(
+                        firstChild: const CupponAreaLoading(),
+                        secondChild: const CupponArea(),
+                        crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                        duration: const Duration(milliseconds: 100),
+                      ),
+                    ),
                   ],
                 ),
               ),
