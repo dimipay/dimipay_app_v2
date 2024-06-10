@@ -80,12 +80,16 @@ class AuthRepository {
     await secureApi.put(url, data: body, needPinOTP: true);
   }
 
-  Future<void> registerPin(String pin) async {
+  Future<void> registerPin(String pin, String onBoardingToken) async {
     String url = '/pin';
+    Map<String, dynamic> headers = {
+      'Authorization': 'Bearer $onBoardingToken',
+    };
     Map<String, String> body = {
       'pin': pin,
     };
-    await secureApi.post(url, data: body, encrypt: true);
+    await secureApi.post(url,
+        options: Options(headers: headers), data: body, encrypt: true);
   }
 
   Future<void> checkPin(String pin) async {

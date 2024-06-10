@@ -57,7 +57,7 @@ class AuthService {
   }
 
   Future<void> registerPin(String pin) async {
-    await repository.registerPin(pin);
+    await repository.registerPin(pin, jwt.onboardingToken.accessToken!);
     _pin.value = pin;
   }
 
