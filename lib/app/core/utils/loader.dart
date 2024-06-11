@@ -10,7 +10,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class AppLoader {
   Future<void> load() async {
@@ -21,8 +20,6 @@ class AppLoader {
     Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
 
     await dotenv.load(fileName: "env/.env", isOptional: true);
-
-    KakaoSdk.init(nativeAppKey: dotenv.get("KAKAO_NATIVE_KEY"));
 
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);

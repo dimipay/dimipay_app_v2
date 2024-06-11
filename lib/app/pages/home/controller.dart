@@ -12,10 +12,10 @@ import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePageController extends GetxController {
   final UserService userService = Get.find<UserService>();
@@ -170,7 +170,7 @@ class HomePageController extends GetxController {
 
   openKakaoChannelTalk() async {
     try {
-      await launchBrowserTab(Uri.parse('https://pf.kakao.com/_gHxlCxj/chat?app_key=1127bc4e0b146e5579b6d6a2ad8d0ad1&kakao_agent=sdk%2F1.4.2+sdk_type%2Fflutter+os%2Fandroid-34+lang%2Fko-KR+origin%2FVNmybeVuZKt9uPyjMrvJ04STxtI%3D+device%2FA065+android_pkg%2Fcom.develop.dimipay+app_ver%2F1.1.0&api_ver=1.0'));
+      await launchUrl(Uri.parse('https://pf.kakao.com/_gHxlCxj/chat?app_key=1127bc4e0b146e5579b6d6a2ad8d0ad1&kakao_agent=sdk%2F1.4.2+sdk_type%2Fflutter+os%2Fandroid-34+lang%2Fko-KR+origin%2FVNmybeVuZKt9uPyjMrvJ04STxtI%3D+device%2FA065+android_pkg%2Fcom.develop.dimipay+app_ver%2F1.1.0&api_ver=1.0'));
     } catch (error) {
       PlatformException exception = (error as PlatformException);
       if (exception.code != "CANCELED") {
