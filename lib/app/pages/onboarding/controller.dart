@@ -1,10 +1,13 @@
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OnboardingPageController extends GetxController {
   final RxInt currentPageIndex = 0.obs;
   late PageController pageController;
+
+  AuthService authService = Get.find<AuthService>();
 
   @override
   void onInit() {
@@ -25,7 +28,11 @@ class OnboardingPageController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
-      Get.offAndToNamed(Routes.HOME);
+      if (authService.isFirstVisit) {
+        Get.offAndToNamed(Routes.HOME);
+      } else {
+        Get.back();
+      }
     }
   }
 }
