@@ -202,7 +202,7 @@ class _AddCardButton extends GetView<HomePageController> {
     return GestureDetector(
       onTap: () {
         controller.resetBrightness();
-        Get.toNamed(Routes.REGISTER_CARD);
+        Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
       },
       child: Container(
         color: Colors.transparent,
