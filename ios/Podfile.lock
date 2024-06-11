@@ -164,7 +164,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: ca2458caccec349cc1e26d8d9e8fd7d22f1d01f3
   credit_card_scanner: 2c3c58d821ec493cb42cf7c782dc461f516c212b
-  fast_rsa: 100210bce7cd82579977b2378c3de8eb14ea308d
+  fast_rsa: 3380f78bb6523bd70f08d3a7598ce7661e61b6f5
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
