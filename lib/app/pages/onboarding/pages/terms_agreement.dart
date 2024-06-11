@@ -6,7 +6,6 @@ import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TermsAgreementPage extends StatefulWidget {
@@ -39,7 +38,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      launchBrowserTab(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'));
+                      launchUrl(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'));
                     },
                     child: Text('개인정보 보호약관 보기', style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale700)),
                   ),

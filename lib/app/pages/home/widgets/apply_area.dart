@@ -2,7 +2,6 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +14,7 @@ class ApplyArea extends GetView<HomePageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return GestureDetector(
-      onTap: () => launchBrowserTab(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+      onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,

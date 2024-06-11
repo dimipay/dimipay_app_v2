@@ -6,7 +6,7 @@ import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoPage extends GetView<InfoPageController> {
   const InfoPage({super.key});
@@ -96,10 +96,7 @@ class InfoPage extends GetView<InfoPageController> {
                   title: '서비스 이용약관',
                   onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
                 ),
-                _MenuItem(
-                  title: '개인정보 보호약관',
-                    onTap: () => launchBrowserTab(Uri.parse(
-                        'https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'))),
+                _MenuItem(title: '개인정보 보호약관', onTap: () => launchUrl(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'))),
                 const SizedBox(height: 72),
               ],
             ),
