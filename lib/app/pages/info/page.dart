@@ -20,9 +20,10 @@ class InfoPage extends GetView<InfoPageController> {
         children: [
           const DPAppbar(header: '정보'),
           Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-              child: Column(children: [
+            child: ListView(
+              padding: EdgeInsets.zero,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(
@@ -99,7 +100,7 @@ class InfoPage extends GetView<InfoPageController> {
                   onTap: () => Get.toNamed(Routes.PRIVACY_POLICY),
                 ),
                 const SizedBox(height: 72),
-              ]),
+              ],
             ),
           ),
         ],

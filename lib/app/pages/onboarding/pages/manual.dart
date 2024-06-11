@@ -16,58 +16,57 @@ class ManualPage extends StatelessWidget {
       children: [
         const DPAppbar(header: '도움말을 읽어주세요'),
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            '도움말은 홈에서 또 확인할 수 있어요',
-                            style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          '도움말은 홈에서 또 확인할 수 있어요',
+                          style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  child: Column(
-                    children: [
-                      ExpandableHelpItem(
-                        title: '매점은 언제 여나요?',
-                        details: '매점 운영시간 설명...',
-                      ),
-                      SizedBox(height: 16),
-                      ExpandableHelpItem(
-                        title: '결제는 어떻게 하나요?',
-                        details: '결제 방법 설명...',
-                      ),
-                      SizedBox(height: 16),
-                      ExpandableHelpItem(
-                        title: 'FaceSign은 뭔가요?',
-                        details: 'FaceSign 기능 설명...',
-                      ),
-                      SizedBox(height: 16),
-                      ExpandableHelpItem(
-                        title: '쿠폰은 어떻게 쓰나요?',
-                        details: '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                child: Column(
+                  children: [
+                    ExpandableHelpItem(
+                      title: '매점은 언제 여나요?',
+                      details: '매점 운영시간 설명...',
+                    ),
+                    SizedBox(height: 16),
+                    ExpandableHelpItem(
+                      title: '결제는 어떻게 하나요?',
+                      details: '결제 방법 설명...',
+                    ),
+                    SizedBox(height: 16),
+                    ExpandableHelpItem(
+                      title: 'FaceSign은 뭔가요?',
+                      details: 'FaceSign 기능 설명...',
+                    ),
+                    SizedBox(height: 16),
+                    ExpandableHelpItem(
+                      title: '쿠폰은 어떻게 쓰나요?',
+                      details: '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시됩니다. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: DPButton(
             onTap: () {
               controller.nextPage();

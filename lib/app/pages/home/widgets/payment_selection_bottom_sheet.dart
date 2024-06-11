@@ -35,40 +35,18 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
                   physics: const BouncingScrollPhysics(),
                   child: Obx(
                     () => Column(
-                        children: paymentService.paymentMethods!
-                            .map(
-                              (e) => _PaymentOption(
-                                title: e.name,
-                                subtitle: '**** **** **** ${e.preview}',
-                                assetPath: e.getLogoImagePath(),
-                                isSelected: controller.selectedPaymentMethod == e,
-                                onSelect: () => onSelect?.call(e),
-                              ),
-                            )
-                            .toList()
-                        // _PaymentOption(
-                        //   title: 'X CHECK',
-                        //   subtitle: '현대카드 (370*)',
-                        //   assetPath: 'assets/images/hyundai.svg',
-                        //   isSelected: selectedOption == 'X CHECK',
-                        //   onSelect: () => selectOption('X CHECK'),
-                        // ),
-                        // _PaymentOption(
-                        //   title: '지역농협 채움',
-                        //   subtitle: '농협카드 (782*)',
-                        //   assetPath: 'assets/images/nh.svg',
-                        //   isSelected: selectedOption == '지역농협 채움',
-                        //   onSelect: () => selectOption('지역농협 채움'),
-                        // ),
-                        // _PaymentOption(
-                        //   title: 'LOCA Black',
-                        //   subtitle: '롯데카드 (782*)',
-                        //   assetPath: 'assets/images/lotte.svg',
-                        //   isSelected: selectedOption == 'LOCA Black',
-                        //   onSelect: () => selectOption('LOCA Black'),
-                        // ),
-
-                        ),
+                      children: paymentService.paymentMethods!
+                          .map(
+                            (e) => _PaymentOption(
+                              title: e.name,
+                              subtitle: '**** **** **** ${e.preview}',
+                              assetPath: e.getLogoImagePath(),
+                              isSelected: controller.selectedPaymentMethod == e,
+                              onSelect: () => onSelect?.call(e),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ),
               ),

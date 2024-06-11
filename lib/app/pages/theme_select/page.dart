@@ -10,40 +10,41 @@ class ThemeSelectPage extends GetView<ThemeSelectPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Column(
-      children: [
-        const DPAppbar(header: '화면 테마'),
-        Expanded(
-            child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          child: Column(
-            children: [
-              Obx(
-                () => Column(
-                  children: [
-                    OptionItem(
-                      title: '라이트',
-                      onTap: () => controller.themeService.changeTheme(ThemeMode.light),
-                      selected: controller.themeService.themeMode == ThemeMode.light,
+      body: SafeArea(
+        child: Column(
+          children: [
+            const DPAppbar(header: '화면 테마'),
+            Expanded(
+              child: ListView(
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                children: [
+                  Obx(
+                    () => Column(
+                      children: [
+                        OptionItem(
+                          title: '라이트',
+                          onTap: () => controller.themeService.changeTheme(ThemeMode.light),
+                          selected: controller.themeService.themeMode == ThemeMode.light,
+                        ),
+                        OptionItem(
+                          title: '다크',
+                          onTap: () => controller.themeService.changeTheme(ThemeMode.dark),
+                          selected: controller.themeService.themeMode == ThemeMode.dark,
+                        ),
+                        OptionItem(
+                          title: '시스템 설정에 맞춰',
+                          onTap: () => controller.themeService.changeTheme(ThemeMode.system),
+                          selected: controller.themeService.themeMode == ThemeMode.system,
+                        ),
+                      ],
                     ),
-                    OptionItem(
-                      title: '다크',
-                      onTap: () => controller.themeService.changeTheme(ThemeMode.dark),
-                      selected: controller.themeService.themeMode == ThemeMode.dark,
-                    ),
-                    OptionItem(
-                      title: '시스템 설정에 맞춰',
-                      onTap: () => controller.themeService.changeTheme(ThemeMode.system),
-                      selected: controller.themeService.themeMode == ThemeMode.system,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ))
-      ],
-    )));
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

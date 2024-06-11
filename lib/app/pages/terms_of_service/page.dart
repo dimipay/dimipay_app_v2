@@ -155,15 +155,14 @@ class TermsOfServicePage extends StatelessWidget {
             child: Scrollbar(
               interactive: true,
               thumbVisibility: true,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                children: [
+                  Text(
                     termsOfServiceText,
                     style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale800),
                   ),
-                ),
+                ],
               ),
             ),
           )

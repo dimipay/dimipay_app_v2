@@ -52,55 +52,52 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
           Expanded(
             child: controller.obx(
                 (_) => Scrollbar(
-                      child: SingleChildScrollView(
+                      child: ListView(
                         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-                              child: Column(
-                                children: [
-                                  Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      AnimatedDigitWidget(
-                                        value: controller.transaction!.totalPrice,
-                                        suffix: '원',
-                                        textStyle: TextStyle(color: colorTheme.grayscale1000, fontSize: 28, fontWeight: FontWeight.w700, height: 1),
-                                        enableSeparator: true,
-                                        curve: Curves.easeInOutCubicEmphasized,
-                                        duration: const Duration(milliseconds: 1500),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                            child: Column(
+                              children: [
+                                Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
+                                const SizedBox(height: 8),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    AnimatedDigitWidget(
+                                      value: controller.transaction!.totalPrice,
+                                      suffix: '원',
+                                      textStyle: TextStyle(color: colorTheme.grayscale1000, fontSize: 28, fontWeight: FontWeight.w700, height: 1),
+                                      enableSeparator: true,
+                                      curve: Curves.easeInOutCubicEmphasized,
+                                      duration: const Duration(milliseconds: 1500),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 40),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('구매한 상품', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
-                                  ...controller.transaction!.products.map((e) => ProductItem(product: e)).toList(),
-                                ],
-                              ),
+                          ),
+                          const SizedBox(height: 40),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('구매한 상품', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
+                                ...controller.transaction!.products.map((e) => ProductItem(product: e)).toList(),
+                              ],
                             ),
-                            Container(height: 6, color: colorTheme.grayscale200),
-                            const SizedBox(height: 8),
-                            DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.date)),
-                            DataItem(header: '결제 카드', value: controller.transaction!.cardName ?? ''),
-                            DataItem(header: '결제 방식', value: getTransactionTypeString(controller.transaction!.transactionType)),
-                            DataItem(header: '결제 상태', value: getTransactionStatusString(controller.transaction!.status)),
-                            DataItem(header: '쿠폰 사용', value: getPurchaseTypeString(controller.transaction!.purchaseType)),
-                            const SizedBox(height: 48),
-                          ],
-                        ),
+                          ),
+                          Container(height: 6, color: colorTheme.grayscale200),
+                          const SizedBox(height: 8),
+                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.date)),
+                          DataItem(header: '결제 카드', value: controller.transaction!.cardName ?? ''),
+                          DataItem(header: '결제 방식', value: getTransactionTypeString(controller.transaction!.transactionType)),
+                          DataItem(header: '결제 상태', value: getTransactionStatusString(controller.transaction!.status)),
+                          DataItem(header: '쿠폰 사용', value: getPurchaseTypeString(controller.transaction!.purchaseType)),
+                          const SizedBox(height: 48),
+                        ],
                       ),
                     ),
                 onLoading: Center(

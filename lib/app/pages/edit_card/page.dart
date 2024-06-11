@@ -21,46 +21,42 @@ class EditCardPage extends GetView<EditCardPageController> {
           children: [
             const DPAppbar(header: '카드 이름 설정'),
             Expanded(
-              child: SingleChildScrollView(
+              child: ListView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(controller.paymentMethod.getLogoImagePath()),
-                          const SizedBox(width: 12),
-                          Text('**** **** **** ${controller.paymentMethod.preview}', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale500)),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      DPTextField(
-                        autoFocus: true,
-                        controller: controller.nameFieldController,
-                        hintText: controller.paymentMethod.name,
-                        maxLength: 10,
-                      ),
-                      const SizedBox(height: 8),
-                      Obx(
-                        () => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              controller.errorMessage.value ?? '',
-                              style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
-                            ),
-                            Text(
-                              '${controller.nameFieldText.value.length}/10',
-                              style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
-                            ),
-                          ],
-                        ),
-                      )
+                      SvgPicture.asset(controller.paymentMethod.getLogoImagePath()),
+                      const SizedBox(width: 12),
+                      Text('**** **** **** ${controller.paymentMethod.preview}', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale500)),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 24),
+                  DPTextField(
+                    autoFocus: true,
+                    controller: controller.nameFieldController,
+                    hintText: controller.paymentMethod.name,
+                    maxLength: 10,
+                  ),
+                  const SizedBox(height: 8),
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          controller.errorMessage.value ?? '',
+                          style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
+                        ),
+                        Text(
+                          '${controller.nameFieldText.value.length}/10',
+                          style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(

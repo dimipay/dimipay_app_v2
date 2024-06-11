@@ -19,40 +19,38 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
           children: [
             const appbar.DPAppbar(header: '카드 등록'),
             Expanded(
-              child: SingleChildScrollView(
+              child: ListView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '신용/체크카드 등록 가능해요',
-                                style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          FocusScope(
-                            node: controller.formFocusScopeNode,
-                            child: Form(
-                              key: controller.formKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: _buildFormFields(),
-                              ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '신용/체크카드 등록 가능해요',
+                              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        FocusScope(
+                          node: controller.formFocusScopeNode,
+                          child: Form(
+                            key: controller.formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: _buildFormFields(),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Padding(
