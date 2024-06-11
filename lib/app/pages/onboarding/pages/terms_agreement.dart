@@ -1,9 +1,12 @@
 import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TermsAgreementPage extends StatefulWidget {
@@ -36,7 +39,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      launchUrl(Uri.parse('https://dimipay.notion.site/60322b96c77b4855b8c7b72dcfcaa0eb'));
+                      launchBrowserTab(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'));
                     },
                     child: Text('개인정보 보호약관 보기', style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale700)),
                   ),
@@ -48,7 +51,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      launchUrl(Uri.parse('https://dimipay.notion.site/fa05b169a2d94db6b1dd4acae47c66a6'));
+                      Get.toNamed(Routes.TERMS_OF_SERVICE);
                     },
                     child: Text('서비스 이용약관 보기', style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale700)),
                   ),
