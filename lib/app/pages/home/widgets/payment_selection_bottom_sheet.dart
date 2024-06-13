@@ -2,6 +2,7 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,7 @@ class _PaymentOptionState extends State<_PaymentOption> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return GestureDetector(
+    return DPGestureDetectorWithOpacityInteraction(
       onTap: widget.onSelect,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
@@ -177,7 +178,7 @@ class _AddCardButton extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return GestureDetector(
+    return DPGestureDetectorWithOpacityInteraction(
       onTap: () {
         controller.resetBrightness();
         Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);

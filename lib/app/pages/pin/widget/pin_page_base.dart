@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_pad.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,8 +54,7 @@ class PinPageBase extends GetView<PinPageController> {
                   if (locked)
                     Text(
                       '핀 시도 횟수를\n초과했습니다',
-                      style: textTheme.header1
-                          .copyWith(color: colorTheme.grayscale1000),
+                      style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
                       textAlign: TextAlign.center,
                     )
                   else
@@ -93,7 +93,7 @@ class PinPageBase extends GetView<PinPageController> {
                       ? Container(
                           height: 20,
                         )
-                      : GestureDetector(
+                      : DPGestureDetectorWithOpacityInteraction(
                           onTap: () {},
                           child: Text(
                             showForgotPasswordMessage!,

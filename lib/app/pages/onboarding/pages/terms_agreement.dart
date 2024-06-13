@@ -36,7 +36,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  GestureDetector(
+                  DPGestureDetectorWithOpacityInteraction(
                     onTap: () {
                       launchUrl(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'));
                     },
@@ -48,7 +48,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  GestureDetector(
+                  DPGestureDetectorWithOpacityInteraction(
                     onTap: () {
                       Get.toNamed(Routes.TERMS_OF_SERVICE);
                     },

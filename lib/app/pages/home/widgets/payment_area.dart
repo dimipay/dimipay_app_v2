@@ -2,6 +2,7 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/payment_selection_bottom_sheet.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,7 @@ class PaymentArea extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return GestureDetector(
+    return DPGestureDetectorWithOpacityInteraction(
       onTap: () => _showBottomSheet(context),
       child: Container(
         color: Colors.transparent,
@@ -68,7 +69,7 @@ class PaymentAreaNoPaymentRegistered extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return GestureDetector(
+    return DPGestureDetectorWithOpacityInteraction(
       onTap: () {
         controller.resetBrightness();
         Get.toNamed(Routes.REGISTER_CARD);

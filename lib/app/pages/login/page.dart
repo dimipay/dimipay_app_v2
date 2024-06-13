@@ -83,7 +83,7 @@ class GoogleLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return GestureDetector(
+    return DPGestureDetectorWithOpacityInteraction(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(

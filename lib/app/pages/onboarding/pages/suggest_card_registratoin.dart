@@ -40,13 +40,13 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              GestureDetector(
+              DPGestureDetectorWithOpacityInteraction(
                 onTap: () {
                   controller.nextPage();
                 },
                 child: Text('나중에 할래요', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               DPButton(
                 onTap: () async {
                   bool result = await Get.toNamed(Routes.REGISTER_CARD);

@@ -1,3 +1,4 @@
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class DPAppbar extends StatelessWidget {
           children: [
             leading != null
                 ? leading!
-                : GestureDetector(
+                : DPGestureDetectorWithOpacityInteraction(
                     onTap: () {
                       if (onBackButtonPressed != null) {
                         onBackButtonPressed!.call();

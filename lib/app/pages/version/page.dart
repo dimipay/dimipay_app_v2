@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/version/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/interfaces/dimipay_colors.dart';
 import 'package:dimipay_design_kit/interfaces/dimipay_typography.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class VersionPage extends GetView<VersionPageController> {
                                     style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale600),
                                   )),
                               const SizedBox(height: 8),
-                              GestureDetector(
+                              DPGestureDetectorWithOpacityInteraction(
                                 onTap: () => Get.toNamed(Routes.LICENSE),
                                 child: Text(
                                   '오픈소스 라이선스 보기',

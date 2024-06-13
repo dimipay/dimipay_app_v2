@@ -1,8 +1,52 @@
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 
+class DPGestureDetectorWithOpacityInteraction extends StatefulWidget {
+  final void Function()? onTap;
+  final Widget child;
+  const DPGestureDetectorWithOpacityInteraction({super.key, this.onTap, required this.child});
+
+  @override
+  State<DPGestureDetectorWithOpacityInteraction> createState() => _DPGestureDetectorWithOpacityInteractionState();
+}
+
+class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetectorWithOpacityInteraction> {
+  bool isPressed = false;
+
+  void pressUp() {
+    setState(() {
+      isPressed = false;
+    });
+  }
+
+  void pressDown() {
+    setState(() {
+      isPressed = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: widget.onTap,
+      onTapCancel: pressUp,
+      child: Listener(
+        onPointerDown: (_) => pressDown(),
+        onPointerUp: (_) => pressUp(),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+          opacity: isPressed ? 0.6 : 1,
+          child: widget.child,
+        ),
+      ),
+    );
+  }
+}
+
 class DPButton extends StatefulWidget {
-  final VoidCallback? onTap;
+  final void Function()? onTap;
   final Widget child;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -73,17 +117,15 @@ class _DPButtonState extends State<DPButton> {
       duration: const Duration(milliseconds: 100),
       curve: Curves.easeOut,
       child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTapCancel: pressUp,
-        onTap: widget.onTap,
         child: Listener(
           onPointerDown: (event) => pressDown(),
           onPointerUp: (event) => pressUp(),
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            child: AnimatedOpacity(
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.easeOut,
-              opacity: isPressed ? 0.6 : 1,
+            child: DPGestureDetectorWithOpacityInteraction(
+              onTap: widget.onTap,
               child: Container(
                 decoration: BoxDecoration(
                   color: widget.backgroundColor ?? colorTheme.primaryBrand,

@@ -173,7 +173,7 @@ class FaceSignRegistered extends StatelessWidget {
             ],
           ),
         ),
-        GestureDetector(
+        DPGestureDetectorWithOpacityInteraction(
           onTap: controller.deleteFaceSign,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
