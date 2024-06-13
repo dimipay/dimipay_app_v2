@@ -27,8 +27,7 @@ class UserInfoArea extends GetView<HomePageController> {
           Get.toNamed(Routes.INFO);
           controller.resetBrightness();
         },
-        child: Container(
-          color: Colors.transparent,
+        child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [

@@ -14,8 +14,7 @@ class OptionItem extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPGestureDetectorWithOpacityInteraction(
       onTap: onTap,
-      child: Container(
-        color: Colors.transparent,
+      child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [

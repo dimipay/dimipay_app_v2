@@ -27,8 +27,7 @@ class ApplyArea extends GetView<HomePageController> {
       ),
       child: DPGestureDetectorWithOpacityInteraction(
         onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
-        child: Container(
-          color: Colors.transparent,
+        child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [

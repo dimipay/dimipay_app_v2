@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:dio/dio.dart';
@@ -99,22 +100,19 @@ class PaymentActionBottomSheetItem extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: textTheme.itemTitle.copyWith(color: titleColor ?? colorTheme.grayscale800),
-              ),
-              showIcon ? Icon(Icons.chevron_right, color: colorTheme.grayscale500) : Container(),
-            ],
-          ),
+    return DPGestureDetectorWithOpacityInteraction(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: textTheme.itemTitle.copyWith(color: titleColor ?? colorTheme.grayscale800),
+            ),
+            showIcon ? Icon(Icons.chevron_right, color: colorTheme.grayscale500) : Container(),
+          ],
         ),
       ),
     );

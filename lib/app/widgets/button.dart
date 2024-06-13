@@ -28,17 +28,19 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.translucent,
       onTap: widget.onTap,
       onTapCancel: pressUp,
       child: Listener(
         onPointerDown: (_) => pressDown(),
         onPointerUp: (_) => pressUp(),
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeOut,
-          opacity: isPressed ? 0.6 : 1,
-          child: widget.child,
+        child: Container(
+          color: Colors.transparent,
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeOut,
+            opacity: isPressed ? 0.6 : 1,
+            child: widget.child,
+          ),
         ),
       ),
     );

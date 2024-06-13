@@ -11,11 +11,8 @@ class PinButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DPGestureDetectorWithOpacityInteraction(
       onTap: enabled ? onTap : null,
-      child: Container(
-        color: Colors.transparent,
-        child: Center(
-          child: child,
-        ),
+      child: Center(
+        child: child,
       ),
     );
   }

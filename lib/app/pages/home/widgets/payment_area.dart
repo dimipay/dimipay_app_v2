@@ -34,29 +34,26 @@ class PaymentArea extends GetView<HomePageController> {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPGestureDetectorWithOpacityInteraction(
       onTap: () => _showBottomSheet(context),
-      child: Container(
-        color: Colors.transparent,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: SvgPicture.asset(paymentMethod.getLogoImagePath(), height: 40),
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(paymentMethod.name, style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
-                Text('이 카드로 결제', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
-              ],
-            ),
-            const Spacer(),
-            const SizedBox(width: 12),
-            Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
-          ],
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: SvgPicture.asset(paymentMethod.getLogoImagePath(), height: 40),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(paymentMethod.name, style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
+              Text('이 카드로 결제', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
+            ],
+          ),
+          const Spacer(),
+          const SizedBox(width: 12),
+          Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+        ],
       ),
     );
   }
@@ -74,28 +71,25 @@ class PaymentAreaNoPaymentRegistered extends GetView<HomePageController> {
         controller.resetBrightness();
         Get.toNamed(Routes.REGISTER_CARD);
       },
-      child: Container(
-        color: Colors.transparent,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: SvgPicture.asset('assets/images/paymentRequired.svg', height: 40),
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('결제수단 등록하기', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
-                Text('등록된 결제수단이 없어요', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
-              ],
-            ),
-            const Spacer(),
-            Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
-          ],
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: SvgPicture.asset('assets/images/paymentRequired.svg', height: 40),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('결제수단 등록하기', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale800)),
+              Text('등록된 결제수단이 없어요', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
+            ],
+          ),
+          const Spacer(),
+          Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+        ],
       ),
     );
   }

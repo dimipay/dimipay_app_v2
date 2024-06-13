@@ -126,9 +126,8 @@ class _PaymentOptionState extends State<_PaymentOption> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPGestureDetectorWithOpacityInteraction(
       onTap: widget.onSelect,
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
-        color: Colors.transparent,
         child: Row(
           children: [
             SvgPicture.asset(widget.assetPath, height: 40),
@@ -183,8 +182,7 @@ class _AddCardButton extends GetView<HomePageController> {
         controller.resetBrightness();
         Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
       },
-      child: Container(
-        color: Colors.transparent,
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
         child: Row(
           children: [
