@@ -40,7 +40,7 @@ class HomePage extends GetView<HomePageController> {
                   ),
                   const SizedBox(width: 24),
                   DPGestureDetectorWithOpacityInteraction(
-                    onTap: () => Get.toNamed(Routes.ONBOARDING),
+                    onTap: () => Get.toNamed(Routes.MANUAL),
                     child: Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
                   ),
                 ],

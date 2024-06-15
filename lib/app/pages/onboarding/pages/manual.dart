@@ -47,7 +47,7 @@ class ManualPage extends StatelessWidget {
                     SizedBox(height: 16),
                     ExpandableHelpItem(
                       title: '결제는 어떻게 하나요?',
-                    details: '앱 내 QR을 통한 결제와 FaceSign을 통한 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴인식 된 상태에서 결제를 진행해 주세요!',
+                      details: '앱 내 QR을 통한 결제와 FaceSign을 통한 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴인식 된 상태에서 결제를 진행해 주세요!',
                     ),
                     SizedBox(height: 16),
                     ExpandableHelpItem(
@@ -106,7 +106,9 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
           _isExpanded = !_isExpanded;
         });
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
         decoration: _isExpanded
             ? BoxDecoration(
                 color: colorTheme.grayscale200,
@@ -121,30 +123,35 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.fromBorderSide(BorderSide(
                   color: colorTheme.grayscale300,
-                  width: 1,
+                  width: 2,
                 )),
               ),
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(widget.title, style: _isExpanded ? textTheme.itemTitle.copyWith(color: colorTheme.grayscale700) : textTheme.description.copyWith(color: colorTheme.grayscale700)),
-                Icon(
-                  _isExpanded ? Icons.expand_less : Icons.expand_more,
-                  color: colorTheme.grayscale600,
-                  size: 20,
-                ),
-              ],
-            ),
-            if (_isExpanded)
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text(widget.details, style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700)),
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.topCenter,
+          curve: Curves.easeOut,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.title, style: _isExpanded ? textTheme.itemTitle.copyWith(color: colorTheme.grayscale700) : textTheme.description.copyWith(color: colorTheme.grayscale700)),
+                  Icon(
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
+                    color: colorTheme.grayscale600,
+                    size: 20,
+                  ),
+                ],
               ),
-          ],
+              if (_isExpanded)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(widget.details, style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700)),
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:dimipay_app_v2/app/pages/info/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
+import 'package:dimipay_app_v2/app/pages/manual/page.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding/page.dart';
 import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
 import 'package:dimipay_app_v2/app/pages/payment/page.dart';
@@ -93,5 +94,6 @@ class AppPages {
       page: () => const PrivacyPolicyPage(),
       binding: PrivacyPolicyBinding(),
     ),
+    GetPage(name: Routes.MANUAL, page: () => const ManualPage()),
   ];
 }

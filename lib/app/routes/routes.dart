@@ -18,4 +18,5 @@ abstract class Routes {
   static const LICENSE = '/license';
   static const TERMS_OF_SERVICE = '/termsOfService';
   static const PRIVACY_POLICY = '/privacyPolicy';
+  static const MANUAL = '/manual';
 }
