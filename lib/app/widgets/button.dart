@@ -14,12 +14,18 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
   bool isPressed = false;
 
   void pressUp() {
+    if (widget.onTap == null) {
+      return;
+    }
     setState(() {
       isPressed = false;
     });
   }
 
   void pressDown() {
+    if (widget.onTap == null) {
+      return;
+    }
     setState(() {
       isPressed = true;
     });
