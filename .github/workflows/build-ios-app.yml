@@ -1,5 +1,6 @@
 name: build ios and upload to testflight
 on:
+  workflow_dispatch:
   push:
     branches:
       - 'beta'
