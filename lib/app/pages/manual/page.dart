@@ -97,7 +97,7 @@ class _ExpandableHelpItemState extends State<ExpandableHelpItem> {
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.fromBorderSide(BorderSide(
                   color: colorTheme.grayscale300,
-                  width: 2,
+                  width: 1,
                 )),
               ),
         padding: const EdgeInsets.all(20.0),
