@@ -18,5 +18,5 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
-      - run: cd ios
       - run: fastlane beta
+        working-directory: ./ios
