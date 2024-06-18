@@ -41,3 +41,26 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# .env related
+*.env
+
+# Google Sign In related
+GoogleService-Info.plist
+google-services.json
+
+
+# fastlane specific
+**/fastlane/report.xml
+
+# deliver temporary files
+**/fastlane/Preview.html
+
+# snapshot generated screenshots
+**/fastlane/screenshots
+
+# scan temporary files
+**/fastlane/test_output
+
+**/ios/Runner.app.dSYM.zip
+**/ios/Runner.ipa
