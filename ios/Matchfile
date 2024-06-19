@@ -6,7 +6,7 @@ type("development") # The default type, can be: appstore, adhoc, enterprise or d
 
 git_basic_authorization(Base64.strict_encode64(ENV["GIT_TOKEN"]))
 app_identifier(["com.dimigo.dimipay"])
-username("superjang3357@naver.com") # Your Apple Developer Portal username
+username(ENV["APPLE_DEV_USERNAME"]) # Your Apple Developer Portal username
 
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
