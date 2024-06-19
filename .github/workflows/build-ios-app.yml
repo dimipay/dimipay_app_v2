@@ -20,3 +20,5 @@ jobs:
       - run: flutter build ios --release --no-codesign
       - run: fastlane beta
         working-directory: ./ios
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
