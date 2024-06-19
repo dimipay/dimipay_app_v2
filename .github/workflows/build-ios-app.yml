@@ -23,3 +23,5 @@ jobs:
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APPLE_DEV_USERNAME: ${{ secrets.APPLE_DEV_USERNAME }}
+          FASTLANE_PASSWORD: ${{ secrets.APPLE_DEV_PASSWORD }}
