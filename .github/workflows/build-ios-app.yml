@@ -22,3 +22,4 @@ jobs:
         working-directory: ./ios
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
