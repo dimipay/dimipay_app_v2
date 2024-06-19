@@ -4,6 +4,7 @@ storage_mode("git")
 
 type("development") # The default type, can be: appstore, adhoc, enterprise or development
 
+git_basic_authorization(Base64.strict_encode64(ENV["GIT_TOKEN"]))
 app_identifier(["com.dimigo.dimipay"])
 username("superjang3357@naver.com") # Your Apple Developer Portal username
 
