@@ -25,7 +25,7 @@ platform :ios do
       key_content: ENV["APPSTORECONNECT_API_KEY"]
     )
     match(type: "appstore")
-    build_app(workspace: "Runner.xcworkspace", scheme: "Runner", skip_build_archive: true, archive_path: "../build/ios/archive/Runner.xcarchive",)
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_testflight
   end
 end
