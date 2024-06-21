@@ -19,6 +19,7 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
     opt_out_usage
+    setup_ci if ENV['CI']
     app_store_connect_api_key(
       key_id: ENV["APPSTORECONNECT_API_KEY_ID"],
       issuer_id: ENV["APPSTORECONNECT_API_ISSUER_ID"],
