@@ -47,7 +47,7 @@ class PayService extends GetxController with StateMixin<String> {
       _paymentToken.value = null;
       expireAt = null;
       Map res = await repository.getPaymentToken(paymentMethod: paymentMethod, pin: authService.pin, bioKey: authService.bioKey.key);
-      _paymentToken.value = res['code'];
+      _paymentToken.value = res['token'];
       expireAt = DateTime.parse(res['expiresAt']);
       change(_paymentToken.value, status: RxStatus.success());
     } on DioException catch (e) {
