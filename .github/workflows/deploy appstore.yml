@@ -1,0 +1,21 @@
+name: Deploy Appstore
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  deploy-appstore:
+    name: Deploy Appstore
+    runs-on: macos-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Install flutter sdk
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
