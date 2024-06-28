@@ -211,8 +211,10 @@ class PinPageController extends GetxController {
       _status.value = PinPageStatus.normal;
       return;
     }
+
     await authService.registerPin(pin);
-    final String nextRoute = redirect ?? Routes.HOME;
+
+    final String nextRoute = authService.isFirstVisit ? Routes.ONBOARDING : (redirect ?? Routes.HOME);
     Get.offAllNamed(nextRoute);
   }
 
