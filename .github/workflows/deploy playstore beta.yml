@@ -22,6 +22,9 @@ jobs:
       - name: Decode Android Service Account
         run: echo "${{ secrets.PRODUCTION_CREDENTIAL_FILE }}" > android/play-store-credential.json
       
+      - name: Decode Google Service Json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" > android/app/google-services.json
+
       - name: make env directory
         run: mkdir env
 
