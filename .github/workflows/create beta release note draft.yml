@@ -1,0 +1,34 @@
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - 'beta'
+jobs:
+  creating-beta-release-note-draft:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repository...
+        uses: actions/checkout@v3
+      - name: Get App Version..
+        id: yq
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -r '.version' 'pubspec.yaml'
+      - name: Create Github tag and release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ steps.yq.outputs.result }}-beta
+          release_name: Beta Release ${{ steps.yq.outputs.result }}
+          body: 여기에 릴리즈 노트 작성
+            markdown 문법을 사용하지 말고 plain text로 작성해주세요.
+            
+            Publish release 버튼을 누르면 스토어로 배포가 시작됩니다.
+          draft: true
+          prerelease: true
+
