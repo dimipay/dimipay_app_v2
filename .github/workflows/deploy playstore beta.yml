@@ -1,0 +1,51 @@
+name: Deploy Playstore Beta
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  deploy-playstore-beta:
+    name: Deploy Playstore Beta
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          ref: 'beta'
+      - name: Decode Android keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/dimipay-keystore.jks
+
+      - name: Decode Android key properties
+        run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
+
+      - name: Decode Android Service Account
+        run: echo "${{ secrets.PRODUCTION_CREDENTIAL_FILE }}" > android/play-store-credential.json
+      
+      - name: Decode Google Service Json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" > android/app/google-services.json
+
+      - name: make env directory
+        run: mkdir env
+
+      - name: add .env file
+        run: echo "" > env/.env
+      
+      - name: Setup Java to compile the Android project
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 17.0
+
+      - name: Install flutter sdk
+        uses: subosito/flutter-action@v2.16.0
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build appbundle --release
+      - run: fastlane beta
+        working-directory: ./android
+
+      
+
