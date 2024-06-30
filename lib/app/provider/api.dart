@@ -21,7 +21,7 @@ class ProdSecureApiProvider extends SecureApiProvider {
 }
 
 class DevApiProvider extends ApiProvider {
-  final baseUrl = 'https://dev.next.dimipay.io/';
+  final baseUrl = 'https://dev-next.dimipay.io/';
   DevApiProvider() {
     dio.options.baseUrl = baseUrl;
     dio.interceptors.add(LogInterceptor());
@@ -30,7 +30,7 @@ class DevApiProvider extends ApiProvider {
 }
 
 class DevSecureApiProvider extends SecureApiProvider {
-  final baseUrl = 'https://dev.next.dimipay.io/';
+  final baseUrl = 'https://dev-next.dimipay.io/';
   DevSecureApiProvider() {
     dio.options.baseUrl = baseUrl;
     dio.interceptors.add(LogInterceptor());
