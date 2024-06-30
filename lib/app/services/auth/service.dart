@@ -9,6 +9,7 @@ import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/rsa.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
+import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:fast_rsa/fast_rsa.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -59,6 +60,7 @@ class AuthService {
   Future<void> registerPin(String pin) async {
     await repository.registerPin(pin, jwt.onboardingToken.accessToken!);
     _pin.value = pin;
+    await Get.find<PushService>().generateToken();
   }
 
   Future<void> pinCheck(String pin) async {
@@ -114,6 +116,7 @@ class AuthService {
     await bioKey.setKey(newBioKey);
 
     _pin.value = paymentPin;
+    await Get.find<PushService>().generateToken();
   }
 
   ///Throws exception and route to LoginPage if refresh faild
@@ -145,6 +148,7 @@ class AuthService {
     await deviceId.clear();
     await jwt.clear();
     await rsa.clear();
+    await Get.find<PushService>().deleteToken();
 
     _pin.value = null;
   }
