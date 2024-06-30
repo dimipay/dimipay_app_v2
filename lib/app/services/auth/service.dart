@@ -132,10 +132,11 @@ class AuthService {
       dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(newJwt.refreshToken!)}');
       await jwt.setToken(newJwt);
       _refreshTokenApiCompleter.complete();
-    } catch (_) {
-      _refreshTokenApiCompleter.complete();
+    } catch (e) {
       await logout();
       Get.offAllNamed(Routes.LOGIN);
+      _refreshTokenApiCompleter.completeError(e);
+      rethrow;
     }
   }
 
