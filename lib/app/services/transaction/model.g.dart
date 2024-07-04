@@ -9,14 +9,12 @@ part of 'model.dart';
 Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       id: json['id'] as String,
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
-      date: DateTime.parse(json['date'] as String),
-      products:
-          (json['products'] as List<dynamic>).map((e) => e as String).toList(),
+      date: DateTime.parse(json['date'] as String).toLocal(),
+      products: (json['products'] as List<dynamic>).map((e) => e as String).toList(),
       totalPrice: json['total'] as int,
     );
 
-Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TransactionToJson(Transaction instance) => <String, dynamic>{
       'id': instance.id,
       'status': _$TransactionStatusEnumMap[instance.status]!,
       'date': instance.date.toIso8601String(),
@@ -30,23 +28,19 @@ const _$TransactionStatusEnumMap = {
   TransactionStatus.FAILED: 'FAILED',
 };
 
-TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
-    TransactionDetail(
+TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) => TransactionDetail(
       id: json['id'] as String,
       totalPrice: json['totalPrice'] as int,
-      date: DateTime.parse(json['date'] as String),
+      date: DateTime.parse(json['date'] as String).toLocal(),
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
       message: json['message'] as String,
       transactionType: $enumDecode(_$TransactionTypeEnumMap, json['type']),
       purchaseType: $enumDecode(_$PurchaseTypeEnumMap, json['purchaseType']),
       cardName: json['cardName'] as String?,
-      products: (json['products'] as List<dynamic>)
-          .map((e) => Product.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      products: (json['products'] as List<dynamic>).map((e) => Product.fromJson(e as Map<String, dynamic>)).toList(),
     );
 
-Map<String, dynamic> _$TransactionDetailToJson(TransactionDetail instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TransactionDetailToJson(TransactionDetail instance) => <String, dynamic>{
       'id': instance.id,
       'totalPrice': instance.totalPrice,
       'date': instance.date.toIso8601String(),
