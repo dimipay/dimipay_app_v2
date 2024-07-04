@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class DPGestureDetectorWithOpacityInteraction extends StatefulWidget {
   final void Function()? onTap;
+  final Duration duration;
   final Widget child;
-  const DPGestureDetectorWithOpacityInteraction({super.key, this.onTap, required this.child});
+  const DPGestureDetectorWithOpacityInteraction({super.key, this.onTap, required this.child, this.duration = const Duration(milliseconds: 100)});
 
   @override
   State<DPGestureDetectorWithOpacityInteraction> createState() => _DPGestureDetectorWithOpacityInteractionState();
@@ -42,11 +43,61 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
         child: Container(
           color: Colors.transparent,
           child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 100),
+            duration: widget.duration,
             curve: Curves.easeOut,
             opacity: isPressed ? 0.6 : 1,
             child: widget.child,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class DPGestureDetectorWithScaleInteraction extends StatefulWidget {
+  final void Function()? onTap;
+  final Duration duration;
+  final Widget child;
+  const DPGestureDetectorWithScaleInteraction({super.key, this.onTap, required this.child, this.duration = const Duration(milliseconds: 100)});
+
+  @override
+  State<DPGestureDetectorWithScaleInteraction> createState() => _DPGestureDetectorWithScaleInteractionState();
+}
+
+class _DPGestureDetectorWithScaleInteractionState extends State<DPGestureDetectorWithScaleInteraction> {
+  bool isPressed = false;
+
+  void pressUp() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = false;
+    });
+  }
+
+  void pressDown() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: isPressed ? 0.97 : 1,
+      duration: widget.duration,
+      curve: Curves.easeOut,
+      child: GestureDetector(
+        onTap: widget.onTap,
+        onTapCancel: pressUp,
+        child: Listener(
+          onPointerDown: (_) => pressDown(),
+          onPointerUp: (_) => pressUp(),
+          child: widget.child,
         ),
       ),
     );
@@ -96,58 +147,28 @@ class DPButton extends StatefulWidget {
 }
 
 class _DPButtonState extends State<DPButton> {
-  bool isPressed = false;
-
-  void pressUp() {
-    if (widget.onTap == null) {
-      return;
-    }
-    setState(() {
-      isPressed = false;
-    });
-  }
-
-  void pressDown() {
-    if (widget.onTap == null) {
-      return;
-    }
-    setState(() {
-      isPressed = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return AnimatedScale(
-      scale: isPressed ? 0.97 : 1,
-      duration: const Duration(milliseconds: 100),
-      curve: Curves.easeOut,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTapCancel: pressUp,
-        child: Listener(
-          onPointerDown: (event) => pressDown(),
-          onPointerUp: (event) => pressUp(),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            child: DPGestureDetectorWithOpacityInteraction(
-              onTap: widget.onTap,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: widget.backgroundColor ?? colorTheme.primaryBrand,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: widget.border,
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: DefaultTextStyle.merge(
-                      style: textTheme.itemDescription.copyWith(color: widget.foregroundColor ?? Colors.white),
-                      child: widget.child,
-                    ),
-                  ),
+    return DPGestureDetectorWithScaleInteraction(
+      onTap: () {},
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        child: DPGestureDetectorWithOpacityInteraction(
+          onTap: widget.onTap,
+          child: Container(
+            decoration: BoxDecoration(
+              color: widget.backgroundColor ?? colorTheme.primaryBrand,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              border: widget.border,
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: DefaultTextStyle.merge(
+                  style: textTheme.itemDescription.copyWith(color: widget.foregroundColor ?? Colors.white),
+                  child: widget.child,
                 ),
               ),
             ),
