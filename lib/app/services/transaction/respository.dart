@@ -9,12 +9,12 @@ class TransactionRepository {
 
   TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
-  Future<Map> getTransactions({required int year, required int month, int? offset, int? limit}) async {
+  Future<Map> getTransactions({required int year, required int month, String? cursor, int? limit}) async {
     String url = '/history';
     Map<String, dynamic> queryParameter = {"year": year, 'month': month};
 
-    if (offset != null) {
-      queryParameter['offset'] = offset;
+    if (cursor != null) {
+      queryParameter['cursor'] = cursor;
     }
 
     if (limit != null) {
@@ -28,7 +28,7 @@ class TransactionRepository {
         transactions.add(Transaction.fromJson(transaction));
       }
     }
-    return {"transactions": transactions, "monthTotal": response.data["monthTotal"], "nextOffset": response.data["nextOffset"]};
+    return {"transactions": transactions, "monthTotal": response.data["monthTotal"], "nextCursor": response.data["nextCursor"]};
   }
 
   Future<TransactionDetail> getTransactionDetail(String transactionId) async {

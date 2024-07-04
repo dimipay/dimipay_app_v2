@@ -56,7 +56,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                             child: Column(
                               children: [
                                 Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
@@ -78,7 +78,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 96),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                             child: Column(
