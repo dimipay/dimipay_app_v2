@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
+import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
@@ -127,6 +128,9 @@ class AuthService {
     _refreshTokenApiCompleter = Completer();
     try {
       JwtToken newJwt = await repository.refreshAccessToken(jwt.token.refreshToken!);
+      if (jwt.token.refreshToken == null) {
+        throw NoRefreshTokenException();
+      }
       dev.log('token refreshed!');
       dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(newJwt.accessToken!)}');
       dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(newJwt.refreshToken!)}');
@@ -141,10 +145,10 @@ class AuthService {
   }
 
   Future<void> _clearTokens() async {
+    await jwt.clear();
     await aes.clear();
     await bioKey.clear();
     await deviceId.clear();
-    await jwt.clear();
     await rsa.clear();
 
     _pin.value = null;
