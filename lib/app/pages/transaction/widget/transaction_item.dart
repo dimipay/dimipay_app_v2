@@ -16,7 +16,9 @@ class TransactionItem extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPGestureDetectorWithScaleInteraction(
       onTap: () {},
-      child: DPGestureDetectorWithOpacityInteraction(
+      child: DPGestureDetectorWithFillInteraction(
+        effectBorderRadius: 8,
+        effectPadding: const EdgeInsets.symmetric(horizontal: 4),
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

@@ -100,7 +100,7 @@ class PaymentActionBottomSheetItem extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPGestureDetectorWithOpacityInteraction(
+    return DPGestureDetectorWithFillInteraction(
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(20),

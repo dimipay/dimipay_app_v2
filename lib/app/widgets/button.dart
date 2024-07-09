@@ -1,6 +1,81 @@
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 
+class DPGestureDetectorWithFillInteraction extends StatefulWidget {
+  final void Function()? onTap;
+  final Duration duration;
+  final Widget child;
+  final EdgeInsets effectPadding;
+  final double effectBorderRadius;
+  const DPGestureDetectorWithFillInteraction({
+    super.key,
+    this.onTap,
+    required this.child,
+    this.duration = const Duration(milliseconds: 100),
+    this.effectPadding = EdgeInsets.zero,
+    this.effectBorderRadius = 0,
+  });
+
+  @override
+  State<DPGestureDetectorWithFillInteraction> createState() => _DPGestureDetectorWithFillInteractionState();
+}
+
+class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetectorWithFillInteraction> {
+  bool isPressed = false;
+
+  void pressUp() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = false;
+    });
+  }
+
+  void pressDown() {
+    if (widget.onTap == null) {
+      return;
+    }
+    setState(() {
+      isPressed = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    return GestureDetector(
+      onTap: widget.onTap,
+      onTapCancel: pressUp,
+      child: Listener(
+        onPointerDown: (_) => pressDown(),
+        onPointerUp: (_) => pressUp(),
+        child: Container(
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: AnimatedOpacity(
+                  opacity: isPressed ? 0.05 : 0,
+                  duration: widget.duration,
+                  child: Container(
+                    margin: widget.effectPadding,
+                    decoration: BoxDecoration(
+                      color: colorTheme.grayscale1000,
+                      borderRadius: BorderRadius.circular(widget.effectBorderRadius),
+                    ),
+                  ),
+                ),
+              ),
+              widget.child,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class DPGestureDetectorWithOpacityInteraction extends StatefulWidget {
   final void Function()? onTap;
   final Duration duration;

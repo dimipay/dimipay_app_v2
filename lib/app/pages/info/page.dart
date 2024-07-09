@@ -140,10 +140,9 @@ class _MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return DPGestureDetectorWithOpacityInteraction(
+    return DPGestureDetectorWithFillInteraction(
       onTap: onTap,
       child: Container(
-        color: colorTheme.grayscale100,
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
