@@ -24,7 +24,7 @@ class InfoPage extends GetView<InfoPageController> {
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
-              physics: const AlwaysScrollableScrollPhysics(),
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               children: [
                 Container(
                   padding: const EdgeInsets.all(20),
