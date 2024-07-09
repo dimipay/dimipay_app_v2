@@ -98,7 +98,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                   final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
 
                   for (var transaction in transactions) {
-                    DateTime dateOnly = DateUtils.dateOnly(transaction.date);
+                    DateTime dateOnly = DateUtils.dateOnly(transaction.localDate);
                     if (transactionsGroupedByDate.containsKey(dateOnly)) {
                       transactionsGroupedByDate[dateOnly]?.add(transaction);
                     } else {

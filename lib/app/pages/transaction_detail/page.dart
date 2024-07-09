@@ -91,7 +91,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                           ),
                           Container(height: 6, color: colorTheme.grayscale200),
                           const SizedBox(height: 8),
-                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.date)),
+                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.localDate)),
                           DataItem(header: '결제 카드', value: controller.transaction!.cardName ?? ''),
                           DataItem(header: '결제 방식', value: getTransactionTypeString(controller.transaction!.transactionType)),
                           DataItem(header: '결제 상태', value: getTransactionStatusString(controller.transaction!.status)),
