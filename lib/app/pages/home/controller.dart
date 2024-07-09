@@ -118,6 +118,9 @@ class HomePageController extends GetxController {
     if (authService.bioKey.key == null) {
       await biometricAuth();
     }
+    if (authService.jwt.token.accessToken == null) {
+      return;
+    }
     if (authService.bioKey.key == null && authService.pin == null) {
       await showPinDialog();
     }

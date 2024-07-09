@@ -77,7 +77,7 @@ class PaymentService extends GetxController {
         id: paymentMethod.id,
         name: newName,
         preview: paymentMethod.preview,
-        companyCode: paymentMethod.companyCode,
+        cardCode: paymentMethod.cardCode,
       );
       paymentMethods![paymentMethodIndex] = newPaymentMethod;
       _paymentMethods.refresh();

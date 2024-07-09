@@ -51,7 +51,7 @@ class HomePage extends GetView<HomePageController> {
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: [
           const SizedBox(height: 20),
           Obx(

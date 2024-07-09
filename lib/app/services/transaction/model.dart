@@ -46,6 +46,8 @@ class Transaction {
     required this.totalPrice,
   });
 
+  DateTime get localDate => date.toLocal();
+
   factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
   Map<String, dynamic> toJson() => _$TransactionToJson(this);
 }
@@ -78,6 +80,8 @@ class TransactionDetail {
     required this.cardName,
     required this.products,
   });
+
+  DateTime get localDate => date.toLocal();
 
   factory TransactionDetail.fromJson(Map<String, dynamic> json) => _$TransactionDetailFromJson(json);
   Map<String, dynamic> toJson() => _$TransactionDetailToJson(this);

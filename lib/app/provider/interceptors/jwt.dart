@@ -1,7 +1,8 @@
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dio/dio.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart' hide Response;
 
 class JWTInterceptor extends Interceptor {
   final Dio _dioInstance;
@@ -60,8 +61,9 @@ class JWTInterceptor extends Interceptor {
         return handler.next(err);
       }
     }
-    if (httpResponse.message == '알 수 없는 사용자입니다.') {
+    if (httpResponse.message == '알 수 없는 사용자입니다.' || httpResponse.code == 'ERR_LOGINED_IN_OTHER_DEVICE') {
       await authService.logout();
+      Get.offNamed(Routes.LOGIN);
     }
     return handler.next(err);
   }

@@ -14,7 +14,7 @@ class QRArea extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -30,7 +30,7 @@ class QRArea extends StatelessWidget {
             height: 180,
             child: QrImageView(
               data: payload,
-              version: 12,
+              version: 7,
             ),
           ),
         ),
@@ -49,7 +49,7 @@ class QRAreaLocked extends GetView<HomePageController> {
     return GestureDetector(
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
-        aspectRatio: 1.5/1,
+        aspectRatio: 1.5 / 1,
         child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
@@ -97,7 +97,7 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale200,
@@ -143,7 +143,7 @@ class QRAreaLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
