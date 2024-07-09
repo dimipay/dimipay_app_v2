@@ -39,7 +39,7 @@ class PinPageBase extends GetView<PinPageController> {
 
   Widget pinHint(bool activated, DPColors colorTheme) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 75),
+      duration: const Duration(milliseconds: 100),
       width: 20,
       height: 20,
       decoration: ShapeDecoration(
