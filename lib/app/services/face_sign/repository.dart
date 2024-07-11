@@ -22,7 +22,7 @@ class FaceSignRepository {
 
     MultipartFile faceSign = await MultipartFile.fromFile(file.path, contentType: MediaType('image', 'jpeg'));
     try {
-      await api.put(url,
+      await api.post(url,
           data: FormData.fromMap({
             'image': faceSign,
           }));
