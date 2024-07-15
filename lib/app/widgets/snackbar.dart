@@ -4,17 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DPSnackBar {
-  static void open(String title, {Color? backgroundColor, Color? textColor}) {
+  static void open(String title, {Color? borderColor, Color? textColor}) {
     BuildContext context = Get.context!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     HapticHelper.feedback(HapticPatterns.success, hapticType: HapticType.heavy);
     Get.rawSnackbar(
-      titleText: Text(title, style: textTheme.paragraph1.copyWith(color: textColor ?? Colors.white)),
+      titleText: Center(
+        child: Text(
+          title,
+          style: textTheme.paragraph1.copyWith(color: textColor ?? colorTheme.grayscale1000),
+          textAlign: TextAlign.center,
+        ),
+      ),
       messageText: Container(),
-      backgroundColor: backgroundColor ?? colorTheme.primaryBrand,
-      borderRadius: 12,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      backgroundColor: colorTheme.grayscale100,
+      borderColor: borderColor ?? colorTheme.primaryBrand,
+      borderRadius: 9999,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       animationDuration: const Duration(milliseconds: 500),
     );
@@ -26,7 +33,7 @@ class DPErrorSnackBar {
     BuildContext context = Get.context!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
-    DPSnackBar.open(title, backgroundColor: colorTheme.primaryNegative, textColor: Colors.white);
+    DPSnackBar.open(title, borderColor: colorTheme.primaryNegative, textColor: Colors.white);
     HapticHelper.feedback(HapticPatterns.error);
   }
 }
