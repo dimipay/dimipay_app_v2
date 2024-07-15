@@ -13,7 +13,7 @@ class DPSnackBar {
       titleText: Center(
         child: Text(
           title,
-          style: textTheme.paragraph1.copyWith(color: textColor ?? colorTheme.grayscale1000),
+          style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale900),
           textAlign: TextAlign.center,
         ),
       ),
@@ -33,7 +33,7 @@ class DPErrorSnackBar {
     BuildContext context = Get.context!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     HapticHelper.feedback(HapticPatterns.error, hapticType: HapticType.vibrate);
-    DPSnackBar.open(title, borderColor: colorTheme.primaryNegative, textColor: Colors.white);
+    DPSnackBar.open(title, borderColor: colorTheme.primaryNegative);
     HapticHelper.feedback(HapticPatterns.error);
   }
 }
