@@ -53,7 +53,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
             child: controller.obx(
                 (_) => Scrollbar(
                       child: ListView(
-                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        physics: const BouncingScrollPhysics(),
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

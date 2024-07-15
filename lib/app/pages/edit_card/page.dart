@@ -23,7 +23,7 @@ class EditCardPage extends GetView<EditCardPageController> {
             Expanded(
               child: ListView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 children: [
                   Row(

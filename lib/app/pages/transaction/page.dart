@@ -110,7 +110,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                     controller: controller.scrollController,
                     child: SingleChildScrollView(
                       controller: controller.scrollController,
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                      physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
