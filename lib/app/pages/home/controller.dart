@@ -9,6 +9,7 @@ import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
@@ -48,6 +49,7 @@ class HomePageController extends GetxController {
 
     prefetchAuthAndQR();
     handleSse();
+    Get.find<PushService>().requestPushPermission();
     super.onReady();
   }
 
