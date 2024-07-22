@@ -24,6 +24,9 @@ jobs:
       
       - name: Decode Google Service Json
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" | base64 --decode > android/app/google-services.json
+      
+      - name: Decode Firebase Options
+        run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
 
       - name: make env directory
         run: mkdir env
