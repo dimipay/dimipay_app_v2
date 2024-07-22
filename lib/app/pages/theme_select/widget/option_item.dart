@@ -12,7 +12,7 @@ class OptionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return DPGestureDetectorWithOpacityInteraction(
+    return DPGestureDetectorWithFillInteraction(
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(20),

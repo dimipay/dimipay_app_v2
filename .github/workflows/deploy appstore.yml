@@ -1,16 +1,17 @@
-name: build ios and upload to testflight
+name: Deploy Appstore
+
 on:
+  workflow_call:
   workflow_dispatch:
-  push:
-    branches:
-      - 'beta'
+
 jobs:
-  build:
+  deploy-appstore:
+    name: Deploy Appstore
     runs-on: macos-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: flutter build ipa
+      - name: Install flutter sdk
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: stable
@@ -18,6 +19,3 @@ jobs:
       - run: flutter --version
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
-      - run: fastlane beta
-      - run: cd ios
-      - run: fastlane beta

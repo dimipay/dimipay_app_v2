@@ -14,7 +14,7 @@ class PaymentItem extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPGestureDetectorWithOpacityInteraction(
+    return DPGestureDetectorWithFillInteraction(
       onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

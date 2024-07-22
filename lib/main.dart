@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/routes/pages.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +21,7 @@ void main() async {
         ThemeService themeService = Get.find<ThemeService>();
         return GetMaterialApp(
           title: '디미페이',
-          initialRoute: getInintialRoute(debug: true),
+          initialRoute: getInintialRoute(debug: !kReleaseMode),
           getPages: AppPages.pages,
           debugShowCheckedModeBanner: false,
           theme: lightThemeData,

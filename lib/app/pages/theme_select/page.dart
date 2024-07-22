@@ -16,7 +16,7 @@ class ThemeSelectPage extends GetView<ThemeSelectPageController> {
             const DPAppbar(header: '화면 테마'),
             Expanded(
               child: ListView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Obx(
                     () => Column(

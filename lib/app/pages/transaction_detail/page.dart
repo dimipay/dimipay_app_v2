@@ -53,10 +53,10 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
             child: controller.obx(
                 (_) => Scrollbar(
                       child: ListView(
-                        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                        physics: const BouncingScrollPhysics(),
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                             child: Column(
                               children: [
                                 Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
@@ -78,7 +78,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 96),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                             child: Column(
@@ -91,7 +91,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                           ),
                           Container(height: 6, color: colorTheme.grayscale200),
                           const SizedBox(height: 8),
-                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.date)),
+                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.localDate)),
                           DataItem(header: '결제 카드', value: controller.transaction!.cardName ?? ''),
                           DataItem(header: '결제 방식', value: getTransactionTypeString(controller.transaction!.transactionType)),
                           DataItem(header: '결제 상태', value: getTransactionStatusString(controller.transaction!.status)),

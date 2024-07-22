@@ -183,7 +183,7 @@ class FaceSignRegistered extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: DPButton(
-            onTap: controller.registerFaceSign,
+            onTap: controller.patchFaceSign,
             child: const Text("다시 등록하기"),
           ),
         ),
