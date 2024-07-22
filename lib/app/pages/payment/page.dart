@@ -63,7 +63,7 @@ class PaymentPage extends GetView<PaymentPageController> {
                 );
               } else {
                 return ListView(
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  physics: const BouncingScrollPhysics(),
                   children: controller.paymentService.paymentMethods!
                       .map((e) => PaymentItem(
                             paymentMethod: e,

@@ -40,6 +40,7 @@ class PaymentMethod {
       'AMEX': 'AMEX.svg',
       'Unionpay': 'Unionpay.svg',
       'Tossbank': 'Tossbank.svg',
+      'Naverpay': 'Naverpay.svg',
     };
     return url + (companyCodeToImagePath[cardCode] ?? 'Unknown.svg');
   }

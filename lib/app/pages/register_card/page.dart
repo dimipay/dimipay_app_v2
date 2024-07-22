@@ -21,7 +21,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             Expanded(
               child: ListView(
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(16),

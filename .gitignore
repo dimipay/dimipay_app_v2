@@ -66,3 +66,5 @@ google-services.json
 **/ios/Runner.ipa
 
 
+firebase.json
+firebase_options.dart

@@ -17,7 +17,7 @@ class TransactionItem extends StatelessWidget {
     return DPGestureDetectorWithScaleInteraction(
       onTap: () {},
       child: DPGestureDetectorWithFillInteraction(
-        effectBorderRadius: 8,
+        effectBorderRadius: 12,
         effectPadding: const EdgeInsets.symmetric(horizontal: 4),
         onTap: onTap,
         child: Container(

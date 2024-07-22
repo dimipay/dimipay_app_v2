@@ -15,7 +15,7 @@ class ManualPage extends StatelessWidget {
             child: Scrollbar(
               child: ListView(
                 padding: EdgeInsets.zero,
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const BouncingScrollPhysics(),
                 children: const [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
