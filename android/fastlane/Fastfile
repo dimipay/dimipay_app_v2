@@ -22,6 +22,7 @@ platform :android do
       track: 'internal',
       aab: '../build/app/outputs/bundle/release/app-release.aab',
       skip_upload_changelogs: true, 
+      json_key './play-store-credential.json': 
     )
   
   end
