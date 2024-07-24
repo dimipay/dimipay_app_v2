@@ -20,7 +20,7 @@ jobs:
         run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
 
       - name: Decode Android Service Account
-        run: echo "${{ secrets.PRODUCTION_CREDENTIAL_FILE }}" | base64 --decode > android/play-store-credential.json
+        run: echo "${{ secrets.PLAY_STORE_CREDENTIAL }}" | base64 --decode > android/play-store-credential.json
       
       - name: Decode Google Service Json
         run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" | base64 --decode > android/app/google-services.json
