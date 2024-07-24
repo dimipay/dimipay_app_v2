@@ -8,6 +8,9 @@ import 'package:get/get.dart';
 
 class PushService extends GetxService {
   final PushRepository repository;
+
+  final Duration _expirationPeriod = const Duration(days: 30);
+
   PushService({PushRepository? repository}) : repository = repository ?? PushRepository();
 
   Future<PushService> init() async {
@@ -15,12 +18,30 @@ class PushService extends GetxService {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) async {
-      await repository.updateFcmToken(fcmToken);
-      log('Registered new fcm token...');
+      await repository.updateFcmTokenToServer(fcmToken);
+      DateTime now = DateTime.now();
+      await repository.setTokenLastUpdated(now);
+      log('Registered new fcm token. Token will be expired at ${now.add(_expirationPeriod)}');
     }).onError((err) {
       log('Registering new fcm token failed!');
     });
+    await repository.init();
+
+    _isPushTokenExpiredOrNull().then(
+      (value) async {
+        if (value) {
+          await deleteToken();
+          await generateToken();
+        }
+      },
+    );
+
     return this;
+  }
+
+  Future<bool> _isPushTokenExpiredOrNull() async {
+    DateTime? pushTokenUpdated = await repository.getTokenLastUpdated();
+    return pushTokenUpdated == null || DateTime.now().difference(pushTokenUpdated).compareTo(_expirationPeriod) >= 0;
   }
 
   Future<void> requestPushPermission() async {
@@ -33,5 +54,6 @@ class PushService extends GetxService {
 
   Future<void> deleteToken() async {
     await FirebaseMessaging.instance.deleteToken();
+    await repository.deleteTokenLastUpdated();
   }
 }
