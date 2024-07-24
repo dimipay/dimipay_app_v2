@@ -14,7 +14,7 @@ jobs:
         with:
           ref: 'beta'
       - name: Decode Android keystore
-        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/dimipay-keystore.jks
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/app/dimipay-keystore.jks
 
       - name: Decode Android key properties
         run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
