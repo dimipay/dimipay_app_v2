@@ -61,7 +61,6 @@ class AuthService {
   Future<void> registerPin(String pin) async {
     await repository.registerPin(pin, jwt.onboardingToken.accessToken!);
     _pin.value = pin;
-    await Get.find<PushService>().generateToken();
   }
 
   Future<void> pinCheck(String pin) async {
@@ -117,7 +116,6 @@ class AuthService {
     await bioKey.setKey(newBioKey);
 
     _pin.value = paymentPin;
-    await Get.find<PushService>().generateToken();
   }
 
   ///Throws exception and route to LoginPage if refresh faild
