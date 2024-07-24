@@ -24,6 +24,7 @@ class HomePageController extends GetxController {
   final AuthService authService = Get.find<AuthService>();
   final PayService payService = Get.find<PayService>();
   final LocalAuthService localAuthService = Get.find<LocalAuthService>();
+  final PushService pushService = Get.find<PushService>();
 
   final Rx<Duration?> timeRemaining = Rx(null);
 
@@ -49,7 +50,11 @@ class HomePageController extends GetxController {
 
     prefetchAuthAndQR();
     handleSse();
-    Get.find<PushService>().requestPushPermission();
+    pushService.init().then(
+      (value) {
+        pushService.requestPushPermission();
+      },
+    );
     super.onReady();
   }
 

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dimipay_app_v2/app/provider/api.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
-import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,9 +23,7 @@ class AppLoader {
     await dotenv.load(fileName: "env/.env", isOptional: true);
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
-    await Get.putAsync(PushService().init);
     await Get.putAsync(AuthService().init);
-
     await initializeDateFormatting('ko_KR');
 
     if (Platform.isAndroid) {
