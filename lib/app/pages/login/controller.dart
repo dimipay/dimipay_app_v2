@@ -25,10 +25,10 @@ class LoginPageController extends GetxController {
       }
     } on NotDimigoMailException {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
-      authService.logout();
+      authService.clearGoogleSignInInfo();
     } on DioException catch (e) {
       DPErrorSnackBar().open(e.response?.data['message'] ?? '');
-      authService.logout();
+      authService.clearGoogleSignInInfo();
       rethrow;
     } finally {
       _isGoogleLoginInProgress.value = false;

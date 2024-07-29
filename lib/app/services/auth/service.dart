@@ -156,8 +156,7 @@ class AuthService {
     _pin.value = null;
   }
 
-  Future<void> logout() async {
-    await _clearTokens();
+  Future<void> clearGoogleSignInInfo() async {
     try {
       if (Platform.isAndroid) {
         await _googleSignIn.signOut();
@@ -167,5 +166,10 @@ class AuthService {
     } catch (e) {
       await _googleSignIn.disconnect();
     }
+  }
+
+  Future<void> logout() async {
+    await _clearTokens();
+    await clearGoogleSignInInfo();
   }
 }
