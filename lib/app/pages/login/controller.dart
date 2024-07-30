@@ -18,7 +18,7 @@ class LoginPageController extends GetxController {
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
         if (authService.isFirstVisit) {
-          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
+          Get.offNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
         } else {
           Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.onboarding});
         }
