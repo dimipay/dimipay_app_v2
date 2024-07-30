@@ -81,7 +81,7 @@ class PayArea extends GetView<HomePageController> {
           const SizedBox(height: 24),
           // PaymentAreaNoPaymentRegistered(),
           Obx(() {
-            if (controller.paymentService.mainMethod == null) {
+            if (controller.selectedPaymentMethod == null) {
               return const PaymentAreaNoPaymentRegistered();
             } else {
               return PaymentArea(paymentMethod: controller.selectedPaymentMethod!);
@@ -115,7 +115,7 @@ class PayAreaLoading extends StatelessWidget {
         child: const Column(
           children: [
             SizedBox(height: 128),
-            AspectRatio(aspectRatio: 1.5/1),
+            AspectRatio(aspectRatio: 1.5 / 1),
           ],
         ),
       ),

@@ -227,7 +227,7 @@ class _DPButtonState extends State<DPButton> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPGestureDetectorWithScaleInteraction(
-      onTap: () {},
+      onTap: widget.onTap == null ? null : () {},
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: DPGestureDetectorWithOpacityInteraction(

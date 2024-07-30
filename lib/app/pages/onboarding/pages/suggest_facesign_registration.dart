@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/face_sign/service.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -49,8 +50,8 @@ class SuggestFaceSignRegistratoinPage extends StatelessWidget {
               const SizedBox(height: 24),
               DPButton(
                 onTap: () async {
-                  bool result = await Get.toNamed(Routes.FACESIGN);
-                  if (result) {
+                  await Get.toNamed(Routes.FACESIGN);
+                  if (Get.find<FaceSignService>().isRegistered) {
                     controller.nextPage();
                   }
                 },

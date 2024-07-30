@@ -11,6 +11,7 @@ import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
 import 'package:dimipay_app_v2/app/pages/login/page.dart';
 import 'package:dimipay_app_v2/app/pages/manual/page.dart';
+import 'package:dimipay_app_v2/app/pages/onboarding/binding.dart';
 import 'package:dimipay_app_v2/app/pages/onboarding/page.dart';
 import 'package:dimipay_app_v2/app/pages/payment/binding.dart';
 import 'package:dimipay_app_v2/app/pages/payment/page.dart';
@@ -45,9 +46,13 @@ class AppPages {
       OnboardingMiddleware(),
     ]),
     GetPage(name: Routes.LOGIN, page: () => const LogInPage(), binding: LoginPageBinding()),
-    GetPage(name: Routes.ONBOARDING, page: () => const OnboardingPage(), middlewares: [
-      LoginMiddleware(),
-    ]),
+    GetPage(
+        name: Routes.ONBOARDING,
+        page: () => const OnboardingPage(),
+        middlewares: [
+          LoginMiddleware(),
+        ],
+        binding: OnboardingPageBinding()),
     GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
       LoginMiddleware(),
     ]),
