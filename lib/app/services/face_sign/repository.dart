@@ -4,6 +4,7 @@ import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
 
 class FaceSignRepository {
