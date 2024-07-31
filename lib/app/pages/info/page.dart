@@ -20,12 +20,19 @@ class InfoPage extends GetView<InfoPageController> {
       backgroundColor: colorTheme.grayscale100,
       body: Column(
         children: [
-          const DPAppbar(header: '정보'),
+          const DPAppbar(),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    '정보',
+                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(

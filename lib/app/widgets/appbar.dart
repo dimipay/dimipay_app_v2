@@ -43,26 +43,20 @@ class DPAppbar extends StatelessWidget {
               child: Column(
                 children: [
                   if (header != null)
-                    Column(
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          header!,
-                          style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        header!,
+                        style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
+                      ),
                     ),
                   if (paragraph != null)
-                    Column(
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          paragraph!,
-                          style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
-                        ),
-                        const SizedBox(height: 16),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(
+                        paragraph!,
+                        style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
+                      ),
                     ),
                 ],
               ),

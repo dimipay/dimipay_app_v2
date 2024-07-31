@@ -28,11 +28,7 @@ class OnboardingPageController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
-      if (authService.isFirstVisit) {
-        Get.offAndToNamed(Routes.HOME);
-      } else {
-        Get.back();
-      }
+      Get.offNamed(Routes.HOME);
     }
   }
 }
