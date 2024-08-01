@@ -1,4 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/user/model.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ApplyArea extends GetView<HomePageController> {
-  const ApplyArea({super.key});
+class AdminArea extends GetView<HomePageController> {
+  const AdminArea({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,14 @@ class ApplyArea extends GetView<HomePageController> {
           ),
         ),
         child: DPGestureDetectorWithOpacityInteraction(
-          onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+          onTap: () {
+            if (controller.userService.user?.role == 'A') {
+              Get.toNamed(Routes.ADMIN);
+            } else {
+              launchUrl(Uri.parse(
+                  'https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz'));
+            }
+          },
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -37,11 +46,22 @@ class ApplyArea extends GetView<HomePageController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('상품 신청하기', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
+                      controller.userService.obx(
+                        (state) => Text(
+                            controller.userService.user?.role == 'A'
+                                ? '관리자 페이지'
+                                : '상품 신청하기',
+                            style: textTheme.itemTitle
+                                .copyWith(color: colorTheme.grayscale900)),
+                        onLoading: Text('Loading...',
+                            style: textTheme.itemTitle
+                                .copyWith(color: colorTheme.grayscale900)),
+                      )
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ),
@@ -51,8 +71,8 @@ class ApplyArea extends GetView<HomePageController> {
   }
 }
 
-class ApplyAreaLoading extends StatelessWidget {
-  const ApplyAreaLoading({super.key});
+class AdminAreaLoading extends StatelessWidget {
+  const AdminAreaLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
