@@ -20,4 +20,5 @@ abstract class Routes {
   static const PRIVACY_POLICY = '/privacyPolicy';
   static const MANUAL = '/manual';
   static const ADMIN = '/admin';
+  static const CREATE_COUPON = '/admin/create_coupon';
 }
