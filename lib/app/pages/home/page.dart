@@ -1,5 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/apply_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/admin_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -36,12 +36,14 @@ class HomePage extends GetView<HomePageController> {
                 children: [
                   DPGestureDetectorWithOpacityInteraction(
                     onTap: () => controller.openKakaoChannelTalk(),
-                    child: Icon(Icons.support_agent_rounded, size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.support_agent_rounded,
+                        size: 24, color: colorTheme.grayscale600),
                   ),
                   const SizedBox(width: 24),
                   DPGestureDetectorWithOpacityInteraction(
                     onTap: () => Get.toNamed(Routes.MANUAL),
-                    child: Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.help_rounded,
+                        size: 24, color: colorTheme.grayscale600),
                   ),
                 ],
               ),
@@ -51,14 +53,17 @@ class HomePage extends GetView<HomePageController> {
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         children: [
           const SizedBox(height: 20),
           Obx(
             () => AnimatedCrossFade(
               firstChild: const UserInfoAreaLoading(),
               secondChild: const UserInfoArea(),
-              crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.userService.user == null
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
@@ -67,16 +72,20 @@ class HomePage extends GetView<HomePageController> {
             () => AnimatedCrossFade(
               firstChild: const PayAreaLoading(),
               secondChild: const PayArea(),
-              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.paymentService.paymentMethods == null
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
           const SizedBox(height: 20),
           Obx(
             () => AnimatedCrossFade(
-              firstChild: const ApplyAreaLoading(),
-              secondChild: const ApplyArea(),
-              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              firstChild: const AdminAreaLoading(),
+              secondChild: const AdminArea(),
+              crossFadeState: controller.userService.user == null
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),

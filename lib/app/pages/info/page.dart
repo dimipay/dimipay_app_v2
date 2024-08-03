@@ -20,19 +20,14 @@ class InfoPage extends GetView<InfoPageController> {
       backgroundColor: colorTheme.grayscale100,
       body: Column(
         children: [
-          const DPAppbar(),
+          const DPAppbar(
+            header: '정보',
+          ),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    '정보',
-                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                  ),
-                ),
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(
@@ -53,10 +48,20 @@ class InfoPage extends GetView<InfoPageController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Obx(
-                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800)),
+                              () => Text(
+                                  controller.userService.user == null
+                                      ? 'loading...'
+                                      : controller.userService.user!.name,
+                                  style: textTheme.itemTitle.copyWith(
+                                      color: colorTheme.grayscale800)),
                             ),
                             Obx(
-                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.email, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
+                              () => Text(
+                                  controller.userService.user == null
+                                      ? 'loading...'
+                                      : controller.userService.user!.email,
+                                  style: textTheme.token.copyWith(
+                                      color: colorTheme.grayscale500)),
                             )
                           ],
                         ),
@@ -76,19 +81,24 @@ class InfoPage extends GetView<InfoPageController> {
                   return _MenuItem(
                     title: '결제 수단',
                     onTap: () => Get.toNamed(Routes.PAYMENT),
-                    hint: controller.paymentService.paymentMethods == null ? null : '${controller.paymentService.paymentMethods!.length}개',
+                    hint: controller.paymentService.paymentMethods == null
+                        ? null
+                        : '${controller.paymentService.paymentMethods!.length}개',
                   );
                 }),
                 Obx(() {
                   return _MenuItem(
                     title: 'Face Sign',
                     onTap: () => Get.toNamed(Routes.FACESIGN),
-                    hint: controller.faceSignService.isRegistered ? '등록 됨' : '등록 안됨',
+                    hint: controller.faceSignService.isRegistered
+                        ? '등록 됨'
+                        : '등록 안됨',
                   );
                 }),
                 _MenuItem(
                   title: '핀 변경',
-                  onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
+                  onTap: () => Get.toNamed(Routes.PIN,
+                      arguments: {"pinPageType": PinPageType.editPin}),
                 ),
                 const DPDivider(),
                 const _SectionHeader(title: '기타'),
@@ -100,11 +110,6 @@ class InfoPage extends GetView<InfoPageController> {
                   title: '앱 버전',
                   onTap: () => Get.toNamed(Routes.VERSION),
                 ),
-                _MenuItem(
-                  title: '서비스 이용약관',
-                  onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
-                ),
-                _MenuItem(title: '개인정보 보호약관', onTap: () => launchUrl(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'))),
                 const SizedBox(height: 72),
               ],
             ),
@@ -117,6 +122,7 @@ class InfoPage extends GetView<InfoPageController> {
 
 class LogOutButton extends StatelessWidget {
   final void Function()? onTap;
+
   const LogOutButton({super.key, this.onTap});
 
   @override
@@ -125,7 +131,8 @@ class LogOutButton extends StatelessWidget {
     return SizedBox(
       child: DPGestureDetectorWithOpacityInteraction(
         onTap: onTap,
-        child: Icon(Icons.logout_rounded, size: 20, color: colorTheme.grayscale500),
+        child: Icon(Icons.logout_rounded,
+            size: 20, color: colorTheme.grayscale500),
       ),
     );
   }
@@ -155,14 +162,20 @@ class _MenuItem extends StatelessWidget {
           children: [
             Text(
               title,
-              style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
+              style:
+                  textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
             ),
             const Spacer(),
             Row(
               children: [
-                hint == null ? Container() : Text(hint!, style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700)),
+                hint == null
+                    ? Container()
+                    : Text(hint!,
+                        style: textTheme.paragraph2
+                            .copyWith(color: colorTheme.grayscale700)),
                 const SizedBox(width: 8),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ],
@@ -187,7 +200,8 @@ class _SectionHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Text(title, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
+      child: Text(title,
+          style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
     );
   }
 }
