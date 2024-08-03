@@ -6,6 +6,7 @@ import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdminPage extends GetView<AdminPageController> {
   const AdminPage({super.key});
@@ -25,6 +26,12 @@ class AdminPage extends GetView<AdminPageController> {
             padding: EdgeInsets.zero,
             physics: const BouncingScrollPhysics(),
             children: [
+              const _SectionHeader(title: '사용자 관리'),
+              _MenuItem(
+                title: '핀번호 초기화',
+                onTap: () => {},
+              ),
+              const DPDivider(),
               const _SectionHeader(title: '쿠폰 관리'),
               _MenuItem(
                 title: '쿠폰 발급하기',
@@ -35,6 +42,22 @@ class AdminPage extends GetView<AdminPageController> {
                 onTap: () => {},
               ),
               const DPDivider(),
+              const _SectionHeader(title: '키오스크 관리'),
+              _MenuItem(
+                title: '키오스크 목록',
+                onTap: () => {},
+              ),
+              _MenuItem(
+                title: '키오스크 핀번호 생성',
+                onTap: () => {},
+              ),
+              const DPDivider(),
+              const _SectionHeader(title: '기타'),
+              _MenuItem(
+                title: '상품 신청 확인하기',
+                onTap: () => launchUrl(Uri.parse(
+                    'https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+              ),
             ],
           ))
         ],
