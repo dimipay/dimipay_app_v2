@@ -56,7 +56,7 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.TERMS_OF_SERVICE),
           linkToRoute(Routes.PRIVACY_POLICY),
           linkToRoute(Routes.ADMIN),
-          linkToRoute(Routes.CREATE_COUPON),
+          linkToRoute(Routes.GENERATE_COUPON),
           linkToRoute(Routes.COUPON),
           TextButton(
             onPressed: () {

@@ -20,8 +20,8 @@ abstract class Routes {
   static const TERMS_OF_SERVICE = '/info/version/termsOfService';
   static const PRIVACY_POLICY = '/info/version/privacyPolicy';
   static const ADMIN = '/admin';
-  static const CREATE_COUPON = '/admin/create_coupon';
-  static const COUPON = '/admin/create_coupon/coupon';
+  static const GENERATE_COUPON = '/admin/generate_coupon';
+  static const COUPON = '/admin/generate_coupon/coupon';
   static const GENERATE_PASSCODE = '/admin/generate_passcode';
   static const PASSCODE = '/admin/generate_passcode/passcode';
 }

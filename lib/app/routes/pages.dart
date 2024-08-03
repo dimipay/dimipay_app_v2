@@ -2,10 +2,10 @@ import 'package:dimipay_app_v2/app/core/middleware/admin.dart';
 import 'package:dimipay_app_v2/app/core/middleware/login.dart';
 import 'package:dimipay_app_v2/app/core/middleware/onboarding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/coupon/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/coupon/page.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
@@ -164,9 +164,9 @@ class AppPages {
           AdminMiddleware(),
         ]),
     GetPage(
-        name: Routes.CREATE_COUPON,
-        page: () => const CreateCouponPage(),
-        binding: CreateCouponPageBinding(),
+        name: Routes.GENERATE_COUPON,
+        page: () => const GenerateCouponPage(),
+        binding: GenerateCouponPageBinding(),
         middlewares: [
           LoginMiddleware(),
           AdminMiddleware(),

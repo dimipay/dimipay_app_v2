@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/controller.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
@@ -10,8 +10,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CreateCouponPage extends GetView<CreateCouponPageController> {
-  const CreateCouponPage({super.key});
+class GenerateCouponPage extends GetView<GenerateCouponPageController> {
+  const GenerateCouponPage({super.key});
 
   Future<bool> _showConfirmationDialog(
       BuildContext context, CouponType couponType) async {

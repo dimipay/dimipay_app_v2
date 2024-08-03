@@ -29,7 +29,7 @@ class AdminPage extends GetView<AdminPageController> {
               const _SectionHeader(title: '쿠폰 관리'),
               _MenuItem(
                 title: '쿠폰 발급하기',
-                onTap: () => Get.toNamed(Routes.CREATE_COUPON),
+                onTap: () => Get.toNamed(Routes.GENERATE_COUPON),
               ),
               const DPDivider(),
               const _SectionHeader(title: '핀/패스코드 관리'),

@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/coupon/controller.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/controller.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';

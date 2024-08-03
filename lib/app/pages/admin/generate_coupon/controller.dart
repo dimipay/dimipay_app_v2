@@ -1,7 +1,7 @@
 import 'package:dimipay_app_v2/app/services/admin/coupon/service.dart';
 import 'package:get/get.dart';
 
-class CreateCouponPageController extends GetxController {
+class GenerateCouponPageController extends GetxController {
   final CouponService couponService = Get.find<CouponService>();
 
   @override
