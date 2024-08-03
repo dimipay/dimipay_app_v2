@@ -98,6 +98,7 @@ class PinPad extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/icon/face_id.svg',
                   height: 24,
+                  // ignore: deprecated_member_use
                   color: colorTheme.grayscale800,
                 ),
                 onTap: () => onFaceID?.call(),
