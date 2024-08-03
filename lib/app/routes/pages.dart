@@ -6,6 +6,10 @@ import 'package:dimipay_app_v2/app/pages/admin/create_coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/create_coupon/coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/create_coupon/coupon/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/create_coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/page.dart';
 import 'package:dimipay_app_v2/app/pages/home/binding.dart';
 import 'package:dimipay_app_v2/app/pages/home/page.dart';
@@ -171,6 +175,22 @@ class AppPages {
         name: Routes.COUPON,
         page: () => const CouponPage(),
         binding: CouponPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.GENERATE_PASSCODE,
+        page: () => GeneratePasscodePage(),
+        binding: GeneratePasscodePageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.PASSCODE,
+        page: () => PasscodePage(),
+        binding: PasscodePageBinding(),
         middlewares: [
           LoginMiddleware(),
           AdminMiddleware(),

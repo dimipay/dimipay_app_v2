@@ -26,30 +26,20 @@ class AdminPage extends GetView<AdminPageController> {
             padding: EdgeInsets.zero,
             physics: const BouncingScrollPhysics(),
             children: [
-              const _SectionHeader(title: '사용자 관리'),
-              _MenuItem(
-                title: '핀번호 초기화',
-                onTap: () => {},
-              ),
-              const DPDivider(),
               const _SectionHeader(title: '쿠폰 관리'),
               _MenuItem(
                 title: '쿠폰 발급하기',
                 onTap: () => Get.toNamed(Routes.CREATE_COUPON),
               ),
-              _MenuItem(
-                title: '활성화된 쿠폰',
-                onTap: () => {},
-              ),
               const DPDivider(),
-              const _SectionHeader(title: '키오스크 관리'),
+              const _SectionHeader(title: '핀/패스코드 관리'),
               _MenuItem(
-                title: '키오스크 목록',
+                title: '사용자 핀 초기화',
                 onTap: () => {},
               ),
               _MenuItem(
-                title: '키오스크 핀번호 생성',
-                onTap: () => {},
+                title: '키오스크 패스코드 생성하기',
+                onTap: () => Get.toNamed(Routes.GENERATE_PASSCODE),
               ),
               const DPDivider(),
               const _SectionHeader(title: '기타'),
