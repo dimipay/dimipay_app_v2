@@ -1,13 +1,59 @@
+import 'dart:io';
+
 import 'package:dimipay_app_v2/app/pages/admin/create_coupon/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CreateCouponPage extends GetView<CreateCouponPageController> {
   const CreateCouponPage({super.key});
+
+  Future<bool> _showConfirmationDialog(
+      BuildContext context, CouponType couponType) async {
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    if (Platform.isIOS) {
+      return await showCupertinoDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          content: Text('${couponType.name} 쿠폰을 생성하시겠습니까?'),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () => Get.back(result: false),
+              child: Text('취소',
+                  style: textTheme.paragraph1.copyWith(color: Colors.blue)),
+            ),
+            CupertinoDialogAction(
+              onPressed: () => Get.back(result: true),
+              child: const Text('생성'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text('${couponType.name} 쿠폰을 생성하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(result: false),
+              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () => Get.back(result: true),
+              child: const Text('생성'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +67,6 @@ class CreateCouponPage extends GetView<CreateCouponPageController> {
           ),
           Expanded(
             child: Obx(() {
-              // Obx를 사용하여 반응형으로 만듭니다.
               final couponTypes = controller.couponService.couponTypes;
               if (couponTypes == null) {
                 return Center(
@@ -37,7 +82,13 @@ class CreateCouponPage extends GetView<CreateCouponPageController> {
                   ...couponTypes
                       .map((e) => _CouponTypeItem(
                             couponType: e,
-                            onTap: () => {},
+                            onTap: () async {
+                              bool confirm =
+                                  await _showConfirmationDialog(context, e);
+                              if (confirm) {
+                                Get.toNamed(Routes.COUPON, arguments: e.id);
+                              }
+                            },
                           ))
                       .toList(),
                 ],
