@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/terms_of_service/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/version/terms_of_service/controller.dart';
 import 'package:get/get.dart';
 
 class TermsOfServiceBinding implements Bindings {

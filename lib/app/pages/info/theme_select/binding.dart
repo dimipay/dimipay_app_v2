@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/theme_select/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/theme_select/controller.dart';
 import 'package:get/get.dart';
 
 class ThemeSelectPageBinding implements Bindings {

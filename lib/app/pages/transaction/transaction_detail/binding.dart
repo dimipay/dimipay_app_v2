@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/transaction_detail/controller.dart';
+import 'package:dimipay_app_v2/app/pages/transaction/transaction_detail/controller.dart';
 import 'package:get/get.dart';
 
 class TransactionDetailPageBinding implements Bindings {

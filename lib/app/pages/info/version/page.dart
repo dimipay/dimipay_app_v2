@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/version/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/version/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';

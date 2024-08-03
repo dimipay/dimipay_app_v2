@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/edit_card/controller.dart';
+import 'package:dimipay_app_v2/app/pages/payment/edit_card/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
@@ -22,15 +22,19 @@ class EditCardPage extends GetView<EditCardPageController> {
             const DPAppbar(header: '카드 이름 설정'),
             Expanded(
               child: ListView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset(controller.paymentMethod.getLogoImagePath()),
+                      SvgPicture.asset(
+                          controller.paymentMethod.getLogoImagePath()),
                       const SizedBox(width: 12),
-                      Text('**** **** **** ${controller.paymentMethod.preview}', style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale500)),
+                      Text('**** **** **** ${controller.paymentMethod.preview}',
+                          style: textTheme.itemTitle
+                              .copyWith(color: colorTheme.grayscale500)),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -47,11 +51,13 @@ class EditCardPage extends GetView<EditCardPageController> {
                       children: [
                         Text(
                           controller.errorMessage.value ?? '',
-                          style: textTheme.readable.copyWith(color: colorTheme.primaryNegative),
+                          style: textTheme.readable
+                              .copyWith(color: colorTheme.primaryNegative),
                         ),
                         Text(
                           '${controller.nameFieldText.value.length}/10',
-                          style: textTheme.readable.copyWith(color: colorTheme.grayscale500),
+                          style: textTheme.readable
+                              .copyWith(color: colorTheme.grayscale500),
                         ),
                       ],
                     ),
@@ -63,7 +69,8 @@ class EditCardPage extends GetView<EditCardPageController> {
               padding: const EdgeInsets.all(16),
               child: controller.obx(
                 (_) => Obx(() {
-                  if (controller.validateName(controller.nameFieldText.value) == null) {
+                  if (controller.validateName(controller.nameFieldText.value) ==
+                      null) {
                     return DPButton(
                       onTap: controller.editCardName,
                       child: const Text('확인'),

@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/register_card/controller.dart';
+import 'package:dimipay_app_v2/app/pages/payment/register_card/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -20,7 +20,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
             const appbar.DPAppbar(header: '카드 등록'),
             Expanded(
               child: ListView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const BouncingScrollPhysics(),
                 children: [
                   Padding(
@@ -32,7 +33,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                           children: [
                             Text(
                               '신용/체크카드 등록 가능해요',
-                              style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale500),
+                              style: textTheme.itemDescription
+                                  .copyWith(color: colorTheme.grayscale500),
                             ),
                           ],
                         ),
@@ -71,7 +73,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
+                        Icon(Icons.flip_rounded,
+                            color: colorTheme.grayscale600, size: 20),
                         const SizedBox(width: 10),
                         const Text('카드 스캔하기'),
                       ],

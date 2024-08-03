@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/pages/privacy_policy/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/version/privacy_policy/controller.dart';
 import 'package:get/get.dart';
 
 class PrivacyPolicyBinding implements Bindings {
