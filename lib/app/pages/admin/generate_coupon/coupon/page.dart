@@ -1,3 +1,4 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/controller.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
@@ -36,8 +37,7 @@ class CouponPage extends GetView<CouponPageController> {
                 ),
                 Text(
                   '화면을 찍어가세요!',
-                  style: textTheme.header2
-                      .copyWith(color: colorTheme.grayscale600),
+                  style: textTheme.header2.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             );
@@ -74,13 +74,11 @@ class CouponWidget extends StatelessWidget {
               children: [
                 Text(
                   coupon.name,
-                  style: textTheme.itemTitle
-                      .copyWith(color: colorTheme.grayscale1000),
+                  style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
                   '${coupon.amount}원',
-                  style: textTheme.description
-                      .copyWith(color: colorTheme.grayscale600),
+                  style: textTheme.description.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
@@ -88,28 +86,27 @@ class CouponWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: colorTheme.grayscale100,
+                color: Colors.white,
                 border: Border.all(color: colorTheme.grayscale300),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 children: [
-                  QrImageView(
+                  BarcodeWidget(
+                    barcode: Barcode.code128(),
                     data: coupon.code,
-                    version: 7,
+                    drawText: false,
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                     decoration: BoxDecoration(
-                      color: colorTheme.grayscale200,
+                      color: DPLightThemeColors().grayscale200,
                       borderRadius: BorderRadius.circular(9999),
                     ),
                     child: Text(
                       coupon.code,
-                      style: textTheme.token
-                          .copyWith(color: colorTheme.grayscale800),
+                      style: textTheme.token.copyWith(color: DPLightThemeColors().grayscale800),
                     ),
                   )
                 ],
