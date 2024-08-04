@@ -8,6 +8,10 @@ final DPLightTheme _lightTheme = DPLightTheme();
 final ThemeData lightThemeData = ThemeData(
   fontFamily: 'SUITv1',
   brightness: Brightness.light,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: _lightTheme.colors.primaryBrand,
+    brightness: Brightness.light,
+  ),
   appBarTheme: AppBarTheme(
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark,
@@ -20,8 +24,11 @@ final ThemeData lightThemeData = ThemeData(
     foregroundColor: _lightTheme.colors.grayscale1000,
     centerTitle: false,
   ),
-  textSelectionTheme: TextSelectionThemeData(selectionColor: _lightTheme.colors.primaryBrand.withAlpha(100), selectionHandleColor: _lightTheme.colors.primaryBrand),
-  cupertinoOverrideTheme: CupertinoThemeData(primaryColor: _lightTheme.colors.primaryBrand),
+  textSelectionTheme: TextSelectionThemeData(
+      selectionColor: _lightTheme.colors.primaryBrand.withAlpha(100),
+      selectionHandleColor: _lightTheme.colors.primaryBrand),
+  cupertinoOverrideTheme:
+      CupertinoThemeData(primaryColor: _lightTheme.colors.primaryBrand),
   scaffoldBackgroundColor: _lightTheme.colors.grayscale100,
   extensions: [_lightTheme.colors, _lightTheme.textStyle],
   cardColor: _lightTheme.colors.grayscale100,
