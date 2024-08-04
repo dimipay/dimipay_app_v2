@@ -51,12 +51,22 @@ import 'package:get/get.dart';
 class AppPages {
   static final pages = [
     GetPage(name: Routes.TEST, page: () => const TestPage()),
-    GetPage(name: Routes.TRANSACTION, page: () => const TransactionPage(), binding: TransactionPageBinding()),
-    GetPage(name: Routes.HOME, page: () => const HomePage(), binding: HomePageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.LOGIN, page: () => const LogInPage(), binding: LoginPageBinding()),
+    GetPage(
+        name: Routes.TRANSACTION,
+        page: () => const TransactionPage(),
+        binding: TransactionPageBinding()),
+    GetPage(
+        name: Routes.HOME,
+        page: () => const HomePage(),
+        binding: HomePageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.LOGIN,
+        page: () => const LogInPage(),
+        binding: LoginPageBinding()),
     GetPage(
         name: Routes.ONBOARDING,
         page: () => const OnboardingPage(),
@@ -64,35 +74,69 @@ class AppPages {
           LoginMiddleware(),
         ],
         binding: OnboardingPageBinding()),
-    GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
-      LoginMiddleware(),
-    ]),
-    GetPage(name: Routes.INFO, page: () => const InfoPage(), binding: InfoPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.FACESIGN, page: () => const FaceSignPage(), binding: FaceSignBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => const TransactionDetailPage(), binding: TransactionDetailPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.THEME_SELECT, page: () => const ThemeSelectPage(), binding: ThemeSelectPageBinding()),
-    GetPage(name: Routes.VERSION, page: () => const VersionPage(), binding: VersionPageBinding()),
+    GetPage(
+        name: Routes.PIN,
+        page: () => const PinPage(),
+        binding: PinPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.INFO,
+        page: () => const InfoPage(),
+        binding: InfoPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.FACESIGN,
+        page: () => const FaceSignPage(),
+        binding: FaceSignBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.PAYMENT,
+        page: () => const PaymentPage(),
+        binding: PaymentPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.REGISTER_CARD,
+        page: () => const RegisterCardPage(),
+        binding: RegisterCardPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.EDIT_CARD,
+        page: () => const EditCardPage(),
+        binding: EditCardPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.TRANSACTION_DETAIL,
+        page: () => const TransactionDetailPage(),
+        binding: TransactionDetailPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          OnboardingMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.THEME_SELECT,
+        page: () => const ThemeSelectPage(),
+        binding: ThemeSelectPageBinding()),
+    GetPage(
+        name: Routes.VERSION,
+        page: () => const VersionPage(),
+        binding: VersionPageBinding()),
     GetPage(
       name: Routes.LICENSE,
       page: () => LicensePage(
