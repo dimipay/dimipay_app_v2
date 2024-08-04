@@ -9,10 +9,15 @@ class CouponRepository {
   CouponRepository({ApiProvider? api})
       : api = api ?? Get.find<SecureApiProvider>();
 
-  Future<Coupon> generateCoupon() async {
+  Future<Map> generateCoupon({required String id}) async {
     String url = '/admin/coupons';
-    DPHttpResponse response = await api.get(url);
-    return Coupon.fromJson(response.data);
+    Map body = {"type": id};
+
+    DPHttpResponse response = await api.post(url, data: body);
+
+    Coupon coupon = Coupon.fromJson(response.data["coupon"]);
+
+    return {"coupon": coupon};
   }
 
   Future<Map> getCouponTypes() async {

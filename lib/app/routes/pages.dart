@@ -2,8 +2,14 @@ import 'package:dimipay_app_v2/app/core/middleware/admin.dart';
 import 'package:dimipay_app_v2/app/core/middleware/login.dart';
 import 'package:dimipay_app_v2/app/core/middleware/onboarding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/create_coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/page.dart';
 import 'package:dimipay_app_v2/app/pages/home/binding.dart';
 import 'package:dimipay_app_v2/app/pages/home/page.dart';
@@ -105,13 +111,45 @@ class AppPages {
       binding: PrivacyPolicyBinding(),
     ),
     GetPage(name: Routes.MANUAL, page: () => const ManualPage()),
-    GetPage(name: Routes.ADMIN, page: () => const AdminPage(), binding: AdminPageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
-    GetPage(name: Routes.CREATE_COUPON, page: () => const CreateCouponPage(), binding: CreateCouponPageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
+    GetPage(
+        name: Routes.ADMIN,
+        page: () => const AdminPage(),
+        binding: AdminPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.GENERATE_COUPON,
+        page: () => const GenerateCouponPage(),
+        binding: GenerateCouponPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.COUPON,
+        page: () => const CouponPage(),
+        binding: CouponPageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.GENERATE_PASSCODE,
+        page: () => const GeneratePasscodePage(),
+        binding: GeneratePasscodePageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
+    GetPage(
+        name: Routes.PASSCODE,
+        page: () => const PasscodePage(),
+        binding: PasscodePageBinding(),
+        middlewares: [
+          LoginMiddleware(),
+          AdminMiddleware(),
+        ]),
   ];
 }

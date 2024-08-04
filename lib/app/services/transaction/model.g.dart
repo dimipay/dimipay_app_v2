@@ -12,7 +12,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       date: DateTime.parse(json['date'] as String),
       products:
           (json['products'] as List<dynamic>).map((e) => e as String).toList(),
-      totalPrice: json['total'] as int,
+      totalPrice: (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
@@ -33,7 +33,7 @@ const _$TransactionStatusEnumMap = {
 TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
     TransactionDetail(
       id: json['id'] as String,
-      totalPrice: json['totalPrice'] as int,
+      totalPrice: (json['totalPrice'] as num).toInt(),
       date: DateTime.parse(json['date'] as String),
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
       message: json['message'] as String,
@@ -70,8 +70,8 @@ const _$PurchaseTypeEnumMap = {
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       name: json['name'] as String,
-      amount: json['amount'] as int,
-      unitPrice: json['unitPrice'] as int,
+      amount: (json['amount'] as num).toInt(),
+      unitPrice: (json['unitPrice'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{

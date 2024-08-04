@@ -18,9 +18,15 @@ class CouponService extends GetxController with StateMixin<Coupon?> {
 
   List<CouponType>? get couponTypes => _couponTypes.value;
 
-  Future<Coupon> generateCoupon() async {
-    Coupon generatedCoupon = await repository.generateCoupon();
-    return generatedCoupon;
+  Future<Coupon?> generateCoupon({required String id}) async {
+    try {
+      Map data = await repository.generateCoupon(id: id);
+      _coupon.value = data["coupon"];
+    } catch (e) {
+      log(e.toString());
+    }
+
+    return _coupon.value;
   }
 
   Future<void> fetchCouponTypes() async {
@@ -30,5 +36,9 @@ class CouponService extends GetxController with StateMixin<Coupon?> {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  void resetCoupon() {
+    _coupon.value = null;
   }
 }

@@ -67,6 +67,7 @@ dependencies:
   firebase_core: ^3.1.1
   firebase_messaging: ^15.0.2
   json_annotation: ^4.9.0
+  barcode_widget: ^2.0.4
 
 
 dev_dependencies:
