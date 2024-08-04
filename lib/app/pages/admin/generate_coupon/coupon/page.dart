@@ -15,34 +15,39 @@ class CouponPage extends GetView<CouponPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      body: Column(
-        children: [
-          const DPAppbar(
-            header: '쿠폰이 발급되었어요!',
-          ),
-          Obx(() {
-            final coupon = controller.couponService.coupon;
-            if (coupon == null) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: colorTheme.primaryBrand,
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const DPAppbar(
+              header: '쿠폰이 발급되었어요!',
+            ),
+            const Spacer(flex: 1),
+            Obx(() {
+              final coupon = controller.couponService.coupon;
+              if (coupon == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: colorTheme.primaryBrand,
+                  ),
+                );
+              }
+              return Column(
+                children: [
+                  CouponWidget(coupon: coupon),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    '화면을 찍어가세요!',
+                    style: textTheme.header2
+                        .copyWith(color: colorTheme.grayscale600),
+                  ),
+                ],
               );
-            }
-            return Column(
-              children: [
-                CouponWidget(coupon: coupon),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  '화면을 찍어가세요!',
-                  style: textTheme.header2.copyWith(color: colorTheme.grayscale600),
-                ),
-              ],
-            );
-          }),
-        ],
+            }),
+            const Spacer(flex: 2),
+          ],
+        ),
       ),
     );
   }
@@ -74,11 +79,13 @@ class CouponWidget extends StatelessWidget {
               children: [
                 Text(
                   coupon.name,
-                  style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale1000),
+                  style: textTheme.itemTitle
+                      .copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
                   '${coupon.amount}원',
-                  style: textTheme.description.copyWith(color: colorTheme.grayscale600),
+                  style: textTheme.description
+                      .copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
@@ -99,14 +106,16 @@ class CouponWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                     decoration: BoxDecoration(
                       color: DPLightThemeColors().grayscale200,
                       borderRadius: BorderRadius.circular(9999),
                     ),
                     child: Text(
                       coupon.code,
-                      style: textTheme.token.copyWith(color: DPLightThemeColors().grayscale800),
+                      style: textTheme.token
+                          .copyWith(color: DPLightThemeColors().grayscale800),
                     ),
                   )
                 ],

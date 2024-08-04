@@ -13,27 +13,35 @@ class PasscodePage extends GetView<PasscodePageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
-      body: Column(
-        children: [
-          const DPAppbar(
-            header: '패스코드',
-          ),
-          Obx(() {
-            final passcode = controller.kioskService.kioskPasscode;
-            if (passcode == null) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: colorTheme.primaryBrand,
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const DPAppbar(
+              header: '패스코드',
+            ),
+            Spacer(
+              flex: 1,
+            ),
+            Obx(() {
+              final passcode = controller.kioskService.kioskPasscode;
+              if (passcode == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: colorTheme.primaryBrand,
+                  ),
+                );
+              }
+              return PasscodeDisplay(
+                passcode: passcode,
+                colorTheme: colorTheme,
+                textTheme: textTheme,
               );
-            }
-            return PasscodeDisplay(
-              passcode: passcode,
-              colorTheme: colorTheme,
-              textTheme: textTheme,
-            );
-          }),
-        ],
+            }),
+            Spacer(
+              flex: 2,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -103,17 +111,14 @@ class _PasscodeDisplayState extends State<PasscodeDisplay> {
           ),
           child: Text(
             widget.passcode.passcode,
-            style: widget.textTheme.title.copyWith(
-                color: isExpired
-                    ? widget.colorTheme.primaryNegative
-                    : widget.colorTheme.primaryBrand,
-                fontSize: 48),
+            style: widget.textTheme.title
+                .copyWith(color: widget.colorTheme.grayscale900, fontSize: 48),
           ),
         ),
         const SizedBox(height: 20),
         Text(
           isExpired ? '만료됨!' : '$_remainingTime초 후 만료',
-          style: widget.textTheme.header1
+          style: widget.textTheme.header2
               .copyWith(color: widget.colorTheme.grayscale600),
         ),
       ],
