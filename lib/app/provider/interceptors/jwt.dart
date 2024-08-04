@@ -14,10 +14,7 @@ class JWTInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     AuthService authService = Get.find<AuthService>();
 
-    options.headers['Authorization'] ??=
-        'Bearer ${authService.jwt.token.accessToken}';
-
-    print(options.headers['Authorization']);
+    options.headers['Authorization'] ??= 'Bearer ${authService.jwt.token.accessToken}';
 
     return handler.next(options);
   }
@@ -27,8 +24,7 @@ class JWTInterceptor extends Interceptor {
     AuthService authService = Get.find<AuthService>();
     //refresh api가 401시 무한 루프 방지
 
-    if (err.response == null ||
-        err.response?.requestOptions.path == '/auth/refresh') {
+    if (err.response == null || err.response?.requestOptions.path == '/auth/refresh') {
       return handler.next(err);
     }
 
@@ -61,8 +57,7 @@ class JWTInterceptor extends Interceptor {
         return handler.next(err);
       }
     }
-    if (httpResponse.message == '알 수 없는 사용자입니다.' ||
-        httpResponse.code == 'ERR_LOGINED_IN_OTHER_DEVICE') {
+    if (httpResponse.message == '알 수 없는 사용자입니다.' || httpResponse.code == 'ERR_LOGINED_IN_OTHER_DEVICE') {
       await authService.logout();
       Get.offNamed(Routes.LOGIN);
     }

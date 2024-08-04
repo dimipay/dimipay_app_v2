@@ -1,13 +1,11 @@
-import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class AdminArea extends GetView<HomePageController> {
-  const AdminArea({super.key});
+class SuggestProductArea extends StatelessWidget {
+  const SuggestProductArea({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +26,7 @@ class AdminArea extends GetView<HomePageController> {
           ),
         ),
         child: DPGestureDetectorWithOpacityInteraction(
-          onTap: () => Get.toNamed(Routes.ADMIN),
+          onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -38,7 +36,7 @@ class AdminArea extends GetView<HomePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '관리자 페이지',
+                        '상품 신청하기',
                         style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900),
                       ),
                     ],
@@ -54,8 +52,8 @@ class AdminArea extends GetView<HomePageController> {
   }
 }
 
-class AdminAreaLoading extends StatelessWidget {
-  const AdminAreaLoading({super.key});
+class SuggestProductAreaLoading extends StatelessWidget {
+  const SuggestProductAreaLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
