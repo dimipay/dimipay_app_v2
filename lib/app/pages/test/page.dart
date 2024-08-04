@@ -58,6 +58,8 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.ADMIN),
           linkToRoute(Routes.GENERATE_COUPON),
           linkToRoute(Routes.COUPON),
+          linkToRoute(Routes.GENERATE_PASSCODE),
+          linkToRoute(Routes.PASSCODE),
           TextButton(
             onPressed: () {
               Get.find<AuthService>().logout();

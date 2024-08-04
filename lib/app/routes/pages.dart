@@ -181,7 +181,7 @@ class AppPages {
         ]),
     GetPage(
         name: Routes.GENERATE_PASSCODE,
-        page: () => GeneratePasscodePage(),
+        page: () => const GeneratePasscodePage(),
         binding: GeneratePasscodePageBinding(),
         middlewares: [
           LoginMiddleware(),
@@ -189,7 +189,7 @@ class AppPages {
         ]),
     GetPage(
         name: Routes.PASSCODE,
-        page: () => PasscodePage(),
+        page: () => const PasscodePage(),
         binding: PasscodePageBinding(),
         middlewares: [
           LoginMiddleware(),
