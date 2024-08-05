@@ -9,7 +9,7 @@ part of 'model.dart';
 Coupon _$CouponFromJson(Map<String, dynamic> json) => Coupon(
       code: json['code'] as String,
       name: json['name'] as String,
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
       expiresAt: json['expiresAt'] as String,
     );
 
@@ -24,7 +24,7 @@ CouponType _$CouponTypeFromJson(Map<String, dynamic> json) => CouponType(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$CouponTypeToJson(CouponType instance) =>
