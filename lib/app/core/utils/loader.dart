@@ -24,6 +24,7 @@ class AppLoader {
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);
+
     await initializeDateFormatting('ko_KR');
 
     if (Platform.isAndroid) {

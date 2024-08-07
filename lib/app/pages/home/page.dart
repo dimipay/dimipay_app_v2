@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/apply_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/admin_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/suggest_product.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -74,9 +75,9 @@ class HomePage extends GetView<HomePageController> {
           const SizedBox(height: 20),
           Obx(
             () => AnimatedCrossFade(
-              firstChild: const ApplyAreaLoading(),
-              secondChild: const ApplyArea(),
-              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              firstChild: const SuggestProductAreaLoading(),
+              secondChild: controller.userService.user?.role == 'A' ? const AdminArea() : const SuggestProductArea(),
+              crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),

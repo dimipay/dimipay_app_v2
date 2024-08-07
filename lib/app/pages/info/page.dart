@@ -7,7 +7,6 @@ import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class InfoPage extends GetView<InfoPageController> {
   const InfoPage({super.key});
@@ -20,19 +19,14 @@ class InfoPage extends GetView<InfoPageController> {
       backgroundColor: colorTheme.grayscale100,
       body: Column(
         children: [
-          const DPAppbar(),
+          const DPAppbar(
+            header: '정보',
+          ),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    '정보',
-                    style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
-                  ),
-                ),
                 Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(
@@ -100,11 +94,6 @@ class InfoPage extends GetView<InfoPageController> {
                   title: '앱 버전',
                   onTap: () => Get.toNamed(Routes.VERSION),
                 ),
-                _MenuItem(
-                  title: '서비스 이용약관',
-                  onTap: () => Get.toNamed(Routes.TERMS_OF_SERVICE),
-                ),
-                _MenuItem(title: '개인정보 보호약관', onTap: () => launchUrl(Uri.parse('https://plip.kr/pcc/13202939-c7d0-42e2-bd1c-f5652c6876a7/privacy-policy'))),
                 const SizedBox(height: 72),
               ],
             ),
@@ -117,6 +106,7 @@ class InfoPage extends GetView<InfoPageController> {
 
 class LogOutButton extends StatelessWidget {
   final void Function()? onTap;
+
   const LogOutButton({super.key, this.onTap});
 
   @override

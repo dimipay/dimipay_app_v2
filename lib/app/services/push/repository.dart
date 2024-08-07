@@ -9,6 +9,9 @@ class PushRepository {
   late final Box _hiveBox;
 
   Future<void> _initHiveBox() async {
+    if (Hive.isBoxOpen(_hiveBoxName)) {
+      return;
+    }
     _hiveBox = await Hive.openBox(_hiveBoxName);
   }
 
