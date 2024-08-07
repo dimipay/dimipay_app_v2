@@ -3,6 +3,7 @@ import 'package:dimipay_app_v2/app/provider/api.dart';
 import 'package:dimipay_app_v2/app/provider/api_interface.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -18,7 +19,12 @@ class AppLoader {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
+    
+    if (kReleaseMode) {
+      Get.lazyPut<SecureApiProvider>(() => ProdSecureApiProvider());
+    } else {
+      Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
+    }
 
     await dotenv.load(fileName: "env/.env", isOptional: true);
     await Hive.initFlutter();

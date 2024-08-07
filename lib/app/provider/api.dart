@@ -3,7 +3,7 @@ import 'package:dimipay_app_v2/app/provider/interceptors/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/interceptors/log.dart';
 
 class ProdApiProvider extends ApiProvider {
-  final baseUrl = 'https://dev-2.dimipay.io';
+  final baseUrl = 'https://prod-next.dimipay.io/';
 
   ProdApiProvider() {
     dio.options.baseUrl = baseUrl;
@@ -13,7 +13,7 @@ class ProdApiProvider extends ApiProvider {
 }
 
 class ProdSecureApiProvider extends SecureApiProvider {
-  final baseUrl = 'https://dev-next.dimipay.io';
+  final baseUrl = 'https://prod-next.dimipay.io/';
 
   ProdSecureApiProvider() {
     dio.options.baseUrl = baseUrl;

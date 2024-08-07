@@ -258,7 +258,7 @@ SPEC CHECKSUMS:
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   credit_card_scanner: 2c3c58d821ec493cb42cf7c782dc461f516c212b
-  fast_rsa: 3380f78bb6523bd70f08d3a7598ce7661e61b6f5
+  fast_rsa: 100210bce7cd82579977b2378c3de8eb14ea308d
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
   firebase_core: f8d0424c45e0f1e596811085fc12c638d628457c
   firebase_messaging: 8b29edaf5adfd3b52b5bfa5af8128c44164670c6
