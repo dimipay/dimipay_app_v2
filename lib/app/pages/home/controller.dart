@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -102,6 +103,9 @@ class HomePageController extends GetxController {
   }
 
   Future<void> setBrightness(double brightness) async {
+    if (Platform.isIOS) {
+      return;
+    }
     try {
       _screenBrightness = await ScreenBrightness().system;
       await ScreenBrightness().setScreenBrightness(brightness);
@@ -111,6 +115,9 @@ class HomePageController extends GetxController {
   }
 
   Future<void> resetBrightness() async {
+    if (Platform.isIOS) {
+      return;
+    }
     if (_screenBrightness != null) {
       try {
         await ScreenBrightness().setScreenBrightness(_screenBrightness!);

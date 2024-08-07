@@ -68,6 +68,7 @@ dependencies:
   firebase_messaging: ^15.0.2
   json_annotation: ^4.9.0
   barcode_widget: ^2.0.4
+  better_player: ^0.0.84
 
 
 dev_dependencies:
@@ -96,6 +97,7 @@ flutter:
     - assets/icon/
     - assets/images/card_company_logo/
     - assets/lottie/
+    - assets/videos/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see
