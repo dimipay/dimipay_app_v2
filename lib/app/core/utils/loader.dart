@@ -18,6 +18,7 @@ class AppLoader {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
     Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
 
     await dotenv.load(fileName: "env/.env", isOptional: true);

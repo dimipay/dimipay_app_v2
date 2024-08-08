@@ -37,7 +37,8 @@ TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
       date: DateTime.parse(json['date'] as String),
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
       message: json['message'] as String,
-      transactionType: $enumDecode(_$TransactionTypeEnumMap, json['type']),
+      transactionType:
+          $enumDecodeNullable(_$TransactionTypeEnumMap, json['type']),
       purchaseType: $enumDecode(_$PurchaseTypeEnumMap, json['purchaseType']),
       cardName: json['cardName'] as String?,
       products: (json['products'] as List<dynamic>)
@@ -52,7 +53,7 @@ Map<String, dynamic> _$TransactionDetailToJson(TransactionDetail instance) =>
       'date': instance.date.toIso8601String(),
       'status': _$TransactionStatusEnumMap[instance.status]!,
       'message': instance.message,
-      'type': _$TransactionTypeEnumMap[instance.transactionType]!,
+      'type': _$TransactionTypeEnumMap[instance.transactionType],
       'purchaseType': _$PurchaseTypeEnumMap[instance.purchaseType]!,
       'cardName': instance.cardName,
       'products': instance.products,
