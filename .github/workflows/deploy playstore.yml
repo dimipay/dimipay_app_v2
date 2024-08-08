@@ -16,6 +16,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version-file: pubspec.yaml
       - run: flutter --version
       - run: flutter pub get
       - run: flutter build appbundle
