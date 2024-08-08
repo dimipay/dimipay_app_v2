@@ -12,12 +12,14 @@ import 'package:intl/intl.dart';
 class TransactionDetailPage extends GetView<TransactionDetailPageController> {
   const TransactionDetailPage({super.key});
 
-  String getTransactionTypeString(TransactionType transactionType) {
+  String getTransactionTypeString(TransactionType? transactionType) {
     switch (transactionType) {
       case TransactionType.APP_QR:
         return 'QR 코드';
       case TransactionType.FACESIGN:
         return 'Face Sign';
+      default:
+        return '';
     }
   }
 
@@ -56,13 +58,10 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                         physics: const BouncingScrollPhysics(),
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                             child: Column(
                               children: [
-                                Text('결제액',
-                                    style: textTheme.paragraph2.copyWith(
-                                        color: colorTheme.grayscale600)),
+                                Text('결제액', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
                                 const SizedBox(height: 8),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -71,15 +70,10 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                                     AnimatedDigitWidget(
                                       value: controller.transaction!.totalPrice,
                                       suffix: '원',
-                                      textStyle: TextStyle(
-                                          color: colorTheme.grayscale1000,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.w700,
-                                          height: 1),
+                                      textStyle: TextStyle(color: colorTheme.grayscale1000, fontSize: 28, fontWeight: FontWeight.w700, height: 1),
                                       enableSeparator: true,
                                       curve: Curves.easeInOutCubicEmphasized,
-                                      duration:
-                                          const Duration(milliseconds: 1500),
+                                      duration: const Duration(milliseconds: 1500),
                                     ),
                                   ],
                                 ),
@@ -88,41 +82,22 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                           ),
                           const SizedBox(height: 96),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('구매한 상품',
-                                    style: textTheme.paragraph2.copyWith(
-                                        color: colorTheme.grayscale600)),
-                                ...controller.transaction!.products
-                                    .map((e) => ProductItem(product: e))
-                                    .toList(),
+                                Text('구매한 상품', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
+                                ...controller.transaction!.products.map((e) => ProductItem(product: e)).toList(),
                               ],
                             ),
                           ),
                           Container(height: 6, color: colorTheme.grayscale200),
                           const SizedBox(height: 8),
-                          DataItem(
-                              header: '결제 시각',
-                              value: DateFormat('yyyy년 M월 d일 H시 m분')
-                                  .format(controller.transaction!.localDate)),
-                          DataItem(
-                              header: '결제 카드',
-                              value: controller.transaction!.cardName ?? ''),
-                          DataItem(
-                              header: '결제 방식',
-                              value: getTransactionTypeString(
-                                  controller.transaction!.transactionType)),
-                          DataItem(
-                              header: '결제 상태',
-                              value: getTransactionStatusString(
-                                  controller.transaction!.status)),
-                          DataItem(
-                              header: '쿠폰 사용',
-                              value: getPurchaseTypeString(
-                                  controller.transaction!.purchaseType)),
+                          DataItem(header: '결제 시각', value: DateFormat('yyyy년 M월 d일 H시 m분').format(controller.transaction!.localDate)),
+                          DataItem(header: '결제 카드', value: controller.transaction!.cardName ?? ''),
+                          DataItem(header: '결제 방식', value: getTransactionTypeString(controller.transaction!.transactionType)),
+                          DataItem(header: '결제 상태', value: getTransactionStatusString(controller.transaction!.status)),
+                          DataItem(header: '쿠폰 사용', value: getPurchaseTypeString(controller.transaction!.purchaseType)),
                           const SizedBox(height: 48),
                         ],
                       ),

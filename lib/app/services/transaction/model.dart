@@ -61,7 +61,7 @@ class TransactionDetail {
   final String message;
 
   @JsonKey(name: 'type')
-  final TransactionType transactionType;
+  final TransactionType? transactionType;
 
   final PurchaseType purchaseType;
 
@@ -75,7 +75,7 @@ class TransactionDetail {
     required this.date,
     required this.status,
     required this.message,
-    required this.transactionType,
+    this.transactionType,
     required this.purchaseType,
     required this.cardName,
     required this.products,
