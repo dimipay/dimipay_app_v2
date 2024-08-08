@@ -45,6 +45,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version-file: pubspec.yaml
       - run: flutter pub get
       - run: flutter build appbundle --release
       - run: fastlane beta
