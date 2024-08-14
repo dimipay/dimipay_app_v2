@@ -103,21 +103,20 @@ class HomePageController extends GetxController {
   }
 
   Future<void> setBrightness(double brightness) async {
-    if (Platform.isIOS) {
-      return;
-    }
     try {
       _screenBrightness = await ScreenBrightness().system;
-      await ScreenBrightness().setScreenBrightness(brightness);
+      if (Platform.isIOS) {
+        // iOS의 경우 밝기를 최대의 절반으로 설정 for HDR
+        await ScreenBrightness().setScreenBrightness(0.5);
+      } else {
+        await ScreenBrightness().setScreenBrightness(brightness);
+      }
     } catch (e) {
       log(e.toString());
     }
   }
 
   Future<void> resetBrightness() async {
-    if (Platform.isIOS) {
-      return;
-    }
     if (_screenBrightness != null) {
       try {
         await ScreenBrightness().setScreenBrightness(_screenBrightness!);
