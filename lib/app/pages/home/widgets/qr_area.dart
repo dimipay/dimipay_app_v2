@@ -60,7 +60,6 @@ class QRArea extends StatelessWidget {
                 height: 180,
                 child: QrImageView(
                   data: payload,
-                  version: 7,
                 ),
               ),
             ),
