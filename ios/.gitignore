@@ -35,3 +35,4 @@ Runner/GeneratedPluginRegistrant.*
 
 
 .env.beta
+.env.prod
