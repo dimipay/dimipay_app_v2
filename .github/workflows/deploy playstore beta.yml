@@ -14,16 +14,19 @@ jobs:
         with:
           ref: 'beta'
       - name: Decode Android keystore
-        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/dimipay-keystore.jks
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/app/dimipay-keystore.jks
 
       - name: Decode Android key properties
         run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
 
       - name: Decode Android Service Account
-        run: echo "${{ secrets.PRODUCTION_CREDENTIAL_FILE }}" > android/play-store-credential.json
+        run: echo "${{ secrets.PLAY_STORE_CREDENTIAL }}" | base64 --decode > android/play-store-credential.json
       
       - name: Decode Google Service Json
-        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" > android/app/google-services.json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" | base64 --decode > android/app/google-services.json
+      
+      - name: Decode Firebase Options
+        run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
 
       - name: make env directory
         run: mkdir env
@@ -42,6 +45,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version-file: pubspec.yaml
       - run: flutter pub get
       - run: flutter build appbundle --release
       - run: fastlane beta
