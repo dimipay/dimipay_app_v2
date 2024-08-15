@@ -1,14 +1,33 @@
 import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/model.dart';
+import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SuggestCardRegistratoinPage extends StatelessWidget {
+class SuggestCardRegistratoinPage extends StatefulWidget {
   final OnboardingPageController controller;
   const SuggestCardRegistratoinPage({super.key, required this.controller});
+
+  @override
+  State<SuggestCardRegistratoinPage> createState() => _SuggestCardRegistratoinPageState();
+}
+
+class _SuggestCardRegistratoinPageState extends State<SuggestCardRegistratoinPage> {
+  @override
+  void initState() {
+    Get.put(PaymentService(), permanent: true);
+    Get.find<PaymentService>().fetchPaymentMethods();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +61,17 @@ class SuggestCardRegistratoinPage extends StatelessWidget {
             children: [
               DPGestureDetectorWithOpacityInteraction(
                 onTap: () {
-                  controller.nextPage();
+                  widget.controller.nextPage();
                 },
                 child: Text('나중에 할래요', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
               ),
               const SizedBox(height: 24),
               DPButton(
                 onTap: () async {
-                  bool result = await Get.toNamed(Routes.REGISTER_CARD);
-                  if (result) {
-                    controller.nextPage();
+                  await Get.toNamed(Routes.REGISTER_CARD);
+                  List<PaymentMethod>? paymentMethods = Get.find<PaymentService>().paymentMethods;
+                  if (paymentMethods != null && paymentMethods.isNotEmpty) {
+                    widget.controller.nextPage();
                   }
                 },
                 child: const Text('등록할래요'),

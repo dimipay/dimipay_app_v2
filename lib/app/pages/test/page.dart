@@ -16,7 +16,8 @@ class TestPage extends StatelessWidget {
     );
   }
 
-  Widget linkToRouteWithArgs(String route, String title, Map<String, dynamic> args) {
+  Widget linkToRouteWithArgs(
+      String route, String title, Map<String, dynamic> args) {
     return TextButton(
       onPressed: () {
         Get.toNamed(route, arguments: args);
@@ -38,35 +39,33 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.HOME),
           linkToRoute(Routes.LOGIN),
           linkToRoute(Routes.ONBOARDING),
+          linkToRoute(Routes.MANUAL),
           linkToRoute(Routes.PIN),
-          linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
-          linkToRoute(Routes.TRANSACTION),
-          linkToRoute(Routes.INFO),
-          linkToRoute(Routes.FACESIGN),
+          linkToRouteWithArgs(
+              Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
           linkToRoute(Routes.PAYMENT),
           linkToRoute(Routes.REGISTER_CARD),
           linkToRoute(Routes.EDIT_CARD),
+          linkToRoute(Routes.INFO),
+          linkToRoute(Routes.TRANSACTION),
           linkToRoute(Routes.TRANSACTION_DETAIL),
           linkToRoute(Routes.THEME_SELECT),
+          linkToRoute(Routes.FACESIGN),
           linkToRoute(Routes.VERSION),
           linkToRoute(Routes.LICENSE),
           linkToRoute(Routes.TERMS_OF_SERVICE),
+          linkToRoute(Routes.PRIVACY_POLICY),
+          linkToRoute(Routes.ADMIN),
+          linkToRoute(Routes.GENERATE_COUPON),
+          linkToRoute(Routes.COUPON),
+          linkToRoute(Routes.GENERATE_PASSCODE),
+          linkToRoute(Routes.PASSCODE),
           TextButton(
             onPressed: () {
               Get.find<AuthService>().logout();
             },
             child: const Text('Clear Data'),
           ),
-//           TextButton(
-//             onPressed: () async {
-//               AesGcmEncryptor encryptor = AesGcmEncryptor(secretKey: '570704d9814f97acb8092e859ea9a15c');
-//               final res = await encryptor.encrypt('''{
-// 	pin: '1313',
-// }''');
-//               print(res);
-//             },
-//             child: Text('test encryption'),
-//           ),
         ],
       ),
     );

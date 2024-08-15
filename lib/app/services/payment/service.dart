@@ -11,7 +11,7 @@ class PaymentService extends GetxController {
   PaymentService({PaymentRepository? repository}) : repository = repository ?? PaymentRepository();
 
   final Rx<String?> _mainMethodId = Rx(null);
-  PaymentMethod? get mainMethod => paymentMethods?.firstWhereOrNull((payment) => true);
+  PaymentMethod? get mainMethod => paymentMethods?.firstWhereOrNull((payment) => payment.id == _mainMethodId.value);
 
   final StreamController<List<PaymentMethod>> _paymentStreamController = StreamController.broadcast();
   StreamSubscription<List<PaymentMethod>> get paymentStream => _paymentStreamController.stream.listen(null);
@@ -77,7 +77,7 @@ class PaymentService extends GetxController {
         id: paymentMethod.id,
         name: newName,
         preview: paymentMethod.preview,
-        companyCode: paymentMethod.companyCode,
+        cardCode: paymentMethod.cardCode,
       );
       paymentMethods![paymentMethodIndex] = newPaymentMethod;
       _paymentMethods.refresh();

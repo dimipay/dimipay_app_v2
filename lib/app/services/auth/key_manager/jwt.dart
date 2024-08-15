@@ -34,8 +34,8 @@ class JwtManager {
   }
 
   Future<void> clear() async {
-    await _storage.delete(key: 'jwtAccessToken');
     await _storage.delete(key: 'jwtRefreshToken');
+    await _storage.delete(key: 'jwtAccessToken');
 
     _token.value = JwtToken();
     _onboardingToken.value = JwtToken();

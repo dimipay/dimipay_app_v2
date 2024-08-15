@@ -1,39 +1,70 @@
+import 'package:better_player/better_player.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter/services.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
+  late final BetterPlayerController videoController = BetterPlayerController(
+    const BetterPlayerConfiguration(
+        controlsConfiguration: BetterPlayerControlsConfiguration(
+          showControls: false,
+          backgroundColor: Colors.white,
+        ),
+        aspectRatio: 1.5 / 1),
+  );
 
-  const QRArea({Key? key, required this.payload}) : super(key: key);
+  Future<void> loadSuperWhiteVideo() async {
+    ByteData bytes = await rootBundle.load('assets/videos/super white.mp4');
+    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(bytes.buffer.asUint8List(), videoExtension: 'mp4');
+    await videoController.setupDataSource(videoSource);
+  }
+
+  QRArea({Key? key, required this.payload}) : super(key: key) {
+    loadSuperWhiteVideo();
+  }
 
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          border: Border.fromBorderSide(BorderSide(
-            color: colorTheme.grayscale400,
-            width: 1,
-          )),
-        ),
-        child: Center(
-          child: SizedBox(
-            width: 180,
-            height: 180,
-            child: QrImageView(
-              data: payload,
-              version: 12,
+      aspectRatio: 1.5 / 1,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                border: Border.fromBorderSide(BorderSide(
+                  color: colorTheme.grayscale400,
+                  width: 1,
+                )),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7),
+                child: BetterPlayer(
+                  controller: videoController,
+                ),
+              ),
             ),
           ),
-        ),
+          Positioned.fill(
+            child: Center(
+              child: SizedBox(
+                width: 180,
+                height: 180,
+                child: QrImageView(
+                  data: payload,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -49,7 +80,7 @@ class QRAreaLocked extends GetView<HomePageController> {
     return GestureDetector(
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
-        aspectRatio: 1.5/1,
+        aspectRatio: 1.5 / 1,
         child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
@@ -97,7 +128,7 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale200,
@@ -143,7 +174,7 @@ class QRAreaLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
-      aspectRatio: 1.5/1,
+      aspectRatio: 1.5 / 1,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),

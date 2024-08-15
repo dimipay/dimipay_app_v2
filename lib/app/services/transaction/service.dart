@@ -19,16 +19,16 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
 
   int get currentMonthTotal => _currentMonthTotal.value;
 
-  final Rx<int?> _nextOffset = Rx(null);
+  final Rx<String?> _nextCursor = Rx(null);
 
-  bool get hasReachedEnd => _nextOffset.value == null;
+  bool get hasReachedEnd => _nextCursor.value == null;
 
   Future<void> getTransactions({required int year, required int month}) async {
     try {
       change(transactions, status: RxStatus.loading());
       Map result = await repository.getTransactions(year: year, month: month);
       _transactions.value = result["transactions"];
-      _nextOffset.value = result['nextOffset'];
+      _nextCursor.value = result['nextCursor'];
       _currentMonthTotal.value = result['monthTotal'];
 
       _currentYear = year;
@@ -45,9 +45,9 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
     if (hasReachedEnd) {
       return;
     }
-    Map result = await repository.getTransactions(year: _currentYear, month: _currentMonth, offset: _nextOffset.value);
+    Map result = await repository.getTransactions(year: _currentYear, month: _currentMonth, cursor: _nextCursor.value);
     _transactions.value!.addAll(result["transactions"]);
-    _nextOffset.value = result['nextOffset'];
+    _nextCursor.value = result['nextCursor'];
   }
 
   Future<TransactionDetail> getTransactionDetail(String transactionId) async {

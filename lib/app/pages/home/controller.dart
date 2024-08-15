@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
@@ -9,6 +10,7 @@ import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +25,7 @@ class HomePageController extends GetxController {
   final AuthService authService = Get.find<AuthService>();
   final PayService payService = Get.find<PayService>();
   final LocalAuthService localAuthService = Get.find<LocalAuthService>();
+  final PushService pushService = Get.find<PushService>();
 
   final Rx<Duration?> timeRemaining = Rx(null);
 
@@ -48,6 +51,11 @@ class HomePageController extends GetxController {
 
     prefetchAuthAndQR();
     handleSse();
+    pushService.init().then(
+      (value) {
+        pushService.requestPushPermission();
+      },
+    );
     super.onReady();
   }
 
@@ -95,6 +103,9 @@ class HomePageController extends GetxController {
   }
 
   Future<void> setBrightness(double brightness) async {
+    if (Platform.isIOS) {
+      return;
+    }
     try {
       _screenBrightness = await ScreenBrightness().system;
       await ScreenBrightness().setScreenBrightness(brightness);
@@ -104,6 +115,9 @@ class HomePageController extends GetxController {
   }
 
   Future<void> resetBrightness() async {
+    if (Platform.isIOS) {
+      return;
+    }
     if (_screenBrightness != null) {
       try {
         await ScreenBrightness().setScreenBrightness(_screenBrightness!);
@@ -117,6 +131,9 @@ class HomePageController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 200));
     if (authService.bioKey.key == null) {
       await biometricAuth();
+    }
+    if (authService.jwt.token.accessToken == null) {
+      return;
     }
     if (authService.bioKey.key == null && authService.pin == null) {
       await showPinDialog();

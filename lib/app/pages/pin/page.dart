@@ -42,15 +42,11 @@ class RegisterPinPage extends GetView<PinPageController> {
             return PinPageBase(
               headerText: '앞으로 사용할\n핀을 입력해주세요',
               onPinComplete: controller.registerPinNomal,
-              // pinCouont: controller.pinCount,
-              // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
             );
           case PinPageStatus.doubleCheck:
             return PinPageBase(
               headerText: '다시 한번 입력해주세요\n',
               onPinComplete: controller.registerPinDoubleCheck,
-              // pinCouont: controller.pinCount,
-              // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
             );
           default:
             return Container();
@@ -69,7 +65,7 @@ class OnboardingPinPage extends GetView<PinPageController> {
       switch (controller.status) {
         case PinPageStatus.wrong:
           return PinPageBase(
-            headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+            headerText: '핀이 틀렸어요\n다시 입력해주세요',
             textSpan: ' ${controller.pinCount}/5',
             onPinComplete: controller.onboardingAuth,
             pinCount: controller.pinCount,
@@ -79,7 +75,6 @@ class OnboardingPinPage extends GetView<PinPageController> {
             headerText: '로그인을 완료하기 위해\n핀을 입력해주세요',
             onPinComplete: controller.onboardingAuth,
             pinCount: controller.pinCount,
-            // showForgotPasswordMessage: '결제 핀을 잊어버렸어요',
           );
       }
     });
@@ -95,7 +90,7 @@ class UnlockPinPage extends GetView<PinPageController> {
       switch (controller.status) {
         case PinPageStatus.wrong:
           return PinPageBase(
-            headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+            headerText: '핀이 틀렸어요\n다시 입력해주세요',
             textSpan: ' ${controller.pinCount}/5',
             onPinComplete: controller.pinCheck,
             pinCount: controller.pinCount,
@@ -103,7 +98,7 @@ class UnlockPinPage extends GetView<PinPageController> {
           );
         default:
           return PinPageBase(
-            headerText: '결제 QR을 보려면\n결제 핀을 입력해주세요',
+            headerText: 'QR을 보려면\n결제 핀을 입력해주세요',
             onPinComplete: controller.pinCheck,
             pinCount: controller.pinCount,
             faceIDAvailable: true,
@@ -123,26 +118,26 @@ class EditPinPage extends GetView<PinPageController> {
         switch (controller.status) {
           case PinPageStatus.preCheck:
             return PinPageBase(
-              headerText: '기존에 쓰고 있었던\n결제 핀을 입력해주세요',
+              headerText: '기존에 쓰고 있었던\n핀을 입력해주세요',
               onPinComplete: controller.changePinPreCheck,
               pinCount: controller.pinCount,
             );
           case PinPageStatus.wrong:
             return PinPageBase(
-              headerText: '비밀번호가 틀렸어요\n다시 눌러주세요',
+              headerText: '핀이 틀렸어요\n다시 입력해주세요',
               textSpan: ' ${controller.pinCount}/5',
               onPinComplete: controller.changePinPreCheck,
               pinCount: controller.pinCount,
             );
           case PinPageStatus.normal:
             return PinPageBase(
-              headerText: '앞으로 사용할\n새 결제 핀을 입력해주세요',
+              headerText: '앞으로 사용할\n핀을 입력해주세요',
               onPinComplete: controller.changePinNomal,
               pinCount: controller.pinCount,
             );
           case PinPageStatus.doubleCheck:
             return PinPageBase(
-              headerText: '앞으로 사용할\n결제 핀을 다시 입력해주세요',
+              headerText: '앞으로 사용할\n핀을 다시 입력해주세요',
               onPinComplete: controller.changePinDoubleCheck,
               pinCount: controller.pinCount,
             );

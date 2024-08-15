@@ -12,7 +12,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       date: DateTime.parse(json['date'] as String),
       products:
           (json['products'] as List<dynamic>).map((e) => e as String).toList(),
-      totalPrice: json['total'] as int,
+      totalPrice: (json['total'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
@@ -33,11 +33,12 @@ const _$TransactionStatusEnumMap = {
 TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
     TransactionDetail(
       id: json['id'] as String,
-      totalPrice: json['totalPrice'] as int,
+      totalPrice: (json['totalPrice'] as num).toInt(),
       date: DateTime.parse(json['date'] as String),
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
       message: json['message'] as String,
-      transactionType: $enumDecode(_$TransactionTypeEnumMap, json['type']),
+      transactionType:
+          $enumDecodeNullable(_$TransactionTypeEnumMap, json['type']),
       purchaseType: $enumDecode(_$PurchaseTypeEnumMap, json['purchaseType']),
       cardName: json['cardName'] as String?,
       products: (json['products'] as List<dynamic>)
@@ -52,7 +53,7 @@ Map<String, dynamic> _$TransactionDetailToJson(TransactionDetail instance) =>
       'date': instance.date.toIso8601String(),
       'status': _$TransactionStatusEnumMap[instance.status]!,
       'message': instance.message,
-      'type': _$TransactionTypeEnumMap[instance.transactionType]!,
+      'type': _$TransactionTypeEnumMap[instance.transactionType],
       'purchaseType': _$PurchaseTypeEnumMap[instance.purchaseType]!,
       'cardName': instance.cardName,
       'products': instance.products,
@@ -70,8 +71,8 @@ const _$PurchaseTypeEnumMap = {
 
 Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       name: json['name'] as String,
-      amount: json['amount'] as int,
-      unitPrice: json['unitPrice'] as int,
+      amount: (json['amount'] as num).toInt(),
+      unitPrice: (json['unitPrice'] as num).toInt(),
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{

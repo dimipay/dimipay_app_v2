@@ -67,9 +67,10 @@ class AuthRepository {
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
           throw IncorrectPinException(left: response.errors['remainingTryCount']);
+        default:
+          rethrow;
       }
     }
-    return {};
   }
 
   Future<void> changePin(String newPin) async {
@@ -88,8 +89,7 @@ class AuthRepository {
     Map<String, String> body = {
       'pin': pin,
     };
-    await secureApi.post(url,
-        options: Options(headers: headers), data: body, encrypt: true);
+    await secureApi.post(url, options: Options(headers: headers), data: body, encrypt: true);
   }
 
   Future<void> checkPin(String pin) async {

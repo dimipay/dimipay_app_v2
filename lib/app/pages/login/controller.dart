@@ -18,17 +18,17 @@ class LoginPageController extends GetxController {
       await authService.loginWithGoogle();
       if (authService.isGoogleLoginSuccess) {
         if (authService.isFirstVisit) {
-          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
+          Get.offNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
         } else {
           Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.onboarding});
         }
       }
     } on NotDimigoMailException {
       DPErrorSnackBar().open('@dimigo.hs.kr로만 가입할 수 있어요!');
-      authService.logout();
+      authService.clearGoogleSignInInfo();
     } on DioException catch (e) {
       DPErrorSnackBar().open(e.response?.data['message'] ?? '');
-      authService.logout();
+      authService.clearGoogleSignInInfo();
       rethrow;
     } finally {
       _isGoogleLoginInProgress.value = false;

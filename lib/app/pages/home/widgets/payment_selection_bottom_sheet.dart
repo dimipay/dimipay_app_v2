@@ -124,7 +124,7 @@ class _PaymentOptionState extends State<_PaymentOption> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return DPGestureDetectorWithOpacityInteraction(
+    return DPGestureDetectorWithFillInteraction(
       onTap: widget.onSelect,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
