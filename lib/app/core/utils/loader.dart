@@ -19,7 +19,7 @@ class AppLoader {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    Get.lazyPut<SecureApiProvider>(() => DevSecureApiProvider());
+    Get.lazyPut<SecureApiProvider>(() => ProdSecureApiProvider());
 
     await dotenv.load(fileName: "env/.env", isOptional: true);
     await Hive.initFlutter();
