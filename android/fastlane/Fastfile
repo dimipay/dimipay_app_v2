@@ -31,5 +31,6 @@ platform :android do
       aab: '../build/app/outputs/bundle/release/app-release.aab',
       skip_upload_changelogs: true,
     )
+  end
 
 end
