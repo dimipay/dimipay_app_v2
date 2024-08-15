@@ -45,4 +45,5 @@ platform :ios do
       submit_for_review: true
 
     )
+  end
 end
