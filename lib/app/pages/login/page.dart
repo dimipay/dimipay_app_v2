@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -54,8 +55,10 @@ class LogInPage extends GetView<LoginPageController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
               child: Obx(
-                () {
-                  if (controller.isGoogleLoginInProgress) {
+                    () {
+                  if (controller.isEmailPasswordLoginVisible.value) {
+                    return PasswordLoginForm(controller: controller);
+                  } else if (controller.isGoogleLoginInProgress) {
                     return DPButton.loading(
                       backgroundColor: colorTheme.grayscale200,
                       foregroundColor: colorTheme.primaryBrand,
@@ -63,6 +66,7 @@ class LogInPage extends GetView<LoginPageController> {
                   } else {
                     return GoogleLoginButton(
                       onTap: controller.loginWithGoogle,
+                      onLongPress: controller.showEmailPasswordLogin,
                     );
                   }
                 },
@@ -77,7 +81,8 @@ class LogInPage extends GetView<LoginPageController> {
 
 class GoogleLoginButton extends StatelessWidget {
   final void Function()? onTap;
-  const GoogleLoginButton({super.key, this.onTap});
+  final void Function()? onLongPress;
+  const GoogleLoginButton({super.key, this.onTap, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +90,7 @@ class GoogleLoginButton extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPGestureDetectorWithOpacityInteraction(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale200,
@@ -105,6 +111,43 @@ class GoogleLoginButton extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PasswordLoginForm extends StatelessWidget {
+  final LoginPageController controller;
+
+  const PasswordLoginForm({Key? key, required this.controller}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+
+    return Column(
+      children: [
+        DPTextField(
+          hintText: 'Email',
+          onChanged: controller.setEmail,
+        ),
+        const SizedBox(height: 16),
+        DPTextField(
+          hintText: 'Password',
+          obscureText: true,
+          onChanged: controller.setPassword,
+        ),
+        const SizedBox(height: 16),
+        DPButton(
+          onTap: controller.loginWithPassword,
+          child: const Text('로그인'),
+        ),
+        const SizedBox(height: 8),
+        TextButton(
+          onPressed: controller.hideEmailPasswordLogin,
+          child: Text('구글 로그인으로 돌아가기', style: textTheme.paragraph1Underlined.copyWith(color: colorTheme.grayscale700)),
+        ),
+      ],
     );
   }
 }
