@@ -36,3 +36,11 @@ class SameNumberPinException implements Exception {
 class ContinuousPinException implements Exception {
   final String message = '연속되는 숫자로 핀을 설정할 수 없어요.';
 }
+
+class WrongCredentialsException implements Exception {
+  final String message = '이메일 또는 비밀번호가 올바르지 않아요';
+}
+
+class NotPasswordUserException implements Exception {
+  final String message = '비밀번호로 로그인할 수 없어요.';
+}

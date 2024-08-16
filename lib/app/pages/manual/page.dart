@@ -23,12 +23,12 @@ class ManualPage extends StatelessWidget {
                       children: [
                         ExpandableHelpItem(
                           title: '매점은 언제 여나요?',
-                          details: '매일 점심시간(12:50~13:40), 저녁시간(18:30~19:40)에 운영되어요. 주말 및 공휴일에는 매주 다르니 공지를 확인해주세요!',
+                          details: '매일 점심시간(12:50~13:40), 저녁시간(18:30~19:40)에 운영되어요. 주말 및 공휴일에는 매주 다르니 공지를 확인해주세요.',
                         ),
                         SizedBox(height: 16),
                         ExpandableHelpItem(
                           title: '결제는 어떻게 하나요?',
-                          details: '앱 내 QR을 통한 결제와 FaceSign을 통한 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴인식 된 상태에서 결제를 진행해 주세요!',
+                          details: '앱 내 QR을 통한 결제와 FaceSign을 통한 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴인식 된 상태에서 결제를 진행해 주세요.',
                         ),
                         SizedBox(height: 16),
                         ExpandableHelpItem(
@@ -38,7 +38,7 @@ class ManualPage extends StatelessWidget {
                         SizedBox(height: 16),
                         ExpandableHelpItem(
                           title: '쿠폰은 어떻게 쓰나요?',
-                          details: '물품을 찍은 다음, 결제 단말기에서 "결제하기" 버튼을 누르면 내가 가지고 있는 쿠폰을 보여주는 창이 표시되어요. 이 때 사용할 쿠폰들을 선택하여 결제할 수 있어요.',
+                          details: '매니저님 휴대폰에서 발급한 쿠폰을 사진으로 찍고, 결제창에서 QR 대신 찍어 결제할 수 있어요.',
                         ),
                       ],
                     ),

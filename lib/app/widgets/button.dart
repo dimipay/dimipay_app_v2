@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class DPGestureDetectorWithFillInteraction extends StatefulWidget {
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Duration duration;
   final Widget child;
   final EdgeInsets effectPadding;
@@ -10,6 +11,7 @@ class DPGestureDetectorWithFillInteraction extends StatefulWidget {
   const DPGestureDetectorWithFillInteraction({
     super.key,
     this.onTap,
+    this.onLongPress,
     required this.child,
     this.duration = const Duration(milliseconds: 100),
     this.effectPadding = EdgeInsets.zero,
@@ -24,7 +26,7 @@ class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetector
   bool isPressed = false;
 
   void pressUp() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -33,7 +35,7 @@ class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetector
   }
 
   void pressDown() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -46,6 +48,7 @@ class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetector
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return GestureDetector(
       onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       onTapCancel: pressUp,
       child: Listener(
         onPointerDown: (_) => pressDown(),
@@ -78,9 +81,16 @@ class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetector
 
 class DPGestureDetectorWithOpacityInteraction extends StatefulWidget {
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Duration duration;
   final Widget child;
-  const DPGestureDetectorWithOpacityInteraction({super.key, this.onTap, required this.child, this.duration = const Duration(milliseconds: 100)});
+  const DPGestureDetectorWithOpacityInteraction({
+    super.key,
+    this.onTap,
+    this.onLongPress,
+    required this.child,
+    this.duration = const Duration(milliseconds: 100),
+  });
 
   @override
   State<DPGestureDetectorWithOpacityInteraction> createState() => _DPGestureDetectorWithOpacityInteractionState();
@@ -90,7 +100,7 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
   bool isPressed = false;
 
   void pressUp() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -99,7 +109,7 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
   }
 
   void pressDown() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -111,6 +121,7 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       onTapCancel: pressUp,
       child: Listener(
         onPointerDown: (_) => pressDown(),
@@ -131,9 +142,16 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
 
 class DPGestureDetectorWithScaleInteraction extends StatefulWidget {
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Duration duration;
   final Widget child;
-  const DPGestureDetectorWithScaleInteraction({super.key, this.onTap, required this.child, this.duration = const Duration(milliseconds: 100)});
+  const DPGestureDetectorWithScaleInteraction({
+    super.key,
+    this.onTap,
+    this.onLongPress,
+    required this.child,
+    this.duration = const Duration(milliseconds: 100),
+  });
 
   @override
   State<DPGestureDetectorWithScaleInteraction> createState() => _DPGestureDetectorWithScaleInteractionState();
@@ -143,7 +161,7 @@ class _DPGestureDetectorWithScaleInteractionState extends State<DPGestureDetecto
   bool isPressed = false;
 
   void pressUp() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -152,7 +170,7 @@ class _DPGestureDetectorWithScaleInteractionState extends State<DPGestureDetecto
   }
 
   void pressDown() {
-    if (widget.onTap == null) {
+    if (widget.onTap == null && widget.onLongPress == null) {
       return;
     }
     setState(() {
@@ -168,6 +186,7 @@ class _DPGestureDetectorWithScaleInteractionState extends State<DPGestureDetecto
       curve: Curves.easeOut,
       child: GestureDetector(
         onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
         onTapCancel: pressUp,
         child: Listener(
           onPointerDown: (_) => pressDown(),
@@ -181,6 +200,7 @@ class _DPGestureDetectorWithScaleInteractionState extends State<DPGestureDetecto
 
 class DPButton extends StatefulWidget {
   final void Function()? onTap;
+  final void Function()? onLongPress;
   final Widget child;
   final Color? backgroundColor;
   final Color? foregroundColor;
@@ -189,6 +209,7 @@ class DPButton extends StatefulWidget {
   const DPButton({
     super.key,
     this.onTap,
+    this.onLongPress,
     this.backgroundColor,
     this.border,
     this.foregroundColor,
@@ -201,6 +222,7 @@ class DPButton extends StatefulWidget {
     this.border,
     this.foregroundColor,
   })  : onTap = null,
+        onLongPress = null,
         child = SizedBox(
           width: 20,
           height: 20,
@@ -214,6 +236,7 @@ class DPButton extends StatefulWidget {
     this.border,
     required this.child,
   })  : onTap = null,
+        onLongPress = null,
         backgroundColor = backgroundColor ?? DPLightThemeColors().primaryBrand.withAlpha(100),
         foregroundColor = foregroundColor ?? Colors.white.withAlpha(120);
 
@@ -227,11 +250,13 @@ class _DPButtonState extends State<DPButton> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPGestureDetectorWithScaleInteraction(
-      onTap: widget.onTap == null ? null : () {},
+      onTap: widget.onTap,
+      onLongPress: widget.onLongPress,
       child: ClipRRect(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: DPGestureDetectorWithOpacityInteraction(
           onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
           child: Container(
             decoration: BoxDecoration(
               color: widget.backgroundColor ?? colorTheme.primaryBrand,

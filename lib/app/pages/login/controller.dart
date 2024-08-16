@@ -12,6 +12,17 @@ class LoginPageController extends GetxController {
   final Rx<bool> _isGoogleLoginInProgress = Rx(false);
   bool get isGoogleLoginInProgress => _isGoogleLoginInProgress.value;
 
+  final RxString email = ''.obs;
+  final RxString password = ''.obs;
+
+  void setEmail(String value) {
+    email.value = value;
+  }
+
+  void setPassword(String value) {
+    password.value = value;
+  }
+
   Future loginWithGoogle() async {
     try {
       _isGoogleLoginInProgress.value = true;

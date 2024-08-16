@@ -28,6 +28,28 @@ class AuthRepository {
     }
   }
 
+  Future<Map> loginWithPassword({required String email, required String password}) async {
+    String url = '/login/password';
+
+    Map body = {
+      "email": email,
+      "password": password
+    };
+
+    try {
+      DPHttpResponse response = await secureApi.post(url, data: body);
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response?.data['code'] == 'ERR_WRONG_CREDENTIALS') {
+        throw WrongCredentialsException();
+      }
+      if (e.response?.data['code'] == 'ERR_NOT_PASSWORD_USER') {
+        throw NotPasswordUserException();
+      }
+      rethrow;
+    }
+  }
+
   ///returns accessToken
   Future<JwtToken> refreshAccessToken(String refreshToken) async {
     String url = "/auth/refresh";
