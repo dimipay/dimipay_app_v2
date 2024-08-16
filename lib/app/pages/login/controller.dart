@@ -12,19 +12,8 @@ class LoginPageController extends GetxController {
   final Rx<bool> _isGoogleLoginInProgress = Rx(false);
   bool get isGoogleLoginInProgress => _isGoogleLoginInProgress.value;
 
-  final RxBool isEmailPasswordLoginVisible = false.obs;
   final RxString email = ''.obs;
   final RxString password = ''.obs;
-
-  void showEmailPasswordLogin() {
-    isEmailPasswordLoginVisible.value = true;
-  }
-
-  void hideEmailPasswordLogin() {
-    isEmailPasswordLoginVisible.value = false;
-    email.value = '';
-    password.value = '';
-  }
 
   void setEmail(String value) {
     email.value = value;
@@ -54,23 +43,6 @@ class LoginPageController extends GetxController {
       rethrow;
     } finally {
       _isGoogleLoginInProgress.value = false;
-    }
-  }
-
-  Future loginWithPassword() async {
-    try {
-      await authService.loginWithPassword(email: email.value, password: password.value);
-      if (authService.isPasswordLoginSuccess) {
-        if (authService.isFirstVisit) {
-          Get.offNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
-        } else {
-          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.onboarding});
-        }
-      }
-    } on WrongCredentialsException catch (e) {
-      DPErrorSnackBar().open(e.message);
-    } on NotPasswordUserException catch (e) {
-      DPErrorSnackBar().open(e.message);
     }
   }
 }

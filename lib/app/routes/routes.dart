@@ -4,6 +4,7 @@ abstract class Routes {
   static const TEST = '/test';
   static const HOME = '/';
   static const LOGIN = '/login';
+  static const PW_LOGIN = '/PWLogin';
   static const ONBOARDING = '/onboarding';
   static const MANUAL = '/manual';
   static const PIN = '/pin';
