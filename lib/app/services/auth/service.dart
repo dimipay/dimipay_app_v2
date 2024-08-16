@@ -35,6 +35,7 @@ class AuthService {
 
   /// google sign-in 과정이 완료되었을 경우 true
   bool get isGoogleLoginSuccess => jwt.onboardingToken.accessToken != null;
+  bool get isPasswordLoginSuccess => jwt.onboardingToken.accessToken != null;
 
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
@@ -91,6 +92,14 @@ class AuthService {
     }
 
     Map loginResult = await repository.loginWithGoogle(idToken);
+    jwt.setOnboardingToken(JwtToken(accessToken: loginResult['tokens']['accessToken']));
+    _isFirstVisit.value = loginResult['isFirstVisit'];
+
+    await _getEncryptionKey();
+  }
+
+  Future<void> loginWithPassword({required String email, required String password}) async {
+    Map loginResult = await repository.loginWithPassword(email: email, password: password);
     jwt.setOnboardingToken(JwtToken(accessToken: loginResult['tokens']['accessToken']));
     _isFirstVisit.value = loginResult['isFirstVisit'];
 
