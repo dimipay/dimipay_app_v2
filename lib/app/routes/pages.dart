@@ -11,6 +11,8 @@ import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/reset_pin/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/reset_pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/home/binding.dart';
 import 'package:dimipay_app_v2/app/pages/home/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/binding.dart';
@@ -52,54 +54,89 @@ import 'package:get/get.dart';
 
 class AppPages {
   static final pages = [
-    GetPage(name: Routes.TEST, page: () => const TestPage()),
-    GetPage(name: Routes.TRANSACTION, page: () => const TransactionPage(), binding: TransactionPageBinding()),
-    GetPage(name: Routes.HOME, page: () => const HomePage(), binding: HomePageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.LOGIN, page: () => const LogInPage(), binding: LoginPageBinding()),
+    // Root
     GetPage(
-      name: Routes.PW_LOGIN,
-      page: () => const PWLoginPage(),
-      binding: PWLoginPageBinding(),
+      name: Routes.HOME,
+      page: () => const HomePage(),
+      binding: HomePageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+
+    // Authentication
+    GetPage(
+        name: Routes.LOGIN,
+        page: () => const LogInPage(),
+        binding: LoginPageBinding()),
+    GetPage(
+        name: Routes.PW_LOGIN,
+        page: () => const PWLoginPage(),
+        binding: PWLoginPageBinding()),
+    GetPage(
+      name: Routes.PIN,
+      page: () => const PinPage(),
+      binding: PinPageBinding(),
+      middlewares: [LoginMiddleware()],
     ),
     GetPage(
-        name: Routes.ONBOARDING,
-        page: () => const OnboardingPage(),
-        middlewares: [
-          LoginMiddleware(),
-        ],
-        binding: OnboardingPageBinding()),
-    GetPage(name: Routes.PIN, page: () => const PinPage(), binding: PinPageBinding(), middlewares: [
-      LoginMiddleware(),
-    ]),
-    GetPage(name: Routes.INFO, page: () => const InfoPage(), binding: InfoPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.FACESIGN, page: () => const FaceSignPage(), binding: FaceSignBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.PAYMENT, page: () => const PaymentPage(), binding: PaymentPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.REGISTER_CARD, page: () => const RegisterCardPage(), binding: RegisterCardPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.EDIT_CARD, page: () => const EditCardPage(), binding: EditCardPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.TRANSACTION_DETAIL, page: () => const TransactionDetailPage(), binding: TransactionDetailPageBinding(), middlewares: [
-      LoginMiddleware(),
-      OnboardingMiddleware(),
-    ]),
-    GetPage(name: Routes.THEME_SELECT, page: () => const ThemeSelectPage(), binding: ThemeSelectPageBinding()),
-    GetPage(name: Routes.VERSION, page: () => const VersionPage(), binding: VersionPageBinding()),
+      name: Routes.ONBOARDING,
+      page: () => const OnboardingPage(),
+      binding: OnboardingPageBinding(),
+      middlewares: [LoginMiddleware()],
+    ),
+    GetPage(name: Routes.MANUAL, page: () => const ManualPage()),
+
+    // Main features
+    GetPage(
+      name: Routes.PAYMENT,
+      page: () => const PaymentPage(),
+      binding: PaymentPageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+    GetPage(
+      name: Routes.REGISTER_CARD,
+      page: () => const RegisterCardPage(),
+      binding: RegisterCardPageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+    GetPage(
+      name: Routes.EDIT_CARD,
+      page: () => const EditCardPage(),
+      binding: EditCardPageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+    GetPage(
+      name: Routes.TRANSACTION,
+      page: () => const TransactionPage(),
+      binding: TransactionPageBinding(),
+    ),
+    GetPage(
+      name: Routes.TRANSACTION_DETAIL,
+      page: () => const TransactionDetailPage(),
+      binding: TransactionDetailPageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+
+    // Settings and Info
+    GetPage(
+      name: Routes.INFO,
+      page: () => const InfoPage(),
+      binding: InfoPageBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+    GetPage(
+      name: Routes.FACESIGN,
+      page: () => const FaceSignPage(),
+      binding: FaceSignBinding(),
+      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+    ),
+    GetPage(
+        name: Routes.THEME_SELECT,
+        page: () => const ThemeSelectPage(),
+        binding: ThemeSelectPageBinding()),
+    GetPage(
+        name: Routes.VERSION,
+        page: () => const VersionPage(),
+        binding: VersionPageBinding()),
     GetPage(
       name: Routes.LICENSE,
       page: () => LicensePage(
@@ -108,35 +145,53 @@ class AppPages {
       ),
     ),
     GetPage(
-      name: Routes.TERMS_OF_SERVICE,
-      page: () => const TermsOfServicePage(),
-      binding: TermsOfServiceBinding(),
+        name: Routes.TERMS_OF_SERVICE,
+        page: () => const TermsOfServicePage(),
+        binding: TermsOfServiceBinding()),
+    GetPage(
+        name: Routes.PRIVACY_POLICY,
+        page: () => const PrivacyPolicyPage(),
+        binding: PrivacyPolicyBinding()),
+
+    // Admin
+    GetPage(
+      name: Routes.ADMIN,
+      page: () => const AdminPage(),
+      binding: AdminPageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
     ),
     GetPage(
-      name: Routes.PRIVACY_POLICY,
-      page: () => const PrivacyPolicyPage(),
-      binding: PrivacyPolicyBinding(),
+      name: Routes.GENERATE_COUPON,
+      page: () => const GenerateCouponPage(),
+      binding: GenerateCouponPageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
     ),
-    GetPage(name: Routes.MANUAL, page: () => const ManualPage()),
-    GetPage(name: Routes.ADMIN, page: () => const AdminPage(), binding: AdminPageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
-    GetPage(name: Routes.GENERATE_COUPON, page: () => const GenerateCouponPage(), binding: GenerateCouponPageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
-    GetPage(name: Routes.COUPON, page: () => const CouponPage(), binding: CouponPageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
-    GetPage(name: Routes.GENERATE_PASSCODE, page: () => const GeneratePasscodePage(), binding: GeneratePasscodePageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
-    GetPage(name: Routes.PASSCODE, page: () => const PasscodePage(), binding: PasscodePageBinding(), middlewares: [
-      LoginMiddleware(),
-      AdminMiddleware(),
-    ]),
+    GetPage(
+      name: Routes.COUPON,
+      page: () => const CouponPage(),
+      binding: CouponPageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+    ),
+    GetPage(
+      name: Routes.GENERATE_PASSCODE,
+      page: () => const GeneratePasscodePage(),
+      binding: GeneratePasscodePageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+    ),
+    GetPage(
+      name: Routes.PASSCODE,
+      page: () => const PasscodePage(),
+      binding: PasscodePageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+    ),
+    GetPage(
+      name: Routes.RESET_PIN,
+      page: () => ResetPinPage(),
+      binding: ResetPinPageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+    ),
+
+    // Miscellaneous
+    GetPage(name: Routes.TEST, page: () => const TestPage()),
   ];
 }

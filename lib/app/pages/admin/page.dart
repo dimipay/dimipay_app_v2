@@ -35,7 +35,7 @@ class AdminPage extends GetView<AdminPageController> {
               const _SectionHeader(title: '핀/패스코드 관리'),
               _MenuItem(
                 title: '사용자 핀 초기화',
-                onTap: () => {},
+                onTap: () => Get.toNamed(Routes.RESET_PIN),
               ),
               _MenuItem(
                 title: '키오스크 패스코드 생성하기',
