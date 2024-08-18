@@ -11,6 +11,8 @@ import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/page.dart';
+import 'package:dimipay_app_v2/app/pages/admin/reset_pin/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/reset_pin/page.dart';
 import 'package:dimipay_app_v2/app/pages/home/binding.dart';
 import 'package:dimipay_app_v2/app/pages/home/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/binding.dart';
@@ -180,6 +182,12 @@ class AppPages {
       name: Routes.PASSCODE,
       page: () => const PasscodePage(),
       binding: PasscodePageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+    ),
+    GetPage(
+      name: Routes.RESET_PIN,
+      page: () => ResetPinPage(),
+      binding: ResetPinPageBinding(),
       middlewares: [LoginMiddleware(), AdminMiddleware()],
     ),
 

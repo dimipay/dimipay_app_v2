@@ -31,6 +31,7 @@ abstract class Routes {
   static const COUPON = '/admin/generate_coupon/coupon';
   static const GENERATE_PASSCODE = '/admin/generate_passcode';
   static const PASSCODE = '/admin/generate_passcode/passcode';
+  static const RESET_PIN = '/reset_pin';
 
   // Miscellaneous
   static const TEST = '/test';
