@@ -1,5 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/admin/reset_pin/controller.dart';
-import 'package:dimipay_app_v2/app/services/admin/reset_pin/service.dart';
+import 'package:dimipay_app_v2/app/services/admin/user/service.dart';
 import 'package:get/get.dart';
 
 class ResetPinPageBinding extends Bindings {

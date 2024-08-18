@@ -50,9 +50,3 @@ class WrongCredentialsException implements Exception {
 class NotPasswordUserException implements Exception {
   final String message = '비밀번호로 로그인할 수 없어요.';
 }
-
-class ResetPinException implements Exception {
-  final String message;
-
-  ResetPinException(this.message);
-}
