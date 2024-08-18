@@ -29,6 +29,10 @@ class PWLoginPageController extends GetxController {
   }
 
   Future loginWithPassword() async {
+    if (emailController.text.isEmpty || pwController.text.isEmpty) {
+      DPErrorSnackBar().open('이메일과 비밀번호를 입력해주세요.');
+      return;
+    }
     try {
       _isLoginInProgress.value = true;
       await authService.loginWithPassword(

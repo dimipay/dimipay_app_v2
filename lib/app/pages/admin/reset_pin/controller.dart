@@ -16,7 +16,7 @@ class ResetPinPageController extends GetxController {
 
   Future<void> resetPin() async {
     if (emailController.text.isEmpty) {
-      DPSnackBar.open('이메일을 입력해주세요.');
+      DPErrorSnackBar().open('이메일을 입력해주세요.');
       return;
     }
 
