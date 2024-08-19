@@ -1,5 +1,4 @@
-import 'package:dimipay_app_v2/app/core/utils/errors.dart';
-import 'package:dimipay_app_v2/app/services/admin/reset_pin/service.dart';
+import 'package:dimipay_app_v2/app/services/admin/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,8 +26,6 @@ class ResetPinPageController extends GetxController {
       await resetPinService.resetPin(email: emailController.text);
       DPSnackBar.open('핀 초기화에 성공했습니다.');
       emailController.clear();
-    } on ResetPinException catch (e) {
-      DPErrorSnackBar().open(e.message);
     } catch (e) {
       DPErrorSnackBar().open('핀 초기화에 실패했습니다.');
     } finally {
