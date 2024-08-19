@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:better_player/better_player.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -20,7 +22,9 @@ class QRArea extends StatelessWidget {
 
   Future<void> loadSuperWhiteVideo() async {
     ByteData bytes = await rootBundle.load('assets/videos/super white.mp4');
-    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(bytes.buffer.asUint8List(), videoExtension: 'mp4');
+    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(
+        bytes.buffer.asUint8List(),
+        videoExtension: 'mp4');
     await videoController.setupDataSource(videoSource);
   }
 
@@ -47,9 +51,9 @@ class QRArea extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
-                child: BetterPlayer(
-                  controller: videoController,
-                ),
+                child: Platform.isIOS
+                    ? BetterPlayer(controller: videoController)
+                    : Container(color: Colors.white),
               ),
             ),
           ),
@@ -109,7 +113,8 @@ class QRAreaLocked extends GetView<HomePageController> {
                 const SizedBox(height: 10),
                 Text(
                   'pin 또는 생체 인증 후 결제하기',
-                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
+                  style:
+                      textTheme.token.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
