@@ -25,13 +25,14 @@ class SyncProductPage extends GetView<SyncProductPageController> {
               child: Column(
                 children: [
                   GetBuilder<SyncProductPageController>(
-                    id: 'emailField',
+                    id: 'barcodeField',
                     builder: (_) => DPTextField(
                       labelText: '상품 바코드',
                       hintText: 'ex) 888132323',
                       controller: controller.barcodeController,
                       focusNode: controller.barcodeFocusNode,
                       hilightOnFocus: true,
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   const SizedBox(
