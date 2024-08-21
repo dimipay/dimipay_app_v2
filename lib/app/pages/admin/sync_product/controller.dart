@@ -17,7 +17,7 @@ class SyncProductPageController extends GetxController {
 
   Future<void> syncProduct() async {
     if (barcodeController.text.isEmpty) {
-      DPErrorSnackBar().open('이메일을 입력해주세요.');
+      DPErrorSnackBar().open('바코드를 입력해주세요.');
       return;
     }
 
