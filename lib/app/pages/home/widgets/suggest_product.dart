@@ -1,10 +1,12 @@
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SuggestProductArea extends StatelessWidget {
+class SuggestProductArea extends GetView<HomePageController> {
   const SuggestProductArea({super.key});
 
   @override
@@ -26,7 +28,11 @@ class SuggestProductArea extends StatelessWidget {
           ),
         ),
         child: DPGestureDetectorWithOpacityInteraction(
-          onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+          onTap: () => {
+            controller.resetBrightness(),
+            launchUrl(
+                Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+          },
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -37,12 +43,14 @@ class SuggestProductArea extends StatelessWidget {
                     children: [
                       Text(
                         '상품 신청하기',
-                        style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900),
+                        style: textTheme.itemTitle
+                            .copyWith(color: colorTheme.grayscale900),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ),
