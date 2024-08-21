@@ -44,9 +44,25 @@ class ContinuousPinException implements Exception {
 }
 
 class WrongCredentialsException implements Exception {
-  final String message = '이메일 또는 비밀번호가 올바르지 않아요';
+  final String? message;
+
+  WrongCredentialsException({this.message});
 }
 
 class NotPasswordUserException implements Exception {
-  final String message = '비밀번호로 로그인할 수 없어요.';
+  final String? message;
+
+  NotPasswordUserException({this.message});
+}
+
+class ProductNotFound implements Exception {
+  final String? message;
+
+  ProductNotFound({this.message});
+}
+
+class NoSellingPrice implements Exception {
+  final String? message;
+
+  NoSellingPrice({this.message});
 }

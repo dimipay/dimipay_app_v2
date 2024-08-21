@@ -47,9 +47,9 @@ class PWLoginPageController extends GetxController {
         }
       }
     } on WrongCredentialsException catch (e) {
-      DPErrorSnackBar().open(e.message);
+      DPErrorSnackBar().open(e.message!);
     } on NotPasswordUserException catch (e) {
-      DPErrorSnackBar().open(e.message);
+      DPErrorSnackBar().open(e.message!);
     } catch (e) {
       DPErrorSnackBar().open('이메일 형식이 잘못되었어요.');
     } finally {
