@@ -70,6 +70,8 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.COUPON),
           linkToRoute(Routes.GENERATE_PASSCODE),
           linkToRoute(Routes.PASSCODE),
+          linkToRoute(Routes.RESET_PIN),
+          linkToRoute(Routes.SYNC_PRODUCT),
 
           // Miscellaneous
           linkToRoute(Routes.TEST),
