@@ -1,4 +1,8 @@
-본 어플리케이션은 대한민국에 위치한 한국디지털미디어고등학교의 매점에서 사용되는 간편결제 솔루션입니다. 이에따라, 로그인을 진행할 때 디미고 구글 계정만을 허용하고 있습니다.
-구글로 로그인 버튼을 누른 후 작성되어 있는 계정 정보로 구글에 로그인을 진행한 후 심사를 진행해주시기 바랍니다.
+"디미고 구글 계정으로 로그인" 버튼을 길게(꾹) 눌러 "Email"과 "Password"로 로그인 할 수 있는 페이지로 진입 후, 로그인 해주세요.
+Please log in to the page where you can log in to "Email" and "Password" by "Long Press"(press and hold) the "디미고 구글 계정으로 로그인" button.
 
-로그인 과정 중 구글 계정을 선택하면, 최종적인 로그인을 위해 핀을 입력하면 화면이 뜨게 됩니다. 이때 '2580'을 입력하면 정상적으로 다음 페이지로 이동할 수 있습니다.
+Email: testacc@dimipay.io
+Password: test1234
+
+"카드 등록"은 결제를 위해 필요한 과정이며, 필수가 아닙니다. "나중에 할래요" 버튼을 통해 건너뛸 수 있습니다.
+"카드 등록" is a necessary process for payment, and it is not required. You can skip it through the "나중에 할래요" button.
