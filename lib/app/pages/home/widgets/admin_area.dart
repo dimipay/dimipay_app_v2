@@ -28,7 +28,10 @@ class AdminArea extends GetView<HomePageController> {
           ),
         ),
         child: DPGestureDetectorWithOpacityInteraction(
-          onTap: () => Get.toNamed(Routes.ADMIN),
+          onTap: () => {
+            controller.resetBrightness(),
+            Get.toNamed(Routes.ADMIN),
+          },
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(
@@ -39,12 +42,14 @@ class AdminArea extends GetView<HomePageController> {
                     children: [
                       Text(
                         '관리자 페이지',
-                        style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900),
+                        style: textTheme.itemTitle
+                            .copyWith(color: colorTheme.grayscale900),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ),
