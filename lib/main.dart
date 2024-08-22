@@ -19,6 +19,12 @@ void main() async {
       () {
         ThemeService themeService = Get.find<ThemeService>();
         return GetMaterialApp(
+          builder: (context, child) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+              child: child!,
+            );
+          },
           title: '디미페이',
           initialRoute: getInintialRoute(debug: false),
           getPages: AppPages.pages,
