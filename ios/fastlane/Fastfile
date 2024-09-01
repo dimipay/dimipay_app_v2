@@ -41,8 +41,11 @@ platform :ios do
     match(type: "appstore")
     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store(
+      force: true,
       automatic_release: false,
-      submit_for_review: true
-
+      submit_for_review: true,
+      submission_information: { add_id_info_uses_idfa: false },
+      precheck_include_in_app_purchases: false
     )
+  end
 end
