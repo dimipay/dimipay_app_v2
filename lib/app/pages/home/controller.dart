@@ -129,6 +129,15 @@ class HomePageController extends GetxController {
 
   Future<void> prefetchAuthAndQR() async {
     await Future.delayed(const Duration(milliseconds: 200));
+
+    while (paymentService.paymentMethods == null) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    if (paymentService.paymentMethods!.isEmpty) {
+      return;
+    }
+
     if (authService.bioKey.key == null) {
       await biometricAuth();
     }
@@ -147,6 +156,14 @@ class HomePageController extends GetxController {
   }
 
   Future<void> requestAuthAndQR() async {
+    while (paymentService.paymentMethods == null) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+
+    if (paymentService.paymentMethods!.isEmpty) {
+      return;
+    }
+
     if (_selectedPaymentMethod.value == null) {
       return;
     }
