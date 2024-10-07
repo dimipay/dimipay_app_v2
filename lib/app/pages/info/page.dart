@@ -31,7 +31,7 @@ class InfoPage extends GetView<InfoPageController> {
               children: [
                 Obx(
                   () => switch (controller.userService.userState) {
-                    UserStateInitial() || UserStateLoding() || UserStateFailed() => const UserAreaLoading(),
+                    UserStateInitial() || UserStateLoading() || UserStateFailed() => const UserAreaLoading(),
                     UserStateSuccess(value: final user) => UserAreaSuccess(user: user),
                   },
                 ),

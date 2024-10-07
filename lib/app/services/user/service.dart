@@ -12,7 +12,7 @@ class UserService extends GetxController {
 
   Future fetchUser() async {
     try {
-      _user.value = const UserStateLoding();
+      _user.value = const UserStateLoading();
       _user.value = UserStateSuccess(value: await repository.getUserInfo());
     } on Exception catch (e) {
       _user.value = UserStateFailed(exception: e);

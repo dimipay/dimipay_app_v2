@@ -8,8 +8,8 @@ final class UserStateInitial extends UserState {
   const UserStateInitial();
 }
 
-final class UserStateLoding extends UserState {
-  const UserStateLoding();
+final class UserStateLoading extends UserState {
+  const UserStateLoading();
 }
 
 final class UserStateSuccess extends UserState {
