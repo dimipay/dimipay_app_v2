@@ -1,6 +1,8 @@
 import 'package:dimipay_app_v2/app/pages/info/controller.dart';
+import 'package:dimipay_app_v2/app/pages/info/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
@@ -14,7 +16,6 @@ class InfoPage extends GetView<InfoPageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       backgroundColor: colorTheme.grayscale100,
       body: Column(
@@ -27,38 +28,13 @@ class InfoPage extends GetView<InfoPageController> {
               padding: EdgeInsets.zero,
               physics: const BouncingScrollPhysics(),
               children: [
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      controller.userService.obx(
-                        (state) => CircleAvatar(
-                          radius: 21,
-                          backgroundImage: NetworkImage(state!.profileImage),
-                        ),
-                        onLoading: CircleAvatar(
-                          radius: 21,
-                          backgroundColor: colorTheme.grayscale200,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(
-                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800)),
-                            ),
-                            Obx(
-                              () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.email, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      LogOutButton(onTap: controller.logout),
-                    ],
-                  ),
+                Obx(
+                  () => switch (controller.userService.userState) {
+                    UserStateInitial() => const UserAreaLoading(),
+                    UserStateLoding() => const UserAreaLoading(),
+                    UserStateSuccess(user: final user) => UserAreaSuccess(user: user),
+                    UserStateFailed() => const UserAreaLoading(),
+                  },
                 ),
                 const DPDivider(),
                 const _SectionHeader(title: '결제 관리'),
@@ -99,23 +75,6 @@ class InfoPage extends GetView<InfoPageController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class LogOutButton extends StatelessWidget {
-  final void Function()? onTap;
-
-  const LogOutButton({super.key, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    return SizedBox(
-      child: DPGestureDetectorWithOpacityInteraction(
-        onTap: onTap,
-        child: Icon(Icons.logout_rounded, size: 20, color: colorTheme.grayscale500),
       ),
     );
   }

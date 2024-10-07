@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/face_sign/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
+import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class InfoPageController extends GetxController {
 
   @override
   void onInit() {
-    if (userService.user == null) {
+    if (userService.userState is UserStateInitial) {
       userService.fetchUser();
     }
     if (paymentService.paymentMethods == null) {
