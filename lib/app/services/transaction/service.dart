@@ -26,7 +26,7 @@ class TransactionService extends GetxController {
 
   Future<void> getTransactions({required int year, required int month}) async {
     try {
-      _transactionsState.value = const TransactionsStateLoding();
+      _transactionsState.value = const TransactionsStateLoading();
       Map result = await repository.getTransactions(year: year, month: month);
       _transactionsState.value = TransactionsStateSuccess(value: result["transactions"]);
       _nextCursor.value = result['nextCursor'];

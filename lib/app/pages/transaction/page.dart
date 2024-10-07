@@ -87,7 +87,7 @@ class TransactionPage extends GetView<TransactionPageController> {
           Expanded(
             child: Obx(
               () => switch (controller.transactionService.transactionsState) {
-                TransactionsStateInitial() || TransactionsStateLoding() || TransactionsStateFailed() => Center(
+                TransactionsStateInitial() || TransactionsStateLoading() || TransactionsStateFailed() => Center(
                     child: SizedBox(
                       width: 20,
                       height: 20,

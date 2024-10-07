@@ -8,8 +8,8 @@ final class TransactionsStateInitial extends TransactionsState {
   const TransactionsStateInitial();
 }
 
-final class TransactionsStateLoding extends TransactionsState {
-  const TransactionsStateLoding();
+final class TransactionsStateLoading extends TransactionsState {
+  const TransactionsStateLoading();
 }
 
 final class TransactionsStateLoadingMore extends TransactionsState {
