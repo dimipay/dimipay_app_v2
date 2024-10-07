@@ -13,8 +13,8 @@ final class PaymentMethodsStateLoading extends PaymentMethodsState {
 }
 
 final class PaymentMethodsStateSuccess extends PaymentMethodsState {
-  const PaymentMethodsStateSuccess({required this.paymentMethods});
-  final List<PaymentMethod> paymentMethods;
+  const PaymentMethodsStateSuccess({required this.value});
+  final List<PaymentMethod> value;
 }
 
 final class PaymentMethodsStateFailed extends PaymentMethodsState {

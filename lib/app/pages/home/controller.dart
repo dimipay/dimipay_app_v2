@@ -43,7 +43,7 @@ class HomePageController extends GetxController {
     paymentService.fetchPaymentMethods();
     paymentService.paymentStream.onData(
       (data) {
-        if (_selectedPaymentMethod.value == null || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods.contains(_selectedPaymentMethod.value) == false) {
+        if (_selectedPaymentMethod.value == null || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(_selectedPaymentMethod.value) == false) {
           changeSelectedPaymentMethod(paymentService.mainMethod);
         }
       },
@@ -138,7 +138,7 @@ class HomePageController extends GetxController {
     if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
       return;
     }
-    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods.isEmpty) {
+    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
       return;
     }
 
@@ -167,7 +167,7 @@ class HomePageController extends GetxController {
     if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
       return;
     }
-    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods.isEmpty) {
+    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
       return;
     }
 

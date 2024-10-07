@@ -97,7 +97,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                       ),
                     ),
                   ),
-                TransactionsStateSuccess(transactions: final transactions) || TransactionsStateLoadingMore(transactions: final transactions) => transactions.isEmpty
+                TransactionsStateSuccess(value: final transactions) || TransactionsStateLoadingMore(value: final transactions) => transactions.isEmpty
                     ? Center(
                         child: Text(
                           '결제 내역이 없네요!',

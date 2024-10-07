@@ -28,7 +28,7 @@ class TransactionService extends GetxController {
     try {
       _transactionsState.value = const TransactionsStateLoding();
       Map result = await repository.getTransactions(year: year, month: month);
-      _transactionsState.value = TransactionsStateSuccess(transactions: result["transactions"]);
+      _transactionsState.value = TransactionsStateSuccess(value: result["transactions"]);
       _nextCursor.value = result['nextCursor'];
       _currentMonthTotal.value = result['monthTotal'];
 
@@ -47,11 +47,11 @@ class TransactionService extends GetxController {
     if (_transactionsState.value is! TransactionsStateSuccess) {
       return;
     }
-    _transactionsState.value = TransactionsStateLoadingMore(transactions: (_transactionsState.value as TransactionsStateSuccess).transactions);
+    _transactionsState.value = TransactionsStateLoadingMore(value: (_transactionsState.value as TransactionsStateSuccess).value);
 
     Map result = await repository.getTransactions(year: _currentYear, month: _currentMonth, cursor: _nextCursor.value);
-    List<Transaction> newTransactions = (_transactionsState.value as TransactionsStateLoadingMore).transactions + result['transactions'];
-    _transactionsState.value = TransactionsStateSuccess(transactions: newTransactions);
+    List<Transaction> newTransactions = (_transactionsState.value as TransactionsStateLoadingMore).value + result['transactions'];
+    _transactionsState.value = TransactionsStateSuccess(value: newTransactions);
 
     _nextCursor.value = result['nextCursor'];
   }

@@ -38,7 +38,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
                   child: Obx(
                     () => Column(
                       children: (paymentService.paymentMethodsState as PaymentMethodsStateSuccess)
-                          .paymentMethods
+                          .value
                           .map(
                             (e) => _PaymentOption(
                               title: e.name,

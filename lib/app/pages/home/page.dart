@@ -61,7 +61,7 @@ class HomePage extends GetView<HomePageController> {
           Obx(
             () => DPAnimatedCrossFade(
               firstChildBuilder: () => const UserInfoAreaLoading(),
-              secondChildBuilder: () => UserInfoArea(user: (controller.userService.userState as UserStateSuccess).user),
+              secondChildBuilder: () => UserInfoArea(user: (controller.userService.userState as UserStateSuccess).value),
               crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
@@ -79,7 +79,7 @@ class HomePage extends GetView<HomePageController> {
           Obx(
             () => DPAnimatedCrossFade(
               firstChildBuilder: () => const SuggestProductAreaLoading(),
-              secondChildBuilder: () => (controller.userService.userState as UserStateSuccess).user.role == 'A' ? const AdminArea() : const SuggestProductArea(),
+              secondChildBuilder: () => (controller.userService.userState as UserStateSuccess).value.role == 'A' ? const AdminArea() : const SuggestProductArea(),
               crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),

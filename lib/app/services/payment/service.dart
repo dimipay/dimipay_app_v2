@@ -15,7 +15,7 @@ class PaymentService extends GetxController {
       return null;
     }
 
-    List<PaymentMethod> paymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods;
+    List<PaymentMethod> paymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
 
     return paymentMethods.firstWhereOrNull((payment) => payment.id == _mainMethodId.value);
   }
@@ -31,9 +31,9 @@ class PaymentService extends GetxController {
       Map data = await repository.getPaymentMethod();
 
       _mainMethodId.value = data["mainMethodId"];
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: data["paymentMethods"]);
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
 
-      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     } on Exception catch (e) {
       _paymentMethodsState.value = PaymentMethodsStateFailed(exception: e);
     }
@@ -58,7 +58,7 @@ class PaymentService extends GetxController {
     required String idNumber,
     required String password,
   }) async {
-    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods;
+    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
 
     PaymentMethod newPaymentMethod = await repository.createPaymentMethod(
       number: number,
@@ -70,13 +70,13 @@ class PaymentService extends GetxController {
     if (oldPaymentMethods.isEmpty) {
       _mainMethodId.value = newPaymentMethod.id;
     }
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: oldPaymentMethods + [newPaymentMethod]);
-    _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).paymentMethods);
+    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods + [newPaymentMethod]);
+    _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).value);
     return newPaymentMethod;
   }
 
   Future<PaymentMethod?> editPaymentMethodName({required PaymentMethod paymentMethod, required String newName}) async {
-    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods;
+    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
 
     int paymentMethodIndex = oldPaymentMethods.indexOf(paymentMethod);
     if (paymentMethodIndex == -1) {
@@ -94,32 +94,32 @@ class PaymentService extends GetxController {
       List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods];
       newPaymentMethods[paymentMethodIndex] = newPaymentMethod;
 
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: newPaymentMethods);
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.patchPaymentMethod(id: paymentMethod.id, name: newName);
       return newPaymentMethod;
     } catch (e) {
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: oldPaymentMethods);
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);
       rethrow;
     } finally {
-      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     }
   }
 
   Future<void> deletePaymentMethod(PaymentMethod paymentMethod) async {
-    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods;
+    List<PaymentMethod> oldPaymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
     try {
       List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods];
       newPaymentMethods.remove(paymentMethod);
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: newPaymentMethods);
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.deletePaymentMethod(id: paymentMethod.id);
       _mainMethodId.value = newPaymentMethods.firstWhereOrNull((element) => element.id == _mainMethodId.value)?.id ?? newPaymentMethods.firstOrNull?.id;
     } catch (e) {
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(paymentMethods: oldPaymentMethods);
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);
       rethrow;
     } finally {
-      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     }
   }
 }

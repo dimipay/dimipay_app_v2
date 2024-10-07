@@ -32,7 +32,7 @@ class InfoPage extends GetView<InfoPageController> {
                 Obx(
                   () => switch (controller.userService.userState) {
                     UserStateInitial() || UserStateLoding() || UserStateFailed() => const UserAreaLoading(),
-                    UserStateSuccess(user: final user) => UserAreaSuccess(user: user),
+                    UserStateSuccess(value: final user) => UserAreaSuccess(user: user),
                   },
                 ),
                 const DPDivider(),
@@ -45,7 +45,7 @@ class InfoPage extends GetView<InfoPageController> {
                   return _MenuItem(
                     title: '결제 수단',
                     onTap: () => Get.toNamed(Routes.PAYMENT),
-                    hint: controller.paymentService.paymentMethodsState is PaymentMethodsStateSuccess ? '${(controller.paymentService.paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods.length}개' : null,
+                    hint: controller.paymentService.paymentMethodsState is PaymentMethodsStateSuccess ? '${(controller.paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.length}개' : null,
                   );
                 }),
                 Obx(() {

@@ -10,7 +10,7 @@ class AdminMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     final UserState userState = Get.find<UserService>().userState;
-    if (userState is UserStateSuccess && userState.user.role == 'A') {
+    if (userState is UserStateSuccess && userState.value.role == 'A') {
       return null;
     }
     return RouteSettings(name: Routes.HOME, arguments: {'redirect': route});

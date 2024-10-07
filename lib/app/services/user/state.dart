@@ -13,8 +13,8 @@ final class UserStateLoding extends UserState {
 }
 
 final class UserStateSuccess extends UserState {
-  const UserStateSuccess({required this.user});
-  final User user;
+  const UserStateSuccess({required this.value});
+  final User value;
 }
 
 final class UserStateFailed extends UserState {

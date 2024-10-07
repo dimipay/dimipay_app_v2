@@ -13,13 +13,13 @@ final class TransactionsStateLoding extends TransactionsState {
 }
 
 final class TransactionsStateLoadingMore extends TransactionsState {
-  const TransactionsStateLoadingMore({required this.transactions});
-  final List<Transaction> transactions;
+  const TransactionsStateLoadingMore({required this.value});
+  final List<Transaction> value;
 }
 
 final class TransactionsStateSuccess extends TransactionsState {
-  const TransactionsStateSuccess({required this.transactions});
-  final List<Transaction> transactions;
+  const TransactionsStateSuccess({required this.value});
+  final List<Transaction> value;
 }
 
 final class TransactionsStateFailed extends TransactionsState {

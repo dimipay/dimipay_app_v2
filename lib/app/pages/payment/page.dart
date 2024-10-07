@@ -33,7 +33,7 @@ class PaymentPage extends GetView<PaymentPageController> {
                     () => Text(
                       switch (controller.paymentService.paymentMethodsState) {
                         PaymentMethodsStateInitial() || PaymentMethodsStateLoading() || PaymentMethodsStateFailed() => '0',
-                        PaymentMethodsStateSuccess(paymentMethods: final paymentMethods) => paymentMethods.length.toString(),
+                        PaymentMethodsStateSuccess(value: final paymentMethods) => paymentMethods.length.toString(),
                       },
                       style: textTheme.header2.copyWith(color: colorTheme.primaryBrand),
                     ),
@@ -70,7 +70,7 @@ class PaymentPage extends GetView<PaymentPageController> {
                         ),
                       ),
                     ),
-                  PaymentMethodsStateSuccess(paymentMethods: final paymentMethods) => ListView(
+                  PaymentMethodsStateSuccess(value: final paymentMethods) => ListView(
                       physics: const BouncingScrollPhysics(),
                       children: paymentMethods
                           .map((e) => PaymentItem(

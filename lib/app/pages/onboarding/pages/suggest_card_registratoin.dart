@@ -70,7 +70,7 @@ class _SuggestCardRegistratoinPageState extends State<SuggestCardRegistratoinPag
                 onTap: () async {
                   await Get.toNamed(Routes.REGISTER_CARD);
                   PaymentMethodsState paymentState = Get.find<PaymentService>().paymentMethodsState;
-                  if (paymentState is PaymentMethodsStateSuccess && paymentState.paymentMethods.isNotEmpty) {
+                  if (paymentState is PaymentMethodsStateSuccess && paymentState.value.isNotEmpty) {
                     widget.controller.nextPage();
                   }
                 },
