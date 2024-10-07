@@ -4,6 +4,7 @@ import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/face_sign/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -22,7 +23,7 @@ class InfoPageController extends GetxController {
     if (userService.userState is UserStateInitial) {
       userService.fetchUser();
     }
-    if (paymentService.paymentMethods == null) {
+    if (paymentService.paymentMethodsState is PaymentMethodsStateInitial) {
       paymentService.fetchPaymentMethods();
     }
     faceSignService.fetchIsFaceSignRegistered();

@@ -4,6 +4,7 @@ import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/suggest_product.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/animated_crossfade.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -70,7 +71,7 @@ class HomePage extends GetView<HomePageController> {
             () => AnimatedCrossFade(
               firstChild: const PayAreaLoading(),
               secondChild: const PayArea(),
-              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.paymentService.paymentMethodsState is! PaymentMethodsStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),

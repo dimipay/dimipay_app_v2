@@ -2,6 +2,7 @@ import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/pages/info/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -44,7 +45,7 @@ class InfoPage extends GetView<InfoPageController> {
                   return _MenuItem(
                     title: '결제 수단',
                     onTap: () => Get.toNamed(Routes.PAYMENT),
-                    hint: controller.paymentService.paymentMethods == null ? null : '${controller.paymentService.paymentMethods!.length}개',
+                    hint: controller.paymentService.paymentMethodsState is PaymentMethodsStateSuccess ? '${(controller.paymentService.paymentMethodsState as PaymentMethodsStateSuccess).paymentMethods.length}개' : null,
                   );
                 }),
                 Obx(() {
