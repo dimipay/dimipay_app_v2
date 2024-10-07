@@ -2,6 +2,7 @@ import 'package:animated_digit/animated_digit.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/controller.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_date_group.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
+import 'package:dimipay_app_v2/app/services/transaction/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -84,63 +85,64 @@ class TransactionPage extends GetView<TransactionPageController> {
           ),
           Container(height: 6, color: colorTheme.grayscale200),
           Expanded(
-            child: controller.transactionService.obx(
-              (transactions) {
-                if (transactions!.isEmpty) {
-                  return Center(
-                    child: Text(
-                      '결제 내역이 없네요!',
-                      style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
-                    ),
-                  );
-                }
-                return Obx(() {
-                  final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
-
-                  for (var transaction in transactions) {
-                    DateTime dateOnly = DateUtils.dateOnly(transaction.localDate);
-                    if (transactionsGroupedByDate.containsKey(dateOnly)) {
-                      transactionsGroupedByDate[dateOnly]?.add(transaction);
-                    } else {
-                      transactionsGroupedByDate[dateOnly] = [transaction];
-                    }
-                  }
-
-                  return Scrollbar(
-                    controller: controller.scrollController,
-                    child: SingleChildScrollView(
-                      controller: controller.scrollController,
-                      physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                      child: Column(
-                        children: [
-                          ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
-                          !controller.transactionService.hasReachedEnd
-                              ? SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    color: colorTheme.primaryBrand,
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : Container(),
-                          const SizedBox(height: 40),
-                        ],
+            child: Obx(
+              () => switch (controller.transactionService.transactionsState) {
+                TransactionsStateInitial() || TransactionsStateLoding() || TransactionsStateFailed() => Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: colorTheme.primaryBrand,
+                        strokeWidth: 2,
                       ),
                     ),
-                  );
-                });
-              },
-              onLoading: Center(
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: colorTheme.primaryBrand,
-                    strokeWidth: 2,
                   ),
-                ),
-              ),
+                TransactionsStateSuccess(transactions: final transactions) || TransactionsStateLoadingMore(transactions: final transactions) => transactions.isEmpty
+                    ? Center(
+                        child: Text(
+                          '결제 내역이 없네요!',
+                          style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale600),
+                        ),
+                      )
+                    : Obx(
+                        () {
+                          final Map<DateTime, List<Transaction>> transactionsGroupedByDate = {};
+
+                          for (var transaction in transactions) {
+                            DateTime dateOnly = DateUtils.dateOnly(transaction.localDate);
+                            if (transactionsGroupedByDate.containsKey(dateOnly)) {
+                              transactionsGroupedByDate[dateOnly]?.add(transaction);
+                            } else {
+                              transactionsGroupedByDate[dateOnly] = [transaction];
+                            }
+                          }
+
+                          return Scrollbar(
+                            controller: controller.scrollController,
+                            child: SingleChildScrollView(
+                              controller: controller.scrollController,
+                              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                              child: Column(
+                                children: [
+                                  ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                                  !controller.transactionService.hasReachedEnd
+                                      ? SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            color: colorTheme.primaryBrand,
+                                            strokeWidth: 2,
+                                          ),
+                                        )
+                                      : Container(),
+                                  const SizedBox(height: 40),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+              },
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/services/transaction/service.dart';
+import 'package:dimipay_app_v2/app/services/transaction/state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -60,7 +61,7 @@ class TransactionPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (transactionService.transactions == null) {
+    if (transactionService.transactionsState is TransactionsStateInitial) {
       transactionService.getTransactions(year: date.value.year, month: date.value.month);
     }
 
