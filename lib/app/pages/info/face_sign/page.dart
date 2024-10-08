@@ -68,16 +68,22 @@ class FaceSignNotRegistered extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
-          child: controller.obx(
-            (_) => DPButton(
-              onTap: controller.registerFaceSign,
-              child: const Text("등록하기"),
-            ),
-            onLoading: DPButton.loading(
-              backgroundColor: colorTheme.grayscale400,
-              foregroundColor: colorTheme.primaryBrand,
-            ),
-          ),
+          child: Obx(() => switch (controller.faceSignService.faceSignState) {
+                FaceSignStateSuccess(isRegistered: final isRegistered) => !isRegistered
+                    ? DPButton(
+                        onTap: controller.registerFaceSign,
+                        child: const Text("등록하기"),
+                      )
+                    : Container(),
+                FaceSignStateFailed() => DPButton(
+                    onTap: controller.registerFaceSign,
+                    child: const Text("등록하기"),
+                  ),
+                FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStatePatching() || FaceSignStateRegistering() => DPButton.loading(
+                    backgroundColor: colorTheme.grayscale400,
+                    foregroundColor: colorTheme.primaryBrand,
+                  ),
+              }),
         ),
       ],
     );
