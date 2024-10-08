@@ -4,6 +4,9 @@ import 'package:dimipay_app_v2/app/pages/home/widgets/pay_area.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/suggest_product.dart';
 import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
+import 'package:dimipay_app_v2/app/services/user/state.dart';
+import 'package:dimipay_app_v2/app/widgets/animated_crossfade.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -56,10 +59,10 @@ class HomePage extends GetView<HomePageController> {
         children: [
           const SizedBox(height: 20),
           Obx(
-            () => AnimatedCrossFade(
-              firstChild: const UserInfoAreaLoading(),
-              secondChild: const UserInfoArea(),
-              crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            () => DPAnimatedCrossFade(
+              firstChildBuilder: () => const UserInfoAreaLoading(),
+              secondChildBuilder: () => UserInfoArea(user: (controller.userService.userState as UserStateSuccess).value),
+              crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
@@ -68,16 +71,16 @@ class HomePage extends GetView<HomePageController> {
             () => AnimatedCrossFade(
               firstChild: const PayAreaLoading(),
               secondChild: const PayArea(),
-              crossFadeState: controller.paymentService.paymentMethods == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.paymentService.paymentMethodsState is! PaymentMethodsStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
           const SizedBox(height: 20),
           Obx(
-            () => AnimatedCrossFade(
-              firstChild: const SuggestProductAreaLoading(),
-              secondChild: controller.userService.user?.role == 'A' ? const AdminArea() : const SuggestProductArea(),
-              crossFadeState: controller.userService.user == null ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            () => DPAnimatedCrossFade(
+              firstChildBuilder: () => const SuggestProductAreaLoading(),
+              secondChildBuilder: () => (controller.userService.userState as UserStateSuccess).value.role == 'A' ? const AdminArea() : const SuggestProductArea(),
+              crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),

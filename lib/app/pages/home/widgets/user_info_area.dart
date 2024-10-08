@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/user/model.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class UserInfoArea extends GetView<HomePageController> {
-  const UserInfoArea({super.key});
+  final User user;
+  const UserInfoArea({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -33,25 +35,17 @@ class UserInfoArea extends GetView<HomePageController> {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                controller.userService.obx(
-                  (state) => CircleAvatar(
-                    radius: 21,
-                    backgroundColor: colorTheme.grayscale200,
-                    backgroundImage: NetworkImage(state!.profileImage),
-                  ),
-                  onLoading: CircleAvatar(
-                    radius: 21,
-                    backgroundColor: colorTheme.grayscale200,
-                  ),
+                CircleAvatar(
+                  radius: 21,
+                  backgroundColor: colorTheme.grayscale200,
+                  backgroundImage: NetworkImage(user.profileImage),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        () => Text(controller.userService.user == null ? 'loading...' : controller.userService.user!.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
-                      ),
+                      Text(user.name, style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900)),
                       Text('결제 내역, 내 결제 수단 관리', style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
                     ],
                   ),

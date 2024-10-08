@@ -1,41 +1,43 @@
 import 'dart:developer';
-
-import 'package:dimipay_app_v2/app/services/admin/kiosk/model.dart';
 import 'package:dimipay_app_v2/app/services/admin/kiosk/repository.dart';
+import 'package:dimipay_app_v2/app/services/admin/kiosk/state.dart';
 import 'package:get/get.dart';
 
-class KioskService extends GetxController with StateMixin<Passcode?> {
+class KioskService extends GetxController {
   final KioskRepository repository;
 
-  KioskService({KioskRepository? repository})
-      : repository = repository ?? KioskRepository();
+  KioskService({KioskRepository? repository}) : repository = repository ?? KioskRepository();
 
-  final Rx<Passcode?> _passcode = Rx(null);
+  final Rx<PasscodeState> _passCodeState = Rx(const PasscodeStateInitial());
 
-  Passcode? get kioskPasscode => _passcode.value;
+  PasscodeState get passCodeState => _passCodeState.value;
 
-  final Rx<List<Kiosk>?> _kiosks = Rx(null);
+  final Rx<KiosksState> _kiosksState = Rx(const KiosksStateInitial());
 
-  List<Kiosk>? get kiosks => _kiosks.value;
+  KiosksState get kiosksState => _kiosksState.value;
 
   Future generatePasscode({required String id}) async {
     try {
-      _passcode.value = await repository.generatePasscode(id: id);
-    } catch (e) {
+      _passCodeState.value = const PasscodeStateLoading();
+      _passCodeState.value = PasscodeStateSuccess(value: await repository.generatePasscode(id: id));
+    } on Exception catch (e) {
+      _passCodeState.value = PasscodeStateFailed(exception: e);
       rethrow;
     }
   }
 
   Future<void> fetchKiosks() async {
     try {
+      _kiosksState.value = const KiosksStateInitial();
       Map data = await repository.getKiosks();
-      _kiosks.value = data["kiosks"];
-    } catch (e) {
+      _kiosksState.value = KiosksStateSuccess(value: data["kiosks"]);
+    } on Exception catch (e) {
+      _kiosksState.value = KiosksStateFailed(exception: e);
       log(e.toString());
     }
   }
 
   void resetPasscode() {
-    _passcode.value = null;
+    _passCodeState.value = const PasscodeStateInitial();
   }
 }

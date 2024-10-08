@@ -23,7 +23,7 @@ class PasscodePage extends GetView<PasscodePageController> {
               flex: 1,
             ),
             Obx(() {
-              final passcode = controller.kioskService.kioskPasscode;
+              final passcode = controller.kioskService.passCodeState;
               if (passcode == null) {
                 return Center(
                   child: CircularProgressIndicator(
@@ -102,24 +102,20 @@ class _PasscodeDisplayState extends State<PasscodeDisplay> {
           decoration: BoxDecoration(
             color: widget.colorTheme.grayscale100,
             border: Border.all(
-              color: isExpired
-                  ? widget.colorTheme.primaryNegative
-                  : widget.colorTheme.primaryBrand,
+              color: isExpired ? widget.colorTheme.primaryNegative : widget.colorTheme.primaryBrand,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Text(
             widget.passcode.passcode,
-            style: widget.textTheme.title
-                .copyWith(color: widget.colorTheme.grayscale900, fontSize: 48),
+            style: widget.textTheme.title.copyWith(color: widget.colorTheme.grayscale900, fontSize: 48),
           ),
         ),
         const SizedBox(height: 20),
         Text(
           isExpired ? '만료됨!' : '$_remainingTime초 후 만료',
-          style: widget.textTheme.header2
-              .copyWith(color: widget.colorTheme.grayscale600),
+          style: widget.textTheme.header2.copyWith(color: widget.colorTheme.grayscale600),
         ),
       ],
     );

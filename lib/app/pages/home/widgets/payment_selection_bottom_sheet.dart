@@ -2,6 +2,7 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -36,7 +37,8 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
                   physics: const BouncingScrollPhysics(),
                   child: Obx(
                     () => Column(
-                      children: paymentService.paymentMethods!
+                      children: (paymentService.paymentMethodsState as PaymentMethodsStateSuccess)
+                          .value
                           .map(
                             (e) => _PaymentOption(
                               title: e.name,
