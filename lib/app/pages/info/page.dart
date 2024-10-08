@@ -2,6 +2,7 @@ import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/pages/info/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
@@ -52,7 +53,12 @@ class InfoPage extends GetView<InfoPageController> {
                   return _MenuItem(
                     title: 'Face Sign',
                     onTap: () => Get.toNamed(Routes.FACESIGN),
-                    hint: controller.faceSignService.isRegistered ? '등록 됨' : '등록 안됨',
+                    hint: switch (controller.faceSignService.faceSignState) {
+                      FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStateFailed() => '',
+                      FaceSignStateSuccess(isRegistered: final isRegistered) => isRegistered ? '등록 됨' : '등록 안됨',
+                      FaceSignStateRegistering() => '등록 중',
+                      FaceSignStatePatching() => '등록 됨',
+                    },
                   );
                 }),
                 _MenuItem(
