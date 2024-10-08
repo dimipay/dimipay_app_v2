@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class PaymentPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (paymentService.paymentMethods == null) {
+    if (paymentService.paymentMethodsState is PaymentMethodsStateInitial) {
       paymentService.fetchPaymentMethods();
     }
   }

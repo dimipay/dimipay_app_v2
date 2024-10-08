@@ -10,6 +10,7 @@ import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
@@ -42,7 +43,7 @@ class HomePageController extends GetxController {
     paymentService.fetchPaymentMethods();
     paymentService.paymentStream.onData(
       (data) {
-        if (_selectedPaymentMethod.value == null || paymentService.paymentMethods!.contains(_selectedPaymentMethod.value) == false) {
+        if (_selectedPaymentMethod.value == null || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(_selectedPaymentMethod.value) == false) {
           changeSelectedPaymentMethod(paymentService.mainMethod);
         }
       },
@@ -130,11 +131,14 @@ class HomePageController extends GetxController {
   Future<void> prefetchAuthAndQR() async {
     await Future.delayed(const Duration(milliseconds: 200));
 
-    while (paymentService.paymentMethods == null) {
+    while (paymentService.paymentMethodsState is PaymentMethodsStateInitial || paymentService.paymentMethodsState is PaymentMethodsStateLoading) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
 
-    if (paymentService.paymentMethods!.isEmpty) {
+    if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
+      return;
+    }
+    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
       return;
     }
 
@@ -156,11 +160,14 @@ class HomePageController extends GetxController {
   }
 
   Future<void> requestAuthAndQR() async {
-    while (paymentService.paymentMethods == null) {
+    while (paymentService.paymentMethodsState is PaymentMethodsStateInitial || paymentService.paymentMethodsState is PaymentMethodsStateLoading) {
       await Future.delayed(const Duration(milliseconds: 100));
     }
 
-    if (paymentService.paymentMethods!.isEmpty) {
+    if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
+      return;
+    }
+    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
       return;
     }
 

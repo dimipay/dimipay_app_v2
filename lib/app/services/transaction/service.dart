@@ -1,15 +1,16 @@
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/respository.dart';
+import 'package:dimipay_app_v2/app/services/transaction/state.dart';
 import 'package:get/get.dart';
 
-class TransactionService extends GetxController with StateMixin<List<Transaction>?> {
+class TransactionService extends GetxController {
   final TransactionRepository repository;
 
   TransactionService({TransactionRepository? repository}) : repository = repository ?? TransactionRepository();
 
-  final Rx<List<Transaction>?> _transactions = Rx(null);
-  List<Transaction>? get transactions => _transactions.value;
+  final Rx<TransactionsState> _transactionsState = Rx(const TransactionsStateInitial());
+  TransactionsState get transactionsState => _transactionsState.value;
 
   int _currentYear = DateTime.now().year;
 
@@ -25,18 +26,16 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
 
   Future<void> getTransactions({required int year, required int month}) async {
     try {
-      change(transactions, status: RxStatus.loading());
+      _transactionsState.value = const TransactionsStateLoading();
       Map result = await repository.getTransactions(year: year, month: month);
-      _transactions.value = result["transactions"];
+      _transactionsState.value = TransactionsStateSuccess(value: result["transactions"]);
       _nextCursor.value = result['nextCursor'];
       _currentMonthTotal.value = result['monthTotal'];
 
       _currentYear = year;
       _currentMonth = month;
-
-      change(transactions, status: RxStatus.success());
-    } catch (e) {
-      change(transactions, status: RxStatus.error());
+    } on Exception catch (e) {
+      _transactionsState.value = TransactionsStateFailed(exception: e);
       rethrow;
     }
   }
@@ -45,8 +44,15 @@ class TransactionService extends GetxController with StateMixin<List<Transaction
     if (hasReachedEnd) {
       return;
     }
+    if (_transactionsState.value is! TransactionsStateSuccess) {
+      return;
+    }
+    _transactionsState.value = TransactionsStateLoadingMore(value: (_transactionsState.value as TransactionsStateSuccess).value);
+
     Map result = await repository.getTransactions(year: _currentYear, month: _currentMonth, cursor: _nextCursor.value);
-    _transactions.value!.addAll(result["transactions"]);
+    List<Transaction> newTransactions = (_transactionsState.value as TransactionsStateLoadingMore).value + result['transactions'];
+    _transactionsState.value = TransactionsStateSuccess(value: newTransactions);
+
     _nextCursor.value = result['nextCursor'];
   }
 
