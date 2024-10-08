@@ -1,11 +1,11 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/controller.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
+import 'package:dimipay_app_v2/app/services/admin/coupon/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class CouponPage extends GetView<CouponPageController> {
   const CouponPage({super.key});
@@ -22,29 +22,25 @@ class CouponPage extends GetView<CouponPageController> {
               header: '쿠폰이 발급되었어요!',
             ),
             const Spacer(flex: 1),
-            Obx(() {
-              final coupon = controller.couponService.coupon;
-              if (coupon == null) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: colorTheme.primaryBrand,
+            Obx(
+              () => switch (controller.couponService.couponState) {
+                CouponStateInitial() || CouponStateLoading() || CouponStateFailed() => Center(
+                    child: CircularProgressIndicator(
+                      color: colorTheme.primaryBrand,
+                    ),
                   ),
-                );
-              }
-              return Column(
-                children: [
-                  CouponWidget(coupon: coupon),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    '화면을 찍어가세요!',
-                    style: textTheme.header2
-                        .copyWith(color: colorTheme.grayscale600),
-                  ),
-                ],
-              );
-            }),
+                CouponStateSuccess(value: final coupon) => Column(
+                    children: [
+                      CouponWidget(coupon: coupon),
+                      const SizedBox(height: 20),
+                      Text(
+                        '화면을 찍어가세요!',
+                        style: textTheme.header2.copyWith(color: colorTheme.grayscale600),
+                      ),
+                    ],
+                  )
+              },
+            ),
             const Spacer(flex: 2),
           ],
         ),
@@ -79,13 +75,11 @@ class CouponWidget extends StatelessWidget {
               children: [
                 Text(
                   coupon.name,
-                  style: textTheme.itemTitle
-                      .copyWith(color: colorTheme.grayscale1000),
+                  style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale1000),
                 ),
                 Text(
                   '${coupon.amount}원',
-                  style: textTheme.description
-                      .copyWith(color: colorTheme.grayscale600),
+                  style: textTheme.description.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
@@ -106,16 +100,14 @@ class CouponWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                     decoration: BoxDecoration(
                       color: DPLightThemeColors().grayscale200,
                       borderRadius: BorderRadius.circular(9999),
                     ),
                     child: Text(
                       coupon.code,
-                      style: textTheme.token
-                          .copyWith(color: DPLightThemeColors().grayscale800),
+                      style: textTheme.token.copyWith(color: DPLightThemeColors().grayscale800),
                     ),
                   )
                 ],
