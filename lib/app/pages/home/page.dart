@@ -6,7 +6,7 @@ import 'package:dimipay_app_v2/app/pages/home/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
-import 'package:dimipay_app_v2/app/widgets/animated_crossfade.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_crossfade.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';

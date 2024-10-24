@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/transaction/widget/transaction_item.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,9 +27,12 @@ class TransactionDateGroup extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 20, top: 16, bottom: 8),
-          child: Text(
-            headerFormat.format(date),
-            style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600),
+          child: DPAnimatedShowUpScopeItem(
+            key: ValueKey(date),
+            child: Text(
+              headerFormat.format(date),
+              style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600),
+            ),
           ),
         ),
         Column(

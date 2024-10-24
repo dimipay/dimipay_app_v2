@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/pages/pin/widget/pin_page_base.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -113,36 +114,39 @@ class EditPinPage extends GetView<PinPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        switch (controller.status) {
-          case PinPageStatus.preCheck:
-            return PinPageBase(
-              headerText: '기존에 쓰고 있었던\n핀을 입력해주세요',
-              onPinComplete: controller.changePinPreCheck,
-              pinCount: controller.pinCount,
-            );
-          case PinPageStatus.wrong:
-            return PinPageBase(
-              headerText: '핀이 틀렸어요\n다시 입력해주세요',
-              textSpan: ' ${controller.pinCount}/5',
-              onPinComplete: controller.changePinPreCheck,
-              pinCount: controller.pinCount,
-            );
-          case PinPageStatus.normal:
-            return PinPageBase(
-              headerText: '앞으로 사용할\n핀을 입력해주세요',
-              onPinComplete: controller.changePinNomal,
-              pinCount: controller.pinCount,
-            );
-          case PinPageStatus.doubleCheck:
-            return PinPageBase(
-              headerText: '앞으로 사용할\n핀을 다시 입력해주세요',
-              onPinComplete: controller.changePinDoubleCheck,
-              pinCount: controller.pinCount,
-            );
-        }
-      },
+    return DPAnimatedShowUp(
+      wait: const Duration(milliseconds: 100),
+      child: Obx(
+        () {
+          switch (controller.status) {
+            case PinPageStatus.preCheck:
+              return PinPageBase(
+                headerText: '기존에 쓰고 있었던\n핀을 입력해주세요',
+                onPinComplete: controller.changePinPreCheck,
+                pinCount: controller.pinCount,
+              );
+            case PinPageStatus.wrong:
+              return PinPageBase(
+                headerText: '핀이 틀렸어요\n다시 입력해주세요',
+                textSpan: ' ${controller.pinCount}/5',
+                onPinComplete: controller.changePinPreCheck,
+                pinCount: controller.pinCount,
+              );
+            case PinPageStatus.normal:
+              return PinPageBase(
+                headerText: '앞으로 사용할\n핀을 입력해주세요',
+                onPinComplete: controller.changePinNomal,
+                pinCount: controller.pinCount,
+              );
+            case PinPageStatus.doubleCheck:
+              return PinPageBase(
+                headerText: '앞으로 사용할\n핀을 다시 입력해주세요',
+                onPinComplete: controller.changePinDoubleCheck,
+                pinCount: controller.pinCount,
+              );
+          }
+        },
+      ),
     );
   }
 }

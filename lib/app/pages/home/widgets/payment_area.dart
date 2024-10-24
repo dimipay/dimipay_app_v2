@@ -15,16 +15,17 @@ class PaymentArea extends GetView<HomePageController> {
 
   void _showBottomSheet(BuildContext context) {
     HapticFeedback.heavyImpact();
+    final bottomSheet = PaymentSelectionBottomSheet(
+      onSelect: (paymentMethod) {
+        controller.changeSelectedPaymentMethod(paymentMethod);
+        Get.back();
+      },
+    );
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       elevation: 0,
       context: context,
-      builder: (context) => PaymentSelectionBottomSheet(
-        onSelect: (paymentMethod) {
-          controller.changeSelectedPaymentMethod(paymentMethod);
-          Get.back();
-        },
-      ),
+      builder: (context) => bottomSheet,
     );
   }
 

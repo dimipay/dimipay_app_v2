@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
@@ -20,66 +21,70 @@ class InfoPage extends GetView<InfoPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Scaffold(
       backgroundColor: colorTheme.grayscale100,
-      body: Column(
-        children: [
-          const DPAppbar(
-            header: '정보',
-          ),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              physics: const BouncingScrollPhysics(),
-              children: [
-                Obx(
-                  () => switch (controller.userService.userState) {
-                    UserStateInitial() || UserStateLoading() || UserStateFailed() => const UserAreaLoading(),
-                    UserStateSuccess(value: final user) => UserAreaSuccess(user: user),
-                  },
-                ),
-                const DPDivider(),
-                const _SectionHeader(title: '결제 관리'),
-                _MenuItem(
-                  title: '결제 내역',
-                  onTap: () => Get.toNamed(Routes.TRANSACTION),
-                ),
-                Obx(() {
-                  return _MenuItem(
-                    title: '결제 수단',
-                    onTap: () => Get.toNamed(Routes.PAYMENT),
-                    hint: controller.paymentService.paymentMethodsState is PaymentMethodsStateSuccess ? '${(controller.paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.length}개' : null,
-                  );
-                }),
-                Obx(() {
-                  return _MenuItem(
-                    title: 'Face Sign',
-                    onTap: () => Get.toNamed(Routes.FACESIGN),
-                    hint: switch (controller.faceSignService.faceSignState) {
-                      FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStateFailed() => '',
-                      FaceSignStateSuccess(isRegistered: final isRegistered) => isRegistered ? '등록 됨' : '등록 안됨',
-                      FaceSignStateRegistering() => '등록 중',
-                      FaceSignStatePatching() => '등록 됨',
-                    },
-                  );
-                }),
-                _MenuItem(
-                  title: '핀 변경',
-                  onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
-                ),
-                const DPDivider(),
-                const _SectionHeader(title: '기타'),
-                _MenuItem(
-                  title: '화면 테마',
-                  onTap: () => Get.toNamed(Routes.THEME_SELECT),
-                ),
-                _MenuItem(
-                  title: '앱 버전',
-                  onTap: () => Get.toNamed(Routes.VERSION),
-                ),
-                const SizedBox(height: 72),
-              ],
+      body: DPAnimatedShowUp(
+        wait: const Duration(milliseconds: 100),
+        slideFrom: const Offset(16, 0),
+        child: Column(
+          children: [
+            const DPAppbar(
+              header: '정보',
             ),
-          ),
-        ],
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  Obx(
+                    () => switch (controller.userService.userState) {
+                      UserStateInitial() || UserStateLoading() || UserStateFailed() => const UserAreaLoading(),
+                      UserStateSuccess(value: final user) => UserAreaSuccess(user: user),
+                    },
+                  ),
+                  const DPDivider(),
+                  const _SectionHeader(title: '결제 관리'),
+                  _MenuItem(
+                    title: '결제 내역',
+                    onTap: () => Get.toNamed(Routes.TRANSACTION),
+                  ),
+                  Obx(() {
+                    return _MenuItem(
+                      title: '결제 수단',
+                      onTap: () => Get.toNamed(Routes.PAYMENT),
+                      hint: controller.paymentService.paymentMethodsState is PaymentMethodsStateSuccess ? '${(controller.paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.length}개' : null,
+                    );
+                  }),
+                  Obx(() {
+                    return _MenuItem(
+                      title: 'Face Sign',
+                      onTap: () => Get.toNamed(Routes.FACESIGN),
+                      hint: switch (controller.faceSignService.faceSignState) {
+                        FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStateFailed() => '',
+                        FaceSignStateSuccess(isRegistered: final isRegistered) => isRegistered ? '등록 됨' : '등록 안됨',
+                        FaceSignStateRegistering() => '등록 중',
+                        FaceSignStatePatching() => '등록 됨',
+                      },
+                    );
+                  }),
+                  _MenuItem(
+                    title: '핀 변경',
+                    onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
+                  ),
+                  const DPDivider(),
+                  const _SectionHeader(title: '기타'),
+                  _MenuItem(
+                    title: '화면 테마',
+                    onTap: () => Get.toNamed(Routes.THEME_SELECT),
+                  ),
+                  _MenuItem(
+                    title: '앱 버전',
+                    onTap: () => Get.toNamed(Routes.VERSION),
+                  ),
+                  const SizedBox(height: 72),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
