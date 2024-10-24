@@ -17,11 +17,11 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 
-version: 2.0.0+40
+version: 2.1.0+50
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
-  flutter: 3.22.2
+  flutter: 3.24.3
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -50,7 +50,7 @@ dependencies:
   shimmer: ^3.0.0
   local_auth: ^2.1.8
   animated_digit: ^3.2.3
-  dimipay_design_kit: 
+  dimipay_design_kit:
     git:
       url: https://github.com/dimipay/dimipay_design_kit.git
       ref: main
@@ -65,12 +65,15 @@ dependencies:
   flutter_oss_licenses: ^3.0.2
   package_info_plus: ^6.0.0
   screen_brightness: ^1.0.0
-  firebase_core: ^3.1.1
-  firebase_messaging: ^15.0.2
+  firebase_core: 3.3.0
+  firebase_messaging: 15.0.4
   json_annotation: ^4.9.0
   barcode_widget: ^2.0.4
   better_player: ^0.0.84
+  url_launcher_ios: ^6.3.1
 
+dependency_overrides:
+  archive: ^3.6.1
 
 dev_dependencies:
   build_runner: ^2.4.8

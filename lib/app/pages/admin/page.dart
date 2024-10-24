@@ -32,10 +32,16 @@ class AdminPage extends GetView<AdminPageController> {
                 onTap: () => Get.toNamed(Routes.GENERATE_COUPON),
               ),
               const DPDivider(),
+              const _SectionHeader(title: '상품 관리'),
+              _MenuItem(
+                title: '상품 가격 동기화',
+                onTap: () => Get.toNamed(Routes.SYNC_PRODUCT),
+              ),
+              const DPDivider(),
               const _SectionHeader(title: '핀/패스코드 관리'),
               _MenuItem(
                 title: '사용자 핀 초기화',
-                onTap: () => {},
+                onTap: () => Get.toNamed(Routes.RESET_PIN),
               ),
               _MenuItem(
                 title: '키오스크 패스코드 생성하기',

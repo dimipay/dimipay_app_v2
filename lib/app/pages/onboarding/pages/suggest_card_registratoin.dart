@@ -1,7 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/onboarding/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
-import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -69,8 +69,8 @@ class _SuggestCardRegistratoinPageState extends State<SuggestCardRegistratoinPag
               DPButton(
                 onTap: () async {
                   await Get.toNamed(Routes.REGISTER_CARD);
-                  List<PaymentMethod>? paymentMethods = Get.find<PaymentService>().paymentMethods;
-                  if (paymentMethods != null && paymentMethods.isNotEmpty) {
+                  PaymentMethodsState paymentState = Get.find<PaymentService>().paymentMethodsState;
+                  if (paymentState is PaymentMethodsStateSuccess && paymentState.value.isNotEmpty) {
                     widget.controller.nextPage();
                   }
                 },

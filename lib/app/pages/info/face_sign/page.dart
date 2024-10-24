@@ -1,4 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/info/face_sign/controller.dart';
+import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' show DPAppbar;
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -13,17 +15,22 @@ class FaceSignPage extends GetView<FaceSignPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const DPAppbar(header: 'FaceSign'),
-            Expanded(child: Obx(() {
-              if (controller.faceSignService.isRegistered) {
-                return FaceSignRegistered(controller: controller);
-              } else {
-                return FaceSignNotRegistered(controller: controller);
-              }
-            })),
-          ],
+        child: DPAnimatedShowUp(
+          wait: const Duration(milliseconds: 100),
+          slideFrom: const Offset(16, 0),
+          child: Column(
+            children: [
+              const DPAppbar(header: 'FaceSign'),
+              Expanded(
+                  child: Obx(
+                () => switch (controller.faceSignService.faceSignState) {
+                  FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStateFailed() || FaceSignStateRegistering() => FaceSignNotRegistered(controller: controller),
+                  FaceSignStatePatching() => FaceSignRegistered(controller: controller),
+                  FaceSignStateSuccess(isRegistered: final isRegistered) => isRegistered ? FaceSignRegistered(controller: controller) : FaceSignNotRegistered(controller: controller),
+                },
+              )),
+            ],
+          ),
         ),
       ),
     );
@@ -49,39 +56,54 @@ class FaceSignNotRegistered extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             children: [
               const SizedBox(height: 24),
-              SvgPicture.asset(
-                'assets/images/face-sign.svg',
+              DPAnimatedShowUp(
+                wait: const Duration(milliseconds: 500),
+                slideFrom: const Offset(0, 4),
+                child: SvgPicture.asset(
+                  'assets/images/face-sign.svg',
+                ),
               ),
               const SizedBox(height: 24),
-              _DescriptionCard(
-                title: "FaceSign이란?",
-                description: Text(
-                    "FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.",
-                    style: textTheme.paragraph1
-                        .copyWith(color: colorTheme.grayscale700)),
+              DPAnimatedShowUp(
+                wait: const Duration(milliseconds: 800),
+                slideFrom: const Offset(0, 4),
+                child: _DescriptionCard(
+                  title: "FaceSign이란?",
+                  description: Text("FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
+                ),
               ),
-              const _DescriptionCard(
-                title: "정확한 인식을 위해",
-                description: UnorderedList([
-                  "평온한 표정으로 카메라를 응시해주세요.",
-                  "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.",
-                  "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."
-                ]),
+              const DPAnimatedShowUp(
+                wait: Duration(milliseconds: 1100),
+                slideFrom: Offset(0, 4),
+                child: _DescriptionCard(
+                  title: "정확한 인식을 위해",
+                  description: UnorderedList(["평온한 표정으로 카메라를 응시해주세요.", "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.", "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."]),
+                ),
               ),
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
-          child: controller.obx(
-            (_) => DPButton(
-              onTap: controller.registerFaceSign,
-              child: const Text("등록하기"),
-            ),
-            onLoading: DPButton.loading(
-              backgroundColor: colorTheme.grayscale400,
-              foregroundColor: colorTheme.primaryBrand,
-            ),
+        DPAnimatedShowUp(
+          slideFrom: const Offset(0, 4),
+          wait: const Duration(milliseconds: 1600),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
+            child: Obx(() => switch (controller.faceSignService.faceSignState) {
+                  FaceSignStateSuccess(isRegistered: final isRegistered) => !isRegistered
+                      ? DPButton(
+                          onTap: controller.registerFaceSign,
+                          child: const Text("등록하기"),
+                        )
+                      : Container(),
+                  FaceSignStateFailed() => DPButton(
+                      onTap: controller.registerFaceSign,
+                      child: const Text("등록하기"),
+                    ),
+                  FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStatePatching() || FaceSignStateRegistering() => DPButton.loading(
+                      backgroundColor: colorTheme.grayscale400,
+                      foregroundColor: colorTheme.primaryBrand,
+                    ),
+                }),
           ),
         ),
       ],
@@ -120,13 +142,9 @@ class UnorderedListItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("• ",
-            style:
-                textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
+        Text("• ", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
         Expanded(
-          child: Text(text,
-              style: textTheme.paragraph1
-                  .copyWith(color: colorTheme.grayscale700)),
+          child: Text(text, style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
         ),
       ],
     );
@@ -182,9 +200,7 @@ class FaceSignRegistered extends StatelessWidget {
                 'assets/images/face-sign.svg',
               ),
               const SizedBox(height: 24),
-              Text("Face Sign이 등록되었어요.",
-                  style: textTheme.header2
-                      .copyWith(color: colorTheme.grayscale1000)),
+              Text("Face Sign이 등록되었어요.", style: textTheme.header2.copyWith(color: colorTheme.grayscale1000)),
             ],
           ),
         ),
@@ -192,9 +208,7 @@ class FaceSignRegistered extends StatelessWidget {
           onTap: controller.deleteFaceSign,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text("등록 삭제하기",
-                style: textTheme.paragraph2Underlined
-                    .copyWith(color: colorTheme.grayscale600)),
+            child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
           ),
         ),
         Padding(

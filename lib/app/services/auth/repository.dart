@@ -8,7 +8,8 @@ import 'package:get/instance_manager.dart';
 class AuthRepository {
   final SecureApiProvider secureApi;
 
-  AuthRepository({SecureApiProvider? secureApi}) : secureApi = secureApi ?? Get.find<SecureApiProvider>();
+  AuthRepository({SecureApiProvider? secureApi})
+      : secureApi = secureApi ?? Get.find<SecureApiProvider>();
 
   ///returnes Login Result
   ///throews NotDimigoMailExceptoin if emial provider trying to login is not @dimigo.hs.kr
@@ -18,11 +19,32 @@ class AuthRepository {
       'DP-GOOGLE-ACCESS-TOKEN': idToken,
     };
     try {
-      DPHttpResponse response = await secureApi.post(url, options: Options(headers: header));
+      DPHttpResponse response =
+          await secureApi.post(url, options: Options(headers: header));
       return response.data;
     } on DioException catch (e) {
       if (e.response?.data['code'] == 'ERR_NOT_ALLOWED_EMAIL') {
         throw NotDimigoMailException();
+      }
+      rethrow;
+    }
+  }
+
+  Future<Map> loginWithPassword(
+      {required String email, required String password}) async {
+    String url = '/login/password';
+
+    Map body = {"email": email, "password": password};
+
+    try {
+      DPHttpResponse response = await secureApi.post(url, data: body);
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response?.data['code'] == 'ERR_WRONG_CREDENTIALS') {
+        throw WrongCredentialsException(message: e.response?.data['message']);
+      }
+      if (e.response?.data['code'] == 'ERR_NOT_PASSWORD_USER') {
+        throw NotPasswordUserException(message: e.response?.data['message']);
       }
       rethrow;
     }
@@ -35,8 +57,11 @@ class AuthRepository {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer $refreshToken',
     };
-    DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
-    return JwtToken(accessToken: response.data['tokens']['accessToken'], refreshToken: response.data['tokens']['refreshToken']);
+    DPHttpResponse response =
+        await secureApi.get(url, options: Options(headers: headers));
+    return JwtToken(
+        accessToken: response.data['tokens']['accessToken'],
+        refreshToken: response.data['tokens']['refreshToken']);
   }
 
   ///returns map that contains accessToken and refreshToekn
@@ -45,7 +70,8 @@ class AuthRepository {
   ///throws IncorrectPinException when pin wrong
   ///throws PinLockException when pin locked
   ///thows OnboardingTokenException when OnboardingToken is wrong
-  Future<Map> onBoardingAuth(String paymentPin, String deviceId, String bioKey, String onBoardingToken) async {
+  Future<Map> onBoardingAuth(String paymentPin, String deviceId, String bioKey,
+      String onBoardingToken) async {
     String url = '/auth/onBoarding';
     Map body = {
       'deviceId': deviceId,
@@ -66,7 +92,8 @@ class AuthRepository {
       DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
-          throw IncorrectPinException(left: response.errors['remainingTryCount']);
+          throw IncorrectPinException(
+              left: response.errors['remainingTryCount']);
         default:
           rethrow;
       }
@@ -89,7 +116,8 @@ class AuthRepository {
     Map<String, String> body = {
       'pin': pin,
     };
-    await secureApi.post(url, options: Options(headers: headers), data: body, encrypt: true);
+    await secureApi.post(url,
+        options: Options(headers: headers), data: body, encrypt: true);
   }
 
   Future<void> checkPin(String pin) async {
@@ -103,21 +131,24 @@ class AuthRepository {
       DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
-          throw IncorrectPinException(left: response.errors['remainingTryCount']);
+          throw IncorrectPinException(
+              left: response.errors['remainingTryCount']);
         case 'ERR_TRY_LIMIT_EXCEEDED':
           throw PinLockException(response.message!);
       }
     }
   }
 
-  Future<String> getEncryptionKey(String publicKey, String onBoardingToken) async {
+  Future<String> getEncryptionKey(
+      String publicKey, String onBoardingToken) async {
     String url = '/auth/encryption-keys';
     publicKey = publicKey.replaceAll('\n', '\\r\\n');
     Map<String, dynamic> headers = {
       'Dp-Public-Key': publicKey,
       'Authorization': 'Bearer $onBoardingToken',
     };
-    DPHttpResponse response = await secureApi.get(url, options: Options(headers: headers));
+    DPHttpResponse response =
+        await secureApi.get(url, options: Options(headers: headers));
     return response.data['encryptionKey'];
   }
 }

@@ -6,19 +6,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 class PushRepository {
   final ApiProvider api;
   final String _hiveBoxName = 'pushService';
-  late final Box _hiveBox;
-
-  Future<void> _initHiveBox() async {
-    if (Hive.isBoxOpen(_hiveBoxName)) {
-      return;
-    }
-    _hiveBox = await Hive.openBox(_hiveBoxName);
-  }
+  Box? _hiveBox;
 
   PushRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
 
   Future<void> init() async {
     await _initHiveBox();
+  }
+
+  Future<void> _initHiveBox() async {
+    if (_hiveBox != null) return;
+    if (!Hive.isBoxOpen(_hiveBoxName)) {
+      _hiveBox = await Hive.openBox(_hiveBoxName);
+    } else {
+      _hiveBox = Hive.box(_hiveBoxName);
+    }
   }
 
   Future<void> updateFcmTokenToServer(String token) async {
@@ -28,14 +30,17 @@ class PushRepository {
   }
 
   Future<DateTime?> getTokenLastUpdated() async {
-    return await _hiveBox.get('pushTokenLastUpdated');
+    await _initHiveBox();
+    return _hiveBox?.get('pushTokenLastUpdated');
   }
 
   Future<void> setTokenLastUpdated(DateTime tokenLastUpdated) async {
-    await _hiveBox.put('pushTokenLastUpdated', tokenLastUpdated);
+    await _initHiveBox();
+    await _hiveBox?.put('pushTokenLastUpdated', tokenLastUpdated);
   }
 
   Future<void> deleteTokenLastUpdated() async {
-    await _hiveBox.delete('pushTokenLastUpdated');
+    await _initHiveBox();
+    await _hiveBox?.delete('pushTokenLastUpdated');
   }
 }

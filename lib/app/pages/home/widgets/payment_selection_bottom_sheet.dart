@@ -2,6 +2,8 @@ import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
+import 'package:dimipay_app_v2/app/services/payment/state.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -10,12 +12,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class PaymentSelectionBottomSheet extends GetView<HomePageController> {
-  final PaymentService paymentService = Get.find<PaymentService>();
   final void Function(PaymentMethod paymentMethod)? onSelect;
-  PaymentSelectionBottomSheet({super.key, this.onSelect});
+  const PaymentSelectionBottomSheet({super.key, this.onSelect});
 
   @override
   Widget build(BuildContext context) {
+    final PaymentService paymentService = Get.find<PaymentService>();
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
@@ -23,37 +25,45 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           color: colorTheme.grayscale100,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const _TopIndicator(),
-              const SizedBox(height: 20),
-              const _Heading(text: '결제수단 선택'),
-              const SizedBox(height: 8),
-              ConstrainedBox(
-                constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Obx(
-                    () => Column(
-                      children: paymentService.paymentMethods!
-                          .map(
-                            (e) => _PaymentOption(
-                              title: e.name,
-                              subtitle: '**** **** **** ${e.preview}',
-                              assetPath: e.getLogoImagePath(),
-                              isSelected: controller.selectedPaymentMethod == e,
-                              onSelect: () => onSelect?.call(e),
-                            ),
-                          )
-                          .toList(),
+          child: DPAnimatedShowUpScope(
+            waitBetweenChildren: const Duration(milliseconds: 30),
+            wait: const Duration(milliseconds: 50),
+            slideFrom: const Offset(0, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DPAnimatedShowUpScopeItem(child: const _TopIndicator()),
+                const SizedBox(height: 20),
+                DPAnimatedShowUpScopeItem(child: const _Heading(text: '결제수단 선택')),
+                const SizedBox(height: 8),
+                DPAnimatedShowUpScopeItem(
+                  child: ConstrainedBox(
+                    constraints: MediaQuery.of(context).size.height > 768 ? const BoxConstraints(maxHeight: 240.0) : const BoxConstraints(maxHeight: 160.0),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Obx(
+                        () => Column(
+                          children: (paymentService.paymentMethodsState as PaymentMethodsStateSuccess)
+                              .value
+                              .map(
+                                (e) => _PaymentOption(
+                                  title: e.name,
+                                  subtitle: '**** **** **** ${e.preview}',
+                                  assetPath: e.getLogoImagePath(),
+                                  isSelected: controller.selectedPaymentMethod == e,
+                                  onSelect: () => onSelect?.call(e),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const DPDivider(),
-              const _AddCardButton(),
-            ],
+                DPAnimatedShowUpScopeItem(child: const DPDivider()),
+                DPAnimatedShowUpScopeItem(child: const _AddCardButton()),
+              ],
+            ),
           ),
         ),
       ),
@@ -100,7 +110,7 @@ class _Heading extends StatelessWidget {
   }
 }
 
-class _PaymentOption extends StatefulWidget {
+class _PaymentOption extends StatelessWidget {
   final String title;
   final String subtitle;
   final String assetPath;
@@ -117,26 +127,21 @@ class _PaymentOption extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_PaymentOption> createState() => _PaymentOptionState();
-}
-
-class _PaymentOptionState extends State<_PaymentOption> {
-  @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPGestureDetectorWithFillInteraction(
-      onTap: widget.onSelect,
+      onTap: onSelect,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
         child: Row(
           children: [
-            SvgPicture.asset(widget.assetPath, height: 40),
+            SvgPicture.asset(assetPath, height: 40),
             const SizedBox(width: 12),
             Expanded(
-              child: _CardDetail(title: widget.title, subtitle: widget.subtitle),
+              child: _CardDetail(title: title, subtitle: subtitle),
             ),
             const SizedBox(width: 12),
-            if (widget.isSelected)
+            if (isSelected)
               Icon(
                 Icons.check_rounded,
                 color: colorTheme.primaryBrand,

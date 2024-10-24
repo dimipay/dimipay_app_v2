@@ -11,12 +11,43 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+        with:
+          ref: 'master'
+      - name: Decode Android keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > android/app/dimipay-keystore.jks
+
+      - name: Decode Android key properties
+        run: echo "${{ secrets.ANDROID_KEY_PROPERTIES }}" > android/key.properties
+
+      - name: Decode Android Service Account
+        run: echo "${{ secrets.PLAY_STORE_CREDENTIAL }}" | base64 --decode > android/play-store-credential.json
+      
+      - name: Decode Google Service Json
+        run: echo "${{ secrets.ANDROID_GOOGLE_SERVICE_JSON }}" | base64 --decode > android/app/google-services.json
+      
+      - name: Decode Firebase Options
+        run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
+
+      - name: make env directory
+        run: mkdir env
+
+      - name: add .env file
+        run: echo "" > env/.env
+      
+      - name: Setup Java to compile the Android project
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 17.0
+
       - name: Install flutter sdk
         uses: subosito/flutter-action@v2.16.0
         with:
           channel: stable
           cache: true
-      - run: flutter --version
+          flutter-version-file: pubspec.yaml
       - run: flutter pub get
-      - run: flutter build appbundle
+      - run: flutter build appbundle --release
+      - run: fastlane prod
+        working-directory: ./android
 

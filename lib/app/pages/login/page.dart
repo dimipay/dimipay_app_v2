@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class LogInPage extends GetView<LoginPageController> {
                   } else {
                     return GoogleLoginButton(
                       onTap: controller.loginWithGoogle,
+                      onLongPress: () => Get.offNamed(Routes.PW_LOGIN),
                     );
                   }
                 },
@@ -77,7 +79,8 @@ class LogInPage extends GetView<LoginPageController> {
 
 class GoogleLoginButton extends StatelessWidget {
   final void Function()? onTap;
-  const GoogleLoginButton({super.key, this.onTap});
+  final void Function()? onLongPress;
+  const GoogleLoginButton({super.key, this.onTap, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +88,7 @@ class GoogleLoginButton extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return DPGestureDetectorWithOpacityInteraction(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale200,

@@ -34,3 +34,4 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 .env.beta
+.env.prod
