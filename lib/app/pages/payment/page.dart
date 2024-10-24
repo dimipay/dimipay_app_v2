@@ -78,14 +78,16 @@ class PaymentPage extends GetView<PaymentPageController> {
                         physics: const BouncingScrollPhysics(),
                         children: paymentMethods
                             .map((e) => PaymentItem(
-                                  paymentMethod: e,
-                                  onTap: () => showModalBottomSheet(
+                                paymentMethod: e,
+                                onTap: () {
+                                  final bottomSheet = PaymentActionBottomSheet(paymentMethod: e);
+                                  showModalBottomSheet(
                                     backgroundColor: Colors.transparent,
                                     elevation: 0,
                                     context: context,
-                                    builder: (context) => PaymentActionBottomSheet(paymentMethod: e),
-                                  ),
-                                ))
+                                    builder: (context) => bottomSheet,
+                                  );
+                                }))
                             .toList(),
                       ),
                   },

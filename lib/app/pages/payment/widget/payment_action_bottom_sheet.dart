@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/payment/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
+import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -23,60 +24,75 @@ class PaymentActionBottomSheet extends StatelessWidget {
         color: colorTheme.grayscale100,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Container(
-              width: 36,
-              height: 4,
-              decoration: BoxDecoration(
-                color: colorTheme.grayscale300,
-                borderRadius: BorderRadius.circular(10),
+      child: DPAnimatedShowUpScope(
+        waitBetweenChildren: const Duration(milliseconds: 30),
+        wait: const Duration(milliseconds: 30),
+        slideFrom: const Offset(0, 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            DPAnimatedShowUpScopeItem(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Container(
+                  width: 36,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: colorTheme.grayscale300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  paymentMethod.name,
-                  style: textTheme.header2.copyWith(color: colorTheme.grayscale1000),
-                ),
-                Text(
-                  '****-****-****-${paymentMethod.preview}',
-                  style: textTheme.description.copyWith(color: colorTheme.grayscale600),
-                ),
-              ],
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DPAnimatedShowUpScopeItem(
+                    child: Text(
+                      paymentMethod.name,
+                      style: textTheme.header2.copyWith(color: colorTheme.grayscale1000),
+                    ),
+                  ),
+                  DPAnimatedShowUpScopeItem(
+                    child: Text(
+                      '****-****-****-${paymentMethod.preview}',
+                      style: textTheme.description.copyWith(color: colorTheme.grayscale600),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          PaymentActionBottomSheetItem(
-            title: '이름 수정하기',
-            showIcon: true,
-            onTap: () {
-              Get.back();
-              Get.toNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': paymentMethod});
-            },
-          ),
-          PaymentActionBottomSheetItem(
-            title: '삭제하기',
-            titleColor: colorTheme.primaryNegative,
-            onTap: () async {
-              try {
-                await Get.find<PaymentPageController>().deletePaymentMethod(paymentMethod);
-                Get.back();
-              } on DioException catch (e) {
-                DPErrorSnackBar().open(e.response?.data['message'] ?? '');
-              }
-            },
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+            DPAnimatedShowUpScopeItem(
+              child: PaymentActionBottomSheetItem(
+                title: '이름 수정하기',
+                showIcon: true,
+                onTap: () {
+                  Get.back();
+                  Get.toNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': paymentMethod});
+                },
+              ),
+            ),
+            DPAnimatedShowUpScopeItem(
+              child: PaymentActionBottomSheetItem(
+                title: '삭제하기',
+                titleColor: colorTheme.primaryNegative,
+                onTap: () async {
+                  try {
+                    await Get.find<PaymentPageController>().deletePaymentMethod(paymentMethod);
+                    Get.back();
+                  } on DioException catch (e) {
+                    DPErrorSnackBar().open(e.response?.data['message'] ?? '');
+                  }
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
