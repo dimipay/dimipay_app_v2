@@ -93,8 +93,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                         slideFrom: const Offset(0, 8),
                         wait: const Duration(milliseconds: 300),
                         child: controller.obx(
-                          (_) => Obx(
-                            () {
+                              (_) => Obx(
+                                () {
                               if (controller.isFormValid) {
                                 return DPButton(
                                   onTap: controller.addPaymentMethod,
@@ -128,7 +128,7 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
           controller: controller.cardNumberFieldController,
           labelText: '카드 번호',
           hintText: '0000-0000-0000-0000',
-          maxLength: 19,
+          maxLength: 20, // 아멕스 카드 포맷 지원을 위해 20으로 증가
           keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           hilightOnFocus: true,
