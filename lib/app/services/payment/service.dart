@@ -70,7 +70,7 @@ class PaymentService extends GetxController {
     if (oldPaymentMethods.isEmpty) {
       _mainMethodId.value = newPaymentMethod.id;
     }
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods + [newPaymentMethod]);
+    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: [...oldPaymentMethods, newPaymentMethod]);
     _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).value);
     return newPaymentMethod;
   }
@@ -84,12 +84,7 @@ class PaymentService extends GetxController {
     }
 
     try {
-      PaymentMethod newPaymentMethod = PaymentMethod(
-        id: paymentMethod.id,
-        name: newName,
-        preview: paymentMethod.preview,
-        cardCode: paymentMethod.cardCode,
-      );
+      PaymentMethod newPaymentMethod = paymentMethod.copyWith(name: newName);
 
       List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods];
       newPaymentMethods[paymentMethodIndex] = newPaymentMethod;
