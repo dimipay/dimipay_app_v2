@@ -54,8 +54,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'package:get/get.dart';
-
 class AppPages {
   static final pages = [
     // Root
@@ -222,7 +220,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.RESET_PIN,
-      page: () => ResetPinPage(),
+      page: () => const ResetPinPage(),
       binding: ResetPinPageBinding(),
       middlewares: [LoginMiddleware(), AdminMiddleware()],
       transition: Transition.cupertino,

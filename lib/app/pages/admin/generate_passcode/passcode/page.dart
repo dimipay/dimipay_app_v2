@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/controller.dart';
+import 'package:dimipay_app_v2/app/services/admin/kiosk/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ class PasscodePage extends GetView<PasscodePageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -19,27 +19,16 @@ class PasscodePage extends GetView<PasscodePageController> {
             const DPAppbar(
               header: '패스코드',
             ),
-            Spacer(
-              flex: 1,
-            ),
-            Obx(() {
-              final passcode = controller.kioskService.passCodeState;
-              if (passcode == null) {
-                return Center(
-                  child: CircularProgressIndicator(
+            const Spacer(flex: 1),
+            Obx(
+              () => switch (controller.kioskService.passCodeState) {
+                PasscodeStateInitial() || PasscodeStateLoading() || PasscodeStateFailed() => CircularProgressIndicator(
                     color: colorTheme.primaryBrand,
                   ),
-                );
-              }
-              return PasscodeDisplay(
-                passcode: passcode,
-                colorTheme: colorTheme,
-                textTheme: textTheme,
-              );
-            }),
-            Spacer(
-              flex: 2,
+                PasscodeStateSuccess() => throw UnimplementedError(),
+              },
             ),
+            const Spacer(flex: 2),
           ],
         ),
       ),
@@ -60,7 +49,7 @@ class PasscodeDisplay extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PasscodeDisplayState createState() => _PasscodeDisplayState();
+  State<PasscodeDisplay> createState() => _PasscodeDisplayState();
 }
 
 class _PasscodeDisplayState extends State<PasscodeDisplay> {
