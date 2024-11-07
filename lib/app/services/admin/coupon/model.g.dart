@@ -6,28 +6,30 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Coupon _$CouponFromJson(Map<String, dynamic> json) => Coupon(
+_$CouponImpl _$$CouponImplFromJson(Map<String, dynamic> json) => _$CouponImpl(
       code: json['code'] as String,
       name: json['name'] as String,
       amount: (json['amount'] as num).toInt(),
       expiresAt: json['expiresAt'] as String,
     );
 
-Map<String, dynamic> _$CouponToJson(Coupon instance) => <String, dynamic>{
+Map<String, dynamic> _$$CouponImplToJson(_$CouponImpl instance) =>
+    <String, dynamic>{
       'code': instance.code,
       'name': instance.name,
       'amount': instance.amount,
       'expiresAt': instance.expiresAt,
     };
 
-CouponType _$CouponTypeFromJson(Map<String, dynamic> json) => CouponType(
+_$CouponTypeImpl _$$CouponTypeImplFromJson(Map<String, dynamic> json) =>
+    _$CouponTypeImpl(
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
       amount: (json['amount'] as num).toInt(),
     );
 
-Map<String, dynamic> _$CouponTypeToJson(CouponType instance) =>
+Map<String, dynamic> _$$CouponTypeImplToJson(_$CouponTypeImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
