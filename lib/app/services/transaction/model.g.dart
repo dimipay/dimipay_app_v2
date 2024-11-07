@@ -6,7 +6,8 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
+_$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
+    _$TransactionImpl(
       id: json['id'] as String,
       status: $enumDecode(_$TransactionStatusEnumMap, json['status']),
       date: DateTime.parse(json['date'] as String),
@@ -15,13 +16,13 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
       totalPrice: (json['total'] as num).toInt(),
     );
 
-Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
+Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'status': _$TransactionStatusEnumMap[instance.status]!,
       'date': instance.date.toIso8601String(),
-      'total': instance.totalPrice,
       'products': instance.products,
+      'total': instance.totalPrice,
     };
 
 const _$TransactionStatusEnumMap = {
@@ -30,8 +31,9 @@ const _$TransactionStatusEnumMap = {
   TransactionStatus.FAILED: 'FAILED',
 };
 
-TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
-    TransactionDetail(
+_$TransactionDetailImpl _$$TransactionDetailImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionDetailImpl(
       id: json['id'] as String,
       totalPrice: (json['totalPrice'] as num).toInt(),
       date: DateTime.parse(json['date'] as String),
@@ -46,7 +48,8 @@ TransactionDetail _$TransactionDetailFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$TransactionDetailToJson(TransactionDetail instance) =>
+Map<String, dynamic> _$$TransactionDetailImplToJson(
+        _$TransactionDetailImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'totalPrice': instance.totalPrice,
@@ -69,13 +72,15 @@ const _$PurchaseTypeEnumMap = {
   PurchaseType.GENERAL: 'GENERAL',
 };
 
-Product _$ProductFromJson(Map<String, dynamic> json) => Product(
+_$ProductImpl _$$ProductImplFromJson(Map<String, dynamic> json) =>
+    _$ProductImpl(
       name: json['name'] as String,
       amount: (json['amount'] as num).toInt(),
       unitPrice: (json['unitPrice'] as num).toInt(),
     );
 
-Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+Map<String, dynamic> _$$ProductImplToJson(_$ProductImpl instance) =>
+    <String, dynamic>{
       'name': instance.name,
       'amount': instance.amount,
       'unitPrice': instance.unitPrice,

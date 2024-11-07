@@ -1,7 +1,61 @@
-// ignore_for_file: constant_identifier_names
-
-import 'package:json_annotation/json_annotation.dart';
+// ignore_for_file: constant_identifier_names, invalid_annotation_target
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'model.freezed.dart';
 part 'model.g.dart';
+
+@freezed
+class Transaction with _$Transaction {
+  const factory Transaction({
+    required String id,
+    required TransactionStatus status,
+    required DateTime date,
+    required List<String> products,
+    @JsonKey(name: 'total') required int totalPrice,
+  }) = _Transaction;
+
+  DateTime get localDate => date.toLocal();
+
+  const Transaction._();
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
+}
+
+@freezed
+class TransactionDetail with _$TransactionDetail {
+  const factory TransactionDetail({
+    required String id,
+    required int totalPrice,
+    required DateTime date,
+    required TransactionStatus status,
+    required String message,
+    @JsonKey(name: 'type') TransactionType? transactionType,
+    required PurchaseType purchaseType,
+    required String? cardName,
+    required List<Product> products,
+  }) = _TransactionDetail;
+
+  DateTime get localDate => date.toLocal();
+
+  const TransactionDetail._();
+
+  factory TransactionDetail.fromJson(Map<String, dynamic> json) => _$TransactionDetailFromJson(json);
+}
+
+@freezed
+class Product with _$Product {
+  const factory Product({
+    required String name,
+    required int amount,
+    required int unitPrice,
+  }) = _Product;
+
+  int get totalPrice => amount * unitPrice;
+
+  const Product._();
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+}
 
 enum TransactionStatus {
   @JsonValue('CONFIRMED')
@@ -24,78 +78,4 @@ enum PurchaseType {
   COUPON,
   @JsonValue('GENERAL')
   GENERAL,
-}
-
-@JsonSerializable()
-class Transaction {
-  final String id;
-
-  final TransactionStatus status;
-
-  final DateTime date;
-
-  @JsonKey(name: 'total')
-  final int totalPrice;
-
-  final List<String> products;
-  Transaction({
-    required this.id,
-    required this.status,
-    required this.date,
-    required this.products,
-    required this.totalPrice,
-  });
-
-  DateTime get localDate => date.toLocal();
-
-  factory Transaction.fromJson(Map<String, dynamic> json) => _$TransactionFromJson(json);
-  Map<String, dynamic> toJson() => _$TransactionToJson(this);
-}
-
-@JsonSerializable()
-class TransactionDetail {
-  final String id;
-  final int totalPrice;
-  final DateTime date;
-  final TransactionStatus status;
-  final String message;
-
-  @JsonKey(name: 'type')
-  final TransactionType? transactionType;
-
-  final PurchaseType purchaseType;
-
-  final String? cardName;
-
-  final List<Product> products;
-
-  TransactionDetail({
-    required this.id,
-    required this.totalPrice,
-    required this.date,
-    required this.status,
-    required this.message,
-    this.transactionType,
-    required this.purchaseType,
-    required this.cardName,
-    required this.products,
-  });
-
-  DateTime get localDate => date.toLocal();
-
-  factory TransactionDetail.fromJson(Map<String, dynamic> json) => _$TransactionDetailFromJson(json);
-  Map<String, dynamic> toJson() => _$TransactionDetailToJson(this);
-}
-
-@JsonSerializable()
-class Product {
-  final String name;
-  final int amount;
-  final int unitPrice;
-
-  Product({required this.name, required this.amount, required this.unitPrice});
-  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
-  Map<String, dynamic> toJson() => _$ProductToJson(this);
-
-  int get totalPrice => amount * unitPrice;
 }
