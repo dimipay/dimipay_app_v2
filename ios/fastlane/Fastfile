@@ -30,6 +30,7 @@ platform :ios do
       workspace: "Runner.xcworkspace", 
       scheme: "Runner", 
       skip_build_archive: true,
+      export_team_id: 'X2TSPBJQ6J',
       archive_path: "../build/ios/archive/Runner.xcarchive"
     )
     upload_to_testflight
@@ -48,6 +49,7 @@ platform :ios do
       workspace: "Runner.xcworkspace", 
       scheme: "Runner",
       skip_build_archive: true,
+      export_team_id: 'X2TSPBJQ6J',
       archive_path: "../build/ios/archive/Runner.xcarchive"
     )
     upload_to_app_store(
