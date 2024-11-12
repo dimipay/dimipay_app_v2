@@ -1,19 +1,19 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
-import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class ProductsManageRepository {
   final ApiProvider api;
 
-  ProductsManageRepository({ApiProvider? api})
-      : api = api ?? Get.find<SecureApiProvider>();
+  ProductsManageRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
   Future<void> syncProduct({required String barcode}) async {
     String url = '/admin/products/sync/$barcode';
 
     try {
-      await api.post(url);
+      await api.post(DPHttpRequest(url));
       return;
     } on DioException catch (e) {
       if (e.response?.data['code'] == 'ERR_PRODUCT_NOT_FOUND') {
