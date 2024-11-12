@@ -5,25 +5,20 @@ import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:flutter/foundation.dart';
 
 class PerformApiRequestMiddleware extends ApiMiddleware {
-  final Future<DPHttpResponse> Function(DPHttpRequest request) performApiRequest;
+  final Future<DPHttpResponse> Function(DPHttpRequest) performApiRequest;
 
   PerformApiRequestMiddleware(this.performApiRequest);
 
   @override
-  FutureOr<DPHttpResponse> handle(DPHttpRequest request, Future<DPHttpResponse> Function(DPHttpRequest p1) next) {
-    return performApiRequest(request);
-  }
-
-  @override
-  Future<DPHttpResponse> fetch(DPHttpRequest request) {
+  FutureOr<DPHttpResponse> handle(DPHttpRequest request, Future<DPHttpResponse> Function(DPHttpRequest) next) {
     return performApiRequest(request);
   }
 }
 
 abstract class ApiProvider {
   @nonVirtual
-  ApiMiddleware decorateMiddlewares(ApiMiddleware request, List<ApiMiddleware> middlewares) {
-    ApiMiddleware middleware = request;
+  ApiMiddleware decorateWithMiddlewares(Future<DPHttpResponse> Function(DPHttpRequest) performApiRequest, List<ApiMiddleware> middlewares) {
+    ApiMiddleware middleware = PerformApiRequestMiddleware(performGetRequest);
 
     for (var i = middlewares.length - 1; i >= 0; i--) {
       middleware = middlewares[i].setNextMiddleware(middleware);
@@ -34,9 +29,7 @@ abstract class ApiProvider {
 
   @nonVirtual
   Future<DPHttpResponse> get(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performGetRequest);
-
-    middleware = decorateMiddlewares(middleware, middlewares);
+    ApiMiddleware middleware = decorateWithMiddlewares(performGetRequest, middlewares);
 
     request.method = 'GET';
 
@@ -45,9 +38,7 @@ abstract class ApiProvider {
 
   @nonVirtual
   Future<DPHttpResponse> post(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performPostRequest);
-
-    middleware = decorateMiddlewares(middleware, middlewares);
+    ApiMiddleware middleware = decorateWithMiddlewares(performPostRequest, middlewares);
 
     request.method = 'POST';
 
@@ -55,9 +46,7 @@ abstract class ApiProvider {
   }
 
   Future<DPHttpResponse> patch(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performPatchRequest);
-
-    middleware = decorateMiddlewares(middleware, middlewares);
+    ApiMiddleware middleware = decorateWithMiddlewares(performPatchRequest, middlewares);
 
     request.method = 'PATCH';
 
@@ -65,9 +54,7 @@ abstract class ApiProvider {
   }
 
   Future<DPHttpResponse> put(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performPutRequest);
-
-    middleware = decorateMiddlewares(middleware, middlewares);
+    ApiMiddleware middleware = decorateWithMiddlewares(performPutRequest, middlewares);
 
     request.method = 'PUT';
 
@@ -75,9 +62,7 @@ abstract class ApiProvider {
   }
 
   Future<DPHttpResponse> delete(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performDeleteRequest);
-
-    middleware = decorateMiddlewares(middleware, middlewares);
+    ApiMiddleware middleware = decorateWithMiddlewares(performDeleteRequest, middlewares);
 
     request.method = 'DELETE';
 
