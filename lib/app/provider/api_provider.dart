@@ -13,15 +13,26 @@ class PerformApiRequestMiddleware extends ApiMiddleware {
   FutureOr<DPHttpResponse> handle(DPHttpRequest request, Future<DPHttpResponse> Function(DPHttpRequest) next) {
     return performApiRequest(request);
   }
+
+  @override
+  PerformApiRequestMiddleware copy() {
+    return PerformApiRequestMiddleware(performApiRequest);
+  }
 }
 
 abstract class ApiProvider {
+  final List<ApiMiddleware> middlewares = [];
+
   @nonVirtual
-  ApiMiddleware decorateWithMiddlewares(Future<DPHttpResponse> Function(DPHttpRequest request) performApiRequest, List<ApiMiddleware> middlewares) {
+  @protected
+  ApiMiddleware decorateWithMiddlewares(Future<DPHttpResponse> Function(DPHttpRequest request) performApiRequest, List<ApiMiddleware> requestMiddlewares) {
     ApiMiddleware middleware = PerformApiRequestMiddleware(performApiRequest);
 
-    for (var i = middlewares.length - 1; i >= 0; i--) {
-      middleware = middlewares[i].setNextMiddleware(middleware);
+    List<ApiMiddleware> globalMiddlewares = middlewares.map((e) => e.copy()).toList();
+    List<ApiMiddleware> completeMiddlewares = globalMiddlewares + requestMiddlewares;
+
+    for (var i = completeMiddlewares.length - 1; i >= 0; i--) {
+      middleware = completeMiddlewares[i].setNextMiddleware(middleware);
     }
 
     return middleware;

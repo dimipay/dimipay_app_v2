@@ -36,4 +36,9 @@ class OTPMiddleware extends ApiMiddleware {
     request.headers['Payment-Pin-Otp'] = otp;
     return next(request);
   }
+
+  @override
+  ApiMiddleware copy() {
+    return OTPMiddleware();
+  }
 }

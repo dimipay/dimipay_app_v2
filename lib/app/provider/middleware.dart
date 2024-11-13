@@ -14,6 +14,8 @@ abstract class ApiMiddleware {
 
   late final ApiMiddleware _nextMiddleware;
 
+  ApiMiddleware copy();
+
   ApiMiddleware setNextMiddleware(ApiMiddleware middleware) {
     _nextMiddleware = middleware;
     return this;

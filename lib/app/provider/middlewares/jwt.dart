@@ -63,4 +63,9 @@ class JWTMiddleware extends ApiMiddleware {
     }
     return null;
   }
+
+  @override
+  JWTMiddleware copy() {
+    return JWTMiddleware();
+  }
 }

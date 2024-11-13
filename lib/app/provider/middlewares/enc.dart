@@ -35,4 +35,9 @@ class EncryptedRequestMiddleware extends ApiMiddleware {
     request.body = await encryptData(request.body);
     return next(request);
   }
+
+  @override
+  EncryptedRequestMiddleware copy() {
+    return EncryptedRequestMiddleware();
+  }
 }
