@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dimipay_app_v2/app/provider/middleware.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';

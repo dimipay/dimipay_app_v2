@@ -14,7 +14,7 @@ class PayRepository {
 
   Future<Stream<TransactionStatus>> getTransactionStatus() async {
     String url = "/transactions/status";
-    Stream<Map<String, dynamic>> stream = await api.getStream(DPHttpRequest(url));
+    Stream<Map<String, dynamic>> stream = await api.getStream(DPHttpRequest(url), [JWTMiddleware()]);
     return stream.map(
       (event) {
         switch (event['status']) {

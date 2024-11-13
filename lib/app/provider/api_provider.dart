@@ -17,8 +17,8 @@ class PerformApiRequestMiddleware extends ApiMiddleware {
 
 abstract class ApiProvider {
   @nonVirtual
-  ApiMiddleware decorateWithMiddlewares(Future<DPHttpResponse> Function(DPHttpRequest) performApiRequest, List<ApiMiddleware> middlewares) {
-    ApiMiddleware middleware = PerformApiRequestMiddleware(performGetRequest);
+  ApiMiddleware decorateWithMiddlewares(Future<DPHttpResponse> Function(DPHttpRequest request) performApiRequest, List<ApiMiddleware> middlewares) {
+    ApiMiddleware middleware = PerformApiRequestMiddleware(performApiRequest);
 
     for (var i = middlewares.length - 1; i >= 0; i--) {
       middleware = middlewares[i].setNextMiddleware(middleware);
