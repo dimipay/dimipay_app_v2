@@ -1,5 +1,4 @@
 import 'package:dimipay_app_v2/app/pages/info/controller.dart';
-import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/user/model.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
