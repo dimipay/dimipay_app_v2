@@ -20,6 +20,7 @@ class LogMiddleware extends ApiMiddleware {
   FutureOr<DPHttpResponse?> onError(Exception e, DPHttpRequest request) {
     DioException dioException = e as DioException;
     dev.log('ERROR : ${request.method}[${dioException.response?.statusCode}] => PATH: ${request.path}', name: 'DIO');
+    return null;
   }
 
   @override
