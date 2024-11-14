@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dimipay_app_v2/app/provider/middleware.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dio/dio.dart';
@@ -43,7 +44,7 @@ class JWTMiddleware extends ApiMiddleware {
       }
     }
 
-    DPHttpResponse httpResponse = DPHttpResponse.fromDioResponse(dioErr.response!);
+    DPHttpResponse httpResponse = dioErr.response!.toDPHttpResponse();
 
     if (httpResponse.code == 'ERR_TOKEN_EXPIRED') {
       try {

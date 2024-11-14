@@ -3,6 +3,7 @@ import 'package:dimipay_app_v2/app/provider/api_provider.dart';
 import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,7 +30,7 @@ class FaceSignRepository {
 
       return;
     } on DioException catch (e) {
-      DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
+      DPHttpResponse response = e.response!.toDPHttpResponse();
       if (response.code == 'ERR_FAILED_TO_REGISTER_FACE_SIGN') {
         throw FaceSignException(response.message!);
       }

@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/middlewares/pin.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -81,7 +82,7 @@ class AuthRepository {
       DPHttpResponse response = await api.post(DPHttpRequest(url, body: body, headers: headers), [OTPMiddleware()]);
       return response.data['tokens'];
     } on DioException catch (e) {
-      DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
+      DPHttpResponse response = e.response!.toDPHttpResponse();
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
           throw IncorrectPinException(left: response.errors['remainingTryCount']);
@@ -118,7 +119,7 @@ class AuthRepository {
     try {
       await api.post(DPHttpRequest(url, body: body), [JWTMiddleware(), EncryptedRequestMiddleware()]);
     } on DioException catch (e) {
-      DPHttpResponse response = DPHttpResponse.fromDioResponse(e.response!);
+      DPHttpResponse response = e.response!.toDPHttpResponse();
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
           throw IncorrectPinException(left: response.errors['remainingTryCount']);

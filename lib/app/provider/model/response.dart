@@ -15,21 +15,4 @@ class DPHttpResponse {
     this.data,
     this.errors,
   });
-
-  factory DPHttpResponse.fromDioResponse(Response dioResponse) => DPHttpResponse(
-        code: dioResponse.data['code'],
-        message: dioResponse.data['message'],
-        statusCode: dioResponse.data['statusCode'],
-        timeStamp: dioResponse.data['timestamp'],
-        data: dioResponse.data['data'],
-        errors: dioResponse.data['errors'],
-      );
-
-  factory DPHttpResponse.fromDioStreamResponse(Response dioResponse) => DPHttpResponse(
-        code: '',
-        message: '',
-        statusCode: 200,
-        timeStamp: '',
-        data: dioResponse.data,
-      );
 }

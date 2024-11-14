@@ -20,7 +20,7 @@ class DioApiProvider extends ApiProvider {
       data: request.body,
       options: Options(headers: request.headers),
     );
-    return DPHttpResponse.fromDioResponse(dioResponse);
+    return dioResponse.toDPHttpResponse();
   }
 
   @override
@@ -31,7 +31,7 @@ class DioApiProvider extends ApiProvider {
       data: request.body,
       options: Options(headers: request.headers),
     );
-    return DPHttpResponse.fromDioResponse(dioResponse);
+    return dioResponse.toDPHttpResponse();
   }
 
   @override
@@ -42,7 +42,7 @@ class DioApiProvider extends ApiProvider {
       data: request.body,
       options: Options(headers: request.headers),
     );
-    return DPHttpResponse.fromDioResponse(dioResponse);
+    return dioResponse.toDPHttpResponse();
   }
 
   @override
@@ -53,7 +53,7 @@ class DioApiProvider extends ApiProvider {
       data: request.body,
       options: Options(headers: request.headers),
     );
-    return DPHttpResponse.fromDioResponse(dioResponse);
+    return dioResponse.toDPHttpResponse();
   }
 
   @override
@@ -64,7 +64,7 @@ class DioApiProvider extends ApiProvider {
       data: request.body,
       options: Options(headers: request.headers),
     );
-    return DPHttpResponse.fromDioResponse(dioResponse);
+    return dioResponse.toDPHttpResponse();
   }
 
   Future<Stream<Map<String, dynamic>>> getStream(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) async {
@@ -78,7 +78,7 @@ class DioApiProvider extends ApiProvider {
           responseType: ResponseType.stream,
         ),
       );
-      return DPHttpResponse.fromDioStreamResponse(response);
+      return response.toDPHttpResponse();
     }, middlewares);
 
     DPHttpResponse response = await middleware.fetch(request);
@@ -93,6 +93,28 @@ class DioApiProvider extends ApiProvider {
           sink.add(data);
         },
       ),
+    );
+  }
+}
+
+extension DioResponseDTO on Response {
+  DPHttpResponse toDPHttpResponse() {
+    if (requestOptions.responseType == ResponseType.stream) {
+      return DPHttpResponse(
+        code: '',
+        message: '',
+        statusCode: 200,
+        timeStamp: '',
+        data: data,
+      );
+    }
+    return DPHttpResponse(
+      code: data['code'],
+      message: data['message'],
+      statusCode: data['statusCode'],
+      timeStamp: data['timestamp'],
+      data: data['data'],
+      errors: data['errors'],
     );
   }
 }
