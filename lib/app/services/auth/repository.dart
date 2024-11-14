@@ -79,7 +79,7 @@ class AuthRepository {
       'Authorization': 'Bearer $onBoardingToken',
     };
     try {
-      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body, headers: headers), [OTPMiddleware()]);
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body, headers: headers), [OTP()]);
       return response.data['tokens'];
     } on DioException catch (e) {
       DPHttpResponse response = e.response!.toDPHttpResponse();
@@ -97,7 +97,7 @@ class AuthRepository {
     Map<String, String> body = {
       'pin': newPin,
     };
-    await api.put(DPHttpRequest(url, body: body), [JWTMiddleware(), OTPMiddleware()]);
+    await api.put(DPHttpRequest(url, body: body), [JWT(), OTP()]);
   }
 
   Future<void> registerPin(String pin, String onBoardingToken) async {
@@ -108,7 +108,7 @@ class AuthRepository {
     Map<String, String> body = {
       'pin': pin,
     };
-    await api.post(DPHttpRequest(url, body: body, headers: headers), [OTPMiddleware()]);
+    await api.post(DPHttpRequest(url, body: body, headers: headers), [OTP()]);
   }
 
   Future<void> checkPin(String pin) async {
@@ -117,7 +117,7 @@ class AuthRepository {
       "pin": pin,
     };
     try {
-      await api.post(DPHttpRequest(url, body: body), [JWTMiddleware(), EncryptedRequestMiddleware()]);
+      await api.post(DPHttpRequest(url, body: body), [JWT(), EncryptBody()]);
     } on DioException catch (e) {
       DPHttpResponse response = e.response!.toDPHttpResponse();
       switch (response.code) {

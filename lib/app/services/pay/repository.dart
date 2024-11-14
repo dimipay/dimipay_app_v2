@@ -14,7 +14,7 @@ class PayRepository {
 
   Future<Stream<TransactionStatus>> getTransactionStatus() async {
     String url = "/transactions/status";
-    Stream<Map<String, dynamic>> stream = await api.getStream(DPHttpRequest(url), [JWTMiddleware()]);
+    Stream<Map<String, dynamic>> stream = await api.getStream(DPHttpRequest(url), [JWT()]);
     return stream.map(
       (event) {
         switch (event['status']) {
@@ -37,7 +37,7 @@ class PayRepository {
 
   Future<Map> getPaymentToken({required PaymentMethod paymentMethod, String? pin, String? bioKey}) async {
     String url = '/pay/legacy/${paymentMethod.id}';
-    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWTMiddleware(), OTPMiddleware()]);
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT(), OTP()]);
     return response.data;
   }
 }

@@ -7,7 +7,7 @@ import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:get/get.dart';
 
-class OTPMiddleware extends ApiMiddleware {
+class OTP extends ApiMiddleware {
   Future<String> getPinOTP() async {
     String url = "/pin/otp";
     AuthService authService = Get.find<AuthService>();
@@ -26,7 +26,7 @@ class OTPMiddleware extends ApiMiddleware {
       headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
     }
 
-    DPHttpResponse response = await Get.find<ApiProvider>().post(DPHttpRequest(url, body: body, headers: headers), [JWTMiddleware(), EncryptedRequestMiddleware()]);
+    DPHttpResponse response = await Get.find<ApiProvider>().post(DPHttpRequest(url, body: body, headers: headers), [JWT(), EncryptBody()]);
     return response.data['otp'];
   }
 
@@ -39,6 +39,6 @@ class OTPMiddleware extends ApiMiddleware {
 
   @override
   ApiMiddleware copy() {
-    return OTPMiddleware();
+    return OTP();
   }
 }

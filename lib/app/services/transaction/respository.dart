@@ -23,7 +23,7 @@ class TransactionRepository {
       queryParameter['limit'] = limit;
     }
 
-    DPHttpResponse response = await api.get(DPHttpRequest(url, queryParameters: queryParameter), [JWTMiddleware()]);
+    DPHttpResponse response = await api.get(DPHttpRequest(url, queryParameters: queryParameter), [JWT()]);
     List<Transaction> transactions = [];
     for (final group in response.data["groups"]) {
       for (final transaction in group['transactions']) {
@@ -36,7 +36,7 @@ class TransactionRepository {
   Future<TransactionDetail> getTransactionDetail(String transactionId) async {
     String url = '/history/$transactionId';
 
-    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWTMiddleware()]);
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
     return TransactionDetail.fromJson(response.data);
   }
 
@@ -60,7 +60,7 @@ class TransactionRepository {
       "paymentMethodId": paymentMethod.id,
     };
 
-    DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWTMiddleware()]);
+    DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);
     return TransactionDetail.fromJson(response.data);
   }
 }
