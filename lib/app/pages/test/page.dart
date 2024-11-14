@@ -16,8 +16,7 @@ class TestPage extends StatelessWidget {
     );
   }
 
-  Widget linkToRouteWithArgs(
-      String route, String title, Map<String, dynamic> args) {
+  Widget linkToRouteWithArgs(String route, String title, Map<String, dynamic> args) {
     return TextButton(
       onPressed: () {
         Get.toNamed(route, arguments: args);
@@ -44,8 +43,7 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.PW_LOGIN),
           linkToRoute(Routes.ONBOARDING),
           linkToRoute(Routes.PIN),
-          linkToRouteWithArgs(
-              Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
+          linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
           linkToRoute(Routes.MANUAL),
 
           // Main features

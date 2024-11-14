@@ -17,7 +17,7 @@ class FaceSignRepository {
 
   Future<bool> checkIfFaceSignRegistered() async {
     String url = '/face-sign';
-    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWTMiddleware()]);
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
     return response.data['registered'];
   }
 
@@ -26,7 +26,7 @@ class FaceSignRepository {
 
     MultipartFile faceSign = await MultipartFile.fromFile(file.path, contentType: MediaType('image', 'jpeg'));
     try {
-      await api.post(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWTMiddleware()]);
+      await api.post(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWT()]);
 
       return;
     } on DioException catch (e) {
@@ -43,7 +43,7 @@ class FaceSignRepository {
 
     MultipartFile faceSign = await MultipartFile.fromFile(file.path, contentType: MediaType('image', 'jpeg'));
     try {
-      await api.put(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWTMiddleware()]);
+      await api.put(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWT()]);
 
       return;
     } on DioException catch (e) {
@@ -57,6 +57,6 @@ class FaceSignRepository {
   Future<void> deleteFaceSign() async {
     String url = '/face-sign';
 
-    await api.delete(DPHttpRequest(url), [JWTMiddleware()]);
+    await api.delete(DPHttpRequest(url), [JWT()]);
   }
 }

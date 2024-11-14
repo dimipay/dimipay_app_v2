@@ -8,8 +8,8 @@ import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-class JWTMiddleware extends ApiMiddleware {
-  JWTMiddleware();
+class JWT extends ApiMiddleware {
+  JWT();
 
   @override
   Future<DPHttpResponse> handle(DPHttpRequest request, Future<DPHttpResponse> Function(DPHttpRequest) next) {
@@ -66,7 +66,7 @@ class JWTMiddleware extends ApiMiddleware {
   }
 
   @override
-  JWTMiddleware copy() {
-    return JWTMiddleware();
+  JWT copy() {
+    return JWT();
   }
 }

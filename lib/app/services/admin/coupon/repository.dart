@@ -14,7 +14,7 @@ class CouponRepository {
     String url = '/admin/coupons';
     Map body = {"type": id};
 
-    DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWTMiddleware()]);
+    DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);
 
     Coupon coupon = Coupon.fromJson(response.data["coupon"]);
 
@@ -23,7 +23,7 @@ class CouponRepository {
 
   Future<Map> getCouponTypes() async {
     String url = '/admin/coupons/types';
-    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWTMiddleware()]);
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
 
     List<CouponType> couponTypes = (response.data["types"] as List).map((e) => CouponType.fromJson(e)).toList();
 
