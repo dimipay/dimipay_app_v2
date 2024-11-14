@@ -32,7 +32,7 @@ class PaymentRepository {
     };
 
     try {
-      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [EncryptedRequestMiddleware()]);
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWTMiddleware(), EncryptedRequestMiddleware()]);
       return PaymentMethod.fromJson(response.data);
     } catch (e) {
       rethrow;
