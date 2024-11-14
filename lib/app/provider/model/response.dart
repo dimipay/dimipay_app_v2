@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 class DPHttpResponse {
   String code;
   String? message;
