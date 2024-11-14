@@ -1,8 +1,11 @@
-import 'dart:developer';
-
-import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/enc.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/from_cache.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/save_cache.dart';
+import 'package:dimipay_app_v2/app/provider/model/request.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
-import 'package:dio/dio.dart';
 import 'package:get/instance_manager.dart';
 
 class PaymentRepository {
@@ -10,32 +13,40 @@ class PaymentRepository {
 
   PaymentRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
-  Future<Map> getPaymentMethod({bool includeMainMethod = true}) async {
-    String url = '/payment/method';
-    Response response = await api.get(url, queryParameters: {"includeMainMethod": includeMainMethod});
-
-    log(response.data.toString());
+  Future<Map> getPaymentMethodFromCache() async {
+    String url = '/payments/methods';
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [FromCache()]);
 
     String? mainMethodId = response.data["mainMethodId"];
-    List<PaymentMethod> paymentMethods = (response.data["paymentMethods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
+    List<PaymentMethod> paymentMethods = (response.data["methods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
 
     return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
   }
 
-  Future<void> createPaymentMethod(
-      {required String name,
-      required String number,
-      required String year,
-      required String month,
-      required String idNo,
-      required String pw,
-      required String ownerName}) async {
-    String url = '/payment/method';
-    Map body = {"name": name, "number": number, "year": year, "month": month, "idNo": idNo, "pw": pw, "ownerName": ownerName};
+  Future<Map> getPaymentMethod() async {
+    String url = '/payments/methods';
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT(), SaveCache()]);
+
+    String? mainMethodId = response.data["mainMethodId"];
+    List<PaymentMethod> paymentMethods = (response.data["methods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
+
+    return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
+  }
+
+  Future<PaymentMethod> createPaymentMethod({required String number, required String expireYear, required String expireMonth, required String idNumber, required String password}) async {
+    String url = '/payments/methods/general';
+    Map body = {
+      "number": number,
+      "expireYear": expireYear,
+      "expireMonth": expireMonth,
+      "idNumber": idNumber,
+      "password": password,
+    };
 
     try {
-      await api.post(url, data: body);
-    } on DioException catch (e) {
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT(), EncryptBody()]);
+      return PaymentMethod.fromJson(response.data);
+    } catch (e) {
       rethrow;
     }
   }
@@ -43,26 +54,20 @@ class PaymentRepository {
   Future<void> patchPaymentMethod({
     required String id,
     required String name,
-    required String color,
-    required String ownerName,
   }) async {
-    String url = '/payment/method';
-    Map body = {"id": id, "name": name, "color": color, "ownerName": ownerName};
+    String url = '/payments/methods/$id';
+    Map body = {"name": name};
 
-    try {
-      await api.patch(url, data: body);
-    } on DioException catch (e) {
-      rethrow;
-    }
+    await api.patch(DPHttpRequest(url, body: body), [JWT()]);
+  }
+
+  Future<void> patchMainMethod({required String id}) async {
+    String url = '/payments/methods/main/$id';
+    await api.patch(DPHttpRequest(url), [JWT()]);
   }
 
   Future<void> deletePaymentMethod({required String id}) async {
-    String url = '/payment/method';
-    Map body = {"id": id};
-    try {
-      await api.delete(url, data: body);
-    } on DioException catch (e) {
-      rethrow;
-    }
+    String url = '/payments/methods/$id';
+    await api.delete(DPHttpRequest(url), [JWT()]);
   }
 }

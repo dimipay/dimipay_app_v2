@@ -1,4 +1,6 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
+import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +11,8 @@ class LogInPage extends GetView<LoginPageController> {
 
   @override
   Widget build(BuildContext context) {
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -19,11 +23,11 @@ class LogInPage extends GetView<LoginPageController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                'assets/images/logoTitle.svg',
+                'assets/icon/logoTitle.svg',
                 width: 16,
                 height: 16,
                 // ignore: deprecated_member_use
-                color: DPColors.grayscale900,
+                color: colorTheme.grayscale900,
               ),
             ],
           ),
@@ -34,6 +38,7 @@ class LogInPage extends GetView<LoginPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 36),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,24 +46,29 @@ class LogInPage extends GetView<LoginPageController> {
                 children: [
                   SvgPicture.asset('assets/images/login_page_image.svg'),
                   const SizedBox(height: 48),
-                  Text('손 안에서, 손쉽게 결제하는 매점.', style: DPTypography.header1(color: DPColors.grayscale1000)),
+                  Text('손 안에서, 손쉽게 결제하는 매점.', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
                   const SizedBox(height: 8),
-                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.', style: DPTypography.itemDescription(color: DPColors.grayscale700)),
+                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale700)),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-              child: Obx(() {
-                if (controller.isGoogleLoginInProgress) {
-                  return const GoogleLoginButtonLoading();
-                }
-                {
-                  return GoogleLoginButton(
-                    onTap: controller.loginWithGoogle,
-                  );
-                }
-              }),
+              child: Obx(
+                () {
+                  if (controller.isGoogleLoginInProgress) {
+                    return DPButton.loading(
+                      backgroundColor: colorTheme.grayscale200,
+                      foregroundColor: colorTheme.primaryBrand,
+                    );
+                  } else {
+                    return GoogleLoginButton(
+                      onTap: controller.loginWithGoogle,
+                      onLongPress: () => Get.offNamed(Routes.PW_LOGIN),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -69,55 +79,34 @@ class LogInPage extends GetView<LoginPageController> {
 
 class GoogleLoginButton extends StatelessWidget {
   final void Function()? onTap;
-  const GoogleLoginButton({super.key, this.onTap});
+  final void Function()? onLongPress;
+  const GoogleLoginButton({super.key, this.onTap, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          color: DPColors.grayscale200,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SvgPicture.asset('assets/images/google-logo.svg'),
-              const SizedBox(width: 10),
-              Text(
-                '디미고 구글 계정으로 로그인',
-                style: DPTypography.readable(color: DPColors.grayscale600),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class GoogleLoginButtonLoading extends StatelessWidget {
-  const GoogleLoginButtonLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    return DPGestureDetectorWithOpacityInteraction(
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
+        decoration: BoxDecoration(
+          color: colorTheme.grayscale200,
+          borderRadius: BorderRadius.circular(12),
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        color: DPColors.grayscale200,
-        child: const Center(
-          child: SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              color: DPColors.primaryBrand,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/icon/google-logo.svg'),
+            const SizedBox(width: 10),
+            Text(
+              '디미고 구글 계정으로 로그인',
+              style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
             ),
-          ),
+          ],
         ),
       ),
     );

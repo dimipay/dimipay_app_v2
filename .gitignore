@@ -49,5 +49,25 @@ app.*.map.json
 GoogleService-Info.plist
 google-services.json
 
+
+# fastlane specific
+**/fastlane/report.xml
+
+# deliver temporary files
+**/fastlane/Preview.html
+
+# snapshot generated screenshots
+**/fastlane/screenshots
+
+# scan temporary files
+**/fastlane/test_output
+
+**/ios/Runner.app.dSYM.zip
+**/ios/Runner.ipa
+
+
+firebase.json
+firebase_options.dart
+
 #
 secret_method.dart

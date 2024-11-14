@@ -1,26 +1,49 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'model.freezed.dart';
 part 'model.g.dart';
 
-// g.dart 파일 생성 : flutter pub run build_runner build --delete-conflicting-outputs
+@freezed
+class PaymentMethod with _$PaymentMethod {
+  const PaymentMethod._();
 
-@JsonSerializable()
-class PaymentMethod {
-  String id;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String? color;
-  String? name;
-  @JsonKey(name: 'last')
-  String last4Digit;
-  PaymentMethod({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.color,
-    required this.name,
-    required this.last4Digit,
-  });
+  const factory PaymentMethod({
+    required String id,
+    required String name,
+    required String preview,
+    required String cardCode,
+  }) = _PaymentMethod;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);
-  Map<String, dynamic> toJson() => _$PaymentMethodToJson(this);
+
+  String getLogoImagePath() {
+    const url = 'assets/images/card_company_logo/';
+    final companyCodeToImagePath = {
+      'BC': 'BC.svg',
+      'Kb': 'Kb.svg',
+      'Hana': 'Hana.svg',
+      'Samsung': 'Samsung.svg',
+      'Shinhan': 'Shinhan.svg',
+      'Hyundai': 'Hyundai.svg',
+      'Lotte': 'Lotte.svg',
+      'Citi': 'Citi.svg',
+      'NH': 'NH.svg',
+      'Suhyup': 'Suhyup.svg',
+      'NACUFOK': 'Shinhyup.svg',
+      'Woori': 'Woori.svg',
+      'KJB': 'KJB.svg',
+      'VISA': 'VISA.svg',
+      'Mastercard': 'Mastercard.svg',
+      'Post': 'Post.svg',
+      'MG': 'MG.svg',
+      'KDB': 'KDB.svg',
+      'Kakaobank': 'Kakaobank.svg',
+      'Kbank': 'Kbank.svg',
+      'AMEX': 'AMEX.svg',
+      'Unionpay': 'Unionpay.svg',
+      'Tossbank': 'Tossbank.svg',
+      'Naverpay': 'Naverpay.svg',
+    };
+    return url + (companyCodeToImagePath[cardCode] ?? 'Unknown.svg');
+  }
 }

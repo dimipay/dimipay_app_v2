@@ -16,10 +16,12 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+
+version: 2.1.1+52
 
 environment:
   sdk: ">=3.2.3 <4.0.0"
+  flutter: 3.24.3
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,25 +38,53 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   get: ^4.6.6
   google_sign_in: ^6.2.1
-  json_serializable: ^6.7.1
   jwt_decoder: ^2.0.1
   uuid: ^4.3.3
   flutter_native_splash: ^2.3.9
+  flutter_launcher_icons: ^0.13.1
   flutter_svg: ^2.0.9
-  dimipay_design_kit: ^0.1.1
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
   intl: ^0.19.0
   crypto: ^3.0.3
-  fast_rsa: ^3.6.1
-  package_info_plus: ^5.0.1
 
+  qr_flutter: ^4.1.0
+  shimmer: ^3.0.0
+  local_auth: ^2.1.8
+  animated_digit: ^3.2.3
+  dimipay_design_kit:
+    git:
+      url: https://github.com/dimipay/dimipay_design_kit.git
+      ref: main
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  fast_rsa: ^3.6.1
+  cryptography: ^2.7.0
+
+  credit_card_scanner: ^1.0.5
+  url_launcher: ^6.2.5
+  lottie: ^3.1.0
+  flutter_oss_licenses: ^3.0.2
+  package_info_plus: ^6.0.0
+  screen_brightness: ^1.0.0
+  firebase_core: 3.3.0
+  firebase_messaging: 15.0.4
+  json_annotation: ^4.9.0
+  barcode_widget: ^2.0.4
+  better_player: ^0.0.84
+  url_launcher_ios: ^6.3.1
+  freezed_annotation: ^2.4.4
+
+dependency_overrides:
+  archive: ^3.6.1
 
 dev_dependencies:
   build_runner: ^2.4.8
   flutter_lints: ^2.0.0
+  json_serializable: ^6.8.0
   flutter_test:
     sdk: flutter
+  freezed: ^2.5.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -72,6 +102,10 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
+    - assets/icon/
+    - assets/images/card_company_logo/
+    - assets/lottie/
+    - assets/videos/
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
     # For details regarding adding assets from package dependencies, see
