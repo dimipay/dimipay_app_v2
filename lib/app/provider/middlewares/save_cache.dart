@@ -16,7 +16,7 @@ class SaveCache extends ApiMiddleware {
     DPHttpResponse response = await next(request);
 
     HttpCacheService cacheService = Get.find<HttpCacheService>();
-    await cacheService.save(request, response);
+    cacheService.save(request, response);
 
     return response;
   }
