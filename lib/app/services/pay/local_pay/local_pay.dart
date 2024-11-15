@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:base45/base45.dart';
 import 'package:cryptography/cryptography.dart';
-import 'package:uuid/uuid.dart';
 
 class LocalPay {
-  List<int> payloadFormatIndicator = [0x44, 0x50]; // 4450 means DP in ASCII
+  List<int> payloadFormatIndicator = [0x4c, 0x50];
+  List<int> applicationIdentifier = [0x44, 0x50, 0xff, 0xff];
   List<int> version = [0x12];
   List<int> authType = [0x18];
   final int tx = 30;
@@ -15,18 +16,19 @@ class LocalPay {
   late final List<int> deviceIdentifier;
   late final List<int> authToken;
   final int t0;
-  final String key;
+  late final List<int> key;
 
   LocalPay({
     required String userIdentifier,
     required String deviceIdentifier,
     required String authToken,
     required this.t0,
-    required this.key,
+    required String key,
   }) {
     this.userIdentifier = parseStringIdentifier(userIdentifier);
     this.deviceIdentifier = parseStringIdentifier(deviceIdentifier);
     this.authToken = parseStringIdentifier(authToken);
+    this.key = parseStringIdentifier(key);
   }
 
   List<int> parseStringIdentifier(String identifier) {
@@ -50,12 +52,24 @@ class LocalPay {
     return mac.bytes;
   }
 
-  List<int> generateNonce() {
-    return parseStringIdentifier(const Uuid().v4());
+  List<int> generateRandomBytes(int length) {
+    List<int> res = [];
+    for (int i = 0; i < length; i++) {
+      res.add(Random().nextInt(256));
+    }
+    return res;
   }
 
-  Future<List<int>> encrypt(List<int> payload, List<int> key, [List<int>? iv]) async {
-    final algorithm = AesGcm.with256bits();
+  List<int> generateNonce() {
+    return generateRandomBytes(16);
+  }
+
+  List<int> generateIv() {
+    return generateRandomBytes(12);
+  }
+
+  Future<List<int>> encrypt(List<int> payload, [List<int>? iv]) async {
+    final algorithm = AesGcm.with128bits();
     final secretKey = SecretKey(key);
     final nonce = iv ?? algorithm.newNonce();
 
@@ -69,9 +83,9 @@ class LocalPay {
 
   Future<List<int>> createEncryptedPayload(
     int paymentMethodIdentifier,
-    String key,
     int t, [
     String? nonce,
+    String? iv,
   ]) async {
     int c = (t - t0) ~/ tx;
     List<int> hmac = await calcHmac(authToken, c);
@@ -83,12 +97,20 @@ class LocalPay {
       parsedNonce = parseStringIdentifier(nonce);
     }
 
+    late final List<int> parsedIv;
+    if (iv == null) {
+      parsedIv = generateIv();
+    } else {
+      parsedIv = parseStringIdentifier(iv);
+    }
+
     List<int> payload = deviceIdentifier + [paymentMethodIdentifier] + hmac + parsedNonce;
-    return await encrypt(payload, key.codeUnits);
+
+    return await encrypt(payload, parsedIv);
   }
 
   List<int> createMetaData() {
-    return payloadFormatIndicator + version;
+    return payloadFormatIndicator + applicationIdentifier + version;
   }
 
   List<int> createCommonPayload() {
@@ -111,7 +133,7 @@ class LocalPay {
 
     List<int> metaData = createMetaData();
     List<int> commonPayload = createCommonPayload();
-    List<int> encryptedPayload = await createEncryptedPayload(paymentMethodIdentifier, key, t, nonce);
+    List<int> encryptedPayload = await createEncryptedPayload(paymentMethodIdentifier, t, nonce, iv);
 
     List<int> payload = metaData + commonPayload + encryptedPayload;
     return Base45.encode(Uint8List.fromList(payload));
