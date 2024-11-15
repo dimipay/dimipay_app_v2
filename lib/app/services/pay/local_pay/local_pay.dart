@@ -6,23 +6,21 @@ import 'package:base45/base45.dart';
 import 'package:cryptography/cryptography.dart';
 
 class LocalPay {
-  List<int> payloadFormatIndicator = [0x4c, 0x50];
-  List<int> applicationIdentifier = [0x44, 0x50, 0xff, 0xff];
-  List<int> version = [0x12];
-  List<int> authType = [0x18];
+  final List<int> payloadFormatIndicator = [0x4c, 0x50];
+  final List<int> applicationIdentifier = [0x44, 0x50, 0xff, 0xff];
+  final List<int> version = [0x12];
+  final List<int> authType = [0x18];
   final int tx = 30;
 
   late final List<int> userIdentifier;
   late final List<int> deviceIdentifier;
   late final List<int> authToken;
-  final int t0;
   late final List<int> key;
 
   LocalPay({
     required String userIdentifier,
     required String deviceIdentifier,
     required String authToken,
-    required this.t0,
     required String key,
   }) {
     this.userIdentifier = parseStringIdentifier(userIdentifier);
@@ -83,7 +81,8 @@ class LocalPay {
 
   Future<List<int>> createEncryptedPayload(
     int paymentMethodIdentifier,
-    int t, [
+    int t,
+    int t0, [
     String? nonce,
     String? iv,
   ]) async {
@@ -125,15 +124,16 @@ class LocalPay {
 
   Future<String> generateLocalPayToken({
     required int paymentMethodIdentifier,
-    int? t,
+    required int paymentMethodCreatedAt,
+    int? generateTime,
     String? nonce,
     String? iv,
   }) async {
-    t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
+    generateTime ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
 
     List<int> metaData = createMetaData();
     List<int> commonPayload = createCommonPayload();
-    List<int> encryptedPayload = await createEncryptedPayload(paymentMethodIdentifier, t, nonce, iv);
+    List<int> encryptedPayload = await createEncryptedPayload(paymentMethodIdentifier, generateTime, paymentMethodCreatedAt, nonce, iv);
 
     List<int> payload = metaData + commonPayload + encryptedPayload;
     return Base45.encode(Uint8List.fromList(payload));
