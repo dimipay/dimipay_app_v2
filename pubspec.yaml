@@ -46,8 +46,6 @@ dependencies:
   flutter_displaymode: ^0.6.0
   image_picker: ^1.0.7
   intl: ^0.19.0
-  crypto: ^3.0.3
-
   qr_flutter: ^4.1.0
   shimmer: ^3.0.0
   local_auth: ^2.1.8
@@ -60,7 +58,6 @@ dependencies:
   hive_flutter: ^1.1.0
   fast_rsa: ^3.6.1
   cryptography: ^2.7.0
-
   credit_card_scanner: ^1.0.5
   url_launcher: ^6.2.5
   lottie: ^3.1.0
@@ -74,6 +71,7 @@ dependencies:
   better_player: ^0.0.84
   url_launcher_ios: ^6.3.1
   freezed_annotation: ^2.4.4
+  base45: ^0.0.3
 
 dependency_overrides:
   archive: ^3.6.1
