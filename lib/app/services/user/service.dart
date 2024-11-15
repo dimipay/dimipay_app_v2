@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/user/repository.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class UserService extends GetxController {
@@ -21,18 +22,20 @@ class UserService extends GetxController {
   }
 
   Future _fetchFromRemote() async {
-    UserState newUserState = UserStateSuccess(value: await repository.getUserInfo());
-    _user.value = newUserState;
+    try {
+      UserState newUserState = UserStateSuccess(value: await repository.getUserInfo());
+      _user.value = newUserState;
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError) {
+        return;
+      }
+      _user.value = UserStateFailed(exception: e);
+    }
   }
 
   Future fetchUser() async {
-    try {
-      _user.value = const UserStateLoading();
-      _fetchFromCache();
-      _fetchFromRemote();
-    } on Exception catch (e) {
-      _user.value = UserStateFailed(exception: e);
-      rethrow;
-    }
+    _user.value = const UserStateLoading();
+    _fetchFromCache();
+    _fetchFromRemote();
   }
 }

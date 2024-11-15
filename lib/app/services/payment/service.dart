@@ -3,6 +3,7 @@ import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/repository.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class PaymentService extends GetxController {
@@ -40,22 +41,25 @@ class PaymentService extends GetxController {
   }
 
   Future<void> _fetchPaymentMethodFromRemote() async {
-    Map data = await repository.getPaymentMethod();
+    try {
+      Map data = await repository.getPaymentMethod();
 
-    _mainMethodId.value = data["mainMethodId"];
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
-    _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
+      _mainMethodId.value = data["mainMethodId"];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError) {
+        return;
+      }
+      _paymentMethodsState.value = PaymentMethodsStateFailed(exception: e);
+    }
   }
 
   Future<void> fetchPaymentMethods() async {
-    try {
-      _paymentMethodsState.value = const PaymentMethodsStateLoading();
+    _paymentMethodsState.value = const PaymentMethodsStateLoading();
 
-      _fetchPaymentMethodsFromCache();
-      _fetchPaymentMethodFromRemote();
-    } on Exception catch (e) {
-      _paymentMethodsState.value = PaymentMethodsStateFailed(exception: e);
-    }
+    _fetchPaymentMethodsFromCache();
+    _fetchPaymentMethodFromRemote();
   }
 
   @override
