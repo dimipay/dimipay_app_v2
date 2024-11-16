@@ -62,7 +62,7 @@ class AppPages {
       page: () => const HomePage(),
       binding: HomePageBinding(),
       middlewares: [LoginMiddleware(), OnboardingMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.noTransition,
     ),
 
     // Authentication
@@ -70,7 +70,7 @@ class AppPages {
       name: Routes.LOGIN,
       page: () => const LogInPage(),
       binding: LoginPageBinding(),
-      transition: Transition.cupertino,
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: Routes.PW_LOGIN,
