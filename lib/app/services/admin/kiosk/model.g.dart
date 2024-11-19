@@ -20,7 +20,7 @@ Map<String, dynamic> _$$KioskImplToJson(_$KioskImpl instance) =>
 _$PasscodeImpl _$$PasscodeImplFromJson(Map<String, dynamic> json) =>
     _$PasscodeImpl(
       passcode: json['passcode'] as String,
-      expiresIn: json['expiresIn'] as String,
+      expiresIn: (json['expiresIn'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$PasscodeImplToJson(_$PasscodeImpl instance) =>

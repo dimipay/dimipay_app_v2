@@ -1,4 +1,5 @@
 import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,6 @@ class UserManageRepository {
 
     Map body = {"email": email};
 
-    await api.patch(DPHttpRequest(url, body: body));
+    await api.patch(DPHttpRequest(url, body: body), [JWT()]);
   }
 }

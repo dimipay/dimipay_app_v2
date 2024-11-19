@@ -19,7 +19,7 @@ class Kiosk with _$Kiosk {
 class Passcode with _$Passcode {
   const factory Passcode({
     required String passcode,
-    required String expiresIn,
+    required int expiresIn,
   }) = _Passcode;
 
   factory Passcode.fromJson(Map<String, dynamic> json) => _$PasscodeFromJson(json);

@@ -12,6 +12,7 @@ class PasscodePage extends GetView<PasscodePageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -25,7 +26,11 @@ class PasscodePage extends GetView<PasscodePageController> {
                 PasscodeStateInitial() || PasscodeStateLoading() || PasscodeStateFailed() => CircularProgressIndicator(
                     color: colorTheme.primaryBrand,
                   ),
-                PasscodeStateSuccess() => throw UnimplementedError(),
+                PasscodeStateSuccess(value: final passcode) => PasscodeDisplay(
+                    passcode: passcode,
+                    colorTheme: colorTheme,
+                    textTheme: textTheme,
+                  ),
               },
             ),
             const Spacer(flex: 2),

@@ -192,7 +192,7 @@ Passcode _$PasscodeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Passcode {
   String get passcode => throw _privateConstructorUsedError;
-  String get expiresIn => throw _privateConstructorUsedError;
+  int get expiresIn => throw _privateConstructorUsedError;
 
   /// Serializes this Passcode to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -209,7 +209,7 @@ abstract class $PasscodeCopyWith<$Res> {
   factory $PasscodeCopyWith(Passcode value, $Res Function(Passcode) then) =
       _$PasscodeCopyWithImpl<$Res, Passcode>;
   @useResult
-  $Res call({String passcode, String expiresIn});
+  $Res call({String passcode, int expiresIn});
 }
 
 /// @nodoc
@@ -238,7 +238,7 @@ class _$PasscodeCopyWithImpl<$Res, $Val extends Passcode>
       expiresIn: null == expiresIn
           ? _value.expiresIn
           : expiresIn // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -251,7 +251,7 @@ abstract class _$$PasscodeImplCopyWith<$Res>
       __$$PasscodeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String passcode, String expiresIn});
+  $Res call({String passcode, int expiresIn});
 }
 
 /// @nodoc
@@ -278,7 +278,7 @@ class __$$PasscodeImplCopyWithImpl<$Res>
       expiresIn: null == expiresIn
           ? _value.expiresIn
           : expiresIn // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -294,7 +294,7 @@ class _$PasscodeImpl with DiagnosticableTreeMixin implements _Passcode {
   @override
   final String passcode;
   @override
-  final String expiresIn;
+  final int expiresIn;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -344,7 +344,7 @@ class _$PasscodeImpl with DiagnosticableTreeMixin implements _Passcode {
 abstract class _Passcode implements Passcode {
   const factory _Passcode(
       {required final String passcode,
-      required final String expiresIn}) = _$PasscodeImpl;
+      required final int expiresIn}) = _$PasscodeImpl;
 
   factory _Passcode.fromJson(Map<String, dynamic> json) =
       _$PasscodeImpl.fromJson;
@@ -352,7 +352,7 @@ abstract class _Passcode implements Passcode {
   @override
   String get passcode;
   @override
-  String get expiresIn;
+  int get expiresIn;
 
   /// Create a copy of Passcode
   /// with the given fields replaced by the non-null parameter values.
