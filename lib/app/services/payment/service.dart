@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/repository.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class PaymentService extends GetxController {
@@ -26,17 +28,38 @@ class PaymentService extends GetxController {
   final Rx<PaymentMethodsState> _paymentMethodsState = Rx(const PaymentMethodsStateInitial());
   PaymentMethodsState get paymentMethodsState => _paymentMethodsState.value;
 
-  Future<void> fetchPaymentMethods() async {
+  Future<void> _fetchPaymentMethodsFromCache() async {
+    try {
+      Map data = await repository.getPaymentMethodFromCache();
+
+      if (paymentMethodsState is! PaymentMethodsStateSuccess) {
+        _mainMethodId.value = data["mainMethodId"];
+        _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+        _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
+      }
+    } on CacheNotExistException {}
+  }
+
+  Future<void> _fetchPaymentMethodFromRemote() async {
     try {
       Map data = await repository.getPaymentMethod();
 
       _mainMethodId.value = data["mainMethodId"];
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
-
       _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
-    } on Exception catch (e) {
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionError) {
+        return;
+      }
       _paymentMethodsState.value = PaymentMethodsStateFailed(exception: e);
     }
+  }
+
+  Future<void> fetchPaymentMethods() async {
+    _paymentMethodsState.value = const PaymentMethodsStateLoading();
+
+    _fetchPaymentMethodsFromCache();
+    _fetchPaymentMethodFromRemote();
   }
 
   @override
@@ -70,7 +93,7 @@ class PaymentService extends GetxController {
     if (oldPaymentMethods.isEmpty) {
       _mainMethodId.value = newPaymentMethod.id;
     }
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods + [newPaymentMethod]);
+    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: [...oldPaymentMethods, newPaymentMethod]);
     _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).value);
     return newPaymentMethod;
   }
@@ -84,12 +107,7 @@ class PaymentService extends GetxController {
     }
 
     try {
-      PaymentMethod newPaymentMethod = PaymentMethod(
-        id: paymentMethod.id,
-        name: newName,
-        preview: paymentMethod.preview,
-        cardCode: paymentMethod.cardCode,
-      );
+      PaymentMethod newPaymentMethod = paymentMethod.copyWith(name: newName);
 
       List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods];
       newPaymentMethods[paymentMethodIndex] = newPaymentMethod;

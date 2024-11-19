@@ -1,8 +1,11 @@
 import 'dart:io';
-import 'package:dimipay_app_v2/app/provider/api.dart';
-import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/log.dart';
+import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -19,12 +22,16 @@ class AppLoader {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    Get.lazyPut<SecureApiProvider>(() => ProdSecureApiProvider());
+    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: 'https://prod-next.dimipay.io/')))
+      ..middlewares.add(
+        DioLog(),
+      ));
 
     await dotenv.load(fileName: "env/.env", isOptional: true);
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);
+    Get.put(HttpCacheService(await Hive.openBox('HttpCache')));
 
     await initializeDateFormatting('ko_KR');
 

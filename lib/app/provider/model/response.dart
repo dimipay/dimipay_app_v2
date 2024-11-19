@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 class DPHttpResponse {
   String code;
   String? message;
@@ -15,13 +13,4 @@ class DPHttpResponse {
     this.data,
     this.errors,
   });
-
-  factory DPHttpResponse.fromDioResponse(Response dioResponse) => DPHttpResponse(
-        code: dioResponse.data['code'],
-        message: dioResponse.data['message'],
-        statusCode: dioResponse.data['statusCode'],
-        timeStamp: dioResponse.data['timestamp'],
-        data: dioResponse.data['data'],
-        errors: dioResponse.data['errors'],
-      );
 }

@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
+import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -8,7 +10,7 @@ class PushRepository {
   final String _hiveBoxName = 'pushService';
   Box? _hiveBox;
 
-  PushRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
+  PushRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
   Future<void> init() async {
     await _initHiveBox();
@@ -25,8 +27,8 @@ class PushRepository {
 
   Future<void> updateFcmTokenToServer(String token) async {
     String url = "/fcm";
-    Map<String, dynamic> data = {'token': token};
-    await api.put(url, data: data);
+    Map<String, dynamic> body = {'token': token};
+    await api.put(DPHttpRequest(url, body: body), [JWT()]);
   }
 
   Future<DateTime?> getTokenLastUpdated() async {

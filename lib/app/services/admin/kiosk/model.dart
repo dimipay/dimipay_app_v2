@@ -1,36 +1,26 @@
-import 'package:json_annotation/json_annotation.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'model.freezed.dart';
 part 'model.g.dart';
 
 // g.dart 파일 생성 : dart run build_runner build
 
-@JsonSerializable()
-class Kiosk {
-  String id;
-  String name;
-
-  Kiosk({
-    required this.id,
-    required this.name,
-  });
+@freezed
+class Kiosk with _$Kiosk {
+  const factory Kiosk({
+    required String id,
+    required String name,
+  }) = _Kiosk;
 
   factory Kiosk.fromJson(Map<String, dynamic> json) => _$KioskFromJson(json);
-
-  Map<String, dynamic> toJson() => _$KioskToJson(this);
 }
 
-@JsonSerializable()
-class Passcode {
-  String passcode;
-  int expiresIn;
+@freezed
+class Passcode with _$Passcode {
+  const factory Passcode({
+    required String passcode,
+    required int expiresIn,
+  }) = _Passcode;
 
-  Passcode({
-    required this.passcode,
-    required this.expiresIn,
-  });
-
-  factory Passcode.fromJson(Map<String, dynamic> json) =>
-      _$PasscodeFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PasscodeToJson(this);
+  factory Passcode.fromJson(Map<String, dynamic> json) => _$PasscodeFromJson(json);
 }

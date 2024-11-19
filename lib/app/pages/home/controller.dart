@@ -129,7 +129,7 @@ class HomePageController extends GetxController {
   }
 
   Future<void> prefetchAuthAndQR() async {
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 300));
 
     while (paymentService.paymentMethodsState is PaymentMethodsStateInitial || paymentService.paymentMethodsState is PaymentMethodsStateLoading) {
       await Future.delayed(const Duration(milliseconds: 100));

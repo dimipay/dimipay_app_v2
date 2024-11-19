@@ -1,4 +1,6 @@
-import 'package:dimipay_app_v2/app/provider/api_interface.dart';
+import 'package:dimipay_app_v2/app/provider/api_provider.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
+import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
@@ -7,9 +9,9 @@ import 'package:get/instance_manager.dart';
 class TransactionRepository {
   final ApiProvider api;
 
-  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<SecureApiProvider>();
+  TransactionRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
-  Future<Map> getTransactions({required int year, required int month, String? cursor, int? limit}) async {
+  Future<({dynamic monthTotal, dynamic nextCursor, List<Transaction> transactions})> getTransactions({required int year, required int month, String? cursor, int? limit}) async {
     String url = '/history';
     Map<String, dynamic> queryParameter = {"year": year, 'month': month};
 
@@ -21,20 +23,20 @@ class TransactionRepository {
       queryParameter['limit'] = limit;
     }
 
-    DPHttpResponse response = await api.get(url, queryParameters: queryParameter);
+    DPHttpResponse response = await api.get(DPHttpRequest(url, queryParameters: queryParameter), [JWT()]);
     List<Transaction> transactions = [];
     for (final group in response.data["groups"]) {
       for (final transaction in group['transactions']) {
         transactions.add(Transaction.fromJson(transaction));
       }
     }
-    return {"transactions": transactions, "monthTotal": response.data["monthTotal"], "nextCursor": response.data["nextCursor"]};
+    return (transactions: transactions, monthTotal: response.data["monthTotal"], nextCursor: response.data["nextCursor"]);
   }
 
   Future<TransactionDetail> getTransactionDetail(String transactionId) async {
     String url = '/history/$transactionId';
 
-    DPHttpResponse response = await api.get(url);
+    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
     return TransactionDetail.fromJson(response.data);
   }
 
@@ -48,7 +50,7 @@ class TransactionRepository {
   }) async {
     String url = '/history';
 
-    Map<String, dynamic> data = {
+    Map<String, dynamic> body = {
       "createdAt": createdAt.toUtc().toIso8601String(),
       "status": status,
       "statusMessage": "테스트 결제",
@@ -58,7 +60,7 @@ class TransactionRepository {
       "paymentMethodId": paymentMethod.id,
     };
 
-    DPHttpResponse response = await api.post(url, data: data);
+    DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);
     return TransactionDetail.fromJson(response.data);
   }
 }

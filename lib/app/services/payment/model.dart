@@ -1,18 +1,20 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'model.freezed.dart';
 part 'model.g.dart';
 
-// g.dart 파일 생성 : flutter pub run build_runner build --delete-conflicting-outputs
+@freezed
+class PaymentMethod with _$PaymentMethod {
+  const PaymentMethod._();
 
-@JsonSerializable()
-class PaymentMethod {
-  String id;
-  String name;
-  String preview;
-  String cardCode;
-  PaymentMethod({required this.id, required this.name, required this.preview, required this.cardCode});
+  const factory PaymentMethod({
+    required String id,
+    required String name,
+    required String preview,
+    required String cardCode,
+  }) = _PaymentMethod;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);
-  Map<String, dynamic> toJson() => _$PaymentMethodToJson(this);
 
   String getLogoImagePath() {
     const url = 'assets/images/card_company_logo/';
