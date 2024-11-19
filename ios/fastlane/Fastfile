@@ -47,10 +47,7 @@ platform :ios do
     match(type: "appstore")
     build_app(
       workspace: "Runner.xcworkspace", 
-      scheme: "Runner",
-      skip_build_archive: true,
-      export_team_id: 'X2TSPBJQ6J',
-      archive_path: "../build/ios/archive/Runner.xcarchive"
+      scheme: "Runner"
     )
     upload_to_app_store(
       force: true,
