@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/services/user/model.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
@@ -77,7 +77,7 @@ class LogOutButton extends StatelessWidget {
     return SizedBox(
       child: DPGestureDetectorWithOpacityInteraction(
         onTap: () {
-          Get.find<AuthService>().logout();
+          Get.find<InfoPageController>().logout();
         },
         child: Icon(Icons.logout_rounded, size: 20, color: colorTheme.grayscale500),
       ),

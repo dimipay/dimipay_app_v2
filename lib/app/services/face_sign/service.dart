@@ -36,7 +36,7 @@ class FaceSignService extends GetxController {
       return;
     }
     try {
-      _faceSignState.value = const FaceSignStateLoading();
+      _faceSignState.value = const FaceSignStatePatching();
       await repository.patchFaceSign(image);
       _faceSignState.value = const FaceSignStateSuccess(isRegistered: true);
     } on Exception catch (_) {

@@ -1,26 +1,18 @@
-import 'package:json_annotation/json_annotation.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+part 'model.freezed.dart';
 part 'model.g.dart';
 
 // g.dart 파일 생성 : dart run build_runner build
 
-@JsonSerializable()
-class User {
-  String email;
-  String name;
-
-  String profileImage;
-
-  String role;
-
-  User({
-    required this.email,
-    required this.name,
-    required this.profileImage,
-    required this.role,
-  });
+@freezed
+class User with _$User {
+  const factory User({
+    required String email,
+    required String name,
+    required String profileImage,
+    required String role,
+  }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

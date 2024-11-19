@@ -10,6 +10,7 @@ import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/rsa.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:fast_rsa/fast_rsa.dart';
 import 'package:get/get.dart';
@@ -180,5 +181,6 @@ class AuthService {
   Future<void> logout() async {
     await _clearTokens();
     await clearGoogleSignInInfo();
+    await Get.find<HttpCacheService>().clear();
   }
 }

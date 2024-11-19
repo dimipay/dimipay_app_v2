@@ -9,12 +9,7 @@ class DPAppbar extends StatelessWidget {
   final Widget? leading;
   final void Function()? onBackButtonPressed;
 
-  const DPAppbar(
-      {super.key,
-      this.header,
-      this.paragraph,
-      this.leading,
-      this.onBackButtonPressed});
+  const DPAppbar({super.key, this.header, this.paragraph, this.leading, this.onBackButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +18,7 @@ class DPAppbar extends StatelessWidget {
     return SafeArea(
         bottom: false,
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: SizedBox(
             width: double.infinity,
             child: Column(
@@ -42,8 +37,7 @@ class DPAppbar extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           color: colorTheme.grayscale100,
-                          child: Icon(Icons.arrow_back_ios_rounded,
-                              size: 20, color: colorTheme.grayscale500),
+                          child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
                         ),
                       ),
                 Padding(
@@ -55,8 +49,7 @@ class DPAppbar extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 16),
                           child: Text(
                             header!,
-                            style: textTheme.header1
-                                .copyWith(color: colorTheme.grayscale1000),
+                            style: textTheme.header1.copyWith(color: colorTheme.grayscale1000),
                           ),
                         ),
                       if (paragraph != null)
@@ -64,8 +57,7 @@ class DPAppbar extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 16),
                           child: Text(
                             paragraph!,
-                            style: textTheme.paragraph1
-                                .copyWith(color: colorTheme.grayscale700),
+                            style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
                           ),
                         ),
                     ],

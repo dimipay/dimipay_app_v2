@@ -54,8 +54,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'package:get/get.dart';
-
 class AppPages {
   static final pages = [
     // Root
@@ -64,7 +62,7 @@ class AppPages {
       page: () => const HomePage(),
       binding: HomePageBinding(),
       middlewares: [LoginMiddleware(), OnboardingMiddleware()],
-      transition: Transition.cupertino,
+      transition: Transition.noTransition,
     ),
 
     // Authentication
@@ -72,7 +70,7 @@ class AppPages {
       name: Routes.LOGIN,
       page: () => const LogInPage(),
       binding: LoginPageBinding(),
-      transition: Transition.cupertino,
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: Routes.PW_LOGIN,
@@ -222,7 +220,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.RESET_PIN,
-      page: () => ResetPinPage(),
+      page: () => const ResetPinPage(),
       binding: ResetPinPageBinding(),
       middlewares: [LoginMiddleware(), AdminMiddleware()],
       transition: Transition.cupertino,

@@ -34,11 +34,23 @@ class RegisterCardPageController extends GetxController with StateMixin {
 
   String formatCardNumber(String rawData) {
     String formatedData = '';
-    for (int i = 0; i < rawData.length; i++) {
-      if (i != 0 && i % 4 == 0) {
-        formatedData += '-';
+    // AMEX format: XXXX-XXXXXX-XXXXX
+    if (rawData.startsWith('34') || rawData.startsWith('37')) {
+      for (int i = 0; i < rawData.length; i++) {
+        if (i == 4 || i == 10) {
+          formatedData += '-';
+        }
+        formatedData += rawData[i];
       }
-      formatedData += rawData[i];
+    }
+    // Other cards format: XXXX-XXXX-XXXX-XXXX
+    else {
+      for (int i = 0; i < rawData.length; i++) {
+        if (i != 0 && i % 4 == 0) {
+          formatedData += '-';
+        }
+        formatedData += rawData[i];
+      }
     }
     return formatedData;
   }
@@ -49,9 +61,14 @@ class RegisterCardPageController extends GetxController with StateMixin {
     String formatedData = formatCardNumber(rawData);
 
     cardNumberFieldController.text = formatedData;
-    cardNumberFieldController.selection = TextSelection.fromPosition(TextPosition(offset: cardNumberFieldController.text.length));
+    cardNumberFieldController.selection = TextSelection.fromPosition(
+        TextPosition(offset: cardNumberFieldController.text.length)
+    );
 
-    if (rawData.length == 16) {
+    bool isAmex = rawData.startsWith('34') || rawData.startsWith('37');
+    int requiredLength = isAmex ? 15 : 16;
+
+    if (rawData.length == requiredLength) {
       cardNumber.value = rawData;
       formFocusScopeNode.nextFocus();
     } else {
@@ -120,7 +137,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
       cardNumberFieldController.text = formatCardNumber(cardInfo.cardNumber);
       cardNumber.value = cardInfo.cardNumber;
       expiredDateFieldController.text = cardInfo.expiryDate;
-      expiredAt.value = expiredAt.value = DateTime(int.parse(cardInfo.expiryDate.substring(3)), int.parse(cardInfo.expiryDate.substring(0, 2)));
+      expiredAt.value = DateTime(int.parse(cardInfo.expiryDate.substring(3)), int.parse(cardInfo.expiryDate.substring(0, 2)));
       formFocusScopeNode.nextFocus();
       formFocusScopeNode.nextFocus();
       formFocusScopeNode.nextFocus();
@@ -135,7 +152,13 @@ class RegisterCardPageController extends GetxController with StateMixin {
     if (isFormValid) {
       try {
         change(null, status: RxStatus.loading());
-        PaymentMethod newPaymentMethod = await paymentService.createPaymentMethod(number: cardNumber.value!, expireYear: expiredAt.value!.year.toString().padLeft(2, '0'), expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'), idNumber: ownerPersonalNum.value!, password: password.value!);
+        PaymentMethod newPaymentMethod = await paymentService.createPaymentMethod(
+            number: cardNumber.value!,
+            expireYear: expiredAt.value!.year.toString().padLeft(2, '0'),
+            expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'),
+            idNumber: ownerPersonalNum.value!,
+            password: password.value!
+        );
 
         Get.offNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': newPaymentMethod});
       } on DioException catch (e) {
