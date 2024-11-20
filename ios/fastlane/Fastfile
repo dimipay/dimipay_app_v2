@@ -26,13 +26,7 @@ platform :ios do
       key_content: ENV["APPSTORECONNECT_API_KEY"]
     )
     match(type: "appstore")
-    build_app(
-      workspace: "Runner.xcworkspace", 
-      scheme: "Runner", 
-      skip_build_archive: true,
-      export_team_id: 'X2TSPBJQ6J',
-      archive_path: "../build/ios/archive/Runner.xcarchive"
-    )
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_testflight
   end
 
@@ -45,10 +39,7 @@ platform :ios do
       key_content: ENV["APPSTORECONNECT_API_KEY"]
     )
     match(type: "appstore")
-    build_app(
-      workspace: "Runner.xcworkspace", 
-      scheme: "Runner"
-    )
+    build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
     upload_to_app_store(
       force: true,
       automatic_release: false,
