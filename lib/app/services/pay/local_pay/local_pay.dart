@@ -1,172 +1,176 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:base45/base45.dart';
 import 'package:cryptography/cryptography.dart';
-import 'dart:math' as math;
+import 'package:uuid/parsing.dart';
 import 'package:uuid/v7.dart';
-
-class Bytes {
-  List<int> bytes = [];
-
-  Bytes(this.bytes);
-
-  Bytes.fromString(String str) {
-    bytes = [];
-
-    for (var i = 0; i < str.length; i += 2) {
-      bytes.add(int.parse(str[i] + str[i + 1], radix: 16));
-    }
-  }
-
-  @override
-  String toString() {
-    String res = "";
-    for (var byte in bytes) {
-      res += '${byte.toRadixString(16)} ';
-    }
-    return res;
-  }
-
-  Bytes operator +(Bytes other) {
-    return Bytes([...bytes, ...other.bytes]);
-  }
-}
-
-enum TlvTagType {
-  authType,
-  authToken,
-  userIdentifier,
-  deviceIdentifier,
-  paymentMethodIdentifier,
-  nonce,
-  payloadLengthIndicator,
-  additionalData,
-}
-
-class Tlv {
-  final TlvTagType t;
-  final Bytes v;
-  Tlv(this.t, this.v);
-
-  int get tValue => t.index + 1;
-
-  Bytes get tlv {
-    final l = math.log(v.bytes.length) ~/ math.log(2);
-    final tl = (tValue << 4) + l;
-    return Bytes([tl] + v.bytes);
-  }
-}
+import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 
 class LocalPay {
-  final Bytes payloadFormatIndicator = Bytes([0x4c, 0x50]);
-  final Bytes applicationIdentifier = Bytes([0x44, 0x50, 0xff, 0xff]);
-  final Bytes version = Bytes([0x42]);
-  final Bytes authType = Bytes([0x10]);
+  final Uint8List payloadFormatIndicator = Uint8List.fromList([0x4c, 0x50]);
+  final Uint8List applicationIdentifier =
+      Uint8List.fromList([0x44, 0x50, 0xff, 0xff]);
+  final Uint8List version = Uint8List.fromList([0x04]);
+  final Uint8List authType = Uint8List.fromList([0x10]);
   final int tx = 30;
 
-  late final Bytes userIdentifier;
-  late final Bytes deviceIdentifier;
-  late final Bytes authToken;
-  late final Bytes rk;
+  late final Uint8List userIdentifier;
+  late final Uint8List deviceIdentifier;
+  late final Uint8List authToken;
+  late final Uint8List rk;
 
   LocalPay({
     required String userIdentifier,
     required String deviceIdentifier,
     required String authToken,
-    required String rk,
+    required this.rk,
   }) {
-    this.userIdentifier = Bytes.fromString(userIdentifier.replaceAll('-', ''));
-    this.deviceIdentifier = Bytes.fromString(deviceIdentifier.replaceAll('-', ''));
-    this.authToken = Bytes.fromString(authToken.replaceAll('-', ''));
-    this.rk = Bytes.fromString(rk.replaceAll('-', ''));
+    this.userIdentifier = UuidParsing.parseAsByteList(userIdentifier);
+    this.deviceIdentifier = UuidParsing.parseAsByteList(deviceIdentifier);
+    this.authToken = UuidParsing.parseAsByteList(authToken);
   }
 
-  Bytes generateNonce() {
-    return Bytes.fromString(const UuidV7().generate().replaceAll('-', ''));
-  }
-
-  Future<Bytes> encryptPrivatePayload(Bytes metaDataPayload, Bytes commonPayload, Bytes privatePayload, int t0, [int? t]) async {
-    t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
-
-    int c = (t - t0) ~/ tx;
-    final hkdf = Hkdf(hmac: Hmac.sha384(), outputLength: 56);
-    final ikm = SecretKey(rk.bytes);
-    final info = utf8.encode('local-generated-payment-token$c');
-    final salt = userIdentifier.bytes;
-    final tmp = (await hkdf.deriveKey(
-      secretKey: ikm,
-      nonce: salt,
-      info: info,
-    ))
-        .bytes;
-
-    final k = tmp.getRange(0, 32).toList();
-    final n = tmp.getRange(32, tmp.length).toList();
-
-    final xchacha20 = Xchacha20.poly1305Aead();
-    final secretKey = SecretKey(k);
-
-    final xchacha20res = await xchacha20.encrypt(
-      privatePayload.bytes,
-      secretKey: secretKey,
-      nonce: n,
-      aad: metaDataPayload.bytes + commonPayload.bytes + privatePayload.bytes,
-    );
-
-    print(Bytes(k));
-    print(Bytes(n));
-    print(Bytes(xchacha20res.cipherText));
-
-    return Bytes(xchacha20res.cipherText);
-  }
-
-  Tlv createPaymentLengthInicator(List<Tlv> tlvs) {
-    int totalLenth = 0;
-    for (var tlv in tlvs) {
-      totalLenth += tlv.tlv.bytes.length;
-    }
-    return Tlv(TlvTagType.payloadLengthIndicator, Bytes([totalLenth]));
-  }
-
-  Bytes createMetaData() {
-    return payloadFormatIndicator + applicationIdentifier + version;
-  }
-
-  Bytes createCommonPayload(int paymentMethodIdentifier) {
-    final authTypeTlv = Tlv(TlvTagType.authType, authType);
-    final userIdentifierTlv = Tlv(TlvTagType.userIdentifier, userIdentifier);
-    final paymentMethodIdentifierTlv = Tlv(TlvTagType.paymentMethodIdentifier, Bytes([paymentMethodIdentifier]));
-    final paymentLengthIndicator = createPaymentLengthInicator([authTypeTlv, userIdentifierTlv, paymentMethodIdentifierTlv]);
-
-    return paymentLengthIndicator.tlv + authTypeTlv.tlv + userIdentifierTlv.tlv + paymentMethodIdentifierTlv.tlv;
-  }
-
-  Bytes createPrivatePayload(
-    int t0, [
-    int? t,
-    String? nonce,
-  ]) {
-    final Bytes parsedNonce = nonce == null ? generateNonce() : Bytes.fromString(nonce.replaceAll('-', ''));
-
-    Tlv authTokenTlv = Tlv(TlvTagType.authToken, authToken);
-    Tlv deviceIdentifierTlv = Tlv(TlvTagType.deviceIdentifier, deviceIdentifier);
-    Tlv nonceTlv = Tlv(TlvTagType.nonce, parsedNonce);
-    Tlv paymentLengthIndicator = createPaymentLengthInicator([authTokenTlv, deviceIdentifierTlv, nonceTlv]);
-
-    return paymentLengthIndicator.tlv + authTokenTlv.tlv + deviceIdentifierTlv.tlv + nonceTlv.tlv;
-  }
-
-  Future<String> generateLocalPayToken({
+  Future<Uint8List> generateLocalPayToken({
     required int paymentMethodIdentifier,
-    required int paymentMethodCreatedAt,
+    required int t0,
     int? t,
     String? nonce,
   }) async {
-    Bytes metaDataPayload = createMetaData();
-    Bytes commonPayload = createCommonPayload(paymentMethodIdentifier);
-    Bytes privatePayload = createPrivatePayload(paymentMethodCreatedAt, t, nonce);
+    final metadataPayload = buildMetaDataPayload();
+    final commonPayload = buildCommonPayload(paymentMethodIdentifier);
+    final rawPrivatePayload = buildRawPrivatePayload(t0, t, nonce);
 
-    Bytes encryptedPrivatePayload = await encryptPrivatePayload(metaDataPayload, commonPayload, privatePayload, paymentMethodCreatedAt, t);
-    return Base45.encode(Uint8List.fromList(metaDataPayload.bytes + commonPayload.bytes + encryptedPrivatePayload.bytes));
+    final encryptedPrivatePayload = await encryptPrivatePayload(
+        metadataPayload, commonPayload, rawPrivatePayload, t0);
+
+    final tokenBuilder = BytesBuilder();
+    tokenBuilder.add(metadataPayload);
+    tokenBuilder.add(commonPayload);
+    tokenBuilder.add(encryptedPrivatePayload);
+
+    return tokenBuilder.takeBytes();
   }
+
+  Uint8List buildMetaDataPayload() {
+    final builder = BytesBuilder();
+
+    builder.add(payloadFormatIndicator);
+    builder.add(applicationIdentifier);
+    builder.add(version);
+
+    return builder.takeBytes();
+  }
+
+  Uint8List buildCommonPayload(int paymentMethodIdentifier) {
+    final builder = BytesBuilder();
+
+    final authTypeTLV = TLV(Tag.authType, authType);
+    final userIdentifierTLV = TLV(Tag.userIdentifier, userIdentifier);
+    final paymentMethodIdentifierTlV = TLV(Tag.paymentMethodIdentifier,
+        Uint8List.fromList([paymentMethodIdentifier]));
+
+    final payloadLengthIndicatorTLV = createPayloadLengthInicator(
+        [authTypeTLV, userIdentifierTLV, paymentMethodIdentifierTlV]);
+
+    builder.add(payloadLengthIndicatorTLV.bytes);
+    builder.add(authTypeTLV.bytes);
+    builder.add(userIdentifierTLV.bytes);
+    builder.add(paymentMethodIdentifierTlV.bytes);
+
+    return builder.takeBytes();
+  }
+
+  Uint8List buildRawPrivatePayload(int t0, int? t, String? nonce) {
+    final Uint8List parsedNonce =
+        nonce == null ? generateNonce() : UuidParsing.parseAsByteList(nonce);
+
+    final TLV authTokenTLV = TLV(Tag.authToken, authToken);
+    final TLV deviceIdentifierTLV = TLV(Tag.deviceIdentifier, deviceIdentifier);
+    final TLV nonceTLV = TLV(Tag.nonce, parsedNonce);
+    final TLV payloadLengthIndicator = createPayloadLengthInicator(
+        [authTokenTLV, deviceIdentifierTLV, nonceTLV]);
+
+    final builder = BytesBuilder();
+    builder.add(payloadLengthIndicator.bytes);
+    builder.add(authTokenTLV.bytes);
+    builder.add(deviceIdentifierTLV.bytes);
+    builder.add(nonceTLV.bytes);
+
+    return builder.takeBytes();
+  }
+
+  Future<Uint8List> encryptPrivatePayload(Uint8List metadataPayload,
+      Uint8List commonPayload, Uint8List rawPrivatePayload, int t0,
+      [int? t]) async {
+    t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
+    final (k, n) = await prepareKey(t, t0, rk, userIdentifier);
+
+    final aadBuilder = BytesBuilder();
+    aadBuilder.add(metadataPayload);
+    aadBuilder.add(commonPayload);
+    aadBuilder.add(rawPrivatePayload);
+    final aad = aadBuilder.takeBytes();
+
+    return xchacha20Poly1305(rawPrivatePayload, k, n, aad);
+  }
+
+  Future<Uint8List> xchacha20Poly1305(message, key, nonce, aad) async {
+    final xchacha20 = Xchacha20.poly1305Aead();
+    final secretKey = SecretKey(key);
+
+    final xchacha20res = await xchacha20.encrypt(
+      message,
+      secretKey: secretKey,
+      nonce: nonce,
+      aad: aad,
+    );
+
+    final res = Uint8List(message.length + 16);
+
+    res.setAll(0, xchacha20res.cipherText);
+    res.setAll(message.length, xchacha20res.mac.bytes);
+
+    return res;
+  }
+
+  Future<(Uint8List, Uint8List)> prepareKey(
+      int t, int t0, Uint8List rk, Uint8List userIdentifier) async {
+    final hkdf = Hkdf(hmac: Hmac.sha384(), outputLength: 56);
+
+    final c = calculateCounter(t, t0);
+    final ikm = SecretKey(rk);
+    final info = utf8.encode('local-generated-payment-token$c');
+    final salt = userIdentifier;
+    final tmp = await hkdf.deriveKey(
+      secretKey: ikm,
+      info: info,
+      nonce: salt,
+    );
+    final byteTmp = Uint8List.fromList(tmp.bytes);
+
+    final k = Uint8List(32);
+    final n = Uint8List(24);
+
+    k.setAll(0, byteTmp.getRange(0, 32));
+    n.setAll(0, byteTmp.getRange(32, 56));
+
+    return (k, n);
+  }
+
+  int calculateCounter(int t, int t0) {
+    return (t - t0) ~/ tx;
+  }
+
+  TLV createPayloadLengthInicator(List<TLV> tlvs) {
+    int totalLenth = tlvs.fold(0, (acc, tlv) => acc + tlv.bytes.length);
+    return TLV(Tag.payloadLengthIndicator, Uint8List.fromList([totalLenth]));
+  }
+
+  Uint8List generateNonce() {
+    final uuidv7 = const UuidV7().generate();
+    return UuidParsing.parseAsByteList(uuidv7);
+  }
+}
+
+String uint8ListToHex(Uint8List bytes) {
+  return bytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join('');
 }
