@@ -108,7 +108,7 @@ class AuthRepository {
     Map<String, String> body = {
       'pin': pin,
     };
-    await api.post(DPHttpRequest(url, body: body, headers: headers), [OTP()]);
+    await api.post(DPHttpRequest(url, body: body, headers: headers), [JWT(), EncryptBody()]);
   }
 
   Future<void> checkPin(String pin) async {
