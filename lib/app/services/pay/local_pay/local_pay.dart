@@ -37,7 +37,7 @@ class LocalPay {
   }) async {
     final metadataPayload = buildMetaDataPayload();
     final commonPayload = buildCommonPayload(paymentMethodIdentifier);
-    final rawPrivatePayload = buildRawPrivatePayload(t0, t, nonce);
+    final rawPrivatePayload = buildRawPrivatePayload(nonce);
 
     final encryptedPrivatePayload = await encryptPrivatePayload(
         metadataPayload, commonPayload, rawPrivatePayload, t0);
@@ -46,17 +46,15 @@ class LocalPay {
     tokenBuilder.add(metadataPayload);
     tokenBuilder.add(commonPayload);
     tokenBuilder.add(encryptedPrivatePayload);
-
+    
     return tokenBuilder.takeBytes();
   }
 
   Uint8List buildMetaDataPayload() {
     final builder = BytesBuilder();
-
     builder.add(payloadFormatIndicator);
     builder.add(applicationIdentifier);
     builder.add(version);
-
     return builder.takeBytes();
   }
 
@@ -79,7 +77,7 @@ class LocalPay {
     return builder.takeBytes();
   }
 
-  Uint8List buildRawPrivatePayload(int t0, int? t, String? nonce) {
+  Uint8List buildRawPrivatePayload(String? nonce) {
     final Uint8List parsedNonce =
         nonce == null ? generateNonce() : UuidParsing.parseAsByteList(nonce);
 
@@ -103,13 +101,7 @@ class LocalPay {
       [int? t]) async {
     t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
     final (k, n) = await prepareKey(t, t0, rk, userIdentifier);
-
-    final aadBuilder = BytesBuilder();
-    aadBuilder.add(metadataPayload);
-    aadBuilder.add(commonPayload);
-    aadBuilder.add(rawPrivatePayload);
-    final aad = aadBuilder.takeBytes();
-
+    final aad = Uint8List.fromList(metadataPayload + commonPayload);
     return xchacha20Poly1305(rawPrivatePayload, k, n, aad);
   }
 
