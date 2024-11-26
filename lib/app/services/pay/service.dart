@@ -1,24 +1,24 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:typed_data';
+import 'package:base45/base45.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/services/pay/local_pay/local_pay.dart';
 import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/repository.dart';
+import 'package:dimipay_app_v2/app/services/pay/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
-import 'package:dio/dio.dart';
+import 'package:dimipay_app_v2/app/services/user/service.dart';
+import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:get/get.dart';
 
-class PayService extends GetxController with StateMixin<String> {
+class PayService extends GetxController {
   final PayRepository repository;
   PayService(this.repository);
 
-  final AuthService authService = Get.find<AuthService>();
-
-  final Rx<String?> _paymentToken = Rx(null);
-  String? get paymentToken => _paymentToken.value;
+  final Rx<PaymentTokenState> _paymentTokenState = Rx(const PaymentTokenInitial());
+  PaymentTokenState get paymentTokenState => _paymentTokenState.value;
 
   StreamController<TransactionStatus> statusStreamController = StreamController.broadcast();
-
-  DateTime? expireAt;
 
   Future<void> _connectTransactionStatusStream() async {
     final statusStream = await repository.getTransactionStatus();
@@ -41,17 +41,49 @@ class PayService extends GetxController with StateMixin<String> {
     _connectTransactionStatusStream();
   }
 
+  @Deprecated('legacy token is deprecated!')
   Future<void> fetchPaymentToken(PaymentMethod paymentMethod) async {
     try {
-      change(null, status: RxStatus.loading());
-      _paymentToken.value = null;
-      expireAt = null;
+      final AuthService authService = Get.find<AuthService>();
+      _paymentTokenState.value = const PaymentTokenLoading();
       Map res = await repository.getPaymentToken(paymentMethod: paymentMethod, pin: authService.pin, bioKey: authService.bioKey.key);
-      _paymentToken.value = res['token'];
-      expireAt = DateTime.parse(res['expiresAt']);
-      change(_paymentToken.value, status: RxStatus.success());
-    } on DioException catch (e) {
-      log(e.response!.data.toString());
+      _paymentTokenState.value = res['token'];
+      _paymentTokenState.value = PaymentTokenSuccess(
+        value: res['token'],
+        expireAt: DateTime.parse(res['expiresAt']),
+        lifetime: DateTime.parse(res['expiresAt']).difference(DateTime.now()),
+      );
+    } on Exception catch (e) {
+      _paymentTokenState.value = PaymentTokenFailed(exception: e);
+    }
+  }
+
+  Future<void> generateLocalPaymentToken(PaymentMethod paymentMethod) async {
+    try {
+      final AuthService authService = Get.find<AuthService>();
+      final UserService userService = Get.find<UserService>();
+      _paymentTokenState.value = const PaymentTokenLoading();
+
+      LocalPay localpay = LocalPay(
+        userIdentifier: (userService.userState as UserStateSuccess).value.id,
+        deviceIdentifier: authService.deviceId.deviceId!,
+        authToken: authService.bioKey.key!,
+        rk: authService.aes.key!,
+      );
+
+      Uint8List rawToken = await localpay.generateLocalPayToken(
+        paymentMethodIdentifier: paymentMethod.sequence,
+        t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch * 1000,
+      );
+
+      String encodedToken = Base45.encode(rawToken);
+      _paymentTokenState.value = PaymentTokenSuccess(
+        value: encodedToken,
+        expireAt: DateTime.now().add(const Duration(seconds: 30)),
+        lifetime: const Duration(seconds: 30),
+      );
+    } on Exception catch (e) {
+      _paymentTokenState.value = PaymentTokenFailed(exception: e);
     }
   }
 

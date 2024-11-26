@@ -12,6 +12,8 @@ class PaymentMethod with _$PaymentMethod {
     required String name,
     required String preview,
     required String cardCode,
+    required int sequence,
+    required DateTime createdAt,
   }) = _PaymentMethod;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);

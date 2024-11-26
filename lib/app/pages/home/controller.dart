@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
+import 'package:dimipay_app_v2/app/services/pay/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
@@ -28,12 +28,9 @@ class HomePageController extends GetxController {
   final LocalAuthService localAuthService = Get.find<LocalAuthService>();
   final PushService pushService = Get.find<PushService>();
 
-  final Rx<Duration?> timeRemaining = Rx(null);
-
   final Rx<PaymentMethod?> _selectedPaymentMethod = Rx(null);
   PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod.value;
 
-  late Timer _displayTimer;
   Timer? _qrRefreshTimer;
   double? _screenBrightness;
 
@@ -48,7 +45,6 @@ class HomePageController extends GetxController {
         }
       },
     );
-    _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
 
     prefetchAuthAndQR();
     handleSse();
@@ -97,10 +93,8 @@ class HomePageController extends GetxController {
 
   Future<void> _requestQR(PaymentMethod paymentMethod) async {
     _qrRefreshTimer?.cancel();
-    timeRemaining.value = null;
-    await payService.fetchPaymentToken(paymentMethod);
-    updateTimeRemainning();
-    reserveQRRefresh(payService.expireAt!);
+    await payService.generateLocalPaymentToken(paymentMethod);
+    reserveQRRefresh((payService.paymentTokenState as PaymentTokenSuccess).expireAt);
   }
 
   Future<void> setBrightness(double brightness) async {
@@ -189,30 +183,15 @@ class HomePageController extends GetxController {
   void reserveQRRefresh(DateTime refreshAt, {bool recursive = true}) {
     Duration awaitTime = refreshAt.difference(DateTime.now());
     _qrRefreshTimer = Timer(awaitTime, () async {
-      timeRemaining.value = null;
-      await payService.fetchPaymentToken(_selectedPaymentMethod.value!);
-      updateTimeRemainning();
+      if (_selectedPaymentMethod.value == null) {
+        return;
+      }
+      await payService.generateLocalPaymentToken(_selectedPaymentMethod.value!);
 
       if (recursive) {
-        reserveQRRefresh(payService.expireAt!);
+        reserveQRRefresh((payService.paymentTokenState as PaymentTokenSuccess).expireAt);
       }
     });
-  }
-
-  void updateTimeRemainning() {
-    if (payService.expireAt == null || _selectedPaymentMethod.value == null || Get.currentRoute != Routes.HOME) {
-      timeRemaining.value = null;
-      return;
-    }
-
-    Duration difference = payService.expireAt!.difference(DateTime.now());
-    if (difference.isNegative) {
-      _requestQR(_selectedPaymentMethod.value!);
-      return;
-    }
-
-    setBrightness(1);
-    timeRemaining.value = difference;
   }
 
   openKakaoChannelTalk() async {
@@ -228,7 +207,6 @@ class HomePageController extends GetxController {
 
   @override
   Future<void> onClose() async {
-    _displayTimer.cancel();
     _qrRefreshTimer?.cancel();
     await resetBrightness();
     super.onClose();
