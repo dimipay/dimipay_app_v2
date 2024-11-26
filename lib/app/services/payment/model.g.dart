@@ -12,6 +12,8 @@ _$PaymentMethodImpl _$$PaymentMethodImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       preview: json['preview'] as String,
       cardCode: json['cardCode'] as String,
+      sequence: (json['sequence'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$PaymentMethodImplToJson(_$PaymentMethodImpl instance) =>
@@ -20,4 +22,6 @@ Map<String, dynamic> _$$PaymentMethodImplToJson(_$PaymentMethodImpl instance) =>
       'name': instance.name,
       'preview': instance.preview,
       'cardCode': instance.cardCode,
+      'sequence': instance.sequence,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
