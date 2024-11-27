@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:base45/base45.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
@@ -10,6 +11,7 @@ import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:get/get.dart';
+import 'package:uuid/parsing.dart';
 
 class PayService extends GetxController {
   final PayRepository repository;
@@ -58,12 +60,14 @@ class PayService extends GetxController {
     }
   }
 
-  (AuthType authType, String authToken) getAuthInfo() {
+  (AuthType authType, Uint8List authToken) getAuthInfo() {
     final AuthService authService = Get.find<AuthService>();
     if (authService.pin != null) {
-      return (AuthType.pinAuth, authService.pin!);
+      String nomalizedOtp = base64.normalize(authService.otp!);
+      Uint8List base64Otp = base64.decode(nomalizedOtp);
+      return (AuthType.pinAuth, base64Otp);
     } else {
-      return (AuthType.bioAuth, authService.bioKey.key!);
+      return (AuthType.bioAuth, UuidParsing.parseAsByteList(authService.bioKey.key!));
     }
   }
 
@@ -95,6 +99,7 @@ class PayService extends GetxController {
         lifetime: const Duration(seconds: 30),
       );
     } on Exception catch (e) {
+      print(e);
       _paymentTokenState.value = PaymentTokenFailed(exception: e);
     }
   }

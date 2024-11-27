@@ -34,6 +34,8 @@ class AuthService {
   final Rx<String?> _pin = Rx(null);
   String? get pin => _pin.value;
 
+  String? otp;
+
   /// google sign-in 과정이 완료되었을 경우 true
   bool get isGoogleLoginSuccess => jwt.onboardingToken.accessToken != null;
   bool get isPasswordLoginSuccess => jwt.onboardingToken.accessToken != null;
@@ -66,7 +68,7 @@ class AuthService {
   }
 
   Future<void> pinCheck(String pin) async {
-    await repository.checkPin(pin);
+    otp = await repository.checkPin(pin);
     _pin.value = pin;
   }
 
