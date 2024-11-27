@@ -5,11 +5,24 @@ import 'package:uuid/parsing.dart';
 import 'package:uuid/v7.dart';
 import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 
+enum AuthType {
+  notAuthed(0x00),
+  byPass(0x01),
+  localAuth(0x10),
+  bioAuth(0x18),
+  pinAuth(0x21);
+
+  const AuthType(this._byteCode);
+
+  final int _byteCode;
+
+  Uint8List get byteCode => Uint8List.fromList([_byteCode]);
+}
+
 class LocalPay {
   final Uint8List payloadFormatIndicator = Uint8List.fromList([0x4c, 0x50]);
   final Uint8List applicationIdentifier = Uint8List.fromList([0x44, 0x50, 0xff, 0xff]);
   final Uint8List version = Uint8List.fromList([0x04]);
-  final Uint8List authType = Uint8List.fromList([0x10]);
   final int tx = 30;
 
   late final Uint8List userIdentifier;
@@ -25,17 +38,18 @@ class LocalPay {
   }) {
     this.userIdentifier = UuidParsing.parseAsByteList(userIdentifier);
     this.deviceIdentifier = UuidParsing.parseAsByteList(deviceIdentifier);
-    this.authToken = UuidParsing.parseAsByteList(authToken);
+    this.authToken = UuidParsing.parseAsByteList(authToken, validate: false);
   }
 
   Future<Uint8List> generateLocalPayToken({
     required int paymentMethodIdentifier,
     required int t0,
+    required AuthType authType,
     int? t,
     String? nonce,
   }) async {
     final metadataPayload = buildMetaDataPayload();
-    final commonPayload = buildCommonPayload(paymentMethodIdentifier);
+    final commonPayload = buildCommonPayload(paymentMethodIdentifier, authType);
     final rawPrivatePayload = buildRawPrivatePayload(nonce);
 
     final encryptedPrivatePayload = await encryptPrivatePayload(metadataPayload, commonPayload, rawPrivatePayload, t0, t);
@@ -56,10 +70,10 @@ class LocalPay {
     return builder.takeBytes();
   }
 
-  Uint8List buildCommonPayload(int paymentMethodIdentifier) {
+  Uint8List buildCommonPayload(int paymentMethodIdentifier, AuthType authType) {
     final builder = BytesBuilder();
 
-    final authTypeTLV = TLV(Tag.authType, authType);
+    final authTypeTLV = TLV(Tag.authType, authType.byteCode);
     final userIdentifierTLV = TLV(Tag.userIdentifier, userIdentifier);
     final paymentMethodIdentifierTlV = TLV(Tag.paymentMethodIdentifier, Uint8List.fromList([paymentMethodIdentifier]));
 
