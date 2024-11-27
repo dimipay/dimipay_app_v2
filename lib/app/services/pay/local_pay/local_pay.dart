@@ -33,12 +33,11 @@ class LocalPay {
   LocalPay({
     required String userIdentifier,
     required String deviceIdentifier,
-    required String authToken,
+    required this.authToken,
     required this.rk,
   }) {
     this.userIdentifier = UuidParsing.parseAsByteList(userIdentifier);
     this.deviceIdentifier = UuidParsing.parseAsByteList(deviceIdentifier);
-    this.authToken = UuidParsing.parseAsByteList(authToken, validate: false);
   }
 
   Future<Uint8List> generateLocalPayToken({

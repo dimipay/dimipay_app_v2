@@ -111,13 +111,15 @@ class AuthRepository {
     await api.post(DPHttpRequest(url, body: body, headers: headers), [JWT(), EncryptBody()]);
   }
 
-  Future<void> checkPin(String pin) async {
+  ///returns otp
+  Future<String> checkPin(String pin) async {
     String url = "/pin/otp";
     Map<String, String> body = {
       "pin": pin,
     };
     try {
-      await api.post(DPHttpRequest(url, body: body), [JWT(), EncryptBody()]);
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT(), EncryptBody()]);
+      return response.data['otp'];
     } on DioException catch (e) {
       DPHttpResponse response = e.response!.toDPHttpResponse();
       switch (response.code) {
@@ -127,6 +129,7 @@ class AuthRepository {
           throw PinLockException(response.message!);
       }
     }
+    return '';
   }
 
   Future<String> getEncryptionKey(String publicKey, String onBoardingToken) async {
