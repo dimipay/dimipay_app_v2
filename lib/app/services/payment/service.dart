@@ -89,8 +89,11 @@ class PaymentService extends GetxController {
     if (oldPaymentMethods.isEmpty) {
       _mainMethodId.value = newPaymentMethod.id;
     }
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: [...oldPaymentMethods, newPaymentMethod]);
+    List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods, newPaymentMethod];
+
+    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
     _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).value);
+    repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
     return newPaymentMethod;
   }
 
@@ -111,6 +114,7 @@ class PaymentService extends GetxController {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.patchPaymentMethod(id: paymentMethod.id, name: newName);
+      repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
       return newPaymentMethod;
     } catch (e) {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);
@@ -128,6 +132,7 @@ class PaymentService extends GetxController {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.deletePaymentMethod(id: paymentMethod.id);
+      repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
       _mainMethodId.value = newPaymentMethods.firstWhereOrNull((element) => element.id == _mainMethodId.value)?.id ?? newPaymentMethods.firstOrNull?.id;
     } catch (e) {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);

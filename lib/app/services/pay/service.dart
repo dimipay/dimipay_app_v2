@@ -58,22 +58,34 @@ class PayService extends GetxController {
     }
   }
 
+  (AuthType authType, String authToken) getAuthInfo() {
+    final AuthService authService = Get.find<AuthService>();
+    if (authService.pin != null) {
+      return (AuthType.pinAuth, authService.pin!);
+    } else {
+      return (AuthType.bioAuth, authService.bioKey.key!);
+    }
+  }
+
   Future<void> generateLocalPaymentToken(PaymentMethod paymentMethod) async {
     try {
       final AuthService authService = Get.find<AuthService>();
       final UserService userService = Get.find<UserService>();
       _paymentTokenState.value = const PaymentTokenLoading();
 
+      final (authType, authToken) = getAuthInfo();
+
       LocalPay localpay = LocalPay(
         userIdentifier: (userService.userState as UserStateSuccess).value.id,
         deviceIdentifier: authService.deviceId.deviceId!,
-        authToken: authService.bioKey.key!,
+        authToken: authToken,
         rk: authService.aes.key!,
       );
 
       Uint8List rawToken = await localpay.generateLocalPayToken(
         paymentMethodIdentifier: paymentMethod.sequence,
         t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch * 1000,
+        authType: authType,
       );
 
       String encodedToken = Base45.encode(rawToken);
@@ -85,6 +97,10 @@ class PayService extends GetxController {
     } on Exception catch (e) {
       _paymentTokenState.value = PaymentTokenFailed(exception: e);
     }
+  }
+
+  void invalidateToken() {
+    _paymentTokenState.value = const PaymentTokenInitial();
   }
 
   StreamSubscription<TransactionStatus> getTransactionStatusStream() {

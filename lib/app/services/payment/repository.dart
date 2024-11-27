@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/middlewares/save_cache.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:get/instance_manager.dart';
 
@@ -21,6 +22,28 @@ class PaymentRepository {
     List<PaymentMethod> paymentMethods = (response.data["methods"] as List).map((e) => PaymentMethod.fromJson(e)).toList();
 
     return {"mainMethodId": mainMethodId, "paymentMethods": paymentMethods};
+  }
+
+  Future<void> saveCurrentPaymentMethodsToCache(
+    List<PaymentMethod> paymentMethods,
+    PaymentMethod? mainPaymentMethod,
+  ) async {
+    String url = '/payments/methods';
+    HttpCacheService cacheService = Get.find<HttpCacheService>();
+
+    Map<String, dynamic> data = {
+      'mainMethodId': mainPaymentMethod?.id,
+      'methods': paymentMethods.map((e) => e.toJson()).toList(),
+    };
+
+    await cacheService.save(
+        DPHttpRequest(url, method: 'GET'),
+        DPHttpResponse(
+          code: 'OK',
+          statusCode: 200,
+          timeStamp: DateTime.now().toString(),
+          data: data,
+        ));
   }
 
   Future<Map> getPaymentMethod() async {

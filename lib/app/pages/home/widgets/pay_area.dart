@@ -21,20 +21,21 @@ class TokenLifeTimeIndicator extends StatefulWidget {
 }
 
 class _TokenLifeTimeIndicatorState extends State<TokenLifeTimeIndicator> with TickerProviderStateMixin {
-  late AnimationController animationController;
+  AnimationController? animationController;
 
   late Animation<double> _animation;
 
   void initAnimation() {
+    animationController?.dispose();
     animationController = AnimationController(
       duration: widget.expireAt.difference(DateTime.now()),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(animationController)
+    _animation = Tween<double>(begin: 0, end: 1).animate(animationController!)
       ..addListener(
         () => setState(() {}),
       );
-    animationController.forward();
+    animationController!.forward();
   }
 
   @override
@@ -72,7 +73,7 @@ class _TokenLifeTimeIndicatorState extends State<TokenLifeTimeIndicator> with Ti
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController?.dispose();
     super.dispose();
   }
 }

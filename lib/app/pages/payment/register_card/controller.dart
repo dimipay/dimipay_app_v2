@@ -61,9 +61,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     String formatedData = formatCardNumber(rawData);
 
     cardNumberFieldController.text = formatedData;
-    cardNumberFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: cardNumberFieldController.text.length)
-    );
+    cardNumberFieldController.selection = TextSelection.fromPosition(TextPosition(offset: cardNumberFieldController.text.length));
 
     bool isAmex = rawData.startsWith('34') || rawData.startsWith('37');
     int requiredLength = isAmex ? 15 : 16;
@@ -153,11 +151,11 @@ class RegisterCardPageController extends GetxController with StateMixin {
       try {
         change(null, status: RxStatus.loading());
         PaymentMethod newPaymentMethod = await paymentService.createPaymentMethod(
-            number: cardNumber.value!,
-            expireYear: expiredAt.value!.year.toString().padLeft(2, '0'),
-            expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'),
-            idNumber: ownerPersonalNum.value!,
-            password: password.value!
+          number: cardNumber.value!,
+          expireYear: expiredAt.value!.year.toString().padLeft(2, '0'),
+          expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'),
+          idNumber: ownerPersonalNum.value!,
+          password: password.value!,
         );
 
         Get.offNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': newPaymentMethod});

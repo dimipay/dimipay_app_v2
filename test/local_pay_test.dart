@@ -16,6 +16,7 @@ Future<int> main() async {
     t0: 1705896544745,
     t: 1721089757738,
     nonce: '01934f03-3777-7ac3-8dcb-8066c646b7fb',
+    authType: AuthType.localAuth,
   );
 
   print(Base45.encode(res));
