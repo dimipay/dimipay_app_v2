@@ -205,8 +205,14 @@ class HomePageController extends GetxController {
       return;
     }
 
+    Duration difference = payService.expireAt!.difference(DateTime.now());
+    if (difference.isNegative) {
+      _requestQR(_selectedPaymentMethod.value!);
+      return;
+    }
+
     setBrightness(1);
-    timeRemaining.value = payService.expireAt!.difference(DateTime.now());
+    timeRemaining.value = difference;
   }
 
   openKakaoChannelTalk() async {

@@ -6,6 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/payment_area.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/qr_area.dart';
+import 'package:dimipay_design_kit/dimipay_design_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
+
 class PayArea extends GetView<HomePageController> {
   const PayArea({super.key});
 
@@ -39,7 +47,7 @@ class PayArea extends GetView<HomePageController> {
               ),
               const SizedBox(width: 16),
               Obx(
-                () {
+                    () {
                   if (controller.timeRemaining.value == null) {
                     return Container();
                   } else {
@@ -49,14 +57,24 @@ class PayArea extends GetView<HomePageController> {
                         SizedBox(
                           width: 34.0,
                           height: 34.0,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 1,
-                            value: (60 - controller.timeRemaining.value!.inSeconds) / 60,
-                            color: colorTheme.grayscale400,
+                          child: TweenAnimationBuilder<double>(
+                            duration: const Duration(milliseconds: 1000),
+                            tween: Tween<double>(
+                              begin: 1.0,
+                              end: controller.timeRemaining.value!.inSeconds / 60,
+                            ),
+                            builder: (context, value, _) => CircularProgressIndicator(
+                              strokeWidth: 1,
+                              value: value,
+                              color: colorTheme.grayscale400,
+                            ),
                           ),
                         ),
                         Obx(
-                          () => Text(controller.timeRemaining.value!.inSeconds.toString(), style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
+                              () => Text(
+                              controller.timeRemaining.value!.inSeconds.toString(),
+                              style: textTheme.token.copyWith(color: colorTheme.grayscale600)
+                          ),
                         ),
                       ],
                     );
