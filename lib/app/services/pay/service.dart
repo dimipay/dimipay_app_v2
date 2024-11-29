@@ -62,9 +62,8 @@ class PayService extends GetxController {
 
   (AuthType authType, Uint8List authToken) getAuthInfo() {
     final AuthService authService = Get.find<AuthService>();
-    if (authService.pin != null) {
-      String nomalizedOtp = base64.normalize(authService.otp!);
-      Uint8List base64Otp = base64.decode(nomalizedOtp);
+    if (authService.otp != null) {
+      Uint8List base64Otp = base64.decode(authService.otp!);
       return (AuthType.pinAuth, base64Otp);
     } else {
       return (AuthType.bioAuth, UuidParsing.parseAsByteList(authService.bioKey.key!));
