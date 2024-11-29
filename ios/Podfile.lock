@@ -257,7 +257,7 @@ SPEC CHECKSUMS:
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   credit_card_scanner: 2c3c58d821ec493cb42cf7c782dc461f516c212b
-  fast_rsa: 100210bce7cd82579977b2378c3de8eb14ea308d
+  fast_rsa: 3380f78bb6523bd70f08d3a7598ce7661e61b6f5
   Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
   firebase_core: 57aeb91680e5d5e6df6b888064be7c785f146efb
   firebase_messaging: c862b3d2b973ecc769194dc8de09bd22c77ae757
@@ -287,7 +287,7 @@ SPEC CHECKSUMS:
   MLKitTextRecognitionCommon: c0b3a63d529296a19bce1f8bc8a513644ed4d1f6
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
+  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   PINCache: d9a87a0ff397acffe9e2f0db972ac14680441158
   PINOperation: fb563bcc9c32c26d6c78aaff967d405aa2ee74a7
