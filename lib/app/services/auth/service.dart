@@ -22,11 +22,11 @@ class AuthService {
   final AuthRepository repository;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  late final JwtManager jwt;
-  late final AesManager aes;
-  late final RsaManager rsa;
-  late final DeviceIdManager deviceId;
-  late final BioKeyManager bioKey;
+  final JwtManager jwt = JwtManager();
+  final AesManager aes = AesManager();
+  final RsaManager rsa = RsaManager();
+  final DeviceIdManager deviceId = DeviceIdManager();
+  final BioKeyManager bioKey = BioKeyManager();
 
   final Rx<bool> _isFirstVisit = Rx(false);
   bool get isFirstVisit => _isFirstVisit.value;
@@ -48,11 +48,10 @@ class AuthService {
   AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
 
   Future<AuthService> init() async {
-    jwt = await JwtManager().init();
-    aes = await AesManager().init();
-    rsa = await RsaManager().init();
-    deviceId = await DeviceIdManager().init();
-    bioKey = BioKeyManager();
+    await jwt.init();
+    await aes.init();
+    await rsa.init();
+    await deviceId.init();
 
     return this;
   }
@@ -166,6 +165,12 @@ class AuthService {
     await Get.find<PushService>().deleteToken();
 
     _pin.value = null;
+  }
+
+  void invalidateAuthToken() {
+    bioKey.invalidate();
+    jwt.invalidate();
+    otp = null;
   }
 
   Future<void> clearGoogleSignInInfo() async {

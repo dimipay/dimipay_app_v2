@@ -95,8 +95,10 @@ class HomePageController extends GetxController {
     payService.getTransactionStatusStream().onData(
       (data) {
         if (data == TransactionStatus.CONFIRMED) {
-          authService.otp = null;
           showSuccessDialog();
+          payService.invalidateToken();
+          _qrRefreshTimer?.cancel();
+          authService.invalidateAuthToken();
         }
       },
     );

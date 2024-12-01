@@ -33,6 +33,10 @@ class JwtManager {
     _onboardingToken.value = newToken;
   }
 
+  void invalidate() {
+    _token.value = JwtToken();
+  }
+
   Future<void> clear() async {
     await _storage.delete(key: 'jwtRefreshToken');
     await _storage.delete(key: 'jwtAccessToken');
