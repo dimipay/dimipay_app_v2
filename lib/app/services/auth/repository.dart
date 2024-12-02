@@ -6,7 +6,6 @@ import 'package:dimipay_app_v2/app/provider/middlewares/pin.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
-import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
@@ -52,24 +51,20 @@ class AuthRepository {
     }
   }
 
-  ///returns accessToken
-  Future<JwtToken> refreshAccessToken(String refreshToken) async {
-    String url = "/auth/refresh";
-
-    Map<String, dynamic> headers = {
-      'Authorization': 'Bearer $refreshToken',
-    };
-    DPHttpResponse response = await api.get(DPHttpRequest(url, headers: headers));
-    return JwtToken(accessToken: response.data['tokens']['accessToken'], refreshToken: response.data['tokens']['refreshToken']);
-  }
-
   ///returns map that contains accessToken and refreshToekn
   ///use ['accessToken'] to get accessToken
   ///use ['refreshToken'] to get refreshToken
   ///throws IncorrectPinException when pin wrong
   ///throws PinLockException when pin locked
   ///thows OnboardingTokenException when OnboardingToken is wrong
-  Future<Map> onBoardingAuth(String paymentPin, String deviceId, String bioKey, String onBoardingToken) async {
+  Future<Map> onBoardingAuth(
+    String paymentPin,
+    String deviceId,
+    String bioKey,
+    String onBoardingToken, {
+    int? accessTokenLife,
+    int? refreshTokenLife,
+  }) async {
     String url = '/auth/onBoarding';
     Map body = {
       'deviceId': deviceId,
@@ -78,6 +73,12 @@ class AuthRepository {
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer $onBoardingToken',
     };
+    if (accessTokenLife != null) {
+      headers['DP-DCH-ACCESS-TOKEN-LIFE'] = accessTokenLife.toString();
+    }
+    if (refreshTokenLife != null) {
+      headers['DP-DCH-REFRESH-TOKEN-LIFE'] = refreshTokenLife.toString();
+    }
     try {
       DPHttpResponse response = await api.post(DPHttpRequest(url, body: body, headers: headers), [OTP()]);
       return response.data['tokens'];

@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
-import 'package:dimipay_app_v2/app/core/utils/errors.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
@@ -28,22 +26,24 @@ class AuthService {
   final DeviceIdManager deviceId = DeviceIdManager();
   final BioKeyManager bioKey = BioKeyManager();
 
+  final Rx<JwtToken> _onboardingToken = Rx(JwtToken());
+  JwtToken get onboardingToken => _onboardingToken.value;
+
   final Rx<bool> _isFirstVisit = Rx(false);
   bool get isFirstVisit => _isFirstVisit.value;
 
   final Rx<String?> _pin = Rx(null);
   String? get pin => _pin.value;
 
-  String? otp;
+  String? _otp;
+  String? get otp => _otp;
 
   /// google sign-in 과정이 완료되었을 경우 true
-  bool get isGoogleLoginSuccess => jwt.onboardingToken.accessToken != null;
-  bool get isPasswordLoginSuccess => jwt.onboardingToken.accessToken != null;
+  bool get isGoogleLoginSuccess => onboardingToken.accessToken != null;
+  bool get isPasswordLoginSuccess => onboardingToken.accessToken != null;
 
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
-
-  Completer _refreshTokenApiCompleter = Completer()..complete();
 
   AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
 
@@ -62,18 +62,18 @@ class AuthService {
   }
 
   Future<void> registerPin(String pin) async {
-    await repository.registerPin(pin, jwt.onboardingToken.accessToken!);
+    await repository.registerPin(pin, onboardingToken.accessToken!);
     _pin.value = pin;
   }
 
   Future<void> pinCheck(String pin) async {
-    otp = await repository.checkPin(pin);
+    _otp = await repository.checkPin(pin);
     _pin.value = pin;
   }
 
   Future<void> _getEncryptionKey() async {
     rsa.setKey(await RsaManager.generateRSAKeyPair());
-    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey.replaceAll('\n', '\\r\\n'), jwt.onboardingToken.accessToken!);
+    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey.replaceAll('\n', '\\r\\n'), onboardingToken.accessToken!);
 
     aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
   }
@@ -94,7 +94,7 @@ class AuthService {
     }
 
     Map loginResult = await repository.loginWithGoogle(idToken);
-    jwt.setOnboardingToken(JwtToken(accessToken: loginResult['tokens']['accessToken']));
+    _onboardingToken.value = JwtToken(accessToken: loginResult['tokens']['accessToken']);
     _isFirstVisit.value = loginResult['isFirstVisit'];
 
     await _getEncryptionKey();
@@ -102,7 +102,7 @@ class AuthService {
 
   Future<void> loginWithPassword({required String email, required String password}) async {
     Map loginResult = await repository.loginWithPassword(email: email, password: password);
-    jwt.setOnboardingToken(JwtToken(accessToken: loginResult['tokens']['accessToken']));
+    _onboardingToken.value = JwtToken(accessToken: loginResult['tokens']['accessToken']);
     _isFirstVisit.value = loginResult['isFirstVisit'];
 
     await _getEncryptionKey();
@@ -116,7 +116,7 @@ class AuthService {
     String newDeviceId = const Uuid().v4();
 
     String newBioKey = const Uuid().v4();
-    Map onboardingResult = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, jwt.onboardingToken.accessToken!);
+    Map onboardingResult = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
 
     await jwt.setToken(JwtToken(accessToken: onboardingResult['accessToken'], refreshToken: onboardingResult['refreshToken']));
     dev.log('logged in successfully!');
@@ -127,33 +127,6 @@ class AuthService {
     await bioKey.setKey(newBioKey);
 
     _pin.value = paymentPin;
-  }
-
-  ///Throws exception and route to LoginPage if refresh faild
-  Future<void> refreshAcessToken() async {
-    // refreshTokenApi의 동시 다발적인 호출을 방지하기 위해 completer를 사용함. 동시 다발적으로 이 함수를 호출해도 api는 1번만 호출 됨.
-    if (_refreshTokenApiCompleter.isCompleted == false) {
-      return _refreshTokenApiCompleter.future;
-    }
-
-    //첫 호출(null)이거나 이미 완료된 호출(completed completer)일 경우 새 객체 할당
-    _refreshTokenApiCompleter = Completer();
-    try {
-      JwtToken newJwt = await repository.refreshAccessToken(jwt.token.refreshToken!);
-      if (jwt.token.refreshToken == null) {
-        throw NoRefreshTokenException();
-      }
-      dev.log('token refreshed!');
-      dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(newJwt.accessToken!)}');
-      dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(newJwt.refreshToken!)}');
-      await jwt.setToken(newJwt);
-      _refreshTokenApiCompleter.complete();
-    } catch (e) {
-      await logout();
-      Get.offAllNamed(Routes.LOGIN);
-      _refreshTokenApiCompleter.completeError(e);
-      rethrow;
-    }
   }
 
   Future<void> _clearTokens() async {
@@ -170,7 +143,7 @@ class AuthService {
   void invalidateAuthToken() {
     bioKey.invalidate();
     jwt.invalidate();
-    otp = null;
+    _otp = null;
   }
 
   Future<void> clearGoogleSignInInfo() async {
