@@ -18,7 +18,6 @@ import 'package:uuid/uuid.dart';
 
 class AuthService {
   final AuthRepository repository;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final JwtManager jwt = JwtManager();
   final AesManager aes = AesManager();
@@ -79,7 +78,8 @@ class AuthService {
   }
 
   Future<String?> _signInWithGoogle() async {
-    final GoogleSignInAccount? googleAccount = await _googleSignIn.signIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
     if (googleAccount == null) {
       return null;
     }
@@ -94,6 +94,7 @@ class AuthService {
     }
 
     Map loginResult = await repository.loginWithGoogle(idToken);
+    _clearGoogleSignInInfo();
     _onboardingToken.value = JwtToken(accessToken: loginResult['tokens']['accessToken']);
     _isFirstVisit.value = loginResult['isFirstVisit'];
 
@@ -146,21 +147,21 @@ class AuthService {
     _otp = null;
   }
 
-  Future<void> clearGoogleSignInInfo() async {
+  Future<void> _clearGoogleSignInInfo() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
       if (Platform.isAndroid) {
-        await _googleSignIn.signOut();
+        await googleSignIn.signOut();
       } else {
-        await _googleSignIn.disconnect();
+        await googleSignIn.disconnect();
       }
     } catch (e) {
-      await _googleSignIn.disconnect();
+      await googleSignIn.disconnect();
     }
   }
 
   Future<void> logout() async {
     await _clearTokens();
-    await clearGoogleSignInInfo();
     await Get.find<HttpCacheService>().clear();
   }
 }
