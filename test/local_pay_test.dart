@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:base45/base45.dart';
@@ -19,6 +20,6 @@ Future<int> main() async {
     authType: AuthType.localAuth,
   );
 
-  print(Base45.encode(res));
+  log(Base45.encode(res));
   return 0;
 }

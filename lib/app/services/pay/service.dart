@@ -98,7 +98,6 @@ class PayService extends GetxController {
         lifetime: const Duration(seconds: 30),
       );
     } on Exception catch (e) {
-      print(e);
       _paymentTokenState.value = PaymentTokenFailed(exception: e);
     }
   }
