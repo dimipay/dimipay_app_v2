@@ -7,8 +7,6 @@ import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:get/get.dart';
 
 class FromCache extends ApiMiddleware {
-  FromCache();
-
   @override
   ApiMiddleware copy() {
     return FromCache();
@@ -19,6 +17,6 @@ class FromCache extends ApiMiddleware {
     HttpCacheService cacheService = Get.find<HttpCacheService>();
     String cachedData = cacheService.get(request);
     Map mapData = json.decode(cachedData);
-    return DPHttpResponse(code: '304', statusCode: 304, timeStamp: '', data: mapData);
+    return DPHttpResponse(requredId: '', code: '304', statusCode: 304, timeStamp: '', data: mapData);
   }
 }

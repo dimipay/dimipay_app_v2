@@ -1,4 +1,5 @@
 class DPHttpResponse {
+  String requredId;
   String code;
   String? message;
   int statusCode;
@@ -6,6 +7,7 @@ class DPHttpResponse {
   dynamic data;
   dynamic errors;
   DPHttpResponse({
+    required this.requredId,
     required this.code,
     this.message,
     required this.statusCode,

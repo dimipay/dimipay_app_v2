@@ -101,6 +101,7 @@ extension DioResponseDTO on Response {
   DPHttpResponse toDPHttpResponse() {
     if (requestOptions.responseType == ResponseType.stream) {
       return DPHttpResponse(
+        requredId: '',
         code: '',
         message: '',
         statusCode: 200,
@@ -109,6 +110,7 @@ extension DioResponseDTO on Response {
       );
     }
     return DPHttpResponse(
+      requredId: headers.value('dp-request-id') ?? '',
       code: data['code'],
       message: data['message'],
       statusCode: data['statusCode'],

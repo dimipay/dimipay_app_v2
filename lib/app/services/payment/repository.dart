@@ -39,6 +39,7 @@ class PaymentRepository {
     await cacheService.save(
         DPHttpRequest(url, method: 'GET'),
         DPHttpResponse(
+          requredId: '',
           code: 'OK',
           statusCode: 200,
           timeStamp: DateTime.now().toString(),
