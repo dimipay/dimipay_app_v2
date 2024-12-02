@@ -33,7 +33,6 @@ class HomePageController extends GetxController {
   final Rx<PaymentMethod?> _selectedPaymentMethod = Rx(null);
   PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod.value;
 
-  late Timer _displayTimer;
   Timer? _qrRefreshTimer;
   double? _screenBrightness;
 
@@ -213,7 +212,6 @@ class HomePageController extends GetxController {
 
   @override
   Future<void> onClose() async {
-    _displayTimer.cancel();
     _qrRefreshTimer?.cancel();
     await resetBrightness();
     super.onClose();
