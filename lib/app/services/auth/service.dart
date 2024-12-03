@@ -72,7 +72,7 @@ class AuthService {
 
   Future<void> _getEncryptionKey() async {
     rsa.setKey(await RsaManager.generateRSAKeyPair());
-    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey.replaceAll('\n', '\\r\\n'), onboardingToken.accessToken!);
+    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey, onboardingToken.accessToken!);
 
     aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
   }

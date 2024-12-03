@@ -20,7 +20,7 @@ class RsaManager {
   Future<void> setKey(KeyPair newKey) async {
     _key = newKey;
 
-    await _storage.write(key: 'rsaPublicKey', value: newKey.publicKey);
+    await _storage.write(key: 'rsaPublicKey', value: newKey.publicKey.replaceAll('\n', '\\r\\n'));
     await _storage.write(key: 'rsaPrivateKey', value: newKey.privateKey);
   }
 
