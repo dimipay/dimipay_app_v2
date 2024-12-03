@@ -7,9 +7,17 @@ class DPAppbar extends StatelessWidget {
   final String? header;
   final String? paragraph;
   final Widget? leading;
+  final Widget? trailing;
   final void Function()? onBackButtonPressed;
 
-  const DPAppbar({super.key, this.header, this.paragraph, this.leading, this.onBackButtonPressed});
+  const DPAppbar({
+    super.key,
+    this.header,
+    this.paragraph,
+    this.leading,
+    this.trailing,
+    this.onBackButtonPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +32,14 @@ class DPAppbar extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                leading != null
-                    ? leading!
-                    : DPGestureDetectorWithOpacityInteraction(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      leading != null
+                          ? leading!
+                          : DPGestureDetectorWithOpacityInteraction(
                         onTap: () {
                           if (onBackButtonPressed != null) {
                             onBackButtonPressed!.call();
@@ -35,14 +48,22 @@ class DPAppbar extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           color: colorTheme.grayscale100,
-                          child: Icon(Icons.arrow_back_ios_rounded, size: 20, color: colorTheme.grayscale500),
+                          child: Icon(
+                            Icons.arrow_back_ios_rounded,
+                            size: 20,
+                            color: colorTheme.grayscale500,
+                          ),
                         ),
                       ),
+                      if (trailing != null) trailing!,
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (header != null)
                         Padding(
