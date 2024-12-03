@@ -6,6 +6,7 @@ import 'package:dimipay_app_v2/app/provider/middlewares/pin.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
+import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
@@ -16,14 +17,20 @@ class AuthRepository {
 
   ///returnes Login Result
   ///throews NotDimigoMailExceptoin if emial provider trying to login is not @dimigo.hs.kr
-  Future<Map> loginWithGoogle(String idToken) async {
+  Future<(JwtToken onboardingToken, bool isFirstVisit)> loginWithGoogle(String idToken) async {
     String url = '/login/google';
     Map<String, dynamic> header = {
       'DP-GOOGLE-ACCESS-TOKEN': idToken,
     };
     try {
       DPHttpResponse response = await api.post(DPHttpRequest(url, headers: header));
-      return response.data;
+      Map<String, dynamic> body = response.data;
+      JwtToken onboardingToken = JwtToken(
+        accessToken: body['tokens']['accessToken'],
+        refreshToken: body['tokens']['refreshToken'],
+      );
+      bool isFirstVisit = body['isFirstVisit'];
+      return (onboardingToken, isFirstVisit);
     } on DioException catch (e) {
       if (e.response?.data['code'] == 'ERR_NOT_ALLOWED_EMAIL') {
         throw NotDimigoMailException();
@@ -32,14 +39,24 @@ class AuthRepository {
     }
   }
 
-  Future<Map> loginWithPassword({required String email, required String password}) async {
+  Future<(JwtToken onboardingToken, bool isFirstVisit)> loginWithPassword({required String email, required String password}) async {
     String url = '/login/password';
 
-    Map body = {"email": email, "password": password};
+    Map requestBody = {
+      "email": email,
+      "password": password,
+    };
 
     try {
-      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body));
-      return response.data;
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: requestBody));
+
+      Map<String, dynamic> responseBody = response.data;
+      JwtToken onboardingToken = JwtToken(
+        accessToken: responseBody['tokens']['accessToken'],
+        refreshToken: responseBody['tokens']['refreshToken'],
+      );
+      bool isFirstVisit = responseBody['isFirstVisit'];
+      return (onboardingToken, isFirstVisit);
     } on DioException catch (e) {
       if (e.response?.data['code'] == 'ERR_WRONG_CREDENTIALS') {
         throw WrongCredentialsException(message: e.response?.data['message']);
@@ -57,7 +74,7 @@ class AuthRepository {
   ///throws IncorrectPinException when pin wrong
   ///throws PinLockException when pin locked
   ///thows OnboardingTokenException when OnboardingToken is wrong
-  Future<Map> onBoardingAuth(
+  Future<JwtToken> onBoardingAuth(
     String paymentPin,
     String deviceId,
     String bioKey,
@@ -66,7 +83,7 @@ class AuthRepository {
     int? refreshTokenLife,
   }) async {
     String url = '/auth/onBoarding';
-    Map body = {
+    Map requestBody = {
       'deviceId': deviceId,
       'bioKey': bioKey,
     };
@@ -80,8 +97,14 @@ class AuthRepository {
       headers['DP-DCH-REFRESH-TOKEN-LIFE'] = refreshTokenLife.toString();
     }
     try {
-      DPHttpResponse response = await api.post(DPHttpRequest(url, body: body, headers: headers), [OTP()]);
-      return response.data['tokens'];
+      DPHttpResponse response = await api.post(DPHttpRequest(url, body: requestBody, headers: headers), [OTP()]);
+
+      Map<String, dynamic> responseBody = response.data;
+      JwtToken jwt = JwtToken(
+        accessToken: responseBody['tokens']['accessToken'],
+        refreshToken: responseBody['tokens']['refreshToken'],
+      );
+      return jwt;
     } on DioException catch (e) {
       DPHttpResponse response = e.response!.toDPHttpResponse();
       switch (response.code) {

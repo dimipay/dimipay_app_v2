@@ -93,18 +93,18 @@ class AuthService {
       return;
     }
 
-    Map loginResult = await repository.loginWithGoogle(idToken);
+    final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
+    _onboardingToken.value = jwt;
+    _isFirstVisit.value = isFirstVisitValue;
     _clearGoogleSignInInfo();
-    _onboardingToken.value = JwtToken(accessToken: loginResult['tokens']['accessToken']);
-    _isFirstVisit.value = loginResult['isFirstVisit'];
 
     await _getEncryptionKey();
   }
 
   Future<void> loginWithPassword({required String email, required String password}) async {
-    Map loginResult = await repository.loginWithPassword(email: email, password: password);
-    _onboardingToken.value = JwtToken(accessToken: loginResult['tokens']['accessToken']);
-    _isFirstVisit.value = loginResult['isFirstVisit'];
+    final (jwt, isFirstVisitValue) = await repository.loginWithPassword(email: email, password: password);
+    _onboardingToken.value = jwt;
+    _isFirstVisit.value = isFirstVisitValue;
 
     await _getEncryptionKey();
   }
@@ -117,9 +117,9 @@ class AuthService {
     String newDeviceId = const Uuid().v4();
 
     String newBioKey = const Uuid().v4();
-    Map onboardingResult = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
+    JwtToken newJwt = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
 
-    await jwt.setToken(JwtToken(accessToken: onboardingResult['accessToken'], refreshToken: onboardingResult['refreshToken']));
+    await jwt.setToken(newJwt);
     dev.log('logged in successfully!');
     dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(jwt.token.accessToken!)}');
     dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(jwt.token.refreshToken!)}');
