@@ -2,6 +2,7 @@ import 'package:animated_digit/animated_digit.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/transaction_detail/controller.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/transaction_detail/widget/data_item.dart';
 import 'package:dimipay_app_v2/app/pages/transaction/transaction_detail/widget/product_item.dart';
+import 'package:dimipay_app_v2/app/pages/transaction/transaction_detail/widget/qr_dialog.dart';
 import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
@@ -10,6 +11,8 @@ import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
+import '../../../widgets/button.dart';
 
 class TransactionDetailPage extends GetView<TransactionDetailPageController> {
   const TransactionDetailPage({super.key});
@@ -45,6 +48,13 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
     }
   }
 
+  void _showQRDialog(BuildContext context, String transactionId) {
+    showDialog(
+      context: context,
+      builder: (context) => QRDialog(transactionId: transactionId),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
@@ -58,7 +68,12 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
           slideFrom: const Offset(0, 8),
           child: Column(
             children: [
-              const DPAppbar(),
+              DPAppbar(
+                trailing: DPGestureDetectorWithOpacityInteraction(
+                  onTap: () => _showQRDialog(context, controller.transaction!.id),
+                  child: Text('결제취소 요청하기', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
+                ),
+              ),
               Expanded(
                 child: controller.obx(
                     (_) => Scrollbar(

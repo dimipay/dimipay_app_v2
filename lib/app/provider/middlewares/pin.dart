@@ -23,7 +23,7 @@ class OTP extends ApiMiddleware {
 
     Map<String, dynamic> headers = {};
     if (authService.isAuthenticated == false) {
-      headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
+      headers['Authorization'] = 'Bearer ${authService.onboardingToken.accessToken}';
     }
 
     DPHttpResponse response = await Get.find<ApiProvider>().post(DPHttpRequest(url, body: body, headers: headers), [JWT(), EncryptBody()]);

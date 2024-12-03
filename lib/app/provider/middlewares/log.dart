@@ -9,7 +9,7 @@ class DioLog extends ApiMiddleware {
   @override
   Future<DPHttpResponse> handle(DPHttpRequest request, Future<DPHttpResponse> Function(DPHttpRequest) next) async {
     DPHttpResponse response = await next(request);
-    dev.log('${request.method}[${response.statusCode}] => PATH: ${request.path}', name: 'DIO');
+    dev.log('${request.method}[${response.statusCode}](dp-request-id : ${response.requredId}) => PATH: ${request.path}', name: 'DIO');
 
     return response;
   }
