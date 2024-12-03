@@ -1,0 +1,200 @@
+[
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "16",
+			"paymentMethodId": "01",
+			"userId": "320fae039d724c19816d2c2d1d5b7ca2"
+		},
+		"private": {
+			"authToken": "adca79ec7934433cacc0a23088f39f58",
+			"deviceId": "265bed1a9b4a47fc8765b421d67a1458",
+			"nonce": "01934f0337777ac38dcb8066c646b7fb"
+		},
+		"rk": "c0093def64d3b1880da182de861cec39",
+		"t": 1721089757738,
+		"t0": 1705896544745,
+		"timeLeftInStep": 17007,
+		"result": "6T9SS8FGWBP0$T2822ZE6.:LV+J-R9DGGEQ50W31YF65AZN13GVT:UV9P%Z1:KNIPOKES/DP5TLX5T4*OKL78VQ$H597SM*QGUL  4P062NNAG708E5IKGL2/BFXJNO*3HWJYDM+VEJRLP2A/JBK1"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "27",
+			"paymentMethodId": "02",
+			"userId": "f2fb40859b5c59fed9b9b54f59fc27da"
+		},
+		"private": {
+			"authToken": "f9532bbaccf95eb21f6b107f161a67a9",
+			"deviceId": "4b2a157e77a1450828f9835c5088efcd",
+			"nonce": "01937301ae8a7628be21e03facaa047b"
+		},
+		"rk": "a8f6536b5b3dc55bbbb0dfee0d34acdf",
+		"t": 1721091799262,
+		"t0": 1721091504743,
+		"timeLeftInStep": 5481,
+		"result": "6T9SS8FGWBP0$T2YJ3DWU278$SJ/GBRNRK-M-GBW1575AWHAMAL%VAEU6NZ9UZR-GCDW5Q1CVWFV:8Z-G:+0%1M.4U-+3/ 4-/04W4HD9YZ290R-%OD903/RG/K FT9GFZD6CZVUPVI78N/UR*B30"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "27",
+			"paymentMethodId": "03",
+			"userId": "c0516750760fb06be9316300b803719a"
+		},
+		"private": {
+			"authToken": "471937b351c08c70037cf24c73085468",
+			"deviceId": "3f0e811caa7dceb70a33ba177a9c454e",
+			"nonce": "01937301d2ec7da389cfb23bcfc17141"
+		},
+		"rk": "e5542261daa78083ae019ab1c68b4f3d",
+		"t": 1721091806967,
+		"t0": 1721091486103,
+		"timeLeftInStep": 9136,
+		"result": "6T9SS8FGWBP0$T2YJ33EOX2DS-ESDMRLT9NC$BNCGE85A:ANVK9+4MJN2I*GTCI2*KAB2:4MOQ5MCCVLP5Y9DYILK3$0G2XOZ%2LO7L+CDR4W66CIDJ/8$383X8%JNMN3/FV-O5.RN691YW24:E*0"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "25",
+			"paymentMethodId": "04",
+			"userId": "8a9d29df3ee2a686787d25ad95c30cf2"
+		},
+		"private": {
+			"authToken": "e3345aa0730e5d15ef4cafefc6b8b99a",
+			"deviceId": "72f0c90ea76cfd6e756e3f659604c197",
+			"nonce": "01937301f0e8774eb84a3cfdb4fc9d37"
+		},
+		"rk": "8cefb9563329ff5c4fa68cd0f07c2bc6",
+		"t": 1721091801609,
+		"t0": 1721091781199,
+		"timeLeftInStep": 9590,
+		"result": "6T9SS8FGWBP0$T2H83PNH9D5X.7F2LKAFFY4:-ITS195AV0PR897MH*5UA245W9 P6Z$1Y%VT+JJA4B$MXSC44802O/ZU+RQSMEDT6.7P8*LM3Q 1AM 0ICUT0LG4TBDV+U79KSH1MU/8JGR.:B71"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "16",
+			"paymentMethodId": "00",
+			"userId": "3a65ff711da3031aeae8e66ad01f151a"
+		},
+		"private": {
+			"authToken": "1a332a8f62675e5455b41bf11a84e947",
+			"deviceId": "2be20fd7b0983b96bf511be7b8eef0b9",
+			"nonce": "0193730211547d3b8f3b7b6f537b2c26"
+		},
+		"rk": "ec9b8bd4ccd739f502d60c2fd5e7724d",
+		"t": 1721091801385,
+		"t0": 1721091476210,
+		"timeLeftInStep": 4825,
+		"result": "6T9SS8FGWBP0$T28229H78DWRX3TH0GVT 5T:DQ2U255A/*9*1DH83B1JWL1YTP5+5+I1BYDGB3*TEMCW82TIYLR7QDX1YD2237DNR: 2L2539TF%VV6M$J1CKD9MMXHVG%DL5CM*G0-KF583R8F5"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "24",
+			"paymentMethodId": "00",
+			"userId": "07ac33e8e1bbfd5832204b3e6e4009f1"
+		},
+		"private": {
+			"authToken": "6cedd43dfde81f1b4940b3222e8d3223",
+			"deviceId": "6d78cbd7098eb6eb7f5857a9b92568f5",
+			"nonce": "0193730234f9720da20a403d85e9f9fa"
+		},
+		"rk": "bc741d56733a8cb28782b79ac7701476",
+		"t": 1721091807335,
+		"t0": 1721091429128,
+		"timeLeftInStep": 11793,
+		"result": "6T9SS8FGWBP0$T2V23T/0DP67OSB1W7F62N99.DPB155AR%N7*MC2BXF66DHRV6665MQ6*-I40551R.EH$3VHIFDGKTEH24P-HU.CPRRDV44*Y6YVAG.8:BDMSC/0592G$7WCJIET5O*AQ/9-HQX2"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "16",
+			"paymentMethodId": "03",
+			"userId": "0f230d6bc71fa94a728b79eea8a05762"
+		},
+		"private": {
+			"authToken": "31c4204b096fc1524ef56f4ee7863633",
+			"deviceId": "d597c5a4440d8152a2ad29e9bc6f907d",
+			"nonce": "019373024ff27f2fba9909e832cac3dd"
+		},
+		"rk": "1a78404e42b03c65a3f457e10f69611c",
+		"t": 1721091801095,
+		"t0": 1721091524188,
+		"timeLeftInStep": 23093,
+		"result": "6T9SS8FGWBP0$T28225-1FV1Z7P3ILSLETIFDEL52B85AYBKKRD*O9F6R+DJ1R13A5S8OM6BPGRIRHRRE6Y34F0O+44ZQ8VD8CKD+ED5A7TAB%V66PXJ03PQ1ID/SP%+8*:02ZGW9W0LR+R3K*H54"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "16",
+			"paymentMethodId": "00",
+			"userId": "5ca671d5a5685ff446c00596d3d07915"
+		},
+		"private": {
+			"authToken": "682e3c70cc033a904ac9017a3e7a6bec",
+			"deviceId": "093448bb907bf26ba0cd114093300d5d",
+			"nonce": "0193730270f47e26b44b234d07e36a86"
+		},
+		"rk": "903ec6db8c9ae5845ec0d0d5b9414131",
+		"t": 1721091807090,
+		"t0": 1721091435166,
+		"timeLeftInStep": 18076,
+		"result": "6T9SS8FGWBP0$T28223WBQHE:+K*5CM.8ZV0:YQ$DF55AL09-SCPZ9J7TG2KV0M+67MWSV5I886TNN+ 5*L82GF7$H2/OOTA6BCI*I5R43$H:Q8T0W6+CWW635CE1SJQTHHSTAF8%E-UVN*B3JMY3"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "25",
+			"paymentMethodId": "03",
+			"userId": "322faf1cf81c043a7a2905f106bcf5a1"
+		},
+		"private": {
+			"authToken": "7a939aceaab1e73d9b1067b3d17308d1",
+			"deviceId": "9412d41a8599d280f0f13a08554d4fdc",
+			"nonce": "019373028d98798abc82baae4cecd561"
+		},
+		"rk": "a4328f01328481d31774229cfdadc609",
+		"t": 1721091800529,
+		"t0": 1721091709745,
+		"timeLeftInStep": 29216,
+		"result": "6T9SS8FGWBP0$T2H83MF686MLGV2O0/JF X0E%0G2V85AS+4OSCQ%ADV1RSLE*HO.KGL87C07$Q$%CUWOFI7RPVTTKVY7TN6MZHTOUVMI8NFR 0G7W1TE4L4QO8ZL0MNST2TF*6:DVVI3XR6LUD03"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "24",
+			"paymentMethodId": "02",
+			"userId": "4232e35e09015d60d606956e9240fdeb"
+		},
+		"private": {
+			"authToken": "2075dea84c0bfabe769aac286d410de7",
+			"deviceId": "d3f6f206da0fdf3200637757fdd3bb96",
+			"nonce": "01937302abaa7a1ebb8d5fd583816287"
+		},
+		"rk": "45071199529b11a139a8bd3c43ad40ee",
+		"t": 1721091803324,
+		"t0": 1721091760503,
+		"timeLeftInStep": 17179,
+		"result": "6T9SS8FGWBP0$T2V23QG8LXSA619 BP2R4+I0MIN4W75A402A0BFHNE66J40PR009IOD4Q$5XTRT15EG61:S9HBK9JO01*CGY5UU$1X76CDDZG03QVQ70/8T88MQ4OL33O2L/%DL6PL POOJLX2G1"
+	},
+	{
+		"metadata": "4c504450ffff04",
+		"common": {
+			"auithType": "27",
+			"paymentMethodId": "01",
+			"userId": "2839da51b01ad7098e7aed1d9943745a"
+		},
+		"private": {
+			"authToken": "24bc64f30fadb1ab025079a46257419f",
+			"deviceId": "2b855aca9adb862f0fe0d38d921f58cc",
+			"nonce": "01934f0337777ac38dcb8066c646b7fb"
+		},
+		"rk": "01937302d6ba7c62b7aca520be4ed927",
+		"t": 1721091802099,
+		"t0": 1721091646555,
+		"timeLeftInStep": 24456,
+		"result": "6T9SS8FGWBP0$T2YJ3$35:QR$BME8RO0I-/T+GJ-VE65AQO2ABC8XF8CIT+T6CDN01-QO1VQRDLP-MO5TEU8K$C%U83*3V7ARKITYM6 F$AFRJ6BYB6KL/*2HCHT67GS3AGBKPL+20PJR5MUB02M4"
+	}
+]
