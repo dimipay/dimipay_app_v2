@@ -22,7 +22,7 @@ class AppLoader {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: 'https://prod-next.dimipay.io/')))
+    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: 'https://dev-next.dimipay.io/')))
       ..middlewares.add(
         DioLog(),
       ));
