@@ -49,6 +49,8 @@
 	<string>디미페이의 결제 pin을 생체인증으로 해제할 때 사용됩니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>디미페이의 결제 기능의 정상적인 구동을 위해 사용됩니다.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>쿠폰을 갤러리에 저장하기 위해 사용됩니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
