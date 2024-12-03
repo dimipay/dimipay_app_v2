@@ -79,8 +79,8 @@ class PayService extends GetxController {
       final (authType, authToken) = getAuthInfo();
 
       LocalPay localpay = LocalPay(
-        userIdentifier: (userService.userState as UserStateSuccess).value.id,
-        deviceIdentifier: authService.deviceId.deviceId!,
+        userIdentifier: UuidParsing.parseAsByteList((userService.userState as UserStateSuccess).value.id, noDashes: true, validate: false),
+        deviceIdentifier: UuidParsing.parseAsByteList(authService.deviceId.deviceId!, noDashes: true, validate: false),
         authToken: authToken,
         rk: authService.aes.key!,
       );
@@ -88,7 +88,7 @@ class PayService extends GetxController {
       Uint8List rawToken = await localpay.generateLocalPayToken(
         paymentMethodIdentifier: paymentMethod.sequence,
         t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch * 1000,
-        authType: authType,
+        authType: authType.byteCode,
       );
 
       String encodedToken = Base45.encode(rawToken);
