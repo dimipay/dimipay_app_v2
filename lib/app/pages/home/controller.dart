@@ -36,8 +36,6 @@ class HomePageController extends GetxController {
   Timer? _qrRefreshTimer;
   double? _screenBrightness;
 
-  bool isFirstQrRequest = true;
-
   bool selectedPaymentExists() {
     return (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(selectedPaymentMethod);
   }
@@ -50,28 +48,28 @@ class HomePageController extends GetxController {
         pushService.requestPushPermission();
       },
     );
-    paymentService.paymentStream.onData(
-      (data) async {
-        if (isFirstQrRequest) {
-          isFirstQrRequest = false;
-          _selectedPaymentMethod.value = paymentService.mainMethod;
-          await Future.delayed(const Duration(milliseconds: 300));
-
-          if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
-            return;
-          }
-          requestAuthAndQR();
-        } else if (!selectedPaymentExists()) {
-          changeSelectedPaymentMethod(paymentService.mainMethod);
-        }
-      },
-    );
     await Future.wait([
       userService.fetchUser(),
       paymentService.fetchPaymentMethods(),
     ]);
-
+    paymentService.paymentStream.onData(
+      (data) async {
+        if (!selectedPaymentExists()) {
+          changeSelectedPaymentMethod(paymentService.mainMethod);
+        }
+      },
+    );
+    _firstQrRequest();
     super.onReady();
+  }
+
+  Future<void> _firstQrRequest() async {
+    if (paymentService.paymentMethodsState is! PaymentMethodsStateSuccess || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
+      return;
+    }
+    _selectedPaymentMethod.value = paymentService.mainMethod;
+    await Future.delayed(const Duration(milliseconds: 300));
+    requestAuthAndQR();
   }
 
   void changeSelectedPaymentMethod(PaymentMethod? paymentMethod) {
