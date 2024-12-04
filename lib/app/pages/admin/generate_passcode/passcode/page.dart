@@ -47,11 +47,11 @@ class PasscodeDisplay extends StatefulWidget {
   final DPTypography textTheme;
 
   const PasscodeDisplay({
-    Key? key,
+    super.key,
     required this.passcode,
     required this.colorTheme,
     required this.textTheme,
-  }) : super(key: key);
+  });
 
   @override
   State<PasscodeDisplay> createState() => _PasscodeDisplayState();

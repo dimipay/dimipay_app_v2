@@ -16,7 +16,6 @@ class CouponPage extends GetView<CouponPageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
     return Scaffold(
       body: SafeArea(
@@ -27,18 +26,18 @@ class CouponPage extends GetView<CouponPageController> {
             ),
             const Spacer(flex: 1),
             Obx(
-                  () => switch (controller.couponService.couponState) {
+              () => switch (controller.couponService.couponState) {
                 CouponStateInitial() || CouponStateLoading() || CouponStateFailed() => Center(
-                  child: CircularProgressIndicator(
-                    color: colorTheme.primaryBrand,
-                  ),
-                ),
-                    CouponStateSuccess(value: final coupon) => Center(
-                      child: RepaintBoundary(
-                        key: controller.repaintKey,
-                        child: CouponWidget(coupon: coupon),
-                      ),
+                    child: CircularProgressIndicator(
+                      color: colorTheme.primaryBrand,
                     ),
+                  ),
+                CouponStateSuccess(value: final coupon) => Center(
+                    child: RepaintBoundary(
+                      key: controller.repaintKey,
+                      child: CouponWidget(coupon: coupon),
+                    ),
+                  ),
               },
             ),
             const Spacer(flex: 2),

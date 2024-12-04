@@ -15,7 +15,7 @@ class CancelTransactionPageController extends GetxController {
   bool get isCancelTransactionProgress => _isCancelTransactionProgress.value;
 
   void onQRViewCreated(QRViewController controller) {
-    this.qrViewController = controller;
+    qrViewController = controller;
     controller.scannedDataStream.listen((scanData) {
       if (scanData.code != null) {
         codeController.text = scanData.code!;
@@ -59,7 +59,7 @@ class CancelTransactionPageController extends GetxController {
 class QRScanView extends StatelessWidget {
   final CancelTransactionPageController controller;
 
-  const QRScanView({Key? key, required this.controller}) : super(key: key);
+  const QRScanView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

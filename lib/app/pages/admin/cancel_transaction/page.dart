@@ -1,5 +1,4 @@
 import 'package:dimipay_design_kit/interfaces/dimipay_colors.dart';
-import 'package:dimipay_design_kit/interfaces/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,12 +38,12 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   Widget _buildCancelButton() {
     return Obx(
-          () => controller.isCancelTransactionProgress
+      () => controller.isCancelTransactionProgress
           ? DPButton.loading()
           : DPButton(
-        onTap: controller.cancelTransaction,
-        child: const Text('결제 취소'),
-      ),
+              onTap: controller.cancelTransaction,
+              child: const Text('결제 취소'),
+            ),
     );
   }
 

@@ -31,8 +31,7 @@ class AdminPage extends GetView<AdminPageController> {
                 ),
                 _MenuItem(
                   title: '상품 신청 확인',
-                  onTap: () => launchUrl(Uri.parse(
-                      'https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+                  onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
                 ),
                 const DPDivider(),
                 const _SectionHeader(title: '결제 및 쿠폰'),
@@ -69,12 +68,11 @@ class _MenuItem extends StatelessWidget {
   final void Function()? onTap;
 
   const _MenuItem({
-    Key? key,
     required this.title,
     this.onTap,
     // ignore: unused_element
     this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -88,20 +86,14 @@ class _MenuItem extends StatelessWidget {
           children: [
             Text(
               title,
-              style:
-                  textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
+              style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
             ),
             const Spacer(),
             Row(
               children: [
-                hint == null
-                    ? Container()
-                    : Text(hint!,
-                        style: textTheme.paragraph2
-                            .copyWith(color: colorTheme.grayscale700)),
+                hint == null ? Container() : Text(hint!, style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700)),
                 const SizedBox(width: 8),
-                Icon(Icons.arrow_forward_ios_rounded,
-                    size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ],
@@ -115,9 +107,8 @@ class _SectionHeader extends StatelessWidget {
   final String title;
 
   const _SectionHeader({
-    Key? key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +117,7 @@ class _SectionHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Text(title,
-          style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
+      child: Text(title, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
     );
   }
 }

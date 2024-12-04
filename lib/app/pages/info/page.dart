@@ -96,11 +96,10 @@ class _MenuItem extends StatelessWidget {
   final void Function()? onTap;
 
   const _MenuItem({
-    Key? key,
     required this.title,
     this.onTap,
     this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +134,8 @@ class _SectionHeader extends StatelessWidget {
   final String title;
 
   const _SectionHeader({
-    Key? key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

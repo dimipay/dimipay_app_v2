@@ -74,19 +74,17 @@ class GeneratePasscodePage extends GetView<GeneratePasscodePageController> {
                     physics: const BouncingScrollPhysics(),
                     children: [
                       const _SectionHeader(title: '키오스크 목록'),
-                      ...kiosks
-                          .map(
-                            (e) => _KioskItem(
-                              kiosk: e,
-                              onTap: () async {
-                                bool confirm = await _showConfirmationDialog(context, e);
-                                if (confirm) {
-                                  Get.toNamed(Routes.PASSCODE, arguments: e.id);
-                                }
-                              },
-                            ),
-                          )
-                          .toList(),
+                      ...kiosks.map(
+                        (e) => _KioskItem(
+                          kiosk: e,
+                          onTap: () async {
+                            bool confirm = await _showConfirmationDialog(context, e);
+                            if (confirm) {
+                              Get.toNamed(Routes.PASSCODE, arguments: e.id);
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   )
               },
@@ -103,10 +101,9 @@ class _KioskItem extends StatelessWidget {
   final void Function()? onTap;
 
   const _KioskItem({
-    Key? key,
     required this.kiosk,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -135,9 +132,8 @@ class _SectionHeader extends StatelessWidget {
   final String title;
 
   const _SectionHeader({
-    Key? key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

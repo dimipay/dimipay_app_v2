@@ -75,19 +75,17 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
                     physics: const BouncingScrollPhysics(),
                     children: [
                       const _SectionHeader(title: '쿠폰 종류'),
-                      ...couponTypes
-                          .map(
-                            (e) => _CouponTypeItem(
-                              couponType: e,
-                              onTap: () async {
-                                bool confirm = await _showConfirmationDialog(context, e);
-                                if (confirm) {
-                                  Get.toNamed(Routes.COUPON, arguments: e.id);
-                                }
-                              },
-                            ),
-                          )
-                          .toList(),
+                      ...couponTypes.map(
+                        (e) => _CouponTypeItem(
+                          couponType: e,
+                          onTap: () async {
+                            bool confirm = await _showConfirmationDialog(context, e);
+                            if (confirm) {
+                              Get.toNamed(Routes.COUPON, arguments: e.id);
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   )
               },
@@ -104,10 +102,9 @@ class _CouponTypeItem extends StatelessWidget {
   final void Function()? onTap;
 
   const _CouponTypeItem({
-    Key? key,
     required this.couponType,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +139,8 @@ class _SectionHeader extends StatelessWidget {
   final String title;
 
   const _SectionHeader({
-    Key? key,
     required this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
