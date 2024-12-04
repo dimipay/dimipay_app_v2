@@ -98,7 +98,7 @@ class LocalPay {
   }
 
   Future<Uint8List> encryptPrivatePayload(Uint8List metadataPayload, Uint8List commonPayload, Uint8List rawPrivatePayload, int t0, [int? t]) async {
-    t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
+    t ??= DateTime.now().toLocal().millisecondsSinceEpoch;
     final (k, n) = await prepareKey(t, t0, rk, userIdentifier);
 
     final aad = Uint8List.fromList(metadataPayload + commonPayload);

@@ -87,7 +87,7 @@ class PayService extends GetxController {
 
       Uint8List rawToken = await localpay.generateLocalPayToken(
         paymentMethodIdentifier: paymentMethod.sequence,
-        t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch * 1000,
+        t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch,
         authType: authType.byteCode,
       );
 
