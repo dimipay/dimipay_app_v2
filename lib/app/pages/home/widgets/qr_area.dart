@@ -25,7 +25,7 @@ class QRArea extends StatelessWidget {
     await videoController.setupDataSource(videoSource);
   }
 
-  QRArea({Key? key, required this.payload}) : super(key: key) {
+  QRArea({super.key, required this.payload}) {
     loadSuperWhiteVideo();
   }
 
@@ -57,8 +57,11 @@ class QRArea extends StatelessWidget {
               child: SizedBox(
                 width: 180,
                 height: 180,
-                child: QrImageView(
-                  data: payload,
+                child: QrImageView.withQr(
+                  qr: QrCode(
+                    5,
+                    QrErrorCorrectLevel.L,
+                  )..addAlphaNumeric(payload),
                 ),
               ),
             ),
