@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:dimipay_app_v2/app/services/cache/service.dart';
+import 'package:dimipay_app_v2/app/core/utils/async.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/repository.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
@@ -29,15 +29,13 @@ class PaymentService extends GetxController {
   PaymentMethodsState get paymentMethodsState => _paymentMethodsState.value;
 
   Future<void> _fetchPaymentMethodsFromCache() async {
-    try {
-      Map data = await repository.getPaymentMethodFromCache();
+    Map data = await repository.getPaymentMethodFromCache();
 
-      if (paymentMethodsState is! PaymentMethodsStateSuccess) {
-        _mainMethodId.value = data["mainMethodId"];
-        _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
-        _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
-      }
-    } on CacheNotExistException {}
+    if (paymentMethodsState is! PaymentMethodsStateSuccess) {
+      _mainMethodId.value = data["mainMethodId"];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
+    }
   }
 
   Future<void> _fetchPaymentMethodFromRemote() async {
@@ -57,7 +55,7 @@ class PaymentService extends GetxController {
 
   Future<void> fetchPaymentMethods() async {
     _paymentMethodsState.value = const PaymentMethodsStateLoading();
-    return Future.any([_fetchPaymentMethodsFromCache(), _fetchPaymentMethodFromRemote()]);
+    return anySuccess([_fetchPaymentMethodsFromCache(), _fetchPaymentMethodFromRemote()]);
   }
 
   @override
