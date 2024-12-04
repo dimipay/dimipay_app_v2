@@ -12,7 +12,18 @@ class CancelTransactionPageController extends GetxController {
   CancelTransactionService cancelTransactionService = Get.find<CancelTransactionService>();
 
   final _isCancelTransactionProgress = false.obs;
+  final RxString _code = ''.obs;
+
   bool get isCancelTransactionProgress => _isCancelTransactionProgress.value;
+  bool get isCodeValid => _code.value.isNotEmpty;
+
+  @override
+  void onInit() {
+    super.onInit();
+    codeController.addListener(() {
+      _code.value = codeController.text;
+    });
+  }
 
   void onQRViewCreated(QRViewController controller) {
     qrViewController = controller;
@@ -31,11 +42,6 @@ class CancelTransactionPageController extends GetxController {
   }
 
   Future<void> cancelTransaction() async {
-    if (codeController.text.isEmpty) {
-      Get.snackbar('오류', '결제 코드를 입력하거나 QR코드를 스캔해주세요');
-      return;
-    }
-
     _isCancelTransactionProgress.value = true;
     try {
       await cancelTransactionService.cancelTransaction(transactionId: codeController.text);

@@ -38,12 +38,16 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   Widget _buildCancelButton() {
     return Obx(
-      () => controller.isCancelTransactionProgress
+          () => controller.isCancelTransactionProgress
           ? DPButton.loading()
-          : DPButton(
-              onTap: controller.cancelTransaction,
-              child: const Text('결제 취소'),
-            ),
+          : controller.isCodeValid
+          ? DPButton(
+        onTap: controller.cancelTransaction,
+        child: const Text('결제 취소'),
+      )
+          : DPButton.disabled(
+        child: const Text('결제 취소'),
+      ),
     );
   }
 
