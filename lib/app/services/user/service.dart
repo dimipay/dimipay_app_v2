@@ -35,7 +35,6 @@ class UserService extends GetxController {
 
   Future fetchUser() async {
     _user.value = const UserStateLoading();
-    _fetchFromCache();
-    _fetchFromRemote();
+    return Future.any([_fetchFromCache(), _fetchFromRemote()]);
   }
 }

@@ -72,7 +72,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
 }
 
 class _TopIndicator extends StatelessWidget {
-  const _TopIndicator({Key? key}) : super(key: key);
+  const _TopIndicator();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class _TopIndicator extends StatelessWidget {
 class _Heading extends StatelessWidget {
   final String text;
 
-  const _Heading({Key? key, required this.text}) : super(key: key);
+  const _Heading({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +118,12 @@ class _PaymentOption extends StatelessWidget {
   final void Function()? onSelect;
 
   const _PaymentOption({
-    Key? key,
     required this.title,
     required this.subtitle,
     required this.assetPath,
     required this.isSelected,
     this.onSelect,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +157,7 @@ class _CardDetail extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _CardDetail({Key? key, required this.title, required this.subtitle}) : super(key: key);
+  const _CardDetail({required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +175,7 @@ class _CardDetail extends StatelessWidget {
 }
 
 class _AddCardButton extends GetView<HomePageController> {
-  const _AddCardButton({Key? key}) : super(key: key);
+  const _AddCardButton();
 
   @override
   Widget build(BuildContext context) {

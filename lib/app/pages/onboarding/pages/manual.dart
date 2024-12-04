@@ -84,10 +84,10 @@ class ExpandableHelpItem extends StatefulWidget {
   final String details;
 
   const ExpandableHelpItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.details,
-  }) : super(key: key);
+  });
 
   @override
   State<ExpandableHelpItem> createState() => _ExpandableHelpItemState();

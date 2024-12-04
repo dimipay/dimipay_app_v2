@@ -5,28 +5,42 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SyncProductPageController extends GetxController {
-  final ProductsManageService productsManageService =
-      Get.find<ProductsManageService>();
-
-  TextEditingController barcodeController = TextEditingController();
+  final ProductsManageService _productsManageService = Get.find<ProductsManageService>();
+  final TextEditingController barcodeController = TextEditingController();
   final FocusNode barcodeFocusNode = FocusNode();
 
   final RxBool _isSyncProductProgress = false.obs;
+  final RxString _barcode = ''.obs;
 
   bool get isSyncProductProgress => _isSyncProductProgress.value;
+  bool get isBarcodeValid => _barcode.value.isNotEmpty;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _setupBarcodeListener();
+  }
+
+  void _setupBarcodeListener() {
+    barcodeController.addListener(() {
+      _barcode.value = barcodeController.text;
+    });
+  }
+
+  @override
+  void onClose() {
+    barcodeController.dispose();
+    barcodeFocusNode.dispose();
+    super.onClose();
+  }
 
   Future<void> syncProduct() async {
-    if (barcodeController.text.isEmpty) {
-      DPErrorSnackBar().open('바코드를 입력해주세요.');
-      return;
-    }
-
     _isSyncProductProgress.value = true;
     update(['barcodeField']);
 
     try {
-      await productsManageService.syncProduct(barcode: barcodeController.text);
-      DPSnackBar.open('동기화에 성공했습니다.');
+      await _productsManageService.syncProduct(barcode: barcodeController.text);
+      DPSnackBar.open('상품 동기화에 성공했어요.');
       barcodeController.clear();
     } on ProductNotFound catch (e) {
       DPErrorSnackBar().open(e.message!);

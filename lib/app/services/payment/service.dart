@@ -57,9 +57,7 @@ class PaymentService extends GetxController {
 
   Future<void> fetchPaymentMethods() async {
     _paymentMethodsState.value = const PaymentMethodsStateLoading();
-
-    _fetchPaymentMethodsFromCache();
-    _fetchPaymentMethodFromRemote();
+    return Future.any([_fetchPaymentMethodsFromCache(), _fetchPaymentMethodFromRemote()]);
   }
 
   @override

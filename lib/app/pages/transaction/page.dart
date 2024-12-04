@@ -132,7 +132,7 @@ class TransactionPage extends GetView<TransactionPageController> {
                                   physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                                   child: Column(
                                     children: [
-                                      ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)).toList(),
+                                      ...transactionsGroupedByDate.entries.map((e) => TransactionDateGroup(date: e.key, transactions: e.value)),
                                       !controller.transactionService.hasReachedEnd
                                           ? SizedBox(
                                               width: 20,

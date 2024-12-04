@@ -112,7 +112,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                                     DPAnimatedShowUpScopeItem(
                                       child: Text('구매한 상품', style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale600)),
                                     ),
-                                    ...controller.transaction!.products.map((e) => DPAnimatedShowUpScopeItem(child: ProductItem(product: e))).toList(),
+                                    ...controller.transaction!.products.map((e) => DPAnimatedShowUpScopeItem(child: ProductItem(product: e))),
                                   ],
                                 ),
                               ),

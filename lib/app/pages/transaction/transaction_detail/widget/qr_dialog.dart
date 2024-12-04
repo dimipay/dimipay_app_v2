@@ -24,11 +24,19 @@ class QRDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '거래 ID',
-              style: textTheme.paragraph1.copyWith(
+              '결제 ID',
+              style: textTheme.itemTitle.copyWith(
                 fontWeight: FontWeight.w600,
                 color: colorTheme.grayscale1000,
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '매니저님께 QR코드를 보여드리세요.',
+              style: textTheme.itemDescription.copyWith(
+                color: colorTheme.grayscale600,
+              ),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
             QrImageView(
@@ -36,10 +44,9 @@ class QRDialog extends StatelessWidget {
               version: QrVersions.auto,
               size: 160,
             ),
-            const SizedBox(height: 16),
             Text(
-              '매니저님께 이 QR코드를 보여드리세요.',
-              style: textTheme.paragraph2.copyWith(
+              transactionId,
+              style: textTheme.hint.copyWith(
                 color: colorTheme.grayscale600,
               ),
               textAlign: TextAlign.center,
