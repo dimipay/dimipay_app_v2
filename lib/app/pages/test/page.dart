@@ -1,6 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -79,7 +80,13 @@ class TestPage extends StatelessWidget {
             onPressed: () {
               Get.find<AuthService>().logout();
             },
-            child: const Text('Clear Data'),
+            child: const Text('log out'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.find<HttpCacheService>().clear();
+            },
+            child: const Text('clear cache'),
           ),
         ],
       ),
