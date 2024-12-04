@@ -23,7 +23,7 @@ class CouponPage extends GetView<CouponPageController> {
         child: Column(
           children: [
             const DPAppbar(
-              header: '쿠폰이 발급되었어요!',
+              header: '쿠폰',
             ),
             const Spacer(flex: 1),
             Obx(

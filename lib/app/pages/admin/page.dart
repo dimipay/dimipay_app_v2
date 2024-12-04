@@ -20,39 +20,43 @@ class AdminPage extends GetView<AdminPageController> {
             header: '관리자',
           ),
           Expanded(
-              child: ListView(
-            padding: EdgeInsets.zero,
-            physics: const BouncingScrollPhysics(),
-            children: [
-              const _SectionHeader(title: '쿠폰 관리'),
-              _MenuItem(
-                title: '쿠폰 발급하기',
-                onTap: () => Get.toNamed(Routes.GENERATE_COUPON),
-              ),
-              const DPDivider(),
-              const _SectionHeader(title: '상품 관리'),
-              _MenuItem(
-                title: '상품 가격 동기화',
-                onTap: () => Get.toNamed(Routes.SYNC_PRODUCT),
-              ),
-              const DPDivider(),
-              const _SectionHeader(title: '핀/패스코드 관리'),
-              _MenuItem(
-                title: '사용자 핀 초기화',
-                onTap: () => Get.toNamed(Routes.RESET_PIN),
-              ),
-              _MenuItem(
-                title: '키오스크 패스코드 생성하기',
-                onTap: () => Get.toNamed(Routes.GENERATE_PASSCODE),
-              ),
-              const DPDivider(),
-              const _SectionHeader(title: '기타'),
-              _MenuItem(
-                title: '상품 신청 확인하기',
-                onTap: () => launchUrl(Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
-              ),
-            ],
-          ))
+            child: ListView(
+              padding: EdgeInsets.zero,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                const _SectionHeader(title: '상품 관리'),
+                _MenuItem(
+                  title: '상품 가격 동기화',
+                  onTap: () => Get.toNamed(Routes.SYNC_PRODUCT),
+                ),
+                _MenuItem(
+                  title: '상품 신청 확인',
+                  onTap: () => launchUrl(Uri.parse(
+                      'https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
+                ),
+                const DPDivider(),
+                const _SectionHeader(title: '결제 및 쿠폰'),
+                _MenuItem(
+                  title: '결제 취소',
+                  onTap: () => Get.toNamed(Routes.CANCEL_TRANSACTION),
+                ),
+                _MenuItem(
+                  title: '쿠폰 발급',
+                  onTap: () => Get.toNamed(Routes.GENERATE_COUPON),
+                ),
+                const DPDivider(),
+                const _SectionHeader(title: '보안'),
+                _MenuItem(
+                  title: '사용자 핀 초기화',
+                  onTap: () => Get.toNamed(Routes.RESET_PIN),
+                ),
+                _MenuItem(
+                  title: '키오스크 패스코드 생성',
+                  onTap: () => Get.toNamed(Routes.GENERATE_PASSCODE),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -84,14 +88,20 @@ class _MenuItem extends StatelessWidget {
           children: [
             Text(
               title,
-              style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
+              style:
+                  textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
             ),
             const Spacer(),
             Row(
               children: [
-                hint == null ? Container() : Text(hint!, style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700)),
+                hint == null
+                    ? Container()
+                    : Text(hint!,
+                        style: textTheme.paragraph2
+                            .copyWith(color: colorTheme.grayscale700)),
                 const SizedBox(width: 8),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded,
+                    size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ],
@@ -116,7 +126,8 @@ class _SectionHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Text(title, style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
+      child: Text(title,
+          style: textTheme.token.copyWith(color: colorTheme.grayscale500)),
     );
   }
 }

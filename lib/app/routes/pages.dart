@@ -2,6 +2,8 @@ import 'package:dimipay_app_v2/app/core/middleware/admin.dart';
 import 'package:dimipay_app_v2/app/core/middleware/login.dart';
 import 'package:dimipay_app_v2/app/core/middleware/onboarding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/cancel_transaction/binding.dart';
+import 'package:dimipay_app_v2/app/pages/admin/cancel_transaction/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/page.dart';
@@ -163,10 +165,11 @@ class AppPages {
     ),
     GetPage(
       name: Routes.LICENSE,
-      page: () => LicensePage(
-        applicationName: '',
-        applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
-      ),
+      page: () =>
+          LicensePage(
+            applicationName: '',
+            applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
+          ),
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -229,6 +232,13 @@ class AppPages {
       name: Routes.SYNC_PRODUCT,
       page: () => const SyncProductPage(),
       binding: SyncProductPageBinding(),
+      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: Routes.CANCEL_TRANSACTION,
+      binding: CancelTransactionBinding(),
+      page: () => CancelTransactionPage(),
       middlewares: [LoginMiddleware(), AdminMiddleware()],
       transition: Transition.cupertino,
     ),

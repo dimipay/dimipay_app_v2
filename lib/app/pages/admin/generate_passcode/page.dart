@@ -60,7 +60,7 @@ class GeneratePasscodePage extends GetView<GeneratePasscodePageController> {
       body: Column(
         children: [
           const DPAppbar(
-            header: '키오스크 패스코드 생성하기',
+            header: '키오스크 패스코드 생성',
           ),
           Expanded(
             child: Obx(

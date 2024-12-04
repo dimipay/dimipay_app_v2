@@ -61,7 +61,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
       body: Column(
         children: [
           const DPAppbar(
-            header: '쿠폰 발급하기',
+            header: '쿠폰 발급',
           ),
           Expanded(
             child: Obx(

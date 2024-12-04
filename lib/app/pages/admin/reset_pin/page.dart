@@ -8,52 +8,50 @@ import 'package:get/get.dart';
 class ResetPinPage extends GetView<ResetPinPageController> {
   const ResetPinPage({super.key});
 
+  Widget _buildEmailField() {
+    return GetBuilder<ResetPinPageController>(
+      id: 'emailField',
+      builder: (_) => DPTextField(
+        labelText: '이메일',
+        hintText: 'example@dimipay.io',
+        controller: controller.emailController,
+        focusNode: controller.emailFocusNode,
+        hilightOnFocus: true,
+      ),
+    );
+  }
+
+  Widget _buildResetButton() {
+    return Obx(
+          () => controller.isResetPinProgress
+          ? DPButton.loading()
+          : controller.isEmailValid
+          ? DPButton(
+        onTap: controller.resetPin,
+        child: const Text('핀 초기화'),
+      )
+          : DPButton.disabled(
+        child: const Text('핀 초기화'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            const DPAppbar(
-              header: '사용자 핀 초기화',
-            ),
-            const Spacer(
-              flex: 1,
-            ),
+            const DPAppbar(header: '사용자 핀 초기화'),
+            const Spacer(flex: 1),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  GetBuilder<ResetPinPageController>(
-                    id: 'emailField',
-                    builder: (_) => DPTextField(
-                      labelText: '이메일',
-                      hintText: 'example@dimipay.io',
-                      controller: controller.emailController,
-                      focusNode: controller.emailFocusNode,
-                      hilightOnFocus: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Obx(
-                    () {
-                      if (controller.isResetPinProgress) {
-                        return DPButton.loading();
-                      } else {
-                        return DPButton(
-                          onTap: controller.resetPin,
-                          child: const Text('핀 초기화'),
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
+              child: _buildEmailField(),
             ),
-            const Spacer(
-              flex: 2,
+            const Spacer(flex: 2),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: _buildResetButton(),
             ),
           ],
         ),
