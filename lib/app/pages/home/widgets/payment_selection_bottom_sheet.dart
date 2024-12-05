@@ -23,7 +23,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Container(
+        child: ColoredBox(
           color: colorTheme.grayscale100,
           child: DPAnimatedShowUpScope(
             waitBetweenChildren: const Duration(milliseconds: 30),

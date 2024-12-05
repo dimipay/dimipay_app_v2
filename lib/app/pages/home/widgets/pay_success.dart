@@ -55,7 +55,7 @@ Future showSuccessDialog() async {
         padding: const EdgeInsets.only(top: 0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24),
-          child: Container(
+          child: ColoredBox(
             color: colorTheme.grayscale100,
             child: Padding(
               padding: const EdgeInsets.only(top: 32),

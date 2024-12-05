@@ -38,6 +38,7 @@ linter:
     unnecessary_raw_strings: true
     unnecessary_statements: true
     use_decorated_box: true
+    use_colored_box: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

@@ -53,7 +53,7 @@ class _DPGestureDetectorWithFillInteractionState extends State<DPGestureDetector
       child: Listener(
         onPointerDown: (_) => pressDown(),
         onPointerUp: (_) => pressUp(),
-        child: Container(
+        child: ColoredBox(
           color: Colors.transparent,
           child: Stack(
             children: [
@@ -126,7 +126,7 @@ class _DPGestureDetectorWithOpacityInteractionState extends State<DPGestureDetec
       child: Listener(
         onPointerDown: (_) => pressDown(),
         onPointerUp: (_) => pressUp(),
-        child: Container(
+        child: ColoredBox(
           color: Colors.transparent,
           child: AnimatedOpacity(
             duration: widget.duration,

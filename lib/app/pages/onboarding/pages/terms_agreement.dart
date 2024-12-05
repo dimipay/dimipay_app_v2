@@ -73,7 +73,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                     }
                   });
                 },
-                child: Container(
+                child: ColoredBox(
                   color: Colors.transparent,
                   child: Row(
                     children: [

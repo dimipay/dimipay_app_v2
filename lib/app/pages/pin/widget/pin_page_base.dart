@@ -53,7 +53,7 @@ class PinPageBase extends GetView<PinPageController> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return Container(
+    return ColoredBox(
       color: colorTheme.grayscale100,
       child: SafeArea(
         bottom: true,
