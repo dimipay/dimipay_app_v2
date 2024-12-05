@@ -81,11 +81,11 @@ class LocalPay {
   }
 
   Uint8List buildRawPrivatePayload(Uint8List? nonce) {
-    final Uint8List parsedNonce = nonce ?? generateNonce();
+    nonce ??= generateNonce();
 
     final TLV authTokenTLV = TLV(Tag.authToken, authToken);
     final TLV deviceIdentifierTLV = TLV(Tag.deviceIdentifier, deviceIdentifier);
-    final TLV nonceTLV = TLV(Tag.nonce, parsedNonce);
+    final TLV nonceTLV = TLV(Tag.nonce, nonce);
     final TLV payloadLengthIndicator = createPayloadLengthInicator([authTokenTLV, deviceIdentifierTLV, nonceTLV]);
 
     final builder = BytesBuilder();
