@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:better_player/better_player.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter/services.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;

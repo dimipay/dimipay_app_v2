@@ -1,7 +1,7 @@
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
+import 'package:dimipay_app_v2/app/pages/home/widgets/payment_selection_bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
-import 'package:dimipay_app_v2/app/pages/home/widgets/payment_selection_bottom_sheet.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer' as dev;
+
 import 'package:dimipay_app_v2/app/provider/api_provider.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
@@ -7,7 +9,6 @@ import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'dart:developer' as dev;
 
 class JwtToken {
   final String? accessToken;

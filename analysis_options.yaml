@@ -52,6 +52,11 @@ linter:
     avoid_type_to_string: true
     avoid_unused_constructor_parameters: true
     avoid_void_async: true
+    cancel_subscriptions: true
+    close_sinks: true
+    combinators_ordering: true
+    deprecated_consistency: true
+    directives_ordering: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

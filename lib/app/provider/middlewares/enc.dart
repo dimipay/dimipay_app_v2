@@ -1,9 +1,9 @@
-import 'package:dimipay_app_v2/app/provider/middleware.dart';
-import 'package:dimipay_app_v2/app/provider/model/request.dart';
-import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cryptography/cryptography.dart';
+import 'package:dimipay_app_v2/app/provider/middleware.dart';
+import 'package:dimipay_app_v2/app/provider/model/request.dart';
+import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:get/get.dart';
 

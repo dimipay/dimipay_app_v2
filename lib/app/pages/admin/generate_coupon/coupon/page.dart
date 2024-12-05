@@ -3,12 +3,11 @@ import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/controller
 import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import 'package:dimipay_app_v2/app/widgets/button.dart';
 
 class CouponPage extends GetView<CouponPageController> {
   const CouponPage({super.key});

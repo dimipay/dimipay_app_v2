@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:cryptography/cryptography.dart';
+import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 import 'package:uuid/parsing.dart';
 import 'package:uuid/v7.dart';
-import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 
 enum AuthType {
   notAuthed(0x00),

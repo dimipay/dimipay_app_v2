@@ -1,7 +1,7 @@
 import 'package:dimipay_app_v2/app/services/admin/cancel_transaction/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CancelTransactionPageController extends GetxController {
