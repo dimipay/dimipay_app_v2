@@ -2,10 +2,10 @@ import 'package:dimipay_design_kit/interfaces/dimipay_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../widgets/appbar.dart';
-import '../../../widgets/button.dart';
-import '../../../widgets/dp_textfield.dart';
-import 'controller.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
+import 'package:dimipay_app_v2/app/pages/admin/cancel_transaction/controller.dart';
 
 class CancelTransactionPage extends GetView<CancelTransactionPageController> {
   const CancelTransactionPage({super.key});
@@ -38,16 +38,16 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   Widget _buildCancelButton() {
     return Obx(
-          () => controller.isCancelTransactionProgress
+      () => controller.isCancelTransactionProgress
           ? DPButton.loading()
           : controller.isCodeValid
-          ? DPButton(
-        onTap: controller.cancelTransaction,
-        child: const Text('결제 취소'),
-      )
-          : DPButton.disabled(
-        child: const Text('결제 취소'),
-      ),
+              ? DPButton(
+                  onTap: controller.cancelTransaction,
+                  child: const Text('결제 취소'),
+                )
+              : DPButton.disabled(
+                  child: const Text('결제 취소'),
+                ),
     );
   }
 

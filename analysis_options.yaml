@@ -27,6 +27,8 @@ linter:
     prefer_const_constructors: true
     prefer_constructors_over_static_methods: true
     prefer_final_in_for_each: true
+    prefer_null_aware_method_calls: true
+    always_use_package_imports: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 
 class CouponPage extends GetView<CouponPageController> {
   const CouponPage({super.key});
