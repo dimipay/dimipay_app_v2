@@ -165,11 +165,10 @@ class AppPages {
     ),
     GetPage(
       name: Routes.LICENSE,
-      page: () =>
-          LicensePage(
-            applicationName: '',
-            applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
-          ),
+      page: () => LicensePage(
+        applicationName: '',
+        applicationIcon: SvgPicture.asset('assets/icon/logoTitle.svg'),
+      ),
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -238,7 +237,7 @@ class AppPages {
     GetPage(
       name: Routes.CANCEL_TRANSACTION,
       binding: CancelTransactionBinding(),
-      page: () => CancelTransactionPage(),
+      page: () => const CancelTransactionPage(),
       middlewares: [LoginMiddleware(), AdminMiddleware()],
       transition: Transition.cupertino,
     ),
