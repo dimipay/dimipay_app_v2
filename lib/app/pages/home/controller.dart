@@ -197,7 +197,7 @@ class HomePageController extends GetxController {
     }
   }
 
-  openKakaoChannelTalk() async {
+  Future<void> openKakaoChannelTalk() async {
     try {
       await launchUrl(Uri.parse('https://pf.kakao.com/_gHxlCxj/chat?app_key=1127bc4e0b146e5579b6d6a2ad8d0ad1&kakao_agent=sdk%2F1.4.2+sdk_type%2Fflutter+os%2Fandroid-34+lang%2Fko-KR+origin%2FVNmybeVuZKt9uPyjMrvJ04STxtI%3D+device%2FA065+android_pkg%2Fcom.develop.dimipay+app_ver%2F1.1.0&api_ver=1.0'));
     } catch (error) {

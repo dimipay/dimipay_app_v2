@@ -105,7 +105,7 @@ class LocalPay {
     return xchacha20Poly1305(rawPrivatePayload, k, n, aad);
   }
 
-  Future<Uint8List> xchacha20Poly1305(message, key, nonce, aad) async {
+  Future<Uint8List> xchacha20Poly1305(List<int> message, List<int> key, List<int> nonce, List<int> aad) async {
     final xchacha20 = Xchacha20.poly1305Aead();
     final secretKey = SecretKey(key);
 
