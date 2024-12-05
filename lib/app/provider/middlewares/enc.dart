@@ -24,9 +24,9 @@ class AesGcmEncryptor {
 }
 
 class EncryptBody extends ApiMiddleware {
-  Future<String> encryptData(dynamic data) async {
+  Future<String> encryptData(dynamic data) {
     AuthService authService = Get.find<AuthService>();
-    return await AesGcmEncryptor.encrypt(json.encode(data), authService.aes.key!);
+    return AesGcmEncryptor.encrypt(json.encode(data), authService.aes.key!);
   }
 
   @override
