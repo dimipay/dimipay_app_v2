@@ -35,6 +35,9 @@ linter:
     unnecessary_await_in_return: true
     unnecessary_breaks: true
     unnecessary_parenthesis: true
+    unnecessary_raw_strings: true
+    unnecessary_statements: true
+    use_decorated_box: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

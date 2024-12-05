@@ -16,7 +16,7 @@ class AdminArea extends GetView<HomePageController> {
 
     return DPGestureDetectorWithScaleInteraction(
       onTap: () {},
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -42,14 +42,12 @@ class AdminArea extends GetView<HomePageController> {
                     children: [
                       Text(
                         '관리자 페이지',
-                        style: textTheme.itemTitle
-                            .copyWith(color: colorTheme.grayscale900),
+                        style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale900),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_forward_ios_rounded,
-                    size: 16, color: colorTheme.grayscale500),
+                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: colorTheme.grayscale500),
               ],
             ),
           ),

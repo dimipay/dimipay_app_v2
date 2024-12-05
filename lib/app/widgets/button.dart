@@ -257,7 +257,7 @@ class _DPButtonState extends State<DPButton> {
         child: DPGestureDetectorWithOpacityInteraction(
           onTap: widget.onTap,
           onLongPress: widget.onLongPress,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: widget.backgroundColor ?? colorTheme.primaryBrand,
               borderRadius: const BorderRadius.all(Radius.circular(10)),

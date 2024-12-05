@@ -17,7 +17,7 @@ class UserInfoArea extends GetView<HomePageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return DPGestureDetectorWithScaleInteraction(
       onTap: () {},
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: colorTheme.grayscale100,
           borderRadius: const BorderRadius.all(Radius.circular(16)),
