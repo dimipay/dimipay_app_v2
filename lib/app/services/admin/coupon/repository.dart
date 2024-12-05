@@ -12,21 +12,21 @@ class CouponRepository {
 
   Future<Map> generateCoupon({required String id}) async {
     String url = '/admin/coupons';
-    Map body = {"type": id};
+    Map body = {'type': id};
 
     DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);
 
-    Coupon coupon = Coupon.fromJson(response.data["coupon"]);
+    Coupon coupon = Coupon.fromJson(response.data['coupon']);
 
-    return {"coupon": coupon};
+    return {'coupon': coupon};
   }
 
   Future<Map> getCouponTypes() async {
     String url = '/admin/coupons/types';
     DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
 
-    List<CouponType> couponTypes = (response.data["types"] as List).map((e) => CouponType.fromJson(e)).toList();
+    List<CouponType> couponTypes = (response.data['types'] as List).map((e) => CouponType.fromJson(e)).toList();
 
-    return {"couponTypes": couponTypes};
+    return {'couponTypes': couponTypes};
   }
 }

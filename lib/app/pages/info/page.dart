@@ -67,7 +67,7 @@ class InfoPage extends GetView<InfoPageController> {
                   }),
                   _MenuItem(
                     title: '핀 변경',
-                    onTap: () => Get.toNamed(Routes.PIN, arguments: {"pinPageType": PinPageType.editPin}),
+                    onTap: () => Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.editPin}),
                   ),
                   const DPDivider(),
                   const _SectionHeader(title: '기타'),

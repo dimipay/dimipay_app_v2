@@ -26,7 +26,7 @@ class PushRepository {
   }
 
   Future<void> updateFcmTokenToServer(String token) async {
-    String url = "/fcm";
+    String url = '/fcm';
     Map<String, dynamic> body = {'token': token};
     await api.put(DPHttpRequest(url, body: body), [JWT()]);
   }

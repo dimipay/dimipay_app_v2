@@ -27,7 +27,7 @@ class AppLoader {
         DioLog(),
       ));
 
-    await dotenv.load(fileName: "env/.env", isOptional: true);
+    await dotenv.load(fileName: 'env/.env', isOptional: true);
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);

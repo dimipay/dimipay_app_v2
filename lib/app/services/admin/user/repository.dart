@@ -11,7 +11,7 @@ class UserManageRepository {
   Future<void> resetPin({required String email}) async {
     String url = '/admin/users/reset-pin';
 
-    Map body = {"email": email};
+    Map body = {'email': email};
 
     await api.patch(DPHttpRequest(url, body: body), [JWT()]);
   }

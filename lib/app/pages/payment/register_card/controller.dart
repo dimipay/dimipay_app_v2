@@ -105,7 +105,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
   void onBirthdayChange(String str) {
     String data = ownerPersonalNumFieldController.text;
     if (data.length == 6) {
-      ownerPersonalNum.value = DateFormat('yyyyMMdd').format(DateTime.parse("00$data")).substring(2);
+      ownerPersonalNum.value = DateFormat('yyyyMMdd').format(DateTime.parse('00$data')).substring(2);
     } else if (data.length == 10) {
       ownerPersonalNum.value = data;
       formFocusScopeNode.nextFocus();
@@ -161,7 +161,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
         Get.offNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': newPaymentMethod});
       } on DioException catch (e) {
         log(e.response!.data.toString());
-        DPErrorSnackBar().open(e.response!.data["message"]);
+        DPErrorSnackBar().open(e.response!.data['message']);
         HapticHelper.feedback(HapticPatterns.error);
       } finally {
         change(null, status: RxStatus.success());

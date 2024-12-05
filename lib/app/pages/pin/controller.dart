@@ -171,7 +171,7 @@ class PinPageController extends GetxController {
 
   Future<void> changePinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "비밀번호를 다시 입력해주세요.");
+      DPErrorSnackBar().open('처음 입력한 핀과 달라요.', message: '비밀번호를 다시 입력해주세요.');
       _status.value = PinPageStatus.normal;
       return;
     }
@@ -207,7 +207,7 @@ class PinPageController extends GetxController {
 
   Future<void> registerPinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "핀을 다시 입력해주세요.");
+      DPErrorSnackBar().open('처음 입력한 핀과 달라요.', message: '핀을 다시 입력해주세요.');
       _status.value = PinPageStatus.normal;
       return;
     }

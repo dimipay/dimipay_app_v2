@@ -72,7 +72,7 @@ class JwtRefresher {
 
   ///returns accessToken
   Future<JwtToken> _refreshTokenFromRemote(String refreshToken) async {
-    String url = "/auth/refresh";
+    String url = '/auth/refresh';
 
     Map<String, dynamic> headers = {
       'Authorization': 'Bearer $refreshToken',

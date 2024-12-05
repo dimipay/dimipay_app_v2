@@ -25,16 +25,12 @@ class CouponPageController extends GetxController {
   }
 
   Future<void> saveToGallery() async {
-    RenderRepaintBoundary boundary =
-        repaintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary = repaintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
     if (byteData != null) {
-      final result = await ImageGallerySaver.saveImage(
-          byteData.buffer.asUint8List(),
-          quality: 100,
-          name: "coupon_${DateTime.now().millisecondsSinceEpoch}");
+      final result = await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(), quality: 100, name: 'coupon_${DateTime.now().millisecondsSinceEpoch}');
 
       if (result['isSuccess']) {
         DPSnackBar.open('쿠폰이 갤러리에 저장되었습니다.');

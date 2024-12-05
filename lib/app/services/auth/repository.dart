@@ -43,8 +43,8 @@ class AuthRepository {
     String url = '/login/password';
 
     Map requestBody = {
-      "email": email,
-      "password": password,
+      'email': email,
+      'password': password,
     };
 
     try {
@@ -137,9 +137,9 @@ class AuthRepository {
 
   ///returns otp
   Future<String> checkPin(String pin) async {
-    String url = "/pin/otp";
+    String url = '/pin/otp';
     Map<String, String> body = {
-      "pin": pin,
+      'pin': pin,
     };
     try {
       DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT(), EncryptBody()]);

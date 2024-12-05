@@ -30,7 +30,7 @@ class TestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Route Test Page"),
+        title: const Text('Route Test Page'),
         centerTitle: true,
       ),
       body: ListView(
@@ -44,7 +44,7 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.PW_LOGIN),
           linkToRoute(Routes.ONBOARDING),
           linkToRoute(Routes.PIN),
-          linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
+          linkToRouteWithArgs(Routes.PIN, '/edit_pin', {'pinPageType': PinPageType.editPin}),
           linkToRoute(Routes.MANUAL),
 
           // Main features

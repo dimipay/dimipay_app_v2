@@ -32,8 +32,8 @@ class PaymentService extends GetxController {
     Map data = await repository.getPaymentMethodFromCache();
 
     if (paymentMethodsState is! PaymentMethodsStateSuccess) {
-      _mainMethodId.value = data["mainMethodId"];
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+      _mainMethodId.value = data['mainMethodId'];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data['paymentMethods']);
       _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     }
   }
@@ -42,8 +42,8 @@ class PaymentService extends GetxController {
     try {
       Map data = await repository.getPaymentMethod();
 
-      _mainMethodId.value = data["mainMethodId"];
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+      _mainMethodId.value = data['mainMethodId'];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data['paymentMethods']);
       _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError) {
@@ -64,7 +64,7 @@ class PaymentService extends GetxController {
     super.onClose();
   }
 
-  @Deprecated("v2에서 사용 중지됨")
+  @Deprecated('v2에서 사용 중지됨')
   Future<void> setMainMethod(PaymentMethod paymentMethod) async {
     await repository.patchMainMethod(id: paymentMethod.id);
     _mainMethodId.value = paymentMethod.id;

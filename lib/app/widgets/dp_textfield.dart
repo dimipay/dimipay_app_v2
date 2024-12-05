@@ -71,7 +71,7 @@ class _DPTextFieldState extends State<DPTextField> {
         contentPadding: const EdgeInsets.symmetric(vertical: 21, horizontal: 16),
         filled: true,
         fillColor: widget.focusNode.hasFocus && widget.hilightOnFocus ? colorTheme.grayscale100 : colorTheme.grayscale200,
-        counterText: "",
+        counterText: '',
         enabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           borderSide: BorderSide(
