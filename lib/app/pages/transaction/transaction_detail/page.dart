@@ -22,7 +22,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
         return 'QR 코드';
       case TransactionType.FACESIGN:
         return 'Face Sign';
-      default:
+      case null:
         return '';
     }
   }

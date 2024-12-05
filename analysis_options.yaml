@@ -57,6 +57,9 @@ linter:
     combinators_ordering: true
     deprecated_consistency: true
     directives_ordering: true
+    literal_only_boolean_expressions: true
+    matching_super_parameters: true
+    no_default_cases: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
