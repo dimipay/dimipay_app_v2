@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/services/cache/service.dart';
+import 'package:dimipay_app_v2/app/core/utils/async.dart';
 import 'package:dimipay_app_v2/app/services/face_sign/repository.dart';
 import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
 import 'package:dio/dio.dart';
@@ -14,19 +14,15 @@ class FaceSignService extends GetxController {
 
   Future<void> fetchIsFaceSignRegistered() async {
     _faceSignState.value = const FaceSignStateLoading();
-
-    _fetchFaceSignStateFromCache();
-    _fetchFaceSignStateFromRemote();
+    return anySuccess([_fetchFaceSignStateFromCache(), _fetchFaceSignStateFromRemote()]);
   }
 
   Future<void> _fetchFaceSignStateFromCache() async {
-    try {
-      bool data = await repository.getFaceSignStateFromCache();
+    bool data = await repository.getFaceSignStateFromCache();
 
-      if (faceSignState is! FaceSignStateSuccess) {
-        _faceSignState.value = FaceSignStateSuccess(isRegistered: data);
-      }
-    } on CacheNotExistException {}
+    if (faceSignState is! FaceSignStateSuccess) {
+      _faceSignState.value = FaceSignStateSuccess(isRegistered: data);
+    }
   }
 
   Future<void> _fetchFaceSignStateFromRemote() async {
