@@ -231,20 +231,17 @@ Future<String?> showPinDialog() async {
     context: Get.context!,
     builder: (_) => SafeArea(
       bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: ColoredBox(
-            color: colorTheme.grayscale100,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: GetBuilder(
-                  init: PinPageController(),
-                  builder: (context) {
-                    return const UnlockPinPage();
-                  }),
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: ColoredBox(
+          color: colorTheme.grayscale100,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: GetBuilder(
+                init: PinPageController(),
+                builder: (context) {
+                  return const UnlockPinPage();
+                }),
           ),
         ),
       ),

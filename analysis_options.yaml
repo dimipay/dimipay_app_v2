@@ -39,6 +39,8 @@ linter:
     unnecessary_statements: true
     use_decorated_box: true
     use_colored_box: true
+    use_is_even_rather_than_modulo: true
+    use_named_constants: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
