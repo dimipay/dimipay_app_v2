@@ -38,7 +38,7 @@ class PayService extends GetxController {
   }
 
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     super.onInit();
     _connectTransactionStatusStream();
   }

@@ -41,7 +41,7 @@ class HomePageController extends GetxController {
   }
 
   @override
-  void onReady() async {
+  Future<void> onReady() async {
     handleSse();
     pushService.init().then(
       (_) {

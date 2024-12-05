@@ -100,7 +100,7 @@ class PinPageController extends GetxController {
     }
   }
 
-  void onPinTap(String value) async {
+  Future<void> onPinTap(String value) async {
     HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
     if (value == 'del') {
       if (pin.length > 0 && pin.length < 4) {
@@ -124,7 +124,7 @@ class PinPageController extends GetxController {
     }
   }
 
-  void pinCheck() async {
+  Future<void> pinCheck() async {
     try {
       await authService.pinCheck(pin);
       Get.back();

@@ -146,7 +146,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     return cardNumber.value != null && expiredAt.value != null && ownerPersonalNum.value != null && password.value != null;
   }
 
-  void addPaymentMethod() async {
+  Future<void> addPaymentMethod() async {
     if (isFormValid) {
       try {
         change(null, status: RxStatus.loading());

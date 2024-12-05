@@ -30,7 +30,7 @@ class InfoPageController extends GetxController {
     super.onInit();
   }
 
-  void logout() async {
+  Future<void> logout() async {
     DPTypography textTheme = Theme.of(Get.context!).extension<DPTypography>()!;
     bool res = false;
     if (Platform.isIOS) {
