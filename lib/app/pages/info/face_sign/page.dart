@@ -119,7 +119,7 @@ class UnorderedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var widgetList = <Widget>[];
-    for (var text in texts) {
+    for (final text in texts) {
       // Add list item
       widgetList.add(UnorderedListItem(text));
       // Add space between items

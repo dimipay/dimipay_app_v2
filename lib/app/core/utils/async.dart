@@ -17,7 +17,7 @@ Future<T> anySuccess<T>(Iterable<Future<T>> futures) {
     }
   }
 
-  for (var future in futures) {
+  for (final future in futures) {
     future.then(onValue, onError: onError);
   }
   return completer.future;

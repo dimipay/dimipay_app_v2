@@ -36,7 +36,7 @@ abstract class HapticHelper {
         haptic = HapticFeedback.vibrate;
     }
 
-    for (var tick in pattern.ticks) {
+    for (final tick in pattern.ticks) {
       tasks.add(Future.delayed(Duration(milliseconds: tick), haptic));
     }
 
