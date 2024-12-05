@@ -44,6 +44,11 @@ linter:
     use_to_and_as_if_applicable: true
     always_declare_return_types: true
     always_put_control_body_on_new_line: true
+    avoid_bool_literals_in_conditional_expressions: true
+    avoid_catches_without_on_clauses: true
+    avoid_catching_errors: true
+    avoid_double_and_int_checks: true
+    avoid_final_parameters: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

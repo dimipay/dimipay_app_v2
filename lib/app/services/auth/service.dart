@@ -155,7 +155,7 @@ class AuthService {
       } else {
         await googleSignIn.disconnect();
       }
-    } catch (e) {
+    } on Exception {
       await googleSignIn.disconnect();
     }
   }

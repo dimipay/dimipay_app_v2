@@ -46,7 +46,7 @@ class CancelTransactionPageController extends GetxController {
     try {
       await cancelTransactionService.cancelTransaction(transactionId: codeController.text);
       DPSnackBar.open('결제 취소에 성공했어요.');
-    } catch (e) {
+    } on Exception {
       DPErrorSnackBar().open('결제 취소에 실패했어요.');
     } finally {
       _isCancelTransactionProgress.value = false;

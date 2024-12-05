@@ -37,7 +37,7 @@ class JWT extends ApiMiddleware {
         //api 호출을 다시 시도함
         final DPHttpResponse response = await fetch(request);
         return response;
-      } catch (e) {
+      } on Exception {
         //refresh 실패 시 401을 그대로 반환
         return null;
       }
