@@ -25,13 +25,10 @@ abstract class HapticHelper {
     switch (hapticType) {
       case HapticType.light:
         haptic = HapticFeedback.lightImpact;
-        break;
       case HapticType.medium:
         haptic = HapticFeedback.mediumImpact;
-        break;
       case HapticType.heavy:
         haptic = HapticFeedback.heavyImpact;
-        break;
       case HapticType.vibrate:
         haptic = HapticFeedback.vibrate;
     }
