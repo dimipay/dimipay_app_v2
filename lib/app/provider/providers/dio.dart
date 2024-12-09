@@ -81,6 +81,8 @@ class DioApiProvider extends ApiProvider {
       return response.toDPHttpResponse();
     }, middlewares);
 
+    request.method = 'GET';
+
     DPHttpResponse response = await middleware.fetch(request);
 
     return (response.data as ResponseBody).stream.transform(
