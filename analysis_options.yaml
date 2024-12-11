@@ -37,7 +37,6 @@ linter:
     unnecessary_parenthesis: true
     unnecessary_raw_strings: true
     unnecessary_statements: true
-    use_decorated_box: true
     use_colored_box: true
     use_is_even_rather_than_modulo: true
     use_named_constants: true

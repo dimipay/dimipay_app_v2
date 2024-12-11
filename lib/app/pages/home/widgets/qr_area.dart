@@ -38,7 +38,7 @@ class QRArea extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: DecoratedBox(
+            child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -84,7 +84,7 @@ class QRAreaLocked extends GetView<HomePageController> {
       onTap: controller.requestAuthAndQR,
       child: AspectRatio(
         aspectRatio: 1.5 / 1,
-        child: DecoratedBox(
+        child: Container(
           decoration: BoxDecoration(
             color: colorTheme.grayscale200,
             borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -132,7 +132,7 @@ class QRAreaNoPaymentRegistered extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
       aspectRatio: 1.5 / 1,
-      child: DecoratedBox(
+      child: Container(
         decoration: BoxDecoration(
           color: colorTheme.grayscale200,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
@@ -178,7 +178,7 @@ class QRAreaLoading extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     return AspectRatio(
       aspectRatio: 1.5 / 1,
-      child: DecoratedBox(
+      child: Container(
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           border: Border.fromBorderSide(BorderSide(
