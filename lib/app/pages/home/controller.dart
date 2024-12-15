@@ -15,13 +15,14 @@ import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePageController extends GetxController {
+class HomePageController extends GetxController with WidgetsBindingObserver {
   final UserService userService = Get.find<UserService>();
   final PaymentService paymentService = Get.find<PaymentService>();
   final AuthService authService = Get.find<AuthService>();
@@ -39,6 +40,12 @@ class HomePageController extends GetxController {
 
   bool selectedPaymentExists() {
     return (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(selectedPaymentMethod);
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -214,7 +221,19 @@ class HomePageController extends GetxController {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      if (_selectedPaymentMethod.value != null &&
+          (authService.bioKey.key != null || authService.pin != null)) {
+        _qrRefreshTimer?.cancel();
+        _generateQR(_selectedPaymentMethod.value!);
+      }
+    }
+  }
+
+  @override
   Future<void> onClose() async {
+    WidgetsBinding.instance.removeObserver(this);
     _qrRefreshTimer?.cancel();
     await resetBrightness();
     super.onClose();
