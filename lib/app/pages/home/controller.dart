@@ -68,7 +68,8 @@ class HomePageController extends GetxController {
     if (paymentService.paymentMethodsState is! PaymentMethodsStateSuccess || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
       return;
     }
-    _selectedPaymentMethod.value = paymentService.mainMethod;
+    _selectedPaymentMethod.value = paymentService.mainMethod ??
+        (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.first;
     await Future.delayed(const Duration(milliseconds: 300));
     requestAuthAndQR();
   }
