@@ -222,7 +222,8 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed &&
+        payService.paymentTokenState is PaymentTokenSuccess) {
       if (_selectedPaymentMethod.value != null &&
           (authService.bioKey.key != null || authService.pin != null)) {
         _qrRefreshTimer?.cancel();
