@@ -10,6 +10,7 @@ class DPHttpRequest {
     Map<String, dynamic>? queryParameters,
     Map<String, Object?>? headers,
     this.body,
+    this.method,
   })  : queryParameters = queryParameters ?? {},
         headers = headers ?? {};
 }

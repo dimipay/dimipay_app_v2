@@ -24,6 +24,8 @@ mixin _$PaymentMethod {
   String get name => throw _privateConstructorUsedError;
   String get preview => throw _privateConstructorUsedError;
   String get cardCode => throw _privateConstructorUsedError;
+  int get sequence => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this PaymentMethod to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +43,13 @@ abstract class $PaymentMethodCopyWith<$Res> {
           PaymentMethod value, $Res Function(PaymentMethod) then) =
       _$PaymentMethodCopyWithImpl<$Res, PaymentMethod>;
   @useResult
-  $Res call({String id, String name, String preview, String cardCode});
+  $Res call(
+      {String id,
+      String name,
+      String preview,
+      String cardCode,
+      int sequence,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -63,6 +71,8 @@ class _$PaymentMethodCopyWithImpl<$Res, $Val extends PaymentMethod>
     Object? name = null,
     Object? preview = null,
     Object? cardCode = null,
+    Object? sequence = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +91,14 @@ class _$PaymentMethodCopyWithImpl<$Res, $Val extends PaymentMethod>
           ? _value.cardCode
           : cardCode // ignore: cast_nullable_to_non_nullable
               as String,
+      sequence: null == sequence
+          ? _value.sequence
+          : sequence // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -93,7 +111,13 @@ abstract class _$$PaymentMethodImplCopyWith<$Res>
       __$$PaymentMethodImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String preview, String cardCode});
+  $Res call(
+      {String id,
+      String name,
+      String preview,
+      String cardCode,
+      int sequence,
+      DateTime createdAt});
 }
 
 /// @nodoc
@@ -113,6 +137,8 @@ class __$$PaymentMethodImplCopyWithImpl<$Res>
     Object? name = null,
     Object? preview = null,
     Object? cardCode = null,
+    Object? sequence = null,
+    Object? createdAt = null,
   }) {
     return _then(_$PaymentMethodImpl(
       id: null == id
@@ -131,6 +157,14 @@ class __$$PaymentMethodImplCopyWithImpl<$Res>
           ? _value.cardCode
           : cardCode // ignore: cast_nullable_to_non_nullable
               as String,
+      sequence: null == sequence
+          ? _value.sequence
+          : sequence // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -142,7 +176,9 @@ class _$PaymentMethodImpl extends _PaymentMethod with DiagnosticableTreeMixin {
       {required this.id,
       required this.name,
       required this.preview,
-      required this.cardCode})
+      required this.cardCode,
+      required this.sequence,
+      required this.createdAt})
       : super._();
 
   factory _$PaymentMethodImpl.fromJson(Map<String, dynamic> json) =>
@@ -156,10 +192,14 @@ class _$PaymentMethodImpl extends _PaymentMethod with DiagnosticableTreeMixin {
   final String preview;
   @override
   final String cardCode;
+  @override
+  final int sequence;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PaymentMethod(id: $id, name: $name, preview: $preview, cardCode: $cardCode)';
+    return 'PaymentMethod(id: $id, name: $name, preview: $preview, cardCode: $cardCode, sequence: $sequence, createdAt: $createdAt)';
   }
 
   @override
@@ -170,7 +210,9 @@ class _$PaymentMethodImpl extends _PaymentMethod with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('preview', preview))
-      ..add(DiagnosticsProperty('cardCode', cardCode));
+      ..add(DiagnosticsProperty('cardCode', cardCode))
+      ..add(DiagnosticsProperty('sequence', sequence))
+      ..add(DiagnosticsProperty('createdAt', createdAt));
   }
 
   @override
@@ -182,12 +224,17 @@ class _$PaymentMethodImpl extends _PaymentMethod with DiagnosticableTreeMixin {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.preview, preview) || other.preview == preview) &&
             (identical(other.cardCode, cardCode) ||
-                other.cardCode == cardCode));
+                other.cardCode == cardCode) &&
+            (identical(other.sequence, sequence) ||
+                other.sequence == sequence) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, preview, cardCode);
+  int get hashCode => Object.hash(
+      runtimeType, id, name, preview, cardCode, sequence, createdAt);
 
   /// Create a copy of PaymentMethod
   /// with the given fields replaced by the non-null parameter values.
@@ -210,7 +257,9 @@ abstract class _PaymentMethod extends PaymentMethod {
       {required final String id,
       required final String name,
       required final String preview,
-      required final String cardCode}) = _$PaymentMethodImpl;
+      required final String cardCode,
+      required final int sequence,
+      required final DateTime createdAt}) = _$PaymentMethodImpl;
   const _PaymentMethod._() : super._();
 
   factory _PaymentMethod.fromJson(Map<String, dynamic> json) =
@@ -224,6 +273,10 @@ abstract class _PaymentMethod extends PaymentMethod {
   String get preview;
   @override
   String get cardCode;
+  @override
+  int get sequence;
+  @override
+  DateTime get createdAt;
 
   /// Create a copy of PaymentMethod
   /// with the given fields replaced by the non-null parameter values.

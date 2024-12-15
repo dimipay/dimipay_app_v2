@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class TermsAgreementPage extends StatefulWidget {
   final OnboardingPageController controller;
 
-  const TermsAgreementPage({Key? key, required this.controller}) : super(key: key);
+  const TermsAgreementPage({super.key, required this.controller});
 
   @override
   State<TermsAgreementPage> createState() => _TermsAgreementPageState();
@@ -73,7 +73,7 @@ class _TermsAgreementPageState extends State<TermsAgreementPage> {
                     }
                   });
                 },
-                child: Container(
+                child: ColoredBox(
                   color: Colors.transparent,
                   child: Row(
                     children: [

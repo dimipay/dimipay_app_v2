@@ -1,9 +1,9 @@
 import 'package:dimipay_app_v2/app/pages/payment/register_card/controller.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
-import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart' as appbar;
 import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -93,8 +93,8 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                         slideFrom: const Offset(0, 8),
                         wait: const Duration(milliseconds: 300),
                         child: controller.obx(
-                              (_) => Obx(
-                                () {
+                          (_) => Obx(
+                            () {
                               if (controller.isFormValid) {
                                 return DPButton(
                                   onTap: controller.addPaymentMethod,

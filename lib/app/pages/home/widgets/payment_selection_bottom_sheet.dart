@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../services/network/service.dart';
+
 class PaymentSelectionBottomSheet extends GetView<HomePageController> {
   final void Function(PaymentMethod paymentMethod)? onSelect;
   const PaymentSelectionBottomSheet({super.key, this.onSelect});
@@ -23,7 +25,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Container(
+        child: ColoredBox(
           color: colorTheme.grayscale100,
           child: DPAnimatedShowUpScope(
             waitBetweenChildren: const Duration(milliseconds: 30),
@@ -72,7 +74,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
 }
 
 class _TopIndicator extends StatelessWidget {
-  const _TopIndicator({Key? key}) : super(key: key);
+  const _TopIndicator();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,7 @@ class _TopIndicator extends StatelessWidget {
 class _Heading extends StatelessWidget {
   final String text;
 
-  const _Heading({Key? key, required this.text}) : super(key: key);
+  const _Heading({required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -118,13 +120,12 @@ class _PaymentOption extends StatelessWidget {
   final void Function()? onSelect;
 
   const _PaymentOption({
-    Key? key,
     required this.title,
     required this.subtitle,
     required this.assetPath,
     required this.isSelected,
     this.onSelect,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +159,7 @@ class _CardDetail extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _CardDetail({Key? key, required this.title, required this.subtitle}) : super(key: key);
+  const _CardDetail({required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -176,34 +177,45 @@ class _CardDetail extends StatelessWidget {
 }
 
 class _AddCardButton extends GetView<HomePageController> {
-  const _AddCardButton({Key? key}) : super(key: key);
+  const _AddCardButton();
 
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPGestureDetectorWithOpacityInteraction(
-      onTap: () {
-        controller.resetBrightness();
-        Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: colorTheme.grayscale200,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
+    NetworkService networkService = Get.find<NetworkService>();
+
+    return Obx(() {
+      final isOffline = !networkService.isOnline;
+
+      return Opacity(
+        opacity: isOffline ? 0.5 : 1.0,
+        child: DPGestureDetectorWithOpacityInteraction(
+          onTap: isOffline
+              ? null
+              : () {
+            controller.resetBrightness();
+            Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorTheme.grayscale200,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
+                ),
+                const SizedBox(width: 12),
+                Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
+              ],
             ),
-            const SizedBox(width: 12),
-            Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

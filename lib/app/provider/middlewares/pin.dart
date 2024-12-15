@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class OTP extends ApiMiddleware {
   Future<String> getPinOTP() async {
-    String url = "/pin/otp";
+    String url = '/pin/otp';
     AuthService authService = Get.find<AuthService>();
 
     Map<String, dynamic> body = {};
@@ -23,7 +23,7 @@ class OTP extends ApiMiddleware {
 
     Map<String, dynamic> headers = {};
     if (authService.isAuthenticated == false) {
-      headers['Authorization'] = 'Bearer ${authService.jwt.onboardingToken.accessToken}';
+      headers['Authorization'] = 'Bearer ${authService.onboardingToken.accessToken}';
     }
 
     DPHttpResponse response = await Get.find<ApiProvider>().post(DPHttpRequest(url, body: body, headers: headers), [JWT(), EncryptBody()]);

@@ -13,7 +13,7 @@ class PayRepository {
   PayRepository(this.api);
 
   Future<Stream<TransactionStatus>> getTransactionStatus() async {
-    String url = "/transactions/status";
+    String url = '/transactions/status';
     Stream<Map<String, dynamic>> stream = await api.getStream(DPHttpRequest(url), [JWT()]);
     return stream.map(
       (event) {

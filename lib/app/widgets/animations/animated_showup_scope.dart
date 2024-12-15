@@ -11,11 +11,11 @@ class DPAnimatedShowUpScope extends StatefulWidget {
   const DPAnimatedShowUpScope({
     super.key,
     required this.child,
-    this.wait = const Duration(milliseconds: 0),
+    this.wait = Duration.zero,
     this.duration = const Duration(milliseconds: 200),
     this.curve = Curves.easeOut,
     this.slideFrom = Offset.zero,
-    this.waitBetweenChildren = const Duration(milliseconds: 0),
+    this.waitBetweenChildren = Duration.zero,
   });
 
   @override

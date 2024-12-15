@@ -30,7 +30,7 @@ class KioskService extends GetxController {
     try {
       _kiosksState.value = const KiosksStateInitial();
       Map data = await repository.getKiosks();
-      _kiosksState.value = KiosksStateSuccess(value: data["kiosks"]);
+      _kiosksState.value = KiosksStateSuccess(value: data['kiosks']);
     } on Exception catch (e) {
       _kiosksState.value = KiosksStateFailed(exception: e);
       log(e.toString());

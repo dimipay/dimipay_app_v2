@@ -27,13 +27,10 @@ class ThemeServiceRepository {
     switch (themeMode) {
       case ThemeMode.system:
         await _hiveBox.put('themeMode', 'system');
-        break;
       case ThemeMode.light:
         await _hiveBox.put('themeMode', 'light');
-        break;
       case ThemeMode.dark:
         await _hiveBox.put('themeMode', 'dark');
-        break;
     }
   }
 }

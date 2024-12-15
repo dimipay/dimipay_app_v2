@@ -4,10 +4,10 @@ import 'package:better_player/better_player.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter/services.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
@@ -22,13 +22,11 @@ class QRArea extends StatelessWidget {
 
   Future<void> loadSuperWhiteVideo() async {
     ByteData bytes = await rootBundle.load('assets/videos/super white.mp4');
-    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(
-        bytes.buffer.asUint8List(),
-        videoExtension: 'mp4');
+    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(bytes.buffer.asUint8List(), videoExtension: 'mp4');
     await videoController.setupDataSource(videoSource);
   }
 
-  QRArea({Key? key, required this.payload}) : super(key: key) {
+  QRArea({super.key, required this.payload}) {
     loadSuperWhiteVideo();
   }
 
@@ -51,9 +49,7 @@ class QRArea extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
-                child: Platform.isIOS
-                    ? BetterPlayer(controller: videoController)
-                    : Container(color: Colors.white),
+                child: Platform.isIOS ? BetterPlayer(controller: videoController) : Container(color: Colors.white),
               ),
             ),
           ),
@@ -62,8 +58,11 @@ class QRArea extends StatelessWidget {
               child: SizedBox(
                 width: 180,
                 height: 180,
-                child: QrImageView(
-                  data: payload,
+                child: QrImageView.withQr(
+                  qr: QrCode(
+                    5,
+                    QrErrorCorrectLevel.L,
+                  )..addAlphaNumeric(payload),
                 ),
               ),
             ),
@@ -113,8 +112,7 @@ class QRAreaLocked extends GetView<HomePageController> {
                 const SizedBox(height: 10),
                 Text(
                   'pin 또는 생체 인증 후 결제하기',
-                  style:
-                      textTheme.token.copyWith(color: colorTheme.grayscale600),
+                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),

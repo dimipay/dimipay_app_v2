@@ -18,7 +18,7 @@ class CouponService extends GetxController {
     try {
       _couponState.value = const CouponStateInitial();
       Map data = await repository.generateCoupon(id: id);
-      _couponState.value = CouponStateSuccess(value: data["coupon"]);
+      _couponState.value = CouponStateSuccess(value: data['coupon']);
     } on Exception catch (e) {
       _couponState.value = CouponStateFailed(exception: e);
       log(e.toString());
@@ -29,7 +29,7 @@ class CouponService extends GetxController {
     try {
       _couponTypesState.value = const CouponTypesStateInitial();
       Map data = await repository.getCouponTypes();
-      _couponTypesState.value = CouponTypesStateSuccess(value: data["couponTypes"]);
+      _couponTypesState.value = CouponTypesStateSuccess(value: data['couponTypes']);
     } on Exception catch (e) {
       _couponTypesState.value = CouponTypesStateFailed(exception: e);
       log(e.toString());

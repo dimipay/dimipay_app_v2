@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:dimipay_app_v2/app/services/cache/service.dart';
+import 'package:dimipay_app_v2/app/core/utils/async.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/repository.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
@@ -19,7 +19,8 @@ class PaymentService extends GetxController {
 
     List<PaymentMethod> paymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
 
-    return paymentMethods.firstWhereOrNull((payment) => payment.id == _mainMethodId.value);
+    return paymentMethods.firstWhereOrNull((payment) => payment.id == _mainMethodId.value) ??
+        paymentMethods.firstOrNull;
   }
 
   final StreamController<List<PaymentMethod>> _paymentStreamController = StreamController.broadcast();
@@ -29,23 +30,21 @@ class PaymentService extends GetxController {
   PaymentMethodsState get paymentMethodsState => _paymentMethodsState.value;
 
   Future<void> _fetchPaymentMethodsFromCache() async {
-    try {
-      Map data = await repository.getPaymentMethodFromCache();
+    Map data = await repository.getPaymentMethodFromCache();
 
-      if (paymentMethodsState is! PaymentMethodsStateSuccess) {
-        _mainMethodId.value = data["mainMethodId"];
-        _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
-        _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
-      }
-    } on CacheNotExistException {}
+    if (paymentMethodsState is! PaymentMethodsStateSuccess) {
+      _mainMethodId.value = data['mainMethodId'];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data['paymentMethods']);
+      _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
+    }
   }
 
   Future<void> _fetchPaymentMethodFromRemote() async {
     try {
       Map data = await repository.getPaymentMethod();
 
-      _mainMethodId.value = data["mainMethodId"];
-      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data["paymentMethods"]);
+      _mainMethodId.value = data['mainMethodId'];
+      _paymentMethodsState.value = PaymentMethodsStateSuccess(value: data['paymentMethods']);
       _paymentStreamController.add((paymentMethodsState as PaymentMethodsStateSuccess).value);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError) {
@@ -57,9 +56,7 @@ class PaymentService extends GetxController {
 
   Future<void> fetchPaymentMethods() async {
     _paymentMethodsState.value = const PaymentMethodsStateLoading();
-
-    _fetchPaymentMethodsFromCache();
-    _fetchPaymentMethodFromRemote();
+    return anySuccess([_fetchPaymentMethodsFromCache(), _fetchPaymentMethodFromRemote()]);
   }
 
   @override
@@ -68,7 +65,7 @@ class PaymentService extends GetxController {
     super.onClose();
   }
 
-  @Deprecated("v2에서 사용 중지됨")
+  @Deprecated('v2에서 사용 중지됨')
   Future<void> setMainMethod(PaymentMethod paymentMethod) async {
     await repository.patchMainMethod(id: paymentMethod.id);
     _mainMethodId.value = paymentMethod.id;
@@ -93,8 +90,11 @@ class PaymentService extends GetxController {
     if (oldPaymentMethods.isEmpty) {
       _mainMethodId.value = newPaymentMethod.id;
     }
-    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: [...oldPaymentMethods, newPaymentMethod]);
+    List<PaymentMethod> newPaymentMethods = [...oldPaymentMethods, newPaymentMethod];
+
+    _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
     _paymentStreamController.add((_paymentMethodsState.value as PaymentMethodsStateSuccess).value);
+    repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
     return newPaymentMethod;
   }
 
@@ -115,6 +115,7 @@ class PaymentService extends GetxController {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.patchPaymentMethod(id: paymentMethod.id, name: newName);
+      repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
       return newPaymentMethod;
     } catch (e) {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);
@@ -132,6 +133,7 @@ class PaymentService extends GetxController {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: newPaymentMethods);
 
       await repository.deletePaymentMethod(id: paymentMethod.id);
+      repository.saveCurrentPaymentMethodsToCache(newPaymentMethods, mainMethod);
       _mainMethodId.value = newPaymentMethods.firstWhereOrNull((element) => element.id == _mainMethodId.value)?.id ?? newPaymentMethods.firstOrNull?.id;
     } catch (e) {
       _paymentMethodsState.value = PaymentMethodsStateSuccess(value: oldPaymentMethods);

@@ -1,11 +1,12 @@
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
+import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   Widget linkToRoute(String route) {
     return TextButton(
@@ -29,7 +30,7 @@ class TestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Route Test Page"),
+        title: const Text('Route Test Page'),
         centerTitle: true,
       ),
       body: ListView(
@@ -43,7 +44,7 @@ class TestPage extends StatelessWidget {
           linkToRoute(Routes.PW_LOGIN),
           linkToRoute(Routes.ONBOARDING),
           linkToRoute(Routes.PIN),
-          linkToRouteWithArgs(Routes.PIN, "/edit_pin", {"pinPageType": PinPageType.editPin}),
+          linkToRouteWithArgs(Routes.PIN, '/edit_pin', {'pinPageType': PinPageType.editPin}),
           linkToRoute(Routes.MANUAL),
 
           // Main features
@@ -79,7 +80,13 @@ class TestPage extends StatelessWidget {
             onPressed: () {
               Get.find<AuthService>().logout();
             },
-            child: const Text('Clear Data'),
+            child: const Text('log out'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.find<HttpCacheService>().clear();
+            },
+            child: const Text('clear cache'),
           ),
         ],
       ),

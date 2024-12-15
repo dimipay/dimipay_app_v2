@@ -14,6 +14,10 @@ class BioKeyManager {
     _bioKey = newBioKey;
   }
 
+  void invalidate() {
+    _bioKey = null;
+  }
+
   Future<void> clear() async {
     await _storage.delete(key: 'bioKey');
     _bioKey = null;

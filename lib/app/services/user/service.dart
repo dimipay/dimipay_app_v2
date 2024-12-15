@@ -1,4 +1,4 @@
-import 'package:dimipay_app_v2/app/services/cache/service.dart';
+import 'package:dimipay_app_v2/app/core/utils/async.dart';
 import 'package:dimipay_app_v2/app/services/user/repository.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dio/dio.dart';
@@ -13,12 +13,10 @@ class UserService extends GetxController {
   UserState get userState => _user.value;
 
   Future _fetchFromCache() async {
-    try {
-      UserState newUserState = UserStateSuccess(value: await repository.getUserInfoFromCache());
-      if (userState is! UserStateSuccess) {
-        _user.value = newUserState;
-      }
-    } on CacheNotExistException {}
+    UserState newUserState = UserStateSuccess(value: await repository.getUserInfoFromCache());
+    if (userState is! UserStateSuccess) {
+      _user.value = newUserState;
+    }
   }
 
   Future _fetchFromRemote() async {
@@ -35,7 +33,6 @@ class UserService extends GetxController {
 
   Future fetchUser() async {
     _user.value = const UserStateLoading();
-    _fetchFromCache();
-    _fetchFromRemote();
+    return anySuccess([_fetchFromCache(), _fetchFromRemote()]);
   }
 }

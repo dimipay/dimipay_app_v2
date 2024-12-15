@@ -61,9 +61,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
     String formatedData = formatCardNumber(rawData);
 
     cardNumberFieldController.text = formatedData;
-    cardNumberFieldController.selection = TextSelection.fromPosition(
-        TextPosition(offset: cardNumberFieldController.text.length)
-    );
+    cardNumberFieldController.selection = TextSelection.fromPosition(TextPosition(offset: cardNumberFieldController.text.length));
 
     bool isAmex = rawData.startsWith('34') || rawData.startsWith('37');
     int requiredLength = isAmex ? 15 : 16;
@@ -107,7 +105,7 @@ class RegisterCardPageController extends GetxController with StateMixin {
   void onBirthdayChange(String str) {
     String data = ownerPersonalNumFieldController.text;
     if (data.length == 6) {
-      ownerPersonalNum.value = DateFormat('yyyyMMdd').format(DateTime.parse("00$data")).substring(2);
+      ownerPersonalNum.value = DateFormat('yyyyMMdd').format(DateTime.parse('00$data')).substring(2);
     } else if (data.length == 10) {
       ownerPersonalNum.value = data;
       formFocusScopeNode.nextFocus();
@@ -148,22 +146,22 @@ class RegisterCardPageController extends GetxController with StateMixin {
     return cardNumber.value != null && expiredAt.value != null && ownerPersonalNum.value != null && password.value != null;
   }
 
-  void addPaymentMethod() async {
+  Future<void> addPaymentMethod() async {
     if (isFormValid) {
       try {
         change(null, status: RxStatus.loading());
         PaymentMethod newPaymentMethod = await paymentService.createPaymentMethod(
-            number: cardNumber.value!,
-            expireYear: expiredAt.value!.year.toString().padLeft(2, '0'),
-            expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'),
-            idNumber: ownerPersonalNum.value!,
-            password: password.value!
+          number: cardNumber.value!,
+          expireYear: expiredAt.value!.year.toString().padLeft(2, '0'),
+          expireMonth: expiredAt.value!.month.toString().padLeft(2, '0'),
+          idNumber: ownerPersonalNum.value!,
+          password: password.value!,
         );
 
         Get.offNamed(Routes.EDIT_CARD, arguments: {'paymentMethod': newPaymentMethod});
       } on DioException catch (e) {
         log(e.response!.data.toString());
-        DPErrorSnackBar().open(e.response!.data["message"]);
+        DPErrorSnackBar().open(e.response!.data['message']);
         HapticHelper.feedback(HapticPatterns.error);
       } finally {
         change(null, status: RxStatus.success());

@@ -25,18 +25,15 @@ abstract class HapticHelper {
     switch (hapticType) {
       case HapticType.light:
         haptic = HapticFeedback.lightImpact;
-        break;
       case HapticType.medium:
         haptic = HapticFeedback.mediumImpact;
-        break;
       case HapticType.heavy:
         haptic = HapticFeedback.heavyImpact;
-        break;
       case HapticType.vibrate:
         haptic = HapticFeedback.vibrate;
     }
 
-    for (var tick in pattern.ticks) {
+    for (final tick in pattern.ticks) {
       tasks.add(Future.delayed(Duration(milliseconds: tick), haptic));
     }
 

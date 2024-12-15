@@ -3,81 +3,135 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
-import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
+import 'package:dimipay_app_v2/app/services/network/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
+import 'package:dimipay_app_v2/app/services/pay/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
 import 'package:dimipay_app_v2/app/services/payment/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:screen_brightness/screen_brightness.dart';
-import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePageController extends GetxController {
+class HomePageController extends GetxController with WidgetsBindingObserver {
   final UserService userService = Get.find<UserService>();
   final PaymentService paymentService = Get.find<PaymentService>();
   final AuthService authService = Get.find<AuthService>();
   final PayService payService = Get.find<PayService>();
   final LocalAuthService localAuthService = Get.find<LocalAuthService>();
   final PushService pushService = Get.find<PushService>();
+  final NetworkService networkService = Get.find<NetworkService>();
 
   final Rx<Duration?> timeRemaining = Rx(null);
-
   final Rx<PaymentMethod?> _selectedPaymentMethod = Rx(null);
   PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod.value;
 
-  late Timer _displayTimer;
   Timer? _qrRefreshTimer;
   double? _screenBrightness;
 
+  bool selectedPaymentExists() {
+    return (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(selectedPaymentMethod);
+  }
+
   @override
-  void onReady() {
-    userService.fetchUser();
-    paymentService.fetchPaymentMethods();
+  void onInit() {
+    super.onInit();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  Future<void> onReady() async {
+    handleSse();
+    pushService.init().then(
+          (_) {
+        pushService.requestPushPermission();
+      },
+    );
+    await Future.wait([
+      userService.fetchUser(),
+      paymentService.fetchPaymentMethods(),
+    ]);
     paymentService.paymentStream.onData(
-      (data) {
-        if (_selectedPaymentMethod.value == null || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(_selectedPaymentMethod.value) == false) {
+          (data) async {
+        if (!selectedPaymentExists()) {
           changeSelectedPaymentMethod(paymentService.mainMethod);
         }
       },
     );
-    _displayTimer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimeRemainning());
-
-    prefetchAuthAndQR();
-    handleSse();
-    pushService.init().then(
-      (value) {
-        pushService.requestPushPermission();
-      },
-    );
+    _firstQrRequest();
     super.onReady();
+  }
+
+  Future<void> _firstQrRequest() async {
+    if (paymentService.paymentMethodsState is! PaymentMethodsStateSuccess || (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
+      return;
+    }
+    _selectedPaymentMethod.value = paymentService.mainMethod ??
+        (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.first;
+    await Future.delayed(const Duration(milliseconds: 300));
+    requestAuthAndQR();
   }
 
   void changeSelectedPaymentMethod(PaymentMethod? paymentMethod) {
     _selectedPaymentMethod.value = paymentMethod;
-    if (_selectedPaymentMethod.value != null && (authService.bioKey.key != null || authService.pin != null)) {
-      _requestQR(_selectedPaymentMethod.value!);
+    payService.invalidateToken();
+    _qrRefreshTimer?.cancel();
+
+    if (selectedPaymentMethod == null) {
+      return;
     }
+
+    if (authService.bioKey.key == null && authService.pin == null) {
+      return;
+    }
+
+    _generateQR(selectedPaymentMethod!);
   }
 
   void handleSse() {
     payService.getTransactionStatusStream().onData(
-      (data) {
+          (data) {
         if (data == TransactionStatus.CONFIRMED) {
           showSuccessDialog();
+          payService.invalidateToken();
+          _qrRefreshTimer?.cancel();
+          authService.invalidateAuthToken();
         }
       },
     );
   }
 
-  Future<bool> biometricAuth() async {
+  Future<void> _generateQR(PaymentMethod paymentMethod, {bool reserve = true}) async {
+    _qrRefreshTimer?.cancel();
+    await payService.generateLocalPaymentToken(paymentMethod);
+
+    final token = payService.paymentTokenState;
+    if (token is! PaymentTokenSuccess) {
+      return;
+    }
+
+    if (reserve) {
+      Duration remainTime = token.expireAt.difference(DateTime.now());
+      _qrRefreshTimer = Timer(remainTime, () async {
+        await payService.generateLocalPaymentToken(_selectedPaymentMethod.value!);
+        _generateQR(paymentMethod);
+      });
+    }
+  }
+
+  Future<bool> bioAuth() async {
+    if (authService.bioKey.key != null) {
+      return true;
+    }
     try {
       final res = await localAuthService.bioAuth();
 
@@ -95,12 +149,39 @@ class HomePageController extends GetxController {
     return false;
   }
 
-  Future<void> _requestQR(PaymentMethod paymentMethod) async {
-    _qrRefreshTimer?.cancel();
-    timeRemaining.value = null;
-    await payService.fetchPaymentToken(paymentMethod);
-    updateTimeRemainning();
-    reserveQRRefresh(payService.expireAt!);
+  Future<bool> pinAuth() async {
+    if (!networkService.isOnline) {
+      return false;
+    }
+
+    if (authService.jwt.token.accessToken == null) {
+      return false;
+    }
+    if (authService.pin != null) {
+      return true;
+    }
+    String? pin = await showPinDialog();
+    return pin != null;
+  }
+
+  Future<bool> requestAuth() async {
+    bool bioAuthed = await bioAuth();
+    if (bioAuthed) {
+      return true;
+    }
+
+    bool pinAuthed = await pinAuth();
+    if (pinAuthed) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> requestAuthAndQR() async {
+    bool authed = await requestAuth();
+    if (authed) {
+      await _generateQR(selectedPaymentMethod!);
+    }
   }
 
   Future<void> setBrightness(double brightness) async {
@@ -110,7 +191,7 @@ class HomePageController extends GetxController {
     try {
       _screenBrightness = await ScreenBrightness().system;
       await ScreenBrightness().setScreenBrightness(brightness);
-    } catch (e) {
+    } on Exception catch (e) {
       log(e.toString());
     }
   }
@@ -122,113 +203,38 @@ class HomePageController extends GetxController {
     if (_screenBrightness != null) {
       try {
         await ScreenBrightness().setScreenBrightness(_screenBrightness!);
-      } catch (e) {
+      } on Exception catch (e) {
         log(e.toString());
       }
     }
   }
 
-  Future<void> prefetchAuthAndQR() async {
-    await Future.delayed(const Duration(milliseconds: 300));
-
-    while (paymentService.paymentMethodsState is PaymentMethodsStateInitial || paymentService.paymentMethodsState is PaymentMethodsStateLoading) {
-      await Future.delayed(const Duration(milliseconds: 100));
-    }
-
-    if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
-      return;
-    }
-    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
-      return;
-    }
-
-    if (authService.bioKey.key == null) {
-      await biometricAuth();
-    }
-    if (authService.jwt.token.accessToken == null) {
-      return;
-    }
-    if (authService.bioKey.key == null && authService.pin == null) {
-      await showPinDialog();
-    }
-    if (authService.bioKey.key == null && authService.pin == null) {
-      return;
-    }
-    if (_selectedPaymentMethod.value != null) {
-      await _requestQR(_selectedPaymentMethod.value!);
-    }
-  }
-
-  Future<void> requestAuthAndQR() async {
-    while (paymentService.paymentMethodsState is PaymentMethodsStateInitial || paymentService.paymentMethodsState is PaymentMethodsStateLoading) {
-      await Future.delayed(const Duration(milliseconds: 100));
-    }
-
-    if (paymentService.paymentMethodsState is PaymentMethodsStateFailed) {
-      return;
-    }
-    if ((paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.isEmpty) {
-      return;
-    }
-
-    if (_selectedPaymentMethod.value == null) {
-      return;
-    }
-    if (authService.bioKey.key == null) {
-      await biometricAuth();
-    }
-    if (authService.bioKey.key == null && authService.pin == null) {
-      await showPinDialog();
-    }
-    if (authService.bioKey.key == null && authService.pin == null) {
-      return;
-    }
-    await _requestQR(_selectedPaymentMethod.value!);
-  }
-
-  void reserveQRRefresh(DateTime refreshAt, {bool recursive = true}) {
-    Duration awaitTime = refreshAt.difference(DateTime.now());
-    _qrRefreshTimer = Timer(awaitTime, () async {
-      timeRemaining.value = null;
-      await payService.fetchPaymentToken(_selectedPaymentMethod.value!);
-      updateTimeRemainning();
-
-      if (recursive) {
-        reserveQRRefresh(payService.expireAt!);
-      }
-    });
-  }
-
-  void updateTimeRemainning() {
-    if (payService.expireAt == null || _selectedPaymentMethod.value == null || Get.currentRoute != Routes.HOME) {
-      timeRemaining.value = null;
-      return;
-    }
-
-    Duration difference = payService.expireAt!.difference(DateTime.now());
-    if (difference.isNegative) {
-      _requestQR(_selectedPaymentMethod.value!);
-      return;
-    }
-
-    setBrightness(1);
-    timeRemaining.value = difference;
-  }
-
-  openKakaoChannelTalk() async {
+  Future<void> openKakaoChannelTalk() async {
     try {
       await launchUrl(Uri.parse('https://pf.kakao.com/_gHxlCxj/chat?app_key=1127bc4e0b146e5579b6d6a2ad8d0ad1&kakao_agent=sdk%2F1.4.2+sdk_type%2Fflutter+os%2Fandroid-34+lang%2Fko-KR+origin%2FVNmybeVuZKt9uPyjMrvJ04STxtI%3D+device%2FA065+android_pkg%2Fcom.develop.dimipay+app_ver%2F1.1.0&api_ver=1.0'));
-    } catch (error) {
-      PlatformException exception = (error as PlatformException);
-      if (exception.code != "CANCELED") {
-        DPErrorSnackBar().open("카카오톡을 통한 문의 채널 연결에 실패하였습니다.");
+    } on Exception catch (error) {
+      PlatformException exception = error as PlatformException;
+      if (exception.code != 'CANCELED') {
+        DPErrorSnackBar().open('카카오톡을 통한 문의 채널 연결에 실패하였습니다.');
+      }
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed &&
+        payService.paymentTokenState is PaymentTokenSuccess) {
+      if (_selectedPaymentMethod.value != null &&
+          (authService.bioKey.key != null || authService.pin != null)) {
+        _qrRefreshTimer?.cancel();
+        _generateQR(_selectedPaymentMethod.value!);
       }
     }
   }
 
   @override
   Future<void> onClose() async {
-    _displayTimer.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     _qrRefreshTimer?.cancel();
     await resetBrightness();
     super.onClose();
