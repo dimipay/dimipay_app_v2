@@ -16,13 +16,12 @@ import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:dimipay_app_v2/app/services/user/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomePageController extends GetxController with WidgetsBindingObserver {
+class HomePageController extends GetxController {
   final UserService userService = Get.find<UserService>();
   final PaymentService paymentService = Get.find<PaymentService>();
   final AuthService authService = Get.find<AuthService>();
@@ -40,12 +39,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   bool selectedPaymentExists() {
     return (paymentService.paymentMethodsState as PaymentMethodsStateSuccess).value.contains(selectedPaymentMethod);
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -69,19 +62,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
     );
     _firstQrRequest();
     super.onReady();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
-      payService.invalidateToken();
-      _qrRefreshTimer?.cancel();
-      authService.invalidateAuthToken();
-    } else if (state == AppLifecycleState.resumed) {
-      if (selectedPaymentMethod != null) {
-        requestAuthAndQR();
-      }
-    }
   }
 
   Future<void> _firstQrRequest() async {
@@ -234,7 +214,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
 
   @override
   Future<void> onClose() async {
-    WidgetsBinding.instance.removeObserver(this);
     _qrRefreshTimer?.cancel();
     await resetBrightness();
     super.onClose();
