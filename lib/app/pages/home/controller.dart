@@ -78,8 +78,9 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       _qrRefreshTimer?.cancel();
       authService.invalidateAuthToken();
     } else if (state == AppLifecycleState.resumed) {
-      if (selectedPaymentMethod != null) {
-        requestAuthAndQR();
+      if (selectedPaymentMethod != null &&
+          (authService.bioKey.key != null || authService.pin != null)) {
+        _generateQR(selectedPaymentMethod!);
       }
     }
   }
