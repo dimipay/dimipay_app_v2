@@ -1,5 +1,6 @@
 import 'package:dimipay_app_v2/app/core/middleware/admin.dart';
 import 'package:dimipay_app_v2/app/core/middleware/login.dart';
+import 'package:dimipay_app_v2/app/core/middleware/network.dart';
 import 'package:dimipay_app_v2/app/core/middleware/onboarding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/cancel_transaction/binding.dart';
@@ -84,7 +85,7 @@ class AppPages {
       name: Routes.PIN,
       page: () => const PinPage(),
       binding: PinPageBinding(),
-      middlewares: [LoginMiddleware()],
+      middlewares: [LoginMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -105,34 +106,35 @@ class AppPages {
       name: Routes.PAYMENT,
       page: () => const PaymentPage(),
       binding: PaymentPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.REGISTER_CARD,
       page: () => const RegisterCardPage(),
       binding: RegisterCardPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.EDIT_CARD,
       page: () => const EditCardPage(),
       binding: EditCardPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.TRANSACTION,
       page: () => const TransactionPage(),
       binding: TransactionPageBinding(),
+      middlewares: [NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.TRANSACTION_DETAIL,
       page: () => const TransactionDetailPage(),
       binding: TransactionDetailPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
 
@@ -148,7 +150,7 @@ class AppPages {
       name: Routes.FACESIGN,
       page: () => const FaceSignPage(),
       binding: FaceSignBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware()],
+      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -189,56 +191,56 @@ class AppPages {
       name: Routes.ADMIN,
       page: () => const AdminPage(),
       binding: AdminPageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.GENERATE_COUPON,
       page: () => const GenerateCouponPage(),
       binding: GenerateCouponPageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.COUPON,
       page: () => const CouponPage(),
       binding: CouponPageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.GENERATE_PASSCODE,
       page: () => const GeneratePasscodePage(),
       binding: GeneratePasscodePageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.PASSCODE,
       page: () => const PasscodePage(),
       binding: PasscodePageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.RESET_PIN,
       page: () => const ResetPinPage(),
       binding: ResetPinPageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.SYNC_PRODUCT,
       page: () => const SyncProductPage(),
       binding: SyncProductPageBinding(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.CANCEL_TRANSACTION,
       binding: CancelTransactionBinding(),
       page: () => const CancelTransactionPage(),
-      middlewares: [LoginMiddleware(), AdminMiddleware()],
+      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
 

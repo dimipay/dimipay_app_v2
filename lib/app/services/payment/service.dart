@@ -19,7 +19,8 @@ class PaymentService extends GetxController {
 
     List<PaymentMethod> paymentMethods = (paymentMethodsState as PaymentMethodsStateSuccess).value;
 
-    return paymentMethods.firstWhereOrNull((payment) => payment.id == _mainMethodId.value);
+    return paymentMethods.firstWhereOrNull((payment) => payment.id == _mainMethodId.value) ??
+        paymentMethods.firstOrNull;
   }
 
   final StreamController<List<PaymentMethod>> _paymentStreamController = StreamController.broadcast();

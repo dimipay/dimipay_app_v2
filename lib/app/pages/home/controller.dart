@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/pages/home/widgets/pay_success.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/bio_auth/service.dart';
+import 'package:dimipay_app_v2/app/services/network/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/model.dart';
 import 'package:dimipay_app_v2/app/services/pay/service.dart';
 import 'package:dimipay_app_v2/app/services/pay/state.dart';
@@ -27,9 +28,9 @@ class HomePageController extends GetxController {
   final PayService payService = Get.find<PayService>();
   final LocalAuthService localAuthService = Get.find<LocalAuthService>();
   final PushService pushService = Get.find<PushService>();
+  final NetworkService networkService = Get.find<NetworkService>();
 
   final Rx<Duration?> timeRemaining = Rx(null);
-
   final Rx<PaymentMethod?> _selectedPaymentMethod = Rx(null);
   PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod.value;
 
@@ -44,7 +45,7 @@ class HomePageController extends GetxController {
   Future<void> onReady() async {
     handleSse();
     pushService.init().then(
-      (_) {
+          (_) {
         pushService.requestPushPermission();
       },
     );
@@ -53,7 +54,7 @@ class HomePageController extends GetxController {
       paymentService.fetchPaymentMethods(),
     ]);
     paymentService.paymentStream.onData(
-      (data) async {
+          (data) async {
         if (!selectedPaymentExists()) {
           changeSelectedPaymentMethod(paymentService.mainMethod);
         }
@@ -90,7 +91,7 @@ class HomePageController extends GetxController {
 
   void handleSse() {
     payService.getTransactionStatusStream().onData(
-      (data) {
+          (data) {
         if (data == TransactionStatus.CONFIRMED) {
           showSuccessDialog();
           payService.invalidateToken();
@@ -114,7 +115,6 @@ class HomePageController extends GetxController {
       Duration remainTime = token.expireAt.difference(DateTime.now());
       _qrRefreshTimer = Timer(remainTime, () async {
         await payService.generateLocalPaymentToken(_selectedPaymentMethod.value!);
-
         _generateQR(paymentMethod);
       });
     }
@@ -142,6 +142,10 @@ class HomePageController extends GetxController {
   }
 
   Future<bool> pinAuth() async {
+    if (!networkService.isOnline) {
+      return false;
+    }
+
     if (authService.jwt.token.accessToken == null) {
       return false;
     }

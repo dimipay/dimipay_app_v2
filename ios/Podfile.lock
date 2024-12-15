@@ -12,6 +12,9 @@ PODS:
     - HLSCachingReverseProxyServer
     - PINCache
   - Cache (6.0.0)
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - credit_card_scanner (0.0.1):
     - Flutter
     - GoogleMLKit/TextRecognition
@@ -179,6 +182,7 @@ PODS:
 
 DEPENDENCIES:
   - better_player (from `.symlinks/plugins/better_player/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - credit_card_scanner (from `.symlinks/plugins/credit_card_scanner/ios`)
   - fast_rsa (from `.symlinks/plugins/fast_rsa/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -230,6 +234,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   better_player:
     :path: ".symlinks/plugins/better_player/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   credit_card_scanner:
     :path: ".symlinks/plugins/credit_card_scanner/ios"
   fast_rsa:
@@ -269,6 +275,7 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   better_player: 2406bfe8175203c7a46fa15f9d778d73b12e1646
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
+  connectivity_plus: 18382e7311ba19efcaee94442b23b32507b20695
   credit_card_scanner: 2c3c58d821ec493cb42cf7c782dc461f516c212b
   fast_rsa: 7977e4baecbe24a45dfbc1abc9e3ac7ed0bc7553
   Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
