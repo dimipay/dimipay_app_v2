@@ -70,7 +70,7 @@ class PayService extends GetxController {
 
       final int currentTime = DateTime.now().toLocal().millisecondsSinceEpoch;
       final int t0 = paymentMethod.createdAt.toLocal().millisecondsSinceEpoch;
-      final int counter = (currentTime - t0) ~/ (30 * 1000); // 30초를 밀리초로 변환
+      final int counter = (currentTime - t0) ~/ (30 * 1000);
 
       final currentStepStartTime = t0 + (counter * 30 * 1000);
       final timeElapsedInStep = currentTime - currentStepStartTime;

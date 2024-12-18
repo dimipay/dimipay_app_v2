@@ -67,7 +67,7 @@ class OnboardingPinPage extends GetView<PinPageController> {
         case PinPageStatus.wrong:
           return PinPageBase(
             headerText: '핀이 틀렸어요\n다시 입력해주세요',
-            textSpan: ' ${controller.pinCount}/5',
+            textSpan: '${controller.pinCount}/5',
             onPinComplete: controller.onboardingAuth,
             pinCount: controller.pinCount,
           );
@@ -92,7 +92,7 @@ class UnlockPinPage extends GetView<PinPageController> {
         case PinPageStatus.wrong:
           return PinPageBase(
             headerText: '핀이 틀렸어요\n다시 입력해주세요',
-            textSpan: ' ${controller.pinCount}/5',
+            textSpan: '${controller.pinCount}/5',
             onPinComplete: controller.pinCheck,
             pinCount: controller.pinCount,
             faceIDAvailable: true,
@@ -128,7 +128,7 @@ class EditPinPage extends GetView<PinPageController> {
             case PinPageStatus.wrong:
               return PinPageBase(
                 headerText: '핀이 틀렸어요\n다시 입력해주세요',
-                textSpan: ' ${controller.pinCount}/5',
+                textSpan: '${controller.pinCount}/5',
                 onPinComplete: controller.changePinPreCheck,
                 pinCount: controller.pinCount,
               );
