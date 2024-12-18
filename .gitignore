@@ -65,6 +65,8 @@ google-services.json
 **/ios/Runner.app.dSYM.zip
 **/ios/Runner.ipa
 
-
 firebase.json
 firebase_options.dart
+
+.fvm
+.fvmrc
