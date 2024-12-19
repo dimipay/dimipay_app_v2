@@ -227,7 +227,17 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
       if (_selectedPaymentMethod.value != null &&
           (authService.bioKey.key != null || authService.pin != null)) {
         _qrRefreshTimer?.cancel();
-        _generateQR(_selectedPaymentMethod.value!);
+
+        final token = payService.paymentTokenState as PaymentTokenSuccess;
+        final remainTime = token.expireAt.difference(DateTime.now());
+
+        if (remainTime.isNegative) {
+          _generateQR(_selectedPaymentMethod.value!);
+        } else {
+          _qrRefreshTimer = Timer(remainTime, () {
+            _generateQR(_selectedPaymentMethod.value!);
+          });
+        }
       }
     }
   }
