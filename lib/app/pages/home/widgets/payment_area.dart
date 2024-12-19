@@ -74,7 +74,6 @@ class PaymentAreaNoPaymentRegistered extends GetView<HomePageController> {
       onTap: () {},
       child: DPGestureDetectorWithOpacityInteraction(
         onTap: () {
-          controller.resetBrightness();
           Get.toNamed(Routes.REGISTER_CARD);
         },
         child: Row(

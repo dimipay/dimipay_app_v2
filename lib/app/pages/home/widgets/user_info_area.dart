@@ -29,7 +29,6 @@ class UserInfoArea extends GetView<HomePageController> {
         child: DPGestureDetectorWithOpacityInteraction(
           onTap: () {
             Get.toNamed(Routes.INFO);
-            controller.resetBrightness();
           },
           child: Padding(
             padding: const EdgeInsets.all(20),

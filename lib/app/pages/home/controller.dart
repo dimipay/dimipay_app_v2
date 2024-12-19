@@ -236,7 +236,6 @@ class HomePageController extends GetxController with WidgetsBindingObserver {
   Future<void> onClose() async {
     WidgetsBinding.instance.removeObserver(this);
     _qrRefreshTimer?.cancel();
-    await resetBrightness();
     super.onClose();
   }
 }
