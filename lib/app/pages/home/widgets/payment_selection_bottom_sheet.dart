@@ -194,7 +194,6 @@ class _AddCardButton extends GetView<HomePageController> {
           onTap: isOffline
               ? null
               : () {
-            controller.resetBrightness();
             Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
           },
           child: Padding(
