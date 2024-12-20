@@ -22,7 +22,9 @@ class QRArea extends StatelessWidget {
 
   Future<void> loadSuperWhiteVideo() async {
     ByteData bytes = await rootBundle.load('assets/videos/super white.mp4');
-    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(bytes.buffer.asUint8List(), videoExtension: 'mp4');
+    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(
+        bytes.buffer.asUint8List(),
+        videoExtension: 'mp4');
     await videoController.setupDataSource(videoSource);
   }
 
@@ -49,15 +51,16 @@ class QRArea extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
-                child: Platform.isIOS ? BetterPlayer(controller: videoController) : Container(color: Colors.white),
+                child: Platform.isIOS
+                    ? BetterPlayer(controller: videoController)
+                    : Container(color: Colors.white),
               ),
             ),
           ),
           Positioned.fill(
             child: Center(
-              child: SizedBox(
-                width: 180,
-                height: 180,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
                 child: QrImageView.withQr(
                   qr: QrCode(
                     5,
@@ -112,7 +115,8 @@ class QRAreaLocked extends GetView<HomePageController> {
                 const SizedBox(height: 10),
                 Text(
                   'pin 또는 생체 인증 후 결제하기',
-                  style: textTheme.token.copyWith(color: colorTheme.grayscale600),
+                  style:
+                      textTheme.token.copyWith(color: colorTheme.grayscale600),
                 ),
               ],
             ),
