@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class PushService extends GetxService {
   final PushRepository repository;
 
-  final Duration _expirationPeriod = const Duration(days: 30);
+  final Duration _expirationPeriod = const Duration(days: 2);
 
   PushService({PushRepository? repository}) : repository = repository ?? PushRepository();
 

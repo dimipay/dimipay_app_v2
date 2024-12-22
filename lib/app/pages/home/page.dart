@@ -40,12 +40,14 @@ class HomePage extends GetView<HomePageController> {
                 children: [
                   DPGestureDetectorWithOpacityInteraction(
                     onTap: () => controller.openKakaoChannelTalk(),
-                    child: Icon(Icons.support_agent_rounded, size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.support_agent_rounded,
+                        size: 24, color: colorTheme.grayscale600),
                   ),
                   const SizedBox(width: 24),
                   DPGestureDetectorWithOpacityInteraction(
                     onTap: () => Get.toNamed(Routes.MANUAL),
-                    child: Icon(Icons.help_rounded, size: 24, color: colorTheme.grayscale600),
+                    child: Icon(Icons.help_rounded,
+                        size: 24, color: colorTheme.grayscale600),
                   ),
                 ],
               ),
@@ -55,14 +57,20 @@ class HomePage extends GetView<HomePageController> {
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         children: [
           const SizedBox(height: 20),
           Obx(
             () => DPAnimatedCrossFade(
               firstChildBuilder: () => const UserInfoAreaLoading(),
-              secondChildBuilder: () => UserInfoArea(user: (controller.userService.userState as UserStateSuccess).value),
-              crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              secondChildBuilder: () => UserInfoArea(
+                  user: (controller.userService.userState as UserStateSuccess)
+                      .value),
+              crossFadeState:
+                  controller.userService.userState is! UserStateSuccess
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
@@ -71,7 +79,10 @@ class HomePage extends GetView<HomePageController> {
             () => AnimatedCrossFade(
               firstChild: const PayAreaLoading(),
               secondChild: const PayArea(),
-              crossFadeState: controller.paymentService.paymentMethodsState is! PaymentMethodsStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              crossFadeState: controller.paymentService.paymentMethodsState
+                      is! PaymentMethodsStateSuccess
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
@@ -79,8 +90,19 @@ class HomePage extends GetView<HomePageController> {
           Obx(
             () => DPAnimatedCrossFade(
               firstChildBuilder: () => const SuggestProductAreaLoading(),
-              secondChildBuilder: () => (controller.userService.userState as UserStateSuccess).value.role == 'A' ? const AdminArea() : const SuggestProductArea(),
-              crossFadeState: controller.userService.userState is! UserStateSuccess ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              secondChildBuilder: () {
+                final userState = controller.userService.userState;
+                if (userState is UserStateSuccess) {
+                  return userState.value.role == 'A'
+                      ? const AdminArea()
+                      : const SuggestProductArea();
+                }
+                return const SuggestProductArea();
+              },
+              crossFadeState:
+                  controller.userService.userState is! UserStateSuccess
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
               duration: const Duration(milliseconds: 100),
             ),
           ),
