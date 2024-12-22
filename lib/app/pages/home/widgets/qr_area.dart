@@ -61,11 +61,17 @@ class QRArea extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: QrImageView.withQr(
-                  qr: QrCode(
-                    5,
-                    QrErrorCorrectLevel.L,
-                  )..addAlphaNumeric(payload),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 180,
+                    maxHeight: 180,
+                  ),
+                  child: QrImageView.withQr(
+                    qr: QrCode(
+                      5,
+                      QrErrorCorrectLevel.L,
+                    )..addAlphaNumeric(payload),
+                  ),
                 ),
               ),
             ),
