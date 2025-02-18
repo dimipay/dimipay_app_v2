@@ -30,7 +30,7 @@ class DPSnackBar {
       borderColor: borderColor ?? colorTheme.primaryBrand,
       borderRadius: 9999,
       snackPosition: SnackPosition.TOP,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       animationDuration: const Duration(milliseconds: 500),
     );
