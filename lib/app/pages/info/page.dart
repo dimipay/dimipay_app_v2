@@ -64,25 +64,32 @@ class InfoPage extends GetView<InfoPageController> {
                       requiresNetwork: true,
                     );
                   }),
-                  Obx(() {
-                    return _MenuItem(
-                      title: 'Face Sign',
-                      onTap: () => Get.toNamed(Routes.FACESIGN),
-                      hint: switch (controller.faceSignService.faceSignState) {
-                        FaceSignStateInitial() ||
-                        FaceSignStateLoading() ||
-                        FaceSignStateFailed() =>
-                          '',
-                        FaceSignStateSuccess(
-                          isRegistered: final isRegistered
-                        ) =>
-                          isRegistered ? '등록 됨' : '등록 안됨',
-                        FaceSignStateRegistering() => '등록 중',
-                        FaceSignStatePatching() => '등록 됨',
-                      },
-                      requiresNetwork: true,
-                    );
-                  }),
+                  // Obx(() {
+                  //   return _MenuItem(
+                  //     title: 'Face Sign',
+                  //     onTap: () => Get.toNamed(Routes.FACESIGN),
+                  //     hint: switch (controller.faceSignService.faceSignState) {
+                  //       FaceSignStateInitial() ||
+                  //       FaceSignStateLoading() ||
+                  //       FaceSignStateFailed() =>
+                  //         '',
+                  //       FaceSignStateSuccess(
+                  //         isRegistered: final isRegistered
+                  //       ) =>
+                  //         isRegistered ? '등록 됨' : '등록 안됨',
+                  //       FaceSignStateRegistering() => '등록 중',
+                  //       FaceSignStatePatching() => '등록 됨',
+                  //     },
+                  //     requiresNetwork: true,
+                  //     disabled: true,
+                  //   );
+                  // }),
+                  _MenuItem(
+                    title: 'Face Sign',
+                    onTap: () => Get.toNamed(Routes.FACESIGN),
+                    requiresNetwork: true,
+                    disabled: true,
+                  ),
                   _MenuItem(
                     title: '핀 변경',
                     onTap: () => Get.toNamed(Routes.PIN,
@@ -115,12 +122,14 @@ class _MenuItem extends StatelessWidget {
   final String? hint;
   final void Function()? onTap;
   final bool requiresNetwork;
+  final bool disabled;
 
   const _MenuItem({
     required this.title,
     this.onTap,
     this.hint,
     this.requiresNetwork = false,
+    this.disabled = false,
   });
 
   @override
@@ -129,17 +138,24 @@ class _MenuItem extends StatelessWidget {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     NetworkService networkService = Get.find<NetworkService>();
 
+    if (disabled) {
+      return _buildContent(context, textTheme, colorTheme, true,
+          () => DPErrorSnackBar().open("추후 제공될 예정입니다."));
+    }
+
     if (!requiresNetwork) {
       return _buildContent(context, textTheme, colorTheme, false, onTap);
     }
 
     return Obx(() {
       final isOffline = !networkService.isOnline;
-      return _buildContent(context, textTheme, colorTheme, isOffline, isOffline ? null : onTap);
+      return _buildContent(
+          context, textTheme, colorTheme, isOffline, isOffline ? null : onTap);
     });
   }
 
-  Widget _buildContent(BuildContext context, DPTypography textTheme, DPColors colorTheme, bool isOffline, void Function()? onTapHandler) {
+  Widget _buildContent(BuildContext context, DPTypography textTheme,
+      DPColors colorTheme, bool isOffline, void Function()? onTapHandler) {
     return Opacity(
       opacity: isOffline ? 0.5 : 1.0,
       child: DPGestureDetectorWithFillInteraction(
@@ -150,7 +166,8 @@ class _MenuItem extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: textTheme.itemTitle.copyWith(color: colorTheme.grayscale800),
+                style: textTheme.itemTitle
+                    .copyWith(color: colorTheme.grayscale800),
               ),
               const Spacer(),
               Row(
@@ -158,7 +175,8 @@ class _MenuItem extends StatelessWidget {
                   if (hint != null)
                     Text(
                       hint!,
-                      style: textTheme.paragraph2.copyWith(color: colorTheme.grayscale700),
+                      style: textTheme.paragraph2
+                          .copyWith(color: colorTheme.grayscale700),
                     ),
                   const SizedBox(width: 8),
                   Icon(
