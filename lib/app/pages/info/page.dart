@@ -2,13 +2,13 @@ import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/pages/info/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
-import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
+import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +21,7 @@ class InfoPage extends GetView<InfoPageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       backgroundColor: colorTheme.grayscale100,
       body: DPAnimatedShowUp(
