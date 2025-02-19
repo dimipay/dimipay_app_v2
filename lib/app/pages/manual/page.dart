@@ -32,8 +32,8 @@ class ManualPage extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         ExpandableHelpItem(
-                          title: '열굴인식 결제는 뭔가요?',
-                          details: '열굴인식 결제는 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.',
+                          title: '얼굴 인식 결제는 뭔가요?',
+                          details: '얼굴 인식 결제는 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.',
                         ),
                         SizedBox(height: 16),
                         ExpandableHelpItem(
