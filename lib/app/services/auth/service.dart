@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
+import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
@@ -93,9 +94,14 @@ class AuthService {
       return;
     }
 
-    final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
-    _onboardingToken.value = jwt;
-    _isFirstVisit.value = isFirstVisitValue;
+    try {
+      final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
+      _onboardingToken.value = jwt;
+      _isFirstVisit.value = isFirstVisitValue;
+    } on NotDimigoMailException {
+      _clearGoogleSignInInfo();
+      throw NotDimigoMailException();
+    }
     _clearGoogleSignInInfo();
 
     await _getEncryptionKey();
