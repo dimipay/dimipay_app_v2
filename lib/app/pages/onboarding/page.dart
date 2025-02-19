@@ -26,7 +26,7 @@ class OnboardingPage extends GetView<OnboardingPageController> {
                 TermsAgreementPage(controller: controller),
                 ManualPage(controller: controller),
                 SuggestCardRegistratoinPage(controller: controller),
-                SuggestFaceSignRegistratoinPage(controller: controller),
+                SuggestFaceSignRegistrationPage(controller: controller),
               ],
             ),
           ),
