@@ -8,9 +8,9 @@ import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SuggestFaceSignRegistratoinPage extends StatelessWidget {
+class SuggestFaceSignRegistrationPage extends StatelessWidget {
   final OnboardingPageController controller;
-  const SuggestFaceSignRegistratoinPage({super.key, required this.controller});
+  const SuggestFaceSignRegistrationPage({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

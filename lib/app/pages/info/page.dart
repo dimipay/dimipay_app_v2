@@ -67,7 +67,7 @@ class InfoPage extends GetView<InfoPageController> {
                   }),
                   // Obx(() {
                   //   return _MenuItem(
-                  //     title: 'Face Sign',
+                  //     title: '열굴 인식',
                   //     onTap: () => Get.toNamed(Routes.FACESIGN),
                   //     hint: switch (controller.faceSignService.faceSignState) {
                   //       FaceSignStateInitial() ||
@@ -86,7 +86,7 @@ class InfoPage extends GetView<InfoPageController> {
                   //   );
                   // }),
                   _MenuItem(
-                    title: 'Face Sign',
+                    title: '열굴 인식',
                     onTap: () => Get.toNamed(Routes.FACESIGN),
                     requiresNetwork: true,
                     disabled: true,
