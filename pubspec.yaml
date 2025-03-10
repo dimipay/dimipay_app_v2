@@ -75,6 +75,7 @@ dependencies:
   image_gallery_saver: ^2.0.3
   qr_code_scanner: ^1.0.1
   connectivity_plus: ^6.1.1
+  firebase_crashlytics: ^4.0.4
 
 dev_dependencies:
   build_runner: ^2.4.8
