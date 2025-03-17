@@ -27,6 +27,7 @@ jobs:
           cache: true
           flutter-version-file: pubspec.yaml
       - run: flutter --version
+      - run: dart pub global activate flutterfire_cli
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
       - run: fastlane prod
