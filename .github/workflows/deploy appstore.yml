@@ -19,6 +19,9 @@ jobs:
       
       - name: Decode Google Service Info Plist
         run : echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST}}" > ios/Runner/GoogleService-Info.plist
+
+      - name: Decode firebase.json
+        run : echo "${{ secrets.FIREBASE_JSON }}" > firebase.json
       
       - name: Install flutter sdk
         uses: subosito/flutter-action@v2.16.0
