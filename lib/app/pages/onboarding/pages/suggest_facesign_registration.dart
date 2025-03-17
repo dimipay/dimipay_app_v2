@@ -18,7 +18,7 @@ class SuggestFaceSignRegistrationPage extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Column(
       children: [
-        const DPAppbar(header: 'FaceSign을 등록할까요?'),
+        const DPAppbar(header: '얼굴 인식을 등록할까요?'),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -28,7 +28,7 @@ class SuggestFaceSignRegistrationPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'FaceSign을 등록하면 키오스크에서 디미페이 앱 없이 FaceSign으로 간편하게 결제할 수 있어요.',
+                      '얼굴 인식을 등록하면 키오스크에서 디미페이 앱 없이 얼굴 인식으로 간편하게 결제할 수 있어요.',
                       style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
                     ),
                   ),

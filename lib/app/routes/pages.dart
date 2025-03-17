@@ -28,8 +28,6 @@ import 'package:dimipay_app_v2/app/pages/info/theme_select/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/theme_select/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/version/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/version/page.dart';
-import 'package:dimipay_app_v2/app/pages/info/version/privacy_policy/binding.dart';
-import 'package:dimipay_app_v2/app/pages/info/version/privacy_policy/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/version/terms_of_service/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/version/terms_of_service/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/binding.dart';
@@ -177,12 +175,6 @@ class AppPages {
       name: Routes.TERMS_OF_SERVICE,
       page: () => const TermsOfServicePage(),
       binding: TermsOfServiceBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: Routes.PRIVACY_POLICY,
-      page: () => const PrivacyPolicyPage(),
-      binding: PrivacyPolicyBinding(),
       transition: Transition.cupertino,
     ),
 

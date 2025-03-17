@@ -28,7 +28,7 @@ class ManualPage extends StatelessWidget {
                         SizedBox(height: 16),
                         ExpandableHelpItem(
                           title: '결제는 어떻게 하나요?',
-                          details: '앱 내 QR을 통하거나 얼굴인식을 통하여 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴인식 된 상태에서 결제를 진행해 주세요.',
+                          details: '앱 내 QR을 통하거나 얼굴 인식을 통하여 결제를 할 수 있어요. 물품을 찍고 결제 대기창에서 잠금해제된 QR을 찍거나, 얼굴 인식 된 상태에서 결제를 진행해 주세요.',
                         ),
                         SizedBox(height: 16),
                         ExpandableHelpItem(
