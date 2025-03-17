@@ -40,7 +40,7 @@ class FaceSignPageController extends GetxController {
       XFile? imageData = await imagePicker.pickImage(source: ImageSource.camera, preferredCameraDevice: CameraDevice.front, maxHeight: 2048, maxWidth: 1024);
       if (imageData != null) {
         await faceSignService.patchFaceSign(imageData);
-        DPSnackBar.open('Face Sign을 재등록했어요.');
+        DPSnackBar.open('얼굴을 재등록했어요.');
         HapticHelper.feedback(HapticPatterns.success);
       }
     } on FaceSignException catch (e) {
@@ -55,7 +55,7 @@ class FaceSignPageController extends GetxController {
       res = await showCupertinoDialog(
         context: Get.context!,
         builder: (context) => CupertinoAlertDialog(
-          content: const Text('정말 Face Sign 등록을 삭제할까요?'),
+          content: const Text('정말 얼굴 등록을 삭제할까요?'),
           actions: [
             CupertinoDialogAction(
               /// This parameter indicates this action is the default,
@@ -79,7 +79,7 @@ class FaceSignPageController extends GetxController {
       res = await showDialog(
         context: Get.context!,
         builder: (context) => AlertDialog(
-          content: const Text('정말 Face Sign 등록을 삭제할까요?'),
+          content: const Text('정말 얼굴 등록을 삭제할까요?'),
           actions: [
             TextButton(
               onPressed: () => Get.back(result: false),

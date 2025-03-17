@@ -2,18 +2,17 @@ import 'package:dimipay_app_v2/app/pages/info/controller.dart';
 import 'package:dimipay_app_v2/app/pages/info/widgets/user_info_area.dart';
 import 'package:dimipay_app_v2/app/pages/pin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
+import 'package:dimipay_app_v2/app/services/face_sign/state.dart';
+import 'package:dimipay_app_v2/app/services/network/service.dart';
 import 'package:dimipay_app_v2/app/services/payment/state.dart';
 import 'package:dimipay_app_v2/app/services/user/state.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_app_v2/app/widgets/divider.dart';
-import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../services/network/service.dart';
 
 class InfoPage extends GetView<InfoPageController> {
   const InfoPage({super.key});
@@ -65,32 +64,26 @@ class InfoPage extends GetView<InfoPageController> {
                       requiresNetwork: true,
                     );
                   }),
-                  // Obx(() {
-                  //   return _MenuItem(
-                  //     title: '열굴 인식',
-                  //     onTap: () => Get.toNamed(Routes.FACESIGN),
-                  //     hint: switch (controller.faceSignService.faceSignState) {
-                  //       FaceSignStateInitial() ||
-                  //       FaceSignStateLoading() ||
-                  //       FaceSignStateFailed() =>
-                  //         '',
-                  //       FaceSignStateSuccess(
-                  //         isRegistered: final isRegistered
-                  //       ) =>
-                  //         isRegistered ? '등록 됨' : '등록 안됨',
-                  //       FaceSignStateRegistering() => '등록 중',
-                  //       FaceSignStatePatching() => '등록 됨',
-                  //     },
-                  //     requiresNetwork: true,
-                  //     disabled: true,
-                  //   );
-                  // }),
-                  _MenuItem(
-                    title: '열굴 인식',
-                    onTap: () => Get.toNamed(Routes.FACESIGN),
-                    requiresNetwork: true,
-                    disabled: true,
-                  ),
+                  Obx(() {
+                    return _MenuItem(
+                      title: '열굴 인식',
+                      onTap: () => Get.toNamed(Routes.FACESIGN),
+                      hint: switch (controller.faceSignService.faceSignState) {
+                        FaceSignStateInitial() ||
+                        FaceSignStateLoading() ||
+                        FaceSignStateFailed() =>
+                          '',
+                        FaceSignStateSuccess(
+                          isRegistered: final isRegistered
+                        ) =>
+                          isRegistered ? '등록 됨' : '등록 안됨',
+                        FaceSignStateRegistering() => '등록 중',
+                        FaceSignStatePatching() => '등록 됨',
+                      },
+                      requiresNetwork: true,
+                      disabled: true,
+                    );
+                  }),
                   _MenuItem(
                     title: '핀 변경',
                     onTap: () => Get.toNamed(Routes.PIN,
@@ -138,11 +131,6 @@ class _MenuItem extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     NetworkService networkService = Get.find<NetworkService>();
-
-    if (disabled) {
-      return _buildContent(context, textTheme, colorTheme, true,
-          () => DPErrorSnackBar().open("추후 제공될 예정입니다."));
-    }
 
     if (!requiresNetwork) {
       return _buildContent(context, textTheme, colorTheme, false, onTap);
