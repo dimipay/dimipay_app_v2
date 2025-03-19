@@ -66,7 +66,7 @@ class InfoPage extends GetView<InfoPageController> {
                   }),
                   Obx(() {
                     return _MenuItem(
-                      title: '열굴 인식',
+                      title: '얼굴 인식',
                       onTap: () => Get.toNamed(Routes.FACESIGN),
                       hint: switch (controller.faceSignService.faceSignState) {
                         FaceSignStateInitial() ||
