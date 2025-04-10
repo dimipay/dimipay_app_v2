@@ -79,6 +79,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
                       child: Text('결제취소 요청하기', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
                     ),
                   ) : const SizedBox.shrink(),
+                onLoading: const SizedBox.shrink(),
               ),
               Expanded(
                 child: controller.obx(
