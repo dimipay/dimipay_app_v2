@@ -1,4 +1,4 @@
-name: Deploy Appstore
+name: Deploy Testflight
 
 on:
   workflow_call:
