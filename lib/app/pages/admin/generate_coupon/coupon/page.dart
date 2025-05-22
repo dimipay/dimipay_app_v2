@@ -43,14 +43,19 @@ class CouponPage extends GetView<CouponPageController> {
                           scrollDirection: Axis.vertical,
                           child: Column(
                             children: coupons
+                                .asMap()
+                                .entries
                                 .map(
-                                  (coupon) => Padding(
+                                  (entry) => Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 64, vertical: 8),
                                     child: RepaintBoundary(
-                                      key: controller.getCouponKey(coupon.code),
+                                      key: controller
+                                          .getCouponKey(entry.value.code),
                                       // 쿠폰별 key 필요
-                                      child: CouponWidget(coupon: coupon),
+                                      child: CouponWidget(
+                                          coupon: entry.value,
+                                          index: entry.key),
                                     ),
                                   ),
                                 )
@@ -79,8 +84,9 @@ class CouponPage extends GetView<CouponPageController> {
 
 class CouponWidget extends GetView<CouponPageController> {
   final Coupon coupon;
+  final int index;
 
-  const CouponWidget({super.key, required this.coupon});
+  const CouponWidget({super.key, required this.coupon, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +108,7 @@ class CouponWidget extends GetView<CouponPageController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                coupon.name,
+                '${coupon.name} $index',
                 style: textTheme.itemTitle
                     .copyWith(color: colorTheme.grayscale1000),
               ),

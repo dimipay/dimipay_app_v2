@@ -14,34 +14,44 @@ import 'package:get/get.dart';
 class GenerateCouponPage extends GetView<GenerateCouponPageController> {
   const GenerateCouponPage({super.key});
 
-  Widget _textField(BuildContext context, TextEditingController _textFieldController) {
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+  Widget _textField(BuildContext context, TextEditingController controller) {
+    final theme = Theme.of(context).extension<DPTypography>()!;
+    final isIOS = Platform.isIOS;
 
-    return CupertinoTextField(
-      controller: _textFieldController,
-      placeholder: '개수 입력',
-      suffix: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: Text(
-          '개 발급',
-          style: textTheme.paragraph1,
+    if (isIOS) {
+      return CupertinoTextField(
+        controller: controller,
+        placeholder: '개수 입력',
+        suffix: Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: Text('개 발급', style: theme.paragraph1),
         ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      keyboardType: TextInputType.number,
-      decoration: BoxDecoration(
-        color: CupertinoColors.systemGrey6,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: CupertinoColors.systemGrey4,
-          width: 1,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        keyboardType: TextInputType.number,
+        decoration: BoxDecoration(
+          color: CupertinoColors.systemGrey6,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
         ),
-      ),
-      style: const TextStyle(
-        fontSize: 16,
-        color: CupertinoColors.black,
-      ),
-    );
+        style: const TextStyle(fontSize: 16, color: CupertinoColors.black),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            hintText: '개수 입력',
+            suffixText: '개 발급',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+        ),
+      );
+    }
   }
 
   Future<bool> _showConfirmationDialog(BuildContext context, TextEditingController _textFieldController, CouponType couponType) async {
