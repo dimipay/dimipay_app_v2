@@ -20,6 +20,9 @@ jobs:
       - name: Decode Google Service Info Plist
         run : echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST}}" > ios/Runner/GoogleService-Info.plist
 
+      - name: Decode firebase.json
+        run: echo '${{ secrets.FIREBASE_JSON }}' > firebase.json
+
       - name: make env directory
         run: mkdir env
 
