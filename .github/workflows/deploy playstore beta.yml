@@ -32,7 +32,7 @@ jobs:
         run: mkdir env
 
       - name: add .env file
-        run: echo "" > env/.env
+        run: echo "API_URI=https://prod-next.dimipay.io/" > env/.env
       
       - name: Setup Java to compile the Android project
         uses: actions/setup-java@v2
