@@ -25,7 +25,7 @@ class PayService extends GetxController {
   Future<void> _connectTransactionStatusStream() async {
     final statusStream = await repository.getTransactionStatus();
     statusStream.listen(
-      (event) {
+          (event) {
         statusStreamController.add(event);
       },
       onDone: () {
@@ -38,26 +38,9 @@ class PayService extends GetxController {
   }
 
   @override
-  void onInit() async {
+  Future<void> onInit() async {
     super.onInit();
     _connectTransactionStatusStream();
-  }
-
-  @Deprecated('legacy token is deprecated!')
-  Future<void> fetchPaymentToken(PaymentMethod paymentMethod) async {
-    try {
-      final AuthService authService = Get.find<AuthService>();
-      _paymentTokenState.value = const PaymentTokenLoading();
-      Map res = await repository.getPaymentToken(paymentMethod: paymentMethod, pin: authService.pin, bioKey: authService.bioKey.key);
-      _paymentTokenState.value = res['token'];
-      _paymentTokenState.value = PaymentTokenSuccess(
-        value: res['token'],
-        expireAt: DateTime.parse(res['expiresAt']),
-        lifetime: DateTime.parse(res['expiresAt']).difference(DateTime.now()),
-      );
-    } on Exception catch (e) {
-      _paymentTokenState.value = PaymentTokenFailed(exception: e);
-    }
   }
 
   (AuthType authType, Uint8List authToken) getAuthInfo() {
@@ -85,17 +68,26 @@ class PayService extends GetxController {
         rk: authService.aes.key!,
       );
 
+      final int currentTime = DateTime.now().toLocal().millisecondsSinceEpoch;
+      final int t0 = paymentMethod.createdAt.toLocal().millisecondsSinceEpoch;
+      final int counter = (currentTime - t0) ~/ (30 * 1000);
+
+      final currentStepStartTime = t0 + (counter * 30 * 1000);
+      final timeElapsedInStep = currentTime - currentStepStartTime;
+      final timeLeftInStep = (30 * 1000) - timeElapsedInStep;
+
       Uint8List rawToken = await localpay.generateLocalPayToken(
         paymentMethodIdentifier: paymentMethod.sequence,
-        t0: paymentMethod.createdAt.toLocal().millisecondsSinceEpoch * 1000,
+        t0: t0,
+        t: currentTime,
         authType: authType.byteCode,
       );
 
       String encodedToken = Base45.encode(rawToken);
       _paymentTokenState.value = PaymentTokenSuccess(
         value: encodedToken,
-        expireAt: DateTime.now().add(const Duration(seconds: 30)),
-        lifetime: const Duration(seconds: 30),
+        expireAt: DateTime.now().add(Duration(milliseconds: timeLeftInStep)),
+        lifetime: Duration(milliseconds: timeLeftInStep),
       );
     } on Exception catch (e) {
       _paymentTokenState.value = PaymentTokenFailed(exception: e);

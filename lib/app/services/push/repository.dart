@@ -17,7 +17,9 @@ class PushRepository {
   }
 
   Future<void> _initHiveBox() async {
-    if (_hiveBox != null) return;
+    if (_hiveBox != null) {
+      return;
+    }
     if (!Hive.isBoxOpen(_hiveBoxName)) {
       _hiveBox = await Hive.openBox(_hiveBoxName);
     } else {
@@ -26,7 +28,7 @@ class PushRepository {
   }
 
   Future<void> updateFcmTokenToServer(String token) async {
-    String url = "/fcm";
+    String url = '/fcm';
     Map<String, dynamic> body = {'token': token};
     await api.put(DPHttpRequest(url, body: body), [JWT()]);
   }

@@ -20,6 +20,12 @@ jobs:
       - name: Decode Google Service Info Plist
         run : echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST}}" > ios/Runner/GoogleService-Info.plist
 
+      - name: make env directory
+        run: mkdir env
+
+      - name: add .env file
+        run: echo "API_URI=https://prod-next.dimipay.io/" > env/.env
+
       - name: Install flutter sdk
         uses: subosito/flutter-action@v2.16.0
         with:

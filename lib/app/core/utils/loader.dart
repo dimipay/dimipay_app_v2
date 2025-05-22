@@ -15,6 +15,9 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import '../../services/network/service.dart';
+import '../middleware/network.dart';
+
 class AppLoader {
   Future<void> load() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +25,16 @@ class AppLoader {
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: 'https://dev-next.dimipay.io/')))
+    await Get.putAsync(NetworkService().init);
+    await dotenv.load(fileName: 'env/.env', isOptional: true);
+
+    print(NetworkService().isOnline);
+
+    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: dotenv.get('API_URI'))))
       ..middlewares.add(
         DioLog(),
       ));
 
-    await dotenv.load(fileName: "env/.env", isOptional: true);
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);

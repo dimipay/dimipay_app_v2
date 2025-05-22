@@ -46,7 +46,7 @@ class SyncProductPageController extends GetxController {
       DPErrorSnackBar().open(e.message!);
     } on NoSellingPrice catch (e) {
       DPErrorSnackBar().open(e.message!);
-    } catch (e) {
+    } on Exception {
       DPErrorSnackBar().open('상품 동기화에 실패했어요.');
     } finally {
       _isSyncProductProgress.value = false;

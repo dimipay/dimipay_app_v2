@@ -10,7 +10,9 @@ class DPSnackBar {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     HapticHelper.feedback(HapticPatterns.success, hapticType: HapticType.heavy);
 
-    if (Get.isSnackbarOpen) Get.closeCurrentSnackbar();
+    if (Get.isSnackbarOpen) {
+      Get.closeCurrentSnackbar();
+    }
     Get.rawSnackbar(
       titleText: Center(
         child: Text(
@@ -19,13 +21,16 @@ class DPSnackBar {
           textAlign: TextAlign.center,
         ),
       ),
-      icon: Icon(Icons.info_outline_rounded, color: borderColor ?? colorTheme.primaryBrand,),
+      icon: Icon(
+        Icons.info_outline_rounded,
+        color: borderColor ?? colorTheme.primaryBrand,
+      ),
       messageText: Container(),
       backgroundColor: colorTheme.grayscale100,
       borderColor: borderColor ?? colorTheme.primaryBrand,
       borderRadius: 9999,
       snackPosition: SnackPosition.TOP,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       animationDuration: const Duration(milliseconds: 500),
     );

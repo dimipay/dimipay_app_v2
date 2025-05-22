@@ -29,7 +29,6 @@ class SuggestProductArea extends GetView<HomePageController> {
         ),
         child: DPGestureDetectorWithOpacityInteraction(
           onTap: () => {
-            controller.resetBrightness(),
             launchUrl(
                 Uri.parse('https://padlet.com/dimicafe/2024-tevcgyyqgoqxc1zz')),
           },

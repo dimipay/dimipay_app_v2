@@ -1,6 +1,6 @@
 import 'package:dimipay_app_v2/app/provider/api_provider.dart';
-import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/middlewares/from_cache.dart';
+import 'package:dimipay_app_v2/app/provider/middlewares/jwt.dart';
 import 'package:dimipay_app_v2/app/provider/middlewares/save_cache.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';

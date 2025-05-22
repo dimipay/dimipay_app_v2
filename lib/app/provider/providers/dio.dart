@@ -69,7 +69,7 @@ class DioApiProvider extends ApiProvider {
 
   Future<Stream<Map<String, dynamic>>> getStream(DPHttpRequest request, [List<ApiMiddleware> middlewares = const []]) async {
     ApiMiddleware middleware = decorateWithMiddlewares((request) async {
-      request.headers["Accept"] = "text/event-stream";
+      request.headers['Accept'] = 'text/event-stream';
       Response<ResponseBody> response = await dio.get(
         request.path,
         queryParameters: request.queryParameters,
@@ -80,6 +80,8 @@ class DioApiProvider extends ApiProvider {
       );
       return response.toDPHttpResponse();
     }, middlewares);
+
+    request.method = 'GET';
 
     DPHttpResponse response = await middleware.fetch(request);
 

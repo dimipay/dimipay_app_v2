@@ -11,7 +11,7 @@ class CancelTransactionRepository {
   Future<void> cancelTransaction({required String transactionId}) async {
     String url = '/admin/cancel-transaction';
 
-    Map body = {"transactionId": transactionId};
+    Map body = {'transactionId': transactionId};
 
     await api.post(DPHttpRequest(url, body: body), [JWT()]);
   }

@@ -20,7 +20,7 @@ class FaceSignPage extends GetView<FaceSignPageController> {
           slideFrom: const Offset(16, 0),
           child: Column(
             children: [
-              const DPAppbar(header: 'FaceSign'),
+              const DPAppbar(header: '얼굴 인식 결제'),
               Expanded(
                   child: Obx(
                 () => switch (controller.faceSignService.faceSignState) {
@@ -68,16 +68,16 @@ class FaceSignNotRegistered extends StatelessWidget {
                 wait: const Duration(milliseconds: 800),
                 slideFrom: const Offset(0, 4),
                 child: _DescriptionCard(
-                  title: "FaceSign이란?",
-                  description: Text("FaceSign은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
+                  title: '얼굴 인식 결제란?',
+                  description: Text('얼굴 인식 결제은 결제 단말기에서 사용자의 얼굴을 인식하여 결제하는 본인인증 수단이에요. 디미페이 앱으로 본인의 사진을 등록해두면, 디미페이 앱 없이도 빠르게 결제할 수 있어요.', style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
                 ),
               ),
               const DPAnimatedShowUp(
                 wait: Duration(milliseconds: 1100),
                 slideFrom: Offset(0, 4),
                 child: _DescriptionCard(
-                  title: "정확한 인식을 위해",
-                  description: UnorderedList(["평온한 표정으로 카메라를 응시해주세요.", "등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.", "평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요."]),
+                  title: '정확한 인식을 위해',
+                  description: UnorderedList(['평온한 표정으로 카메라를 응시해주세요.', '등록 중에는 마스크를 벗어주세요. 결제 시에는 마스크를 쓰고 결제할 수 있어요.', '평소에 자주하는 스타일과 메이크업인 상태로 등록하면 결제 시 인식률이 높아져요.']),
                 ),
               ),
             ],
@@ -92,12 +92,12 @@ class FaceSignNotRegistered extends StatelessWidget {
                   FaceSignStateSuccess(isRegistered: final isRegistered) => !isRegistered
                       ? DPButton(
                           onTap: controller.registerFaceSign,
-                          child: const Text("등록하기"),
+                          child: const Text('등록하기'),
                         )
                       : Container(),
                   FaceSignStateFailed() => DPButton(
                       onTap: controller.registerFaceSign,
-                      child: const Text("등록하기"),
+                      child: const Text('등록하기'),
                     ),
                   FaceSignStateInitial() || FaceSignStateLoading() || FaceSignStatePatching() || FaceSignStateRegistering() => DPButton.loading(
                       backgroundColor: colorTheme.grayscale400,
@@ -119,7 +119,7 @@ class UnorderedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var widgetList = <Widget>[];
-    for (var text in texts) {
+    for (final text in texts) {
       // Add list item
       widgetList.add(UnorderedListItem(text));
       // Add space between items
@@ -142,7 +142,7 @@ class UnorderedListItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("• ", style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
+        Text('• ', style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
         Expanded(
           child: Text(text, style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700)),
         ),
@@ -200,7 +200,7 @@ class FaceSignRegistered extends StatelessWidget {
                 'assets/images/face-sign.svg',
               ),
               const SizedBox(height: 24),
-              Text("Face Sign이 등록되었어요.", style: textTheme.header2.copyWith(color: colorTheme.grayscale1000)),
+              Text('얼굴 인식 결제가 등록되었어요.', style: textTheme.header2.copyWith(color: colorTheme.grayscale1000)),
             ],
           ),
         ),
@@ -208,14 +208,14 @@ class FaceSignRegistered extends StatelessWidget {
           onTap: controller.deleteFaceSign,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text("등록 삭제하기", style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
+            child: Text('등록 삭제하기', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           child: DPButton(
             onTap: controller.patchFaceSign,
-            child: const Text("다시 등록하기"),
+            child: const Text('다시 등록하기'),
           ),
         ),
       ],

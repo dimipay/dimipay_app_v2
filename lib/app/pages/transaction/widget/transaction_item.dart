@@ -1,10 +1,9 @@
+import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import '../../../services/transaction/model.dart';
 
 class TransactionItem extends StatelessWidget {
   final Transaction transaction;

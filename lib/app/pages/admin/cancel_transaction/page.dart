@@ -38,16 +38,20 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   Widget _buildCancelButton() {
     return Obx(
-      () => controller.isCancelTransactionProgress
+          () => controller.isCancelTransactionProgress
           ? DPButton.loading()
-          : DPButton(
-              onTap: controller.cancelTransaction,
-              child: const Text('결제 취소'),
-            ),
+          : controller.isFormValid
+          ? DPButton(
+        onTap: controller.cancelTransaction,
+        child: const Text('결제 취소'),
+      )
+          : DPButton.disabled(
+        child: const Text('결제 취소'),
+      ),
     );
   }
 
-  Widget _buildTextField() {
+  Widget _buildTransactionIdField() {
     return GetBuilder<CancelTransactionPageController>(
       id: 'codeField',
       builder: (_) => DPTextField(
@@ -55,6 +59,19 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
         hintText: '결제 ID를 입력하거나 QR을 스캔하세요',
         controller: controller.codeController,
         focusNode: controller.codeFocusNode,
+        hilightOnFocus: true,
+      ),
+    );
+  }
+
+  Widget _buildReasonField() {
+    return GetBuilder<CancelTransactionPageController>(
+      id: 'reasonField',
+      builder: (_) => DPTextField(
+        labelText: '취소 사유',
+        hintText: '취소 사유를 입력하세요',
+        controller: controller.reasonController,
+        focusNode: controller.reasonFocusNode,
         hilightOnFocus: true,
       ),
     );
@@ -72,7 +89,13 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
             const Spacer(flex: 1),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: _buildTextField(),
+              child: Column(
+                children: [
+                  _buildTransactionIdField(),
+                  const SizedBox(height: 16.0),
+                  _buildReasonField(),
+                ],
+              ),
             ),
             const Spacer(flex: 2),
             Padding(

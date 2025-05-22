@@ -8,9 +8,9 @@ import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SuggestFaceSignRegistratoinPage extends StatelessWidget {
+class SuggestFaceSignRegistrationPage extends StatelessWidget {
   final OnboardingPageController controller;
-  const SuggestFaceSignRegistratoinPage({super.key, required this.controller});
+  const SuggestFaceSignRegistrationPage({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SuggestFaceSignRegistratoinPage extends StatelessWidget {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Column(
       children: [
-        const DPAppbar(header: 'FaceSign을 등록할까요?'),
+        const DPAppbar(header: '얼굴 인식을 등록할까요?'),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -28,7 +28,7 @@ class SuggestFaceSignRegistratoinPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'FaceSign을 등록하면 키오스크에서 디미페이 앱 없이 FaceSign으로 간편하게 결제할 수 있어요.',
+                      '얼굴 인식을 등록하면 키오스크에서 디미페이 앱 없이 얼굴 인식으로 간편하게 결제할 수 있어요.',
                       style: textTheme.paragraph1.copyWith(color: colorTheme.grayscale700),
                     ),
                   ),

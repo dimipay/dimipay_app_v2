@@ -1,12 +1,11 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'model.freezed.dart';
 part 'model.g.dart';
 
 @freezed
 class PaymentMethod with _$PaymentMethod {
-  const PaymentMethod._();
-
   const factory PaymentMethod({
     required String id,
     required String name,
@@ -15,6 +14,8 @@ class PaymentMethod with _$PaymentMethod {
     required int sequence,
     required DateTime createdAt,
   }) = _PaymentMethod;
+
+  const PaymentMethod._();
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => _$PaymentMethodFromJson(json);
 

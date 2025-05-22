@@ -56,8 +56,8 @@ class TransactionService extends GetxController {
     _nextCursor.value = result.nextCursor;
   }
 
-  Future<TransactionDetail> getTransactionDetail(String transactionId) async {
-    return await repository.getTransactionDetail(transactionId);
+  Future<TransactionDetail> getTransactionDetail(String transactionId) {
+    return repository.getTransactionDetail(transactionId);
   }
 
   @Deprecated('개발용임.')
@@ -68,8 +68,8 @@ class TransactionService extends GetxController {
     required String purchaseType,
     required int products,
     required PaymentMethod paymentMethod,
-  }) async {
-    return await repository.createTransaction(
+  }) {
+    return repository.createTransaction(
       createdAt: createdAt,
       status: status,
       transactionType: transactionType,

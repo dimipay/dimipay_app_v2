@@ -40,22 +40,22 @@ class DPAppbar extends StatelessWidget {
                       leading != null
                           ? leading!
                           : DPGestureDetectorWithOpacityInteraction(
-                        onTap: () {
-                          if (onBackButtonPressed != null) {
-                            onBackButtonPressed!.call();
-                          } else {
-                            Get.back();
-                          }
-                        },
-                        child: Container(
-                          color: colorTheme.grayscale100,
-                          child: Icon(
-                            Icons.arrow_back_ios_rounded,
-                            size: 20,
-                            color: colorTheme.grayscale500,
-                          ),
-                        ),
-                      ),
+                              onTap: () {
+                                if (onBackButtonPressed != null) {
+                                  onBackButtonPressed!.call();
+                                } else {
+                                  Get.back();
+                                }
+                              },
+                              child: ColoredBox(
+                                color: colorTheme.grayscale100,
+                                child: Icon(
+                                  Icons.arrow_back_ios_rounded,
+                                  size: 20,
+                                  color: colorTheme.grayscale500,
+                                ),
+                              ),
+                            ),
                       if (trailing != null) trailing!,
                     ],
                   ),

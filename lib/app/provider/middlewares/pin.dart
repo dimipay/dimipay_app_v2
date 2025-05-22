@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class OTP extends ApiMiddleware {
   Future<String> getPinOTP() async {
-    String url = "/pin/otp";
+    String url = '/pin/otp';
     AuthService authService = Get.find<AuthService>();
 
     Map<String, dynamic> body = {};

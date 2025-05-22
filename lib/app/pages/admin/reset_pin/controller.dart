@@ -41,7 +41,7 @@ class ResetPinPageController extends GetxController {
       await _resetPinService.resetPin(email: emailController.text);
       DPSnackBar.open('핀 초기화에 성공했어요.');
       emailController.clear();
-    } catch (e) {
+    } on Exception {
       DPErrorSnackBar().open('핀 초기화에 실패했어요.');
     } finally {
       _isResetPinProgress.value = false;

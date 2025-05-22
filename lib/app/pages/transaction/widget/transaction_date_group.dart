@@ -15,7 +15,7 @@ class TransactionDateGroup extends StatelessWidget {
     super.key,
     required this.date,
     required this.transactions,
-    final DateFormat? headerFormat,
+    DateFormat? headerFormat,
   }) : headerFormat = headerFormat ?? DateFormat('d일 E요일', 'ko_KR');
 
   @override

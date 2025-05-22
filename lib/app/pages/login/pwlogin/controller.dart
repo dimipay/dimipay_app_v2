@@ -35,22 +35,19 @@ class PWLoginPageController extends GetxController {
     }
     try {
       _isLoginInProgress.value = true;
-      await authService.loginWithPassword(
-          email: emailController.text, password: pwController.text);
+      await authService.loginWithPassword(email: emailController.text, password: pwController.text);
       if (authService.isPasswordLoginSuccess) {
         if (authService.isFirstVisit) {
-          Get.offNamed(Routes.PIN,
-              arguments: {'pinPageType': PinPageType.register});
+          Get.offNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.register});
         } else {
-          Get.toNamed(Routes.PIN,
-              arguments: {'pinPageType': PinPageType.onboarding});
+          Get.toNamed(Routes.PIN, arguments: {'pinPageType': PinPageType.onboarding});
         }
       }
     } on WrongCredentialsException catch (e) {
       DPErrorSnackBar().open(e.message!);
     } on NotPasswordUserException catch (e) {
       DPErrorSnackBar().open(e.message!);
-    } catch (e) {
+    } on Exception {
       DPErrorSnackBar().open('이메일 형식이 잘못되었어요.');
     } finally {
       _isLoginInProgress.value = false;

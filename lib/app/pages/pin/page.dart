@@ -22,7 +22,7 @@ class PinPage extends GetView<PinPageController> {
               return const EditPinPage();
             case PinPageType.register:
               return const RegisterPinPage();
-            default:
+            case PinPageType.createPin:
               return const UnlockPinPage();
           }
         },
@@ -49,7 +49,7 @@ class RegisterPinPage extends GetView<PinPageController> {
               headerText: '다시 한번 입력해주세요\n',
               onPinComplete: controller.registerPinDoubleCheck,
             );
-          default:
+          case PinPageStatus.preCheck || PinPageStatus.wrong:
             return Container();
         }
       },
@@ -67,11 +67,11 @@ class OnboardingPinPage extends GetView<PinPageController> {
         case PinPageStatus.wrong:
           return PinPageBase(
             headerText: '핀이 틀렸어요\n다시 입력해주세요',
-            textSpan: ' ${controller.pinCount}/5',
+            textSpan: '${controller.pinCount}/5',
             onPinComplete: controller.onboardingAuth,
             pinCount: controller.pinCount,
           );
-        default:
+        case PinPageStatus.preCheck || PinPageStatus.normal || PinPageStatus.doubleCheck:
           return PinPageBase(
             headerText: '로그인을 완료하기 위해\n핀을 입력해주세요',
             onPinComplete: controller.onboardingAuth,
@@ -92,12 +92,12 @@ class UnlockPinPage extends GetView<PinPageController> {
         case PinPageStatus.wrong:
           return PinPageBase(
             headerText: '핀이 틀렸어요\n다시 입력해주세요',
-            textSpan: ' ${controller.pinCount}/5',
+            textSpan: '${controller.pinCount}/5',
             onPinComplete: controller.pinCheck,
             pinCount: controller.pinCount,
             faceIDAvailable: true,
           );
-        default:
+        case PinPageStatus.preCheck || PinPageStatus.normal || PinPageStatus.doubleCheck:
           return PinPageBase(
             headerText: 'QR을 보려면\n결제 핀을 입력해주세요',
             onPinComplete: controller.pinCheck,
@@ -128,7 +128,7 @@ class EditPinPage extends GetView<PinPageController> {
             case PinPageStatus.wrong:
               return PinPageBase(
                 headerText: '핀이 틀렸어요\n다시 입력해주세요',
-                textSpan: ' ${controller.pinCount}/5',
+                textSpan: '${controller.pinCount}/5',
                 onPinComplete: controller.changePinPreCheck,
                 pinCount: controller.pinCount,
               );

@@ -66,3 +66,33 @@ class NoSellingPrice implements Exception {
 
   NoSellingPrice({this.message});
 }
+
+class TransactionAlreadyCanceled implements Exception {
+  final String? message;
+
+  TransactionAlreadyCanceled({this.message});
+}
+
+class TransactionNotConfirmed implements Exception {
+  final String? message;
+
+  TransactionNotConfirmed({this.message});
+}
+
+class UnableToCancelTransaction implements Exception {
+  final String? message;
+
+  UnableToCancelTransaction({this.message});
+}
+
+class TransactionNotFound implements Exception {
+  final String? message;
+
+  TransactionNotFound({this.message});
+}
+
+class TransactionCancelFailed implements Exception {
+  final String? message;
+
+  TransactionCancelFailed({this.message});
+}

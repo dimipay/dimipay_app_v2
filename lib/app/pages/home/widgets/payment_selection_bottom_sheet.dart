@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../services/network/service.dart';
+
 class PaymentSelectionBottomSheet extends GetView<HomePageController> {
   final void Function(PaymentMethod paymentMethod)? onSelect;
   const PaymentSelectionBottomSheet({super.key, this.onSelect});
@@ -23,7 +25,7 @@ class PaymentSelectionBottomSheet extends GetView<HomePageController> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Container(
+        child: ColoredBox(
           color: colorTheme.grayscale100,
           child: DPAnimatedShowUpScope(
             waitBetweenChildren: const Duration(milliseconds: 30),
@@ -181,28 +183,38 @@ class _AddCardButton extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    return DPGestureDetectorWithOpacityInteraction(
-      onTap: () {
-        controller.resetBrightness();
-        Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
-      },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: colorTheme.grayscale200,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
+    NetworkService networkService = Get.find<NetworkService>();
+
+    return Obx(() {
+      final isOffline = !networkService.isOnline;
+
+      return Opacity(
+        opacity: isOffline ? 0.5 : 1.0,
+        child: DPGestureDetectorWithOpacityInteraction(
+          onTap: isOffline
+              ? null
+              : () {
+            Get.toNamed(Routes.REGISTER_CARD, preventDuplicates: false);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 26),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colorTheme.grayscale200,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Icon(Icons.credit_card, size: 24, color: colorTheme.grayscale600),
+                ),
+                const SizedBox(width: 12),
+                Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
+              ],
             ),
-            const SizedBox(width: 12),
-            Text('카드 추가하기', style: textTheme.description.copyWith(color: colorTheme.grayscale600)),
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

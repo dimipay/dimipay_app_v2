@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'package:dimipay_app_v2/app/provider/middleware.dart';
 import 'package:dimipay_app_v2/app/provider/model/request.dart';
 import 'package:dimipay_app_v2/app/provider/model/response.dart';
-import 'dart:developer' as dev;
 import 'package:dio/dio.dart';
 
 class DioLog extends ApiMiddleware {

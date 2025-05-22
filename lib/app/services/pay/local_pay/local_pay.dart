@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:cryptography/cryptography.dart';
+import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 import 'package:uuid/parsing.dart';
 import 'package:uuid/v7.dart';
-import 'package:dimipay_app_v2/app/services/pay/local_pay/tlv.dart';
 
 enum AuthType {
   notAuthed(0x00),
@@ -81,11 +82,11 @@ class LocalPay {
   }
 
   Uint8List buildRawPrivatePayload(Uint8List? nonce) {
-    final Uint8List parsedNonce = nonce ?? generateNonce();
+    nonce ??= generateNonce();
 
     final TLV authTokenTLV = TLV(Tag.authToken, authToken);
     final TLV deviceIdentifierTLV = TLV(Tag.deviceIdentifier, deviceIdentifier);
-    final TLV nonceTLV = TLV(Tag.nonce, parsedNonce);
+    final TLV nonceTLV = TLV(Tag.nonce, nonce);
     final TLV payloadLengthIndicator = createPayloadLengthInicator([authTokenTLV, deviceIdentifierTLV, nonceTLV]);
 
     final builder = BytesBuilder();
@@ -98,14 +99,14 @@ class LocalPay {
   }
 
   Future<Uint8List> encryptPrivatePayload(Uint8List metadataPayload, Uint8List commonPayload, Uint8List rawPrivatePayload, int t0, [int? t]) async {
-    t ??= DateTime.now().toLocal().millisecondsSinceEpoch ~/ 1000;
+    t ??= DateTime.now().toLocal().millisecondsSinceEpoch;
     final (k, n) = await prepareKey(t, t0, rk, userIdentifier);
 
     final aad = Uint8List.fromList(metadataPayload + commonPayload);
     return xchacha20Poly1305(rawPrivatePayload, k, n, aad);
   }
 
-  Future<Uint8List> xchacha20Poly1305(message, key, nonce, aad) async {
+  Future<Uint8List> xchacha20Poly1305(List<int> message, List<int> key, List<int> nonce, List<int> aad) async {
     final xchacha20 = Xchacha20.poly1305Aead();
     final secretKey = SecretKey(key);
 

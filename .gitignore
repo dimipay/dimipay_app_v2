@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -65,6 +67,8 @@ google-services.json
 **/ios/Runner.app.dSYM.zip
 **/ios/Runner.ipa
 
-
 firebase.json
 firebase_options.dart
+
+.fvm
+.fvmrc

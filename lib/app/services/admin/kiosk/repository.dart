@@ -21,8 +21,8 @@ class KioskRepository {
     String url = '/admin/kiosk';
     DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT()]);
 
-    List<Kiosk> kiosks = (response.data["kiosks"] as List).map((e) => Kiosk.fromJson(e)).toList();
+    List<Kiosk> kiosks = (response.data['kiosks'] as List).map((e) => Kiosk.fromJson(e)).toList();
 
-    return {"kiosks": kiosks};
+    return {'kiosks': kiosks};
   }
 }

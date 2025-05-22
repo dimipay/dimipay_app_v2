@@ -22,38 +22,56 @@ class TokenLifeTimeIndicator extends StatefulWidget {
 
 class _TokenLifeTimeIndicatorState extends State<TokenLifeTimeIndicator> with TickerProviderStateMixin {
   AnimationController? animationController;
-
   late Animation<double> _animation;
+  final int totalSeconds = 30;
 
   void initAnimation() {
     animationController?.dispose();
+
+    final remainingTime = widget.expireAt.difference(DateTime.now());
+    final startValue = 1 - (remainingTime.inSeconds / totalSeconds);
+
     animationController = AnimationController(
-      duration: widget.expireAt.difference(DateTime.now()),
+      duration: remainingTime,
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(animationController!)
-      ..addListener(
-        () => setState(() {}),
-      );
+
+    _animation = Tween<double>(
+        begin: startValue,
+        end: 1.0
+    ).animate(CurvedAnimation(
+      parent: animationController!,
+      curve: Curves.linear,
+    ));
+
     animationController!.forward();
+
+    animationController!.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   @override
   void initState() {
-    initAnimation();
     super.initState();
+    initAnimation();
   }
 
   @override
   void didUpdateWidget(covariant TokenLifeTimeIndicator oldWidget) {
-    initAnimation();
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.expireAt != widget.expireAt) {
+      initAnimation();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+
+    final remainingSeconds = (totalSeconds * (1 - _animation.value)).ceil();
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -66,7 +84,10 @@ class _TokenLifeTimeIndicatorState extends State<TokenLifeTimeIndicator> with Ti
             color: colorTheme.grayscale400,
           ),
         ),
-        Text(((1 - _animation.value) * widget.lifetime.inSeconds).ceil().toString(), style: textTheme.token.copyWith(color: colorTheme.grayscale600)),
+        Text(
+            remainingSeconds.toString(),
+            style: textTheme.token.copyWith(color: colorTheme.grayscale600)
+        ),
       ],
     );
   }

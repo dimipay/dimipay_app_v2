@@ -7,12 +7,11 @@ import 'package:dimipay_app_v2/app/services/transaction/model.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup.dart';
 import 'package:dimipay_app_v2/app/widgets/animations/animated_showup_scope.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-import '../../../widgets/button.dart';
 
 class TransactionDetailPage extends GetView<TransactionDetailPageController> {
   const TransactionDetailPage({super.key});
@@ -23,7 +22,7 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
         return 'QR 코드';
       case TransactionType.FACESIGN:
         return 'Face Sign';
-      default:
+      case null:
         return '';
     }
   }
@@ -48,6 +47,10 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
     }
   }
 
+  bool isTransactionCanceled(TransactionStatus transactionStatus) {
+    return TransactionStatus.CANCELED == transactionStatus;
+  }
+
   void _showQRDialog(BuildContext context, String transactionId) {
     showDialog(
       context: context,
@@ -68,11 +71,15 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
           slideFrom: const Offset(0, 8),
           child: Column(
             children: [
-              DPAppbar(
-                trailing: DPGestureDetectorWithOpacityInteraction(
-                  onTap: () => _showQRDialog(context, controller.transaction!.id),
-                  child: Text('결제취소 요청하기', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
-                ),
+              controller.obx(
+                  (_) => !isTransactionCanceled(controller.transaction!.status) ?
+                  DPAppbar(
+                    trailing: DPGestureDetectorWithOpacityInteraction(
+                      onTap: () => _showQRDialog(context, controller.transaction!.id),
+                      child: Text('결제취소 요청하기', style: textTheme.paragraph2Underlined.copyWith(color: colorTheme.grayscale600)),
+                    ),
+                  ) : const SizedBox.shrink(),
+                onLoading: const SizedBox.shrink(),
               ),
               Expanded(
                 child: controller.obx(

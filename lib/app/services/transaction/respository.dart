@@ -13,7 +13,7 @@ class TransactionRepository {
 
   Future<({dynamic monthTotal, dynamic nextCursor, List<Transaction> transactions})> getTransactions({required int year, required int month, String? cursor, int? limit}) async {
     String url = '/history';
-    Map<String, dynamic> queryParameter = {"year": year, 'month': month};
+    Map<String, dynamic> queryParameter = {'year': year, 'month': month};
 
     if (cursor != null) {
       queryParameter['cursor'] = cursor;
@@ -25,12 +25,12 @@ class TransactionRepository {
 
     DPHttpResponse response = await api.get(DPHttpRequest(url, queryParameters: queryParameter), [JWT()]);
     List<Transaction> transactions = [];
-    for (final group in response.data["groups"]) {
+    for (final group in response.data['groups']) {
       for (final transaction in group['transactions']) {
         transactions.add(Transaction.fromJson(transaction));
       }
     }
-    return (transactions: transactions, monthTotal: response.data["monthTotal"], nextCursor: response.data["nextCursor"]);
+    return (transactions: transactions, monthTotal: response.data['monthTotal'], nextCursor: response.data['nextCursor']);
   }
 
   Future<TransactionDetail> getTransactionDetail(String transactionId) async {
@@ -51,13 +51,13 @@ class TransactionRepository {
     String url = '/history';
 
     Map<String, dynamic> body = {
-      "createdAt": createdAt.toUtc().toIso8601String(),
-      "status": status,
-      "statusMessage": "테스트 결제",
-      "transactionType": transactionType,
-      "purchaseType": purchaseType,
-      "products": products,
-      "paymentMethodId": paymentMethod.id,
+      'createdAt': createdAt.toUtc().toIso8601String(),
+      'status': status,
+      'statusMessage': '테스트 결제',
+      'transactionType': transactionType,
+      'purchaseType': purchaseType,
+      'products': products,
+      'paymentMethodId': paymentMethod.id,
     };
 
     DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);

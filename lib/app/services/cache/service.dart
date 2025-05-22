@@ -19,8 +19,8 @@ class HttpCacheService extends GetxService {
   String generateKey(DPHttpRequest request) {
     String path = request.path;
     List queryParameters = [];
-    for (var element in request.queryParameters.entries) {
-      queryParameters.add('${element.key}=${element.value}');
+    for (final querayParameter in request.queryParameters.entries) {
+      queryParameters.add('${querayParameter.key}=${querayParameter.value}');
     }
     String fullQueryParameters = queryParameters.join('&');
     return '[${request.method}]$path?$fullQueryParameters';

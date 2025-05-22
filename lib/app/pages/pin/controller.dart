@@ -100,7 +100,7 @@ class PinPageController extends GetxController {
     }
   }
 
-  void onPinTap(String value) async {
+  Future<void> onPinTap(String value) async {
     HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.light);
     if (value == 'del') {
       if (pin.length > 0 && pin.length < 4) {
@@ -124,7 +124,7 @@ class PinPageController extends GetxController {
     }
   }
 
-  void pinCheck() async {
+  Future<void> pinCheck() async {
     try {
       await authService.pinCheck(pin);
       Get.back();
@@ -171,7 +171,7 @@ class PinPageController extends GetxController {
 
   Future<void> changePinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "비밀번호를 다시 입력해주세요.");
+      DPErrorSnackBar().open('처음 입력한 핀과 달라요.', message: '비밀번호를 다시 입력해주세요.');
       _status.value = PinPageStatus.normal;
       return;
     }
@@ -207,7 +207,7 @@ class PinPageController extends GetxController {
 
   Future<void> registerPinDoubleCheck() async {
     if (pin != _newPin) {
-      DPErrorSnackBar().open("처음 입력한 핀과 달라요.", message: "핀을 다시 입력해주세요.");
+      DPErrorSnackBar().open('처음 입력한 핀과 달라요.', message: '핀을 다시 입력해주세요.');
       _status.value = PinPageStatus.normal;
       return;
     }
@@ -231,20 +231,17 @@ Future<String?> showPinDialog() async {
     context: Get.context!,
     builder: (_) => SafeArea(
       bottom: false,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: Container(
-            color: colorTheme.grayscale100,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 32),
-              child: GetBuilder(
-                  init: PinPageController(),
-                  builder: (context) {
-                    return const UnlockPinPage();
-                  }),
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: ColoredBox(
+          color: colorTheme.grayscale100,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: GetBuilder(
+                init: PinPageController(),
+                builder: (context) {
+                  return const UnlockPinPage();
+                }),
           ),
         ),
       ),
