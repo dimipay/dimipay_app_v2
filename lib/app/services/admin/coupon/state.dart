@@ -14,7 +14,7 @@ final class CouponStateLoading extends CouponState {
 
 final class CouponStateSuccess extends CouponState {
   const CouponStateSuccess({required this.value});
-  final Coupon value;
+  final List<Coupon> value;
 }
 
 final class CouponStateFailed extends CouponState {

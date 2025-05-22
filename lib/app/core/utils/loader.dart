@@ -26,15 +26,15 @@ class AppLoader {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     await Get.putAsync(NetworkService().init);
+    await dotenv.load(fileName: 'env/.env', isOptional: true);
 
     print(NetworkService().isOnline);
 
-    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: 'https://prod-next.dimipay.io/')))
+    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: dotenv.get('API_URI'))))
       ..middlewares.add(
         DioLog(),
       ));
 
-    await dotenv.load(fileName: 'env/.env', isOptional: true);
     await Hive.initFlutter();
     await Get.putAsync(ThemeService().init);
     await Get.putAsync(AuthService().init);
