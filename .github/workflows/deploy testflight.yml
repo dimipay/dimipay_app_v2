@@ -1,4 +1,4 @@
-name: Deploy Testflight
+name: Deploy Appstore
 
 on:
   workflow_call:
@@ -9,6 +9,9 @@ jobs:
     name: Deploy Testflight
     runs-on: macos-latest
     steps:
+      - name: Select Xcode 16
+        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -16,12 +19,12 @@ jobs:
       
       - name: Decode Firebase Options
         run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
-      
+
       - name: Decode Google Service Info Plist
         run : echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST}}" > ios/Runner/GoogleService-Info.plist
 
       - name: Decode firebase.json
-        run: echo '${{ secrets.FIREBASE_JSON }}' > firebase.json
+        run : echo '${{ secrets.FIREBASE_JSON }}' > firebase.json
 
       - name: make env directory
         run: mkdir env

@@ -9,6 +9,9 @@ jobs:
     name: Deploy Appstore
     runs-on: macos-latest
     steps:
+      - name: Select Xcode 16
+        run: sudo xcode-select -s /Applications/Xcode_16.0.app
+
       - name: Clone repository
         uses: actions/checkout@v4
         with:
