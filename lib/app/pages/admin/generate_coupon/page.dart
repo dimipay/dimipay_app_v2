@@ -15,7 +15,8 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
   const GenerateCouponPage({super.key});
 
   Widget _textField(BuildContext context, TextEditingController controller) {
-    final theme = Theme.of(context).extension<DPTypography>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     final isIOS = Platform.isIOS;
 
     if (isIOS) {
@@ -24,7 +25,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
         placeholder: '개수 입력',
         suffix: Padding(
           padding: const EdgeInsets.only(right: 8),
-          child: Text('개 발급', style: theme.paragraph1),
+          child: Text('개 발급', style: textTheme.paragraph1),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         keyboardType: TextInputType.number,
@@ -33,7 +34,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
         ),
-        style: const TextStyle(fontSize: 16, color: CupertinoColors.black),
+        style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
       );
     } else {
       return Padding(
@@ -41,6 +42,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
         child: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
+          style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
           decoration: InputDecoration(
             hintText: '개수 입력',
             suffixText: '개 발급',
