@@ -108,7 +108,7 @@ class CouponWidget extends GetView<CouponPageController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${coupon.name} $index',
+                '${coupon.name} ${index + 1}',
                 style: textTheme.itemTitle
                     .copyWith(color: colorTheme.grayscale1000),
               ),

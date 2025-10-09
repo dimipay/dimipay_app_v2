@@ -10,9 +10,13 @@ class CouponRepository {
 
   CouponRepository({ApiProvider? api}) : api = api ?? Get.find<ApiProvider>();
 
-  Future<Map> generateCoupon({required String id}) async {
+  Future<Map> generateCoupon({required String id, int? amount}) async {
     String url = '/admin/coupons';
-    Map body = {'type': id};
+    final body = {'type': id};
+
+    if (amount != null) {
+      body['amount'] = amount.toString();
+    }
 
     DPHttpResponse response = await api.post(DPHttpRequest(url, body: body), [JWT()]);
 

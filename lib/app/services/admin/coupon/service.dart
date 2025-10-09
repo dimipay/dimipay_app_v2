@@ -15,16 +15,20 @@ class CouponService extends GetxController {
   final Rx<CouponTypesState> _couponTypesState = Rx(const CouponTypesStateInitial());
   CouponTypesState get couponTypesState => _couponTypesState.value;
 
-  Future<void> generateCoupon({required String id, required int count}) async {
+  Future<void> generateCoupon({required String id, required int count, int? amount}) async {
     if (count < 1) {
       _couponState.value = CouponStateFailed(exception: Exception('RangeError: count should be more then 0'));
       return;
     }  
+    if (amount != null && amount < 1) {
+      _couponState.value = CouponStateFailed(exception: Exception('RangeError: amount should be more then 0'));
+      return;
+    }
     try {
       List<Coupon> coupons = [];
       _couponState.value = const CouponStateInitial();
       for (var i=0;i<count;i++) {
-        Map data = await repository.generateCoupon(id: id);
+        Map data = await repository.generateCoupon(id: id, amount: amount);
         coupons.add(data['coupon']);
       }
       _couponState.value = CouponStateSuccess(value: coupons);
