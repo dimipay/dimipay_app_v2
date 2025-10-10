@@ -19,7 +19,7 @@ class CouponPageController extends GetxController {
     final String? id = args != null ? args['id'] : null;
     final int? count = args != null ? args['count'] : null;
     final int? amount = args != null ? args['amount'] : null;
-    if (id != null && count != null && amount != null) {
+    if (id != null && count != null) {
       generateCoupon(id: id, count: count, amount: amount);
     }
   }

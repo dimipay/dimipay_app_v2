@@ -175,7 +175,11 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
                             bool confirm =
                                 await _showConfirmationDialog(context, _countFieldController, _amountFieldController, e);
                             if (confirm) {
-                              Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text), 'amount': int.parse(_amountFieldController.text) });
+                              if (e.transactionType != 'CREDIT'){
+                                Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text) });
+                              } else {
+                                Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text), 'amount': int.parse(_amountFieldController.text) });
+                              }
                             }
                           },
                         ),
