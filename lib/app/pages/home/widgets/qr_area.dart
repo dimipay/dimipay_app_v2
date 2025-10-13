@@ -1,31 +1,20 @@
-import 'dart:io';
-
-import 'package:better_player/better_player.dart';
 import 'package:dimipay_app_v2/app/pages/home/controller.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:video_player_hdr/video_player_hdr.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
-  late final BetterPlayerController videoController = BetterPlayerController(
-    const BetterPlayerConfiguration(
-        controlsConfiguration: BetterPlayerControlsConfiguration(
-          showControls: false,
-          backgroundColor: Colors.white,
-        ),
-        aspectRatio: 1.5 / 1),
-  );
 
   Future<void> loadSuperWhiteVideo() async {
-    ByteData bytes = await rootBundle.load('assets/videos/super white.mp4');
-    BetterPlayerDataSource videoSource = BetterPlayerDataSource.memory(
-        bytes.buffer.asUint8List(),
-        videoExtension: 'mp4');
-    await videoController.setupDataSource(videoSource);
+    // final hdrController = VideoPlayerHdrController.asset('assets/videos/hdr_video.mp4');
+    // await hdrController.initialize(
+    //   viewType: VideoViewType.platformView,
+    // );
+    // hdrController.play();
   }
 
   QRArea({super.key, required this.payload}) {
@@ -51,9 +40,7 @@ class QRArea extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
-                child: Platform.isIOS
-                    ? BetterPlayer(controller: videoController)
-                    : Container(color: Colors.white),
+                child: Container(color: Colors.white),
               ),
             ),
           ),
