@@ -186,7 +186,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
                                 Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text) });
                               } else {
                                 if (userState is UserStateSuccess && userState.value.email != "sspark@dimigo.hs.kr") {
-                                  DPSnackBar.open("권한이 없어요. 금액권은 성수썜만 ^^7")
+                                  DPSnackBar.open("권한이 없어요. 금액권은 성수썜만 ^^7");
                                   return;
                                 }
                                 Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text), 'amount': int.parse(_amountFieldController.text) });
