@@ -237,6 +237,7 @@ mixin _$CouponType {
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
+  String get transactionType => throw _privateConstructorUsedError;
 
   /// Serializes this CouponType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -254,7 +255,12 @@ abstract class $CouponTypeCopyWith<$Res> {
           CouponType value, $Res Function(CouponType) then) =
       _$CouponTypeCopyWithImpl<$Res, CouponType>;
   @useResult
-  $Res call({String id, String name, String? description, int amount});
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      int amount,
+      String transactionType});
 }
 
 /// @nodoc
@@ -276,6 +282,7 @@ class _$CouponTypeCopyWithImpl<$Res, $Val extends CouponType>
     Object? name = null,
     Object? description = freezed,
     Object? amount = null,
+    Object? transactionType = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -294,6 +301,10 @@ class _$CouponTypeCopyWithImpl<$Res, $Val extends CouponType>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -306,7 +317,12 @@ abstract class _$$CouponTypeImplCopyWith<$Res>
       __$$CouponTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String? description, int amount});
+  $Res call(
+      {String id,
+      String name,
+      String? description,
+      int amount,
+      String transactionType});
 }
 
 /// @nodoc
@@ -326,6 +342,7 @@ class __$$CouponTypeImplCopyWithImpl<$Res>
     Object? name = null,
     Object? description = freezed,
     Object? amount = null,
+    Object? transactionType = null,
   }) {
     return _then(_$CouponTypeImpl(
       id: null == id
@@ -344,6 +361,10 @@ class __$$CouponTypeImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -355,7 +376,8 @@ class _$CouponTypeImpl with DiagnosticableTreeMixin implements _CouponType {
       {required this.id,
       required this.name,
       this.description,
-      required this.amount});
+      required this.amount,
+      required this.transactionType});
 
   factory _$CouponTypeImpl.fromJson(Map<String, dynamic> json) =>
       _$$CouponTypeImplFromJson(json);
@@ -368,10 +390,12 @@ class _$CouponTypeImpl with DiagnosticableTreeMixin implements _CouponType {
   final String? description;
   @override
   final int amount;
+  @override
+  final String transactionType;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'CouponType(id: $id, name: $name, description: $description, amount: $amount)';
+    return 'CouponType(id: $id, name: $name, description: $description, amount: $amount, transactionType: $transactionType)';
   }
 
   @override
@@ -382,7 +406,8 @@ class _$CouponTypeImpl with DiagnosticableTreeMixin implements _CouponType {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('description', description))
-      ..add(DiagnosticsProperty('amount', amount));
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('transactionType', transactionType));
   }
 
   @override
@@ -394,12 +419,15 @@ class _$CouponTypeImpl with DiagnosticableTreeMixin implements _CouponType {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description, amount);
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, description, amount, transactionType);
 
   /// Create a copy of CouponType
   /// with the given fields replaced by the non-null parameter values.
@@ -422,7 +450,8 @@ abstract class _CouponType implements CouponType {
       {required final String id,
       required final String name,
       final String? description,
-      required final int amount}) = _$CouponTypeImpl;
+      required final int amount,
+      required final String transactionType}) = _$CouponTypeImpl;
 
   factory _CouponType.fromJson(Map<String, dynamic> json) =
       _$CouponTypeImpl.fromJson;
@@ -435,6 +464,8 @@ abstract class _CouponType implements CouponType {
   String? get description;
   @override
   int get amount;
+  @override
+  String get transactionType;
 
   /// Create a copy of CouponType
   /// with the given fields replaced by the non-null parameter values.

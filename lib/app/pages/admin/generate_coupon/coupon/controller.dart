@@ -18,13 +18,14 @@ class CouponPageController extends GetxController {
     final Map<String, dynamic>? args = Get.arguments as Map<String, dynamic>?;
     final String? id = args != null ? args['id'] : null;
     final int? count = args != null ? args['count'] : null;
+    final int? amount = args != null ? args['amount'] : null;
     if (id != null && count != null) {
-      generateCoupon(id: id, count: count);
+      generateCoupon(id: id, count: count, amount: amount);
     }
   }
 
-  Future<void> generateCoupon({required String id, required int count}) async {
-    await couponService.generateCoupon(id: id, count: count);
+  Future<void> generateCoupon({required String id, required int count, int? amount}) async {
+    await couponService.generateCoupon(id: id, count: count, amount: amount);
   }
 
   GlobalKey getCouponKey(String code) {

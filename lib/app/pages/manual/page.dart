@@ -38,7 +38,7 @@ class ManualPage extends StatelessWidget {
                         SizedBox(height: 16),
                         ExpandableHelpItem(
                           title: '쿠폰은 어떻게 쓰나요?',
-                          details: '매니저님 휴대폰에서 발급한 쿠폰을 사진으로 찍고, 결제창에서 QR 대신 찍어 결제할 수 있어요.',
+                          details: '발급된 쿠폰은 결제 시 QR 대신 스캔하여 사용할 수 있어요. 물품 교환권은 지정된 물품 결제 시만 사용 가능하고, 금액권은 결제 금액만큼 자동으로 잔액이 차감돼요.',
                         ),
                       ],
                     ),

@@ -27,6 +27,7 @@ _$CouponTypeImpl _$$CouponTypeImplFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       description: json['description'] as String?,
       amount: (json['amount'] as num).toInt(),
+      transactionType: json['transactionType'] as String,
     );
 
 Map<String, dynamic> _$$CouponTypeImplToJson(_$CouponTypeImpl instance) =>
@@ -35,4 +36,5 @@ Map<String, dynamic> _$$CouponTypeImplToJson(_$CouponTypeImpl instance) =>
       'name': instance.name,
       'description': instance.description,
       'amount': instance.amount,
+      'transactionType': instance.transactionType,
     };

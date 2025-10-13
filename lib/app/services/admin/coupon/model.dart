@@ -23,6 +23,7 @@ class CouponType with _$CouponType {
     required String name,
     String? description,
     required int amount,
+    required String transactionType,
   }) = _CouponType;
 
   factory CouponType.fromJson(Map<String, dynamic> json) => _$CouponTypeFromJson(json);
