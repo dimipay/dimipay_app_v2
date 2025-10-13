@@ -6,10 +6,14 @@ import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../services/user/service.dart';
+import '../../../services/user/state.dart';
 
 class GenerateCouponPage extends GetView<GenerateCouponPageController> {
   const GenerateCouponPage({super.key});
@@ -147,6 +151,9 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
     TextEditingController _countFieldController = TextEditingController();
     TextEditingController _amountFieldController = TextEditingController();
+
+    final UserState userState = controller.userService.userState;
+
     return Scaffold(
       body: Column(
         children: [
@@ -178,6 +185,10 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
                               if (e.transactionType != 'CREDIT'){
                                 Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text) });
                               } else {
+                                if (userState is UserStateSuccess && userState.value.email != "sspark@dimigo.hs.kr") {
+                                  DPSnackBar.open("권한이 없어요. 금액권은 성수썜만 ^^7")
+                                  return;
+                                }
                                 Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text), 'amount': int.parse(_amountFieldController.text) });
                               }
                             }
