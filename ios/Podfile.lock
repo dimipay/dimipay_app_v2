@@ -1,9 +1,9 @@
 PODS:
-  - AppAuth (1.7.5):
-    - AppAuth/Core (= 1.7.5)
-    - AppAuth/ExternalUserAgent (= 1.7.5)
-  - AppAuth/Core (1.7.5)
-  - AppAuth/ExternalUserAgent (1.7.5):
+  - AppAuth (1.7.6):
+    - AppAuth/Core (= 1.7.6)
+    - AppAuth/ExternalUserAgent (= 1.7.6)
+  - AppAuth/Core (1.7.6)
+  - AppAuth/ExternalUserAgent (1.7.6):
     - AppAuth/Core
   - better_player (0.0.1):
     - Cache (~> 6.0.0)
@@ -310,12 +310,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
-  AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
+  AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   better_player: 472a1f3471b8991bde82327c91498b0f7934245d
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   connectivity_plus: 2256d3e20624a7749ed21653aafe291a46446fee
   credit_card_scanner: add4d85b986d60051f28685fe9e556fe32f80695
-  fast_rsa: c7b3230570ece76c4408724c4e365164edb9ccc5
+  fast_rsa: cf37b750b2091d9302b2cad006d253c630e1afee
   Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
   firebase_core: f64256ea691bd1ea685b1390e7ed411f8195be0f
   firebase_crashlytics: 7e50b81fd56e8cc51bfecab7ac5c000c4b992274
