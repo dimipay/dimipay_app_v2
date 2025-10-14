@@ -24,6 +24,12 @@
 	<string>????</string>
 	<key>CFBundleSpokenName</key>
 	<string>Dimipay</string>
+	<key>NSLocalNetworkUsageDescription</key>
+  <string>This app needs access to your local network to find and connect to other devices on your network for seamless data sharing.</string>
+  <key>NSBonjourServices</key>
+  <array>
+      <string>_dartobservatory._tcp</string>
+  </array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

@@ -67,30 +67,6 @@ class RegisterCardPage extends GetView<RegisterCardPageController> {
                     children: [
                       DPAnimatedShowUp(
                         slideFrom: const Offset(0, 8),
-                        wait: const Duration(milliseconds: 200),
-                        child: DPButton(
-                          onTap: () => controller.scanCreditCard(),
-                          backgroundColor: colorTheme.grayscale200,
-                          foregroundColor: colorTheme.grayscale600,
-                          border: Border.fromBorderSide(
-                            BorderSide(
-                              color: colorTheme.grayscale300,
-                              width: 1,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.flip_rounded, color: colorTheme.grayscale600, size: 20),
-                              const SizedBox(width: 10),
-                              const Text('카드 스캔하기'),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      DPAnimatedShowUp(
-                        slideFrom: const Offset(0, 8),
                         wait: const Duration(milliseconds: 300),
                         child: controller.obx(
                           (_) => Obx(
