@@ -70,8 +70,8 @@ dependencies:
   url_launcher_ios: ^6.3.1
   freezed_annotation: ^2.4.4
   base45: ^0.0.3
-  image_gallery_saver: ^2.0.3
-  qr_code_scanner: ^1.0.1
+  image_gallery_saver_plus: ^4.0.1
+  qr_code_scanner_plus: ^2.0.13
   connectivity_plus: ^6.1.1
   firebase_crashlytics: ^5.0.2
 #  video_player_hdr: ^1.0.0

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:video_player_hdr/video_player_hdr.dart';
+// import 'package:video_player_hdr/video_player_hdr.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
