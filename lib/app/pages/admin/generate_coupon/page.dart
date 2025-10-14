@@ -6,53 +6,111 @@ import 'package:dimipay_app_v2/app/services/admin/coupon/model.dart';
 import 'package:dimipay_app_v2/app/services/admin/coupon/state.dart';
 import 'package:dimipay_app_v2/app/widgets/appbar.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../services/user/service.dart';
+import '../../../services/user/state.dart';
+
 class GenerateCouponPage extends GetView<GenerateCouponPageController> {
   const GenerateCouponPage({super.key});
 
-  Widget _textField(BuildContext context, TextEditingController _textFieldController) {
+  Widget _textField(BuildContext context, TextEditingController countController, TextEditingController amountController, CouponType couponType) {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
+    final isIOS = Platform.isIOS;
 
-    return CupertinoTextField(
-      controller: _textFieldController,
-      placeholder: '개수 입력',
-      suffix: Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: Text(
-          '개 발급',
-          style: textTheme.paragraph1,
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      keyboardType: TextInputType.number,
-      decoration: BoxDecoration(
-        color: CupertinoColors.systemGrey6,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: CupertinoColors.systemGrey4,
-          width: 1,
-        ),
-      ),
-      style: const TextStyle(
-        fontSize: 16,
-        color: CupertinoColors.black,
-      ),
-    );
+    if (isIOS) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CupertinoTextField(
+            controller: countController,
+            placeholder: '개수 입력',
+            suffix: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text('개 발급', style: textTheme.paragraph1),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            keyboardType: TextInputType.number,
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemGrey6,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
+            ),
+            style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
+          ),
+          const SizedBox(height: 10),
+          if (couponType.transactionType == 'CREDIT') CupertinoTextField(
+            controller: amountController,
+            placeholder: '금액 변경',
+            suffix: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Text('원', style: textTheme.paragraph1),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            keyboardType: TextInputType.number,
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemGrey6,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: CupertinoColors.systemGrey4, width: 1),
+            ),
+            style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
+          ),
+        ],
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(top: 12.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: countController,
+              keyboardType: TextInputType.number,
+              style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
+              decoration: InputDecoration(
+                hintText: '개수 입력',
+                suffixText: '개 발급',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              ),
+            ),
+            const SizedBox(height: 10),
+            if (couponType.transactionType == 'CREDIT') TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              style: TextStyle(fontSize: 16, color: colorTheme.grayscale800),
+              decoration: InputDecoration(
+                hintText: '금액 변경',
+                suffixText: '원',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              ),
+            ),
+          ],
+        )
+      );
+    }
   }
 
-  Future<bool> _showConfirmationDialog(BuildContext context, TextEditingController _textFieldController, CouponType couponType) async {
+  Future<bool> _showConfirmationDialog(BuildContext context, TextEditingController _countFieldController, TextEditingController _amountFieldController, CouponType couponType) async {
     DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
 
-    _textFieldController.text = '1';
+    _countFieldController.text = '1';
+    _amountFieldController.text = couponType.amount.toString();
     if (Platform.isIOS) {
       return await showCupertinoDialog(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-          content: _textField(context, _textFieldController),
+          content: _textField(context, _countFieldController, _amountFieldController, couponType),
           actions: [
             CupertinoDialogAction(
               isDefaultAction: true,
@@ -72,7 +130,7 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
       return await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: _textField(context, _textFieldController),
+          content: _textField(context, _countFieldController, _amountFieldController, couponType),
           actions: [
             TextButton(
               onPressed: () => Get.back(result: false),
@@ -91,7 +149,11 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    TextEditingController _textFieldController = TextEditingController();
+    TextEditingController _countFieldController = TextEditingController();
+    TextEditingController _amountFieldController = TextEditingController();
+
+    final UserState userState = controller.userService.userState;
+
     return Scaffold(
       body: Column(
         children: [
@@ -118,9 +180,17 @@ class GenerateCouponPage extends GetView<GenerateCouponPageController> {
                           couponType: e,
                           onTap: () async {
                             bool confirm =
-                                await _showConfirmationDialog(context, _textFieldController, e);
+                                await _showConfirmationDialog(context, _countFieldController, _amountFieldController, e);
                             if (confirm) {
-                              Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_textFieldController.text) });
+                              if (e.transactionType != 'CREDIT'){
+                                Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text) });
+                              } else {
+                                if (userState is UserStateSuccess && userState.value.email != "sspark@dimigo.hs.kr") {
+                                  DPSnackBar.open("권한이 없어요. 금액권은 성수썜만 ^^7");
+                                  return;
+                                }
+                                Get.toNamed(Routes.COUPON, arguments: { 'id': e.id, 'count': int.parse(_countFieldController.text), 'amount': int.parse(_amountFieldController.text) });
+                              }
                             }
                           },
                         ),
@@ -163,9 +233,13 @@ class _CouponTypeItem extends StatelessWidget {
                       .copyWith(color: colorTheme.grayscale800),
                 ),
                 const SizedBox(width: 8),
-                Text('${couponType.amount}원',
-                    style: textTheme.paragraph2
-                        .copyWith(color: colorTheme.grayscale700)),
+                Text(
+                  couponType.transactionType != 'CREDIT'
+                      ? '${couponType.amount}원'
+                      : '금액권 쿠폰',
+                  style: textTheme.paragraph2
+                      .copyWith(color: colorTheme.grayscale700)
+                ),
               ],
             ),
             const Spacer(),

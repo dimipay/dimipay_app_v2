@@ -121,6 +121,9 @@ class PinPageController extends GetxController {
       _status.value = PinPageStatus.wrong;
       HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
       clearPin();
+    } on PinLockException catch (_) {
+      _pinCount.value = 0;
+      HapticHelper.feedback(HapticPatterns.once, hapticType: HapticType.vibrate);
     }
   }
 

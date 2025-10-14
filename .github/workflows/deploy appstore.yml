@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-appstore:
     name: Deploy Appstore
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Clone repository
         uses: actions/checkout@v4

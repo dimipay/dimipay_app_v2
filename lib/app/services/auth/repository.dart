@@ -110,6 +110,8 @@ class AuthRepository {
       switch (response.code) {
         case 'ERR_PAYMENT_PIN_NOT_MATCH':
           throw IncorrectPinException(left: response.errors['remainingTryCount']);
+        case 'ERR_TRY_LIMIT_EXCEEDED':
+          throw PinLockException(response.message!);
         default:
           rethrow;
       }

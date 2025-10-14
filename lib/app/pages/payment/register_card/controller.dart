@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:credit_card_scanner/credit_card_scanner.dart';
 import 'package:dimipay_app_v2/app/core/utils/haptic.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/services/payment/model.dart';
@@ -125,21 +124,21 @@ class RegisterCardPageController extends GetxController with StateMixin {
   }
 
   Future<void> scanCreditCard() async {
-    final CardDetails? cardInfo = await CardScanner.scanCard(
-      scanOptions: const CardScanOptions(
-        scanCardHolderName: true,
-      ),
-    );
-
-    if (cardInfo != null) {
-      cardNumberFieldController.text = formatCardNumber(cardInfo.cardNumber);
-      cardNumber.value = cardInfo.cardNumber;
-      expiredDateFieldController.text = cardInfo.expiryDate;
-      expiredAt.value = DateTime(int.parse(cardInfo.expiryDate.substring(3)), int.parse(cardInfo.expiryDate.substring(0, 2)));
-      formFocusScopeNode.nextFocus();
-      formFocusScopeNode.nextFocus();
-      formFocusScopeNode.nextFocus();
-    }
+    // final CardDetails? cardInfo = await CardScanner.scanCard(
+    //   scanOptions: const CardScanOptions(
+    //     scanCardHolderName: true,
+    //   ),
+    // );
+    //
+    // if (cardInfo != null) {
+    //   cardNumberFieldController.text = formatCardNumber(cardInfo.cardNumber);
+    //   cardNumber.value = cardInfo.cardNumber;
+    //   expiredDateFieldController.text = cardInfo.expiryDate;
+    //   expiredAt.value = DateTime(int.parse(cardInfo.expiryDate.substring(3)), int.parse(cardInfo.expiryDate.substring(0, 2)));
+    //   formFocusScopeNode.nextFocus();
+    //   formFocusScopeNode.nextFocus();
+    //   formFocusScopeNode.nextFocus();
+    // }
   }
 
   bool get isFormValid {

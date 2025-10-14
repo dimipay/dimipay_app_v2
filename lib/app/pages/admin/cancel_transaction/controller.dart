@@ -1,10 +1,9 @@
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
+import 'package:dimipay_app_v2/app/services/admin/transactions/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-import '../../../services/admin/transactions/service.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class CancelTransactionPageController extends GetxController {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');

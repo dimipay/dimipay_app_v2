@@ -3,11 +3,15 @@ import 'package:dimipay_app_v2/app/services/admin/products/service.dart';
 import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class SyncProductPageController extends GetxController {
   final ProductsManageService _productsManageService = Get.find<ProductsManageService>();
   final TextEditingController barcodeController = TextEditingController();
   final FocusNode barcodeFocusNode = FocusNode();
+
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  QRViewController? qrViewController;
 
   final RxBool _isSyncProductProgress = false.obs;
   final RxString _barcode = ''.obs;
@@ -25,6 +29,22 @@ class SyncProductPageController extends GetxController {
     barcodeController.addListener(() {
       _barcode.value = barcodeController.text;
     });
+  }
+
+  void onQRViewCreated(QRViewController controller) {
+    qrViewController = controller;
+    controller.scannedDataStream.listen((scanData) {
+      if (scanData.code != null) {
+        barcodeController.text = scanData.code!;
+        qrViewController?.pauseCamera();
+        Get.back();
+        update(['codeField']);
+      }
+    });
+  }
+  
+  void startScanning() {
+    Get.to(() => QRScanView(controller: this));
   }
 
   @override
@@ -52,5 +72,28 @@ class SyncProductPageController extends GetxController {
       _isSyncProductProgress.value = false;
       update(['barcodeField']);
     }
+  }
+}
+class QRScanView extends StatelessWidget {
+  final SyncProductPageController controller;
+
+  const QRScanView({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: QRView(
+        key: controller.qrKey,
+        onQRViewCreated: controller.onQRViewCreated,
+        overlay: QrScannerOverlayShape(
+          borderColor: Colors.blue,
+          borderRadius: 10,
+          borderLength: 30,
+          borderWidth: 10,
+          cutOutSize: 300,
+        ),
+      ),
+    );
   }
 }

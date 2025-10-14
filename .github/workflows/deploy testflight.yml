@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-testflight:
     name: Deploy Testflight
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -16,9 +16,12 @@ jobs:
       
       - name: Decode Firebase Options
         run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
-      
+
       - name: Decode Google Service Info Plist
         run : echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST}}" > ios/Runner/GoogleService-Info.plist
+
+      - name: Decode firebase.json
+        run : echo '${{ secrets.FIREBASE_JSON }}' > firebase.json
 
       - name: make env directory
         run: mkdir env
@@ -33,6 +36,7 @@ jobs:
           cache: true
           flutter-version-file: pubspec.yaml
       - run: flutter --version
+      - run: dart pub global activate flutterfire_cli
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
       - run: fastlane beta

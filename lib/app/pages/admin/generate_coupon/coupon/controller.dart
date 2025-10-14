@@ -6,7 +6,7 @@ import 'package:dimipay_app_v2/app/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 
 class CouponPageController extends GetxController {
   final CouponService couponService = Get.find<CouponService>();
@@ -18,13 +18,14 @@ class CouponPageController extends GetxController {
     final Map<String, dynamic>? args = Get.arguments as Map<String, dynamic>?;
     final String? id = args != null ? args['id'] : null;
     final int? count = args != null ? args['count'] : null;
+    final int? amount = args != null ? args['amount'] : null;
     if (id != null && count != null) {
-      generateCoupon(id: id, count: count);
+      generateCoupon(id: id, count: count, amount: amount);
     }
   }
 
-  Future<void> generateCoupon({required String id, required int count}) async {
-    await couponService.generateCoupon(id: id, count: count);
+  Future<void> generateCoupon({required String id, required int count, int? amount}) async {
+    await couponService.generateCoupon(id: id, count: count, amount: amount);
   }
 
   GlobalKey getCouponKey(String code) {
@@ -47,7 +48,7 @@ class CouponPageController extends GetxController {
       ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
       if (byteData != null) {
-        final result = await ImageGallerySaver.saveImage(
+        final result = await ImageGallerySaverPlus.saveImage(
           byteData.buffer.asUint8List(),
           quality: 100,
           name: 'coupon_${DateTime.now().millisecondsSinceEpoch}',
