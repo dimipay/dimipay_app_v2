@@ -74,6 +74,8 @@ enum TransactionType {
   FACESIGN,
   @JsonValue('INTERNAL_FACE')
   INTERNAL_FACE,
+  @JsonValue('FINGERPRINT')
+  FINGERPRINT,
 }
 
 enum PurchaseType {
