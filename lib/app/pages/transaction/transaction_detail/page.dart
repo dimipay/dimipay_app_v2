@@ -20,6 +20,8 @@ class TransactionDetailPage extends GetView<TransactionDetailPageController> {
     switch (transactionType) {
       case TransactionType.APP_QR:
         return 'QR 코드';
+      case TransactionType.FINGERPRINT:
+        return '지문';
       case TransactionType.FACESIGN:
         return 'Face Sign';
       case TransactionType.INTERNAL_FACE:
