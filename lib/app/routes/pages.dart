@@ -9,8 +9,6 @@ import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/coupon/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_coupon/page.dart';
-import 'package:dimipay_app_v2/app/pages/admin/generate_fingerprint_passcode/binding.dart';
-import 'package:dimipay_app_v2/app/pages/admin/generate_fingerprint_passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/binding.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/page.dart';
 import 'package:dimipay_app_v2/app/pages/admin/generate_passcode/passcode/binding.dart';
@@ -267,13 +265,6 @@ class AppPages {
       name: Routes.CANCEL_TRANSACTION,
       binding: CancelTransactionBinding(),
       page: () => const CancelTransactionPage(),
-      middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: Routes.GENERATE_FINGERPRINT_PASSCODE,
-      page: () => const GenerateFingerprintPasscodePage(),
-      binding: GenerateFingerprintPasscodePageBinding(),
       middlewares: [LoginMiddleware(), AdminMiddleware(), NetworkMiddleware()],
       transition: Transition.cupertino,
     ),
