@@ -72,6 +72,8 @@ enum TransactionType {
   APP_QR,
   @JsonValue('FACESIGN')
   FACESIGN,
+  @JsonValue('INTERNAL_FACE')
+  INTERNAL_FACE,
 }
 
 enum PurchaseType {
