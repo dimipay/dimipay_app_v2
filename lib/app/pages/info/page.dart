@@ -20,7 +20,6 @@ class InfoPage extends GetView<InfoPageController> {
   @override
   Widget build(BuildContext context) {
     DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
     return Scaffold(
       backgroundColor: colorTheme.grayscale100,
       body: DPAnimatedShowUp(
@@ -84,6 +83,11 @@ class InfoPage extends GetView<InfoPageController> {
                       disabled: true,
                     );
                   }),
+                  _MenuItem(
+                    title: '등록 지문 관리',
+                    onTap: () => Get.toNamed(Routes.FINGERPRINT_MANAGE),
+                    requiresNetwork: true,
+                  ),
                   _MenuItem(
                     title: '핀 변경',
                     onTap: () => Get.toNamed(Routes.PIN,
