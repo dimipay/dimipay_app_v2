@@ -56,11 +56,6 @@ class AdminPage extends GetView<AdminPageController> {
                 ),
                 const DPDivider(),
                 const _SectionHeader(title: '시스템 설정'),
-                _MenuItem(
-                  title: '지문 키오스크 패스코드 생성',
-                  onTap: () =>
-                      Get.toNamed(Routes.GENERATE_FINGERPRINT_PASSCODE),
-                ),
               ],
             ),
           ),
