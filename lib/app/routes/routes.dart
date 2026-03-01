@@ -21,6 +21,7 @@ abstract class Routes {
   // Settings and Info
   static const INFO = '/info';
   static const THEME_SELECT = '/info/themeSelect';
+  static const FINGERPRINT_MANAGE = '/info/fingerprint';
   static const FACESIGN = '/info/facesign';
   static const VERSION = '/info/version';
   static const LICENSE = '/info/version/license';
@@ -33,6 +34,8 @@ abstract class Routes {
   static const COUPON = '/admin/generate_coupon/coupon';
   static const GENERATE_PASSCODE = '/admin/generate_passcode';
   static const PASSCODE = '/admin/generate_passcode/passcode';
+  static const GENERATE_FINGERPRINT_PASSCODE =
+      '/admin/generate_fingerprint_passcode';
   static const RESET_PIN = '/admin/reset_pin';
   static const SYNC_PRODUCT = '/admin/sync_product';
   static const CANCEL_TRANSACTION = '/admin/cancel_transaction';

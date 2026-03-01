@@ -5,6 +5,7 @@ import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/theme/service.dart';
+import 'package:dimipay_app_v2/app/services/api_url/manager.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +31,11 @@ class AppLoader {
 
     print(NetworkService().isOnline);
 
-    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: dotenv.get('API_URI'))))
+    // ApiUrlManager 초기화 및 API URL 결정
+    final ApiUrlManager apiUrlManager = await Get.putAsync(ApiUrlManager().init);
+    final String baseUrl = apiUrlManager.apiUrl ?? dotenv.get('API_URI');
+
+    Get.put<ApiProvider>(DioApiProvider(dio: Dio(BaseOptions(baseUrl: baseUrl)))
       ..middlewares.add(
         DioLog(),
       ));
