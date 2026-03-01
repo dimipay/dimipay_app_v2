@@ -65,6 +65,7 @@ Map<String, dynamic> _$$TransactionDetailImplToJson(
 const _$TransactionTypeEnumMap = {
   TransactionType.APP_QR: 'APP_QR',
   TransactionType.FACESIGN: 'FACESIGN',
+  TransactionType.INTERNAL_FACE: 'INTERNAL_FACE',
 };
 
 const _$PurchaseTypeEnumMap = {
