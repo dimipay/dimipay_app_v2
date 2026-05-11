@@ -51,7 +51,6 @@ app.*.map.json
 GoogleService-Info.plist
 google-services.json
 
-
 # fastlane specific
 **/fastlane/report.xml
 
@@ -70,5 +69,5 @@ google-services.json
 firebase.json
 firebase_options.dart
 
-.fvm
-.fvmrc
+# FVM Version Cache
+.fvm/
