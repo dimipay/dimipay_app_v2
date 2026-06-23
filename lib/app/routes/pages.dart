@@ -23,6 +23,8 @@ import 'package:dimipay_app_v2/app/pages/home/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/face_sign/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/face_sign/page.dart';
+import 'package:dimipay_app_v2/app/pages/info/fingerprint/binding.dart';
+import 'package:dimipay_app_v2/app/pages/info/fingerprint/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/page.dart';
 import 'package:dimipay_app_v2/app/pages/info/theme_select/binding.dart';
 import 'package:dimipay_app_v2/app/pages/info/theme_select/page.dart';
@@ -104,21 +106,33 @@ class AppPages {
       name: Routes.PAYMENT,
       page: () => const PaymentPage(),
       binding: PaymentPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.REGISTER_CARD,
       page: () => const RegisterCardPage(),
       binding: RegisterCardPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
       transition: Transition.cupertino,
     ),
     GetPage(
       name: Routes.EDIT_CARD,
       page: () => const EditCardPage(),
       binding: EditCardPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -132,7 +146,11 @@ class AppPages {
       name: Routes.TRANSACTION_DETAIL,
       page: () => const TransactionDetailPage(),
       binding: TransactionDetailPageBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
       transition: Transition.cupertino,
     ),
 
@@ -145,10 +163,25 @@ class AppPages {
       transition: Transition.cupertino,
     ),
     GetPage(
+      name: Routes.FINGERPRINT_MANAGE,
+      page: () => const FingerprintManagePage(),
+      binding: FingerprintManagePageBinding(),
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
+      transition: Transition.cupertino,
+    ),
+    GetPage(
       name: Routes.FACESIGN,
       page: () => const FaceSignPage(),
       binding: FaceSignBinding(),
-      middlewares: [LoginMiddleware(), OnboardingMiddleware(), NetworkMiddleware()],
+      middlewares: [
+        LoginMiddleware(),
+        OnboardingMiddleware(),
+        NetworkMiddleware()
+      ],
       transition: Transition.cupertino,
     ),
     GetPage(

@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shimmer/shimmer.dart';
-// import 'package:video_player_hdr/video_player_hdr.dart';
+import 'package:video_player_hdr/video_player_hdr.dart';
 
 class QRArea extends StatelessWidget {
   final String payload;
 
   Future<void> loadSuperWhiteVideo() async {
-    // final hdrController = VideoPlayerHdrController.asset('assets/videos/hdr_video.mp4');
-    // await hdrController.initialize(
-    //   viewType: VideoViewType.platformView,
-    // );
-    // hdrController.play();
+    final hdrController = VideoPlayerHdrController.asset('assets/videos/super white.mp4');
+    await hdrController.initialize(
+      viewType: VideoViewType.platformView,
+    );
+    hdrController.play();
   }
 
   QRArea({super.key, required this.payload}) {

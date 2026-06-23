@@ -21,6 +21,7 @@ abstract class Routes {
   // Settings and Info
   static const INFO = '/info';
   static const THEME_SELECT = '/info/themeSelect';
+  static const FINGERPRINT_MANAGE = '/info/fingerprint';
   static const FACESIGN = '/info/facesign';
   static const VERSION = '/info/version';
   static const LICENSE = '/info/version/license';

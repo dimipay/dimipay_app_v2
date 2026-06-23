@@ -7,12 +7,17 @@ on:
 jobs:
   deploy-testflight:
     name: Deploy Testflight
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           ref: 'beta'
+
+      - name: Print Xcode SDK version
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
       
       - name: Decode Firebase Options
         run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
