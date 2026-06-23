@@ -8,7 +8,6 @@ import 'package:dimipay_app_v2/app/provider/model/response.dart';
 import 'package:dimipay_app_v2/app/provider/providers/dio.dart';
 import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/instance_manager.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
@@ -21,7 +20,8 @@ class FaceSignRepository {
 
   Future<bool> getFaceSignState() async {
     String url = '/face-sign';
-    DPHttpResponse response = await api.get(DPHttpRequest(url), [JWT(), SaveCache()]);
+    DPHttpResponse response =
+        await api.get(DPHttpRequest(url), [JWT(), SaveCache()]);
     return response.data['registered'];
   }
 
@@ -53,18 +53,16 @@ class FaceSignRepository {
   Future<void> registerFaceSign(XFile file) async {
     String url = '/face-sign';
 
-    debugPrint('asdf');
-
-    MultipartFile faceSign = await MultipartFile.fromFile(file.path, contentType: MediaType('image', 'jpeg'));
+    MultipartFile faceSign = await MultipartFile.fromFile(file.path,
+        contentType: MediaType('image', 'jpeg'));
     try {
-      debugPrint('asdf1');
-      await api.post(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWT()]);
-      debugPrint('asdf2');
+      await api.post(
+          DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})),
+          [JWT()]);
 
       return;
     } on DioException catch (e) {
       DPHttpResponse response = e.response!.toDPHttpResponse();
-      debugPrint(response.message);
 
       if (response.code == 'ERR_FAILED_TO_REGISTER_FACE_SIGN') {
         throw FaceSignException(response.message!);
@@ -76,9 +74,12 @@ class FaceSignRepository {
   Future<void> patchFaceSign(XFile file) async {
     String url = '/face-sign';
 
-    MultipartFile faceSign = await MultipartFile.fromFile(file.path, contentType: MediaType('image', 'jpeg'));
+    MultipartFile faceSign = await MultipartFile.fromFile(file.path,
+        contentType: MediaType('image', 'jpeg'));
     try {
-      await api.put(DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})), [JWT()]);
+      await api.put(
+          DPHttpRequest(url, body: FormData.fromMap({'image': faceSign})),
+          [JWT()]);
 
       return;
     } on DioException catch (e) {

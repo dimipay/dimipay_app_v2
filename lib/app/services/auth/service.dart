@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:typed_data';
+
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
@@ -10,10 +11,11 @@ import 'package:dimipay_app_v2/app/services/auth/key_manager/rsa.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
 import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
-import 'package:fast_rsa/fast_rsa.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:pointycastle/export.dart';
 import 'package:uuid/uuid.dart';
 
 class AuthService {
@@ -48,7 +50,8 @@ class AuthService {
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
 
-  AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
+  AuthService({AuthRepository? repository})
+      : repository = repository ?? AuthRepository();
 
   Future<AuthService> init() async {
     await jwt.init();
@@ -79,7 +82,19 @@ class AuthService {
     final String rawAesEncKey = await repository.getEncryptionKey(
         rsa.key!.publicKey, onboardingToken.accessToken!);
 
-    await aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
+    final parser = encrypt.RSAKeyParser();
+    final privateKey = parser.parse(rsa.key!.privateKey) as RSAPrivateKey;
+    final encrypter = encrypt.Encrypter(
+      encrypt.RSA(
+        privateKey: privateKey,
+        encoding: encrypt.RSAEncoding.OAEP,
+        digest: encrypt.RSADigest.SHA1,
+      ),
+    );
+
+    await aes.setKey(Uint8List.fromList(
+      encrypter.decryptBytes(encrypt.Encrypted.fromBase64(rawAesEncKey)),
+    ));
   }
 
   Future<String?> _signInWithGoogle() async {
@@ -88,7 +103,8 @@ class AuthService {
     if (googleAccount == null) {
       return null;
     }
-    final GoogleSignInAuthentication googleAuth = await googleAccount.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleAccount.authentication;
     return googleAuth.idToken!;
   }
 
@@ -101,7 +117,8 @@ class AuthService {
     }
 
     try {
-      final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
+      final (jwt, isFirstVisitValue) =
+          await repository.loginWithGoogle(idToken);
       _onboardingToken.value = jwt;
       _isFirstVisit.value = isFirstVisitValue;
 
@@ -118,10 +135,12 @@ class AuthService {
     }
   }
 
-  Future<void> loginWithPassword({required String email, required String password}) async {
+  Future<void> loginWithPassword(
+      {required String email, required String password}) async {
     _clearOnboardingSession();
 
-    final (jwt, isFirstVisitValue) = await repository.loginWithPassword(email: email, password: password);
+    final (jwt, isFirstVisitValue) =
+        await repository.loginWithPassword(email: email, password: password);
     _onboardingToken.value = jwt;
     _isFirstVisit.value = isFirstVisitValue;
 
@@ -137,12 +156,15 @@ class AuthService {
     String newDeviceId = const Uuid().v4();
 
     String newBioKey = const Uuid().v4();
-    JwtToken newJwt = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
+    JwtToken newJwt = await repository.onBoardingAuth(
+        paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
 
     await jwt.setToken(newJwt);
     dev.log('logged in successfully!');
-    dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(jwt.token.accessToken!)}');
-    dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(jwt.token.refreshToken!)}');
+    dev.log(
+        'accessToken expires at ${JwtDecoder.getExpirationDate(jwt.token.accessToken!)}');
+    dev.log(
+        'refreshToken expires at ${JwtDecoder.getExpirationDate(jwt.token.refreshToken!)}');
 
     await deviceId.setKey(newDeviceId);
     await bioKey.setKey(newBioKey);
