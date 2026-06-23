@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'dart:io';
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
-import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
+import 'package:dimipay_app_v2/app/service/auth/key_manager/device_id.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/rsa.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
@@ -32,6 +31,10 @@ class AuthService {
   final Rx<bool> _isFirstVisit = Rx(false);
   bool get isFirstVisit => _isFirstVisit.value;
 
+  final Rx<bool> _isOnboardingSessionReady = Rx(false);
+  bool get _hasOnboardingSession =>
+      _isOnboardingSessionReady.value && onboardingToken.accessToken != null;
+
   final Rx<String?> _pin = Rx(null);
   String? get pin => _pin.value;
 
@@ -39,8 +42,8 @@ class AuthService {
   String? get otp => _otp;
 
   /// google sign-in 과정이 완료되었을 경우 true
-  bool get isGoogleLoginSuccess => onboardingToken.accessToken != null;
-  bool get isPasswordLoginSuccess => onboardingToken.accessToken != null;
+  bool get isGoogleLoginSuccess => _hasOnboardingSession;
+  bool get isPasswordLoginSuccess => _hasOnboardingSession;
 
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
@@ -72,10 +75,11 @@ class AuthService {
   }
 
   Future<void> _getEncryptionKey() async {
-    rsa.setKey(await RsaManager.generateRSAKeyPair());
-    final String rawAesEncKey = await repository.getEncryptionKey(rsa.key!.publicKey, onboardingToken.accessToken!);
+    await rsa.setKey(await RsaManager.generateRSAKeyPair());
+    final String rawAesEncKey = await repository.getEncryptionKey(
+        rsa.key!.publicKey, onboardingToken.accessToken!);
 
-    aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
+    await aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
   }
 
   Future<String?> _signInWithGoogle() async {
@@ -89,6 +93,8 @@ class AuthService {
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
+    _clearOnboardingSession();
+
     String? idToken = await _signInWithGoogle();
     if (idToken == null) {
       return;
@@ -98,21 +104,29 @@ class AuthService {
       final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
       _onboardingToken.value = jwt;
       _isFirstVisit.value = isFirstVisitValue;
-    } on NotDimigoMailException {
-      _clearGoogleSignInInfo();
-      throw NotDimigoMailException();
-    }
-    _clearGoogleSignInInfo();
 
-    await _getEncryptionKey();
+      await _getEncryptionKey();
+      _isOnboardingSessionReady.value = true;
+    } on NotDimigoMailException {
+      _clearOnboardingSession();
+      throw NotDimigoMailException();
+    } on Exception {
+      _clearOnboardingSession();
+      rethrow;
+    } finally {
+      unawaited(_clearGoogleSignInInfo());
+    }
   }
 
   Future<void> loginWithPassword({required String email, required String password}) async {
+    _clearOnboardingSession();
+
     final (jwt, isFirstVisitValue) = await repository.loginWithPassword(email: email, password: password);
     _onboardingToken.value = jwt;
     _isFirstVisit.value = isFirstVisitValue;
 
     await _getEncryptionKey();
+    _isOnboardingSessionReady.value = true;
   }
 
   ///throws IncorrectPinException when pin wrong
@@ -134,6 +148,7 @@ class AuthService {
     await bioKey.setKey(newBioKey);
 
     _pin.value = paymentPin;
+    _clearOnboardingSession();
   }
 
   Future<void> _clearTokens() async {
@@ -145,6 +160,7 @@ class AuthService {
     await Get.find<PushService>().deleteToken();
 
     _pin.value = null;
+    _clearOnboardingSession();
   }
 
   void invalidateAuthToken() {
@@ -156,14 +172,16 @@ class AuthService {
   Future<void> _clearGoogleSignInInfo() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
-      if (Platform.isAndroid) {
-        await googleSignIn.signOut();
-      } else {
-        await googleSignIn.disconnect();
-      }
-    } on Exception {
-      await googleSignIn.disconnect();
+      await googleSignIn.signOut();
+    } on Exception catch (e) {
+      dev.log('failed to clear google sign-in info', error: e);
     }
+  }
+
+  void _clearOnboardingSession() {
+    _onboardingToken.value = JwtToken();
+    _isFirstVisit.value = false;
+    _isOnboardingSessionReady.value = false;
   }
 
   Future<void> logout() async {
