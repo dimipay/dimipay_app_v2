@@ -4,7 +4,7 @@ import 'dart:developer' as dev;
 import 'package:dimipay_app_v2/app/core/utils/errors.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/aes.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/bio_key.dart';
-import 'package:dimipay_app_v2/app/service/auth/key_manager/device_id.dart';
+import 'package:dimipay_app_v2/app/services/auth/key_manager/device_id.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/jwt.dart';
 import 'package:dimipay_app_v2/app/services/auth/key_manager/rsa.dart';
 import 'package:dimipay_app_v2/app/services/auth/repository.dart';
