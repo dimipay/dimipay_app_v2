@@ -18,18 +18,29 @@ class CancelTransactionPageController extends GetxController {
   final RxString _code = ''.obs;
   final RxString _reason = ''.obs;
 
+  final RxBool isCodeValid = true.obs;
+
   bool get isCancelTransactionProgress => _isCancelTransactionProgress.value;
-  bool get isFormValid => _code.value.isNotEmpty && _reason.value.isNotEmpty;
+  bool get isFormValid =>
+      _code.value.isNotEmpty && _reason.value.isNotEmpty && isCodeValid.value;
 
   @override
   void onInit() {
     super.onInit();
-    codeController.addListener(() {
-      _code.value = codeController.text;
-    });
+    codeController.addListener(onCodeChanged);
     reasonController.addListener(() {
       _reason.value = reasonController.text;
     });
+  }
+
+  void onCodeChanged() {
+    _code.value = codeController.text;
+
+    if (!checkIsUUID(_code.value)) {
+      isCodeValid.value = false;
+    } else {
+      isCodeValid.value = true;
+    }
   }
 
   void onQRViewCreated(QRViewController controller) {
@@ -49,6 +60,11 @@ class CancelTransactionPageController extends GetxController {
   }
 
   Future<void> cancelTransaction() async {
+    if (checkIsUUID(codeController.text) == false) {
+      DPErrorSnackBar().open('유효한 거래 ID를 입력해주세요.');
+      return;
+    }
+
     _isCancelTransactionProgress.value = true;
     try {
       await transactionsService.cancelTransaction(
@@ -67,10 +83,19 @@ class CancelTransactionPageController extends GetxController {
     } on TransactionCancelFailed catch (e) {
       DPErrorSnackBar().open(e.message!);
     } catch (e) {
-      DPErrorSnackBar().open("결제 취소에 실패했어요.");
+      DPErrorSnackBar().open('결제 취소에 실패했어요.');
     } finally {
       _isCancelTransactionProgress.value = false;
     }
+  }
+
+  bool checkIsUUID(String input) {
+    final uuidRegex = RegExp(
+        r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
+    if (!uuidRegex.hasMatch(input)) {
+      return false;
+    }
+    return true;
   }
 
   @override

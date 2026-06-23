@@ -1,11 +1,11 @@
+import 'package:dimipay_app_v2/app/pages/admin/cancel_transaction/controller.dart';
+import 'package:dimipay_app_v2/app/widgets/appbar.dart';
+import 'package:dimipay_app_v2/app/widgets/button.dart';
+import 'package:dimipay_app_v2/app/widgets/dp_textfield.dart';
 import 'package:dimipay_design_kit/interfaces/dimipay_colors.dart';
+import 'package:dimipay_design_kit/interfaces/dimipay_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../widgets/appbar.dart';
-import '../../../widgets/button.dart';
-import '../../../widgets/dp_textfield.dart';
-import 'controller.dart';
 
 class CancelTransactionPage extends GetView<CancelTransactionPageController> {
   const CancelTransactionPage({super.key});
@@ -38,16 +38,16 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   Widget _buildCancelButton() {
     return Obx(
-          () => controller.isCancelTransactionProgress
+      () => controller.isCancelTransactionProgress
           ? DPButton.loading()
           : controller.isFormValid
-          ? DPButton(
-        onTap: controller.cancelTransaction,
-        child: const Text('결제 취소'),
-      )
-          : DPButton.disabled(
-        child: const Text('결제 취소'),
-      ),
+              ? DPButton(
+                  onTap: controller.cancelTransaction,
+                  child: const Text('결제 취소'),
+                )
+              : DPButton.disabled(
+                  child: const Text('결제 취소'),
+                ),
     );
   }
 
@@ -79,7 +79,8 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
 
   @override
   Widget build(BuildContext context) {
-    final colorTheme = Theme.of(context).extension<DPColors>()!;
+    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
+    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
 
     return Scaffold(
       body: SafeArea(
@@ -107,6 +108,16 @@ class CancelTransactionPage extends GetView<CancelTransactionPageController> {
                   _buildCancelButton(),
                 ],
               ),
+            ),
+            const Spacer(flex: 2),
+            Obx(
+              () => controller.isCodeValid.value
+                  ? const SizedBox.shrink()
+                  : Text(
+                      '거래 ID를 다시 확인해주세요. (내 계정 - 결제 기록 - 결제 취소 요청하기)',
+                      style: textTheme.description
+                          .copyWith(color: colorTheme.primaryNegative),
+                    ),
             ),
           ],
         ),
