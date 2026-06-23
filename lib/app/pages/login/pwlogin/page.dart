@@ -1,4 +1,3 @@
-import 'package:dimipay_app_v2/app/pages/login/page.dart';
 import 'package:dimipay_app_v2/app/pages/login/pwlogin/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
@@ -65,8 +64,6 @@ class PWLoginPage extends GetView<PWLoginPageController> {
                       style: textTheme.paragraph1Underlined
                           .copyWith(color: colorTheme.grayscale700)),
                 ),
-                const SizedBox(height: 8),
-                const AuthDiagnosticPanel(),
                 const Spacer(),
               ],
             ),

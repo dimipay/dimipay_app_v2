@@ -36,11 +36,6 @@ class AuthService {
   bool get _hasOnboardingSession =>
       _isOnboardingSessionReady.value && onboardingToken.accessToken != null;
 
-  final RxString _authDiagnosticStage = 'idle'.obs;
-  String get authDiagnosticStage => _authDiagnosticStage.value;
-  bool get hasOnboardingAccessToken => onboardingToken.accessToken != null;
-  bool get isOnboardingSessionReady => _isOnboardingSessionReady.value;
-
   final Rx<String?> _pin = Rx(null);
   String? get pin => _pin.value;
 
@@ -226,7 +221,6 @@ class AuthService {
   }
 
   Future<void> _logLoginStage(String stage) async {
-    _authDiagnosticStage.value = stage;
     dev.log(stage, name: 'AUTH_DIAG');
     await FirebaseCrashlytics.instance.setCustomKey('auth_diag_stage', stage);
     FirebaseCrashlytics.instance.log('auth_diag_stage=$stage');

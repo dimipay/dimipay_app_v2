@@ -1,6 +1,5 @@
 import 'package:dimipay_app_v2/app/pages/login/controller.dart';
 import 'package:dimipay_app_v2/app/routes/routes.dart';
-import 'package:dimipay_app_v2/app/services/auth/service.dart';
 import 'package:dimipay_app_v2/app/widgets/button.dart';
 import 'package:dimipay_design_kit/dimipay_design_kit.dart';
 import 'package:flutter/material.dart';
@@ -47,73 +46,31 @@ class LogInPage extends GetView<LoginPageController> {
                 children: [
                   SvgPicture.asset('assets/images/login_page_image.svg'),
                   const SizedBox(height: 48),
-                  Text('손 안에서, 손쉽게 결제하는 매점.',
-                      style: textTheme.header1
-                          .copyWith(color: colorTheme.grayscale1000)),
+                  Text('손 안에서, 손쉽게 결제하는 매점.', style: textTheme.header1.copyWith(color: colorTheme.grayscale1000)),
                   const SizedBox(height: 8),
-                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.',
-                      style: textTheme.itemDescription
-                          .copyWith(color: colorTheme.grayscale700)),
+                  Text('디미페이로 그 어느 때보다 간편하게 결제해보세요.', style: textTheme.itemDescription.copyWith(color: colorTheme.grayscale700)),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 48),
-              child: Column(
-                children: [
-                  Obx(
-                    () {
-                      if (controller.isGoogleLoginInProgress) {
-                        return DPButton.loading(
-                          backgroundColor: colorTheme.grayscale200,
-                          foregroundColor: colorTheme.primaryBrand,
-                        );
-                      } else {
-                        return GoogleLoginButton(
-                          onTap: controller.loginWithGoogle,
-                          onLongPress: () => Get.offNamed(Routes.PW_LOGIN),
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  const AuthDiagnosticPanel(),
-                ],
+              child: Obx(
+                () {
+                  if (controller.isGoogleLoginInProgress) {
+                    return DPButton.loading(
+                      backgroundColor: colorTheme.grayscale200,
+                      foregroundColor: colorTheme.primaryBrand,
+                    );
+                  } else {
+                    return GoogleLoginButton(
+                      onTap: controller.loginWithGoogle,
+                      onLongPress: () => Get.offNamed(Routes.PW_LOGIN),
+                    );
+                  }
+                },
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class AuthDiagnosticPanel extends StatelessWidget {
-  const AuthDiagnosticPanel({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    DPColors colorTheme = Theme.of(context).extension<DPColors>()!;
-    DPTypography textTheme = Theme.of(context).extension<DPTypography>()!;
-    AuthService authService = Get.find<AuthService>();
-
-    return Obx(
-      () => Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: colorTheme.grayscale200,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: colorTheme.grayscale300),
-        ),
-        child: Text(
-          'AUTH DIAG\n'
-          'stage: ${authService.authDiagnosticStage}\n'
-          'token: ${authService.hasOnboardingAccessToken}\n'
-          'firstVisit: ${authService.isFirstVisit}\n'
-          'sessionReady: ${authService.isOnboardingSessionReady}',
-          style: textTheme.description.copyWith(color: colorTheme.grayscale700),
-          textAlign: TextAlign.left,
         ),
       ),
     );
@@ -147,8 +104,7 @@ class GoogleLoginButton extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               '디미고 구글 계정으로 로그인',
-              style:
-                  textTheme.readable.copyWith(color: colorTheme.grayscale600),
+              style: textTheme.readable.copyWith(color: colorTheme.grayscale600),
             ),
           ],
         ),
