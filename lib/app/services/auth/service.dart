@@ -11,6 +11,7 @@ import 'package:dimipay_app_v2/app/services/auth/repository.dart';
 import 'package:dimipay_app_v2/app/services/cache/service.dart';
 import 'package:dimipay_app_v2/app/services/push/service.dart';
 import 'package:fast_rsa/fast_rsa.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -48,7 +49,8 @@ class AuthService {
   /// google sign-in과 onboarding 과정이 완료되었을 경우 true
   bool get isAuthenticated => jwt.token.accessToken != null;
 
-  AuthService({AuthRepository? repository}) : repository = repository ?? AuthRepository();
+  AuthService({AuthRepository? repository})
+      : repository = repository ?? AuthRepository();
 
   Future<AuthService> init() async {
     await jwt.init();
@@ -75,11 +77,21 @@ class AuthService {
   }
 
   Future<void> _getEncryptionKey() async {
-    await rsa.setKey(await RsaManager.generateRSAKeyPair());
+    await _logLoginStage('before_rsa_generate');
+    final KeyPair keyPair = await RsaManager.generateRSAKeyPair();
+    await _logLoginStage('after_rsa_generate');
+
+    await rsa.setKey(keyPair);
+    await _logLoginStage('after_rsa_storage_write');
+
+    await _logLoginStage('before_encryption_key_request');
     final String rawAesEncKey = await repository.getEncryptionKey(
         rsa.key!.publicKey, onboardingToken.accessToken!);
+    await _logLoginStage('after_encryption_key_response');
 
-    await aes.setKey(await RSA.decryptOAEPBytes(base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
+    await aes.setKey(await RSA.decryptOAEPBytes(
+        base64.decode(rawAesEncKey), '', Hash.SHA1, rsa.key!.privateKey));
+    await _logLoginStage('after_aes_key_storage_write');
   }
 
   Future<String?> _signInWithGoogle() async {
@@ -88,29 +100,38 @@ class AuthService {
     if (googleAccount == null) {
       return null;
     }
-    final GoogleSignInAuthentication googleAuth = await googleAccount.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleAccount.authentication;
     return googleAuth.idToken!;
   }
 
   Future<void> loginWithGoogle({bool selectAccount = true}) async {
+    await _logLoginStage('google_start');
     _clearOnboardingSession();
 
     String? idToken = await _signInWithGoogle();
     if (idToken == null) {
+      await _logLoginStage('google_cancelled_or_no_id_token');
       return;
     }
 
     try {
-      final (jwt, isFirstVisitValue) = await repository.loginWithGoogle(idToken);
+      await _logLoginStage('google_before_backend_login');
+      final (jwt, isFirstVisitValue) =
+          await repository.loginWithGoogle(idToken);
       _onboardingToken.value = jwt;
       _isFirstVisit.value = isFirstVisitValue;
+      await _logLoginState('google_after_backend_login');
 
       await _getEncryptionKey();
       _isOnboardingSessionReady.value = true;
+      await _logLoginState('google_ready_for_pin');
     } on NotDimigoMailException {
+      await _logLoginStage('google_not_dimigo_mail');
       _clearOnboardingSession();
       throw NotDimigoMailException();
-    } on Exception {
+    } on Object catch (e, stackTrace) {
+      await _recordLoginFailure('google_failed', e, stackTrace);
       _clearOnboardingSession();
       rethrow;
     } finally {
@@ -118,15 +139,27 @@ class AuthService {
     }
   }
 
-  Future<void> loginWithPassword({required String email, required String password}) async {
+  Future<void> loginWithPassword(
+      {required String email, required String password}) async {
+    await _logLoginStage('password_start');
     _clearOnboardingSession();
 
-    final (jwt, isFirstVisitValue) = await repository.loginWithPassword(email: email, password: password);
-    _onboardingToken.value = jwt;
-    _isFirstVisit.value = isFirstVisitValue;
+    try {
+      await _logLoginStage('password_before_backend_login');
+      final (jwt, isFirstVisitValue) =
+          await repository.loginWithPassword(email: email, password: password);
+      _onboardingToken.value = jwt;
+      _isFirstVisit.value = isFirstVisitValue;
+      await _logLoginState('password_after_backend_login');
 
-    await _getEncryptionKey();
-    _isOnboardingSessionReady.value = true;
+      await _getEncryptionKey();
+      _isOnboardingSessionReady.value = true;
+      await _logLoginState('password_ready_for_pin');
+    } on Object catch (e, stackTrace) {
+      await _recordLoginFailure('password_failed', e, stackTrace);
+      _clearOnboardingSession();
+      rethrow;
+    }
   }
 
   ///throws IncorrectPinException when pin wrong
@@ -137,12 +170,15 @@ class AuthService {
     String newDeviceId = const Uuid().v4();
 
     String newBioKey = const Uuid().v4();
-    JwtToken newJwt = await repository.onBoardingAuth(paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
+    JwtToken newJwt = await repository.onBoardingAuth(
+        paymentPin, newDeviceId, newBioKey, onboardingToken.accessToken!);
 
     await jwt.setToken(newJwt);
     dev.log('logged in successfully!');
-    dev.log('accessToken expires at ${JwtDecoder.getExpirationDate(jwt.token.accessToken!)}');
-    dev.log('refreshToken expires at ${JwtDecoder.getExpirationDate(jwt.token.refreshToken!)}');
+    dev.log(
+        'accessToken expires at ${JwtDecoder.getExpirationDate(jwt.token.accessToken!)}');
+    dev.log(
+        'refreshToken expires at ${JwtDecoder.getExpirationDate(jwt.token.refreshToken!)}');
 
     await deviceId.setKey(newDeviceId);
     await bioKey.setKey(newBioKey);
@@ -182,6 +218,42 @@ class AuthService {
     _onboardingToken.value = JwtToken();
     _isFirstVisit.value = false;
     _isOnboardingSessionReady.value = false;
+  }
+
+  Future<void> _logLoginStage(String stage) async {
+    dev.log(stage, name: 'AUTH_DIAG');
+    await FirebaseCrashlytics.instance.setCustomKey('auth_diag_stage', stage);
+    FirebaseCrashlytics.instance.log('auth_diag_stage=$stage');
+  }
+
+  Future<void> _logLoginState(String stage) async {
+    await _logLoginStage(stage);
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'auth_diag_has_onboarding_access_token',
+      onboardingToken.accessToken != null,
+    );
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'auth_diag_is_first_visit',
+      _isFirstVisit.value,
+    );
+    await FirebaseCrashlytics.instance.setCustomKey(
+      'auth_diag_is_session_ready',
+      _isOnboardingSessionReady.value,
+    );
+  }
+
+  Future<void> _recordLoginFailure(
+    String stage,
+    Object error,
+    StackTrace stackTrace,
+  ) async {
+    await _logLoginStage(stage);
+    await FirebaseCrashlytics.instance.recordError(
+      error,
+      stackTrace,
+      reason: 'auth_diagnostic_failure',
+      fatal: false,
+    );
   }
 
   Future<void> logout() async {
