@@ -2,12 +2,6 @@
 
 디미페이 2.0 모바일 앱
 
-## Docs
-
-- App API: <https://dev-next.dimipay.io/docs/app>
-- Backend: <https://github.com/dimipay/dimipay-back-v2>
-- Design Kit: <https://github.com/dimipay/dimipay_design_kit>
-
 ## Flutter & GetX
 
 Flutter로 화면을 구성하고 GetX로 상태, 의존성 및 라우팅을 관리합니다. 공통 색상과 타이포그래피는 `dimipay_design_kit`을 사용합니다.
